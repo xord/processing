@@ -5,9 +5,7 @@
 require 'rubysketch-processing'
 
 
-RubySketch::Processing.start do
-  draw do
-    textSize 50
-    text 'hello, world!', 10, 10
-  end
+draw do
+  textSize 50
+  text 'hello, world!', 10, 10
 end

@@ -36,7 +36,7 @@ module RubySketch
     RAD2DEG__ = 180.0 / PI
 
     # @private
-    def initialize (&block)
+    def initialize ()
       @frameCount__   = 0
       @hsbColor__     = false
       @colorMaxes__   = [1.0] * 4
