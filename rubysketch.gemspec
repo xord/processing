@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>=2.4.0'
 
   s.add_runtime_dependency 'xot'
+  s.add_runtime_dependency 'rucy'
   s.add_runtime_dependency 'rays'
   s.add_runtime_dependency 'reflexion'
 
