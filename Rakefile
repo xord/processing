@@ -16,6 +16,8 @@ require 'rubysketch/module'
 
 MODULES = [Xot, Rucy, Rays, Reflex, RubySketch]
 
+ENV['RDOC'] = 'yardoc --no-private'
+
 generate_documents
 build_ruby_gem
 

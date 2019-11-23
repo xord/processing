@@ -51,6 +51,7 @@ module RubySketch
       angleMode RADIANS
     end
 
+    # @private
     def on_start__ (window)
       @window__  = window
       @painter__ = window.canvas.painter

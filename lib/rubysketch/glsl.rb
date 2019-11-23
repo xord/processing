@@ -10,6 +10,7 @@ module RubySketch
       @shader = Reflex::Shader.new glsl
     end
 
+    # @private
     def on_start__ (window)
       start = Time.now.to_f
 
