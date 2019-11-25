@@ -357,7 +357,7 @@ module RubySketch
       result = str.match /^\s*##{'([0-9a-f]{2})' * 3}\s*$/i
       raise ArgumentError, "Invalid color code: '#{str}'" unless result
 
-      rgb = result[1..3].map.with_index {|hex, i| hex.to_i(16) / @colorMaxes__[i]}
+      rgb = result[1..3].map.with_index {|hex, i| hex.to_i(16) / 255.0}
       return *rgb, (alpha / alphaMax__)
     end
 
