@@ -14,7 +14,7 @@ module RubySketch
       end
 
       if start_at_exit
-        at_exit &start unless $!
+        at_exit {start.call unless $!}
       else
         start.call
       end
