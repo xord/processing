@@ -4,12 +4,11 @@ module RubySketch
   extend module Functions
 
     def start (context, start_at_exit: false, &block)
-      window = Window.new
-
-      context.on_start__ window
-      context.instance_eval &block if block
-
       start = proc do
+        window = Window.new do
+          context.on_start__ window
+          context.instance_eval &block if block
+        end
         Reflex.start {window.show}
       end
 

@@ -16,6 +16,8 @@ module RubySketch
       @auto_resize = true
       @error       = nil
 
+      reset_canvas 1, 1
+
       super *args, size: [width, height] do |_|
         @canvas.painter.paint do |_|
           block.call if block
@@ -71,10 +73,21 @@ module RubySketch
       return if width == @canvas&.width && height == @canvas&.height
 
       old     = @canvas
-      pd      = @canvas&.pixel_density || painter.pixel_density
-      @canvas = Rays::Image.new width, height, Rays::ColorSpace::RGBA, pd
+      cs      = old&.color_space   || Rays::ColorSpace::RGBA
+      pd      = old&.pixel_density || painter.pixel_density
+      @canvas = Rays::Image.new width, height, cs, pd
 
-      @canvas.paint {image old} if old
+      if old
+        @canvas.paint {image old}
+        copy_painter_attributes old.painter, @canvas.painter
+      end
+    end
+
+    def copy_painter_attributes (from, to)
+      to.fill         = from.fill
+      to.stroke       = from.stroke
+      to.stroke_width = from.stroke_width
+      to.font         = from.font
     end
 
     def call_block (block, event, *args)
