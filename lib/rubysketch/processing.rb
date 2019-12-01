@@ -5,9 +5,10 @@ module RubySketch
   #
   class Processing1
 
+    include Math
+
     extend Starter
 
-    PI         = Math::PI
     HALF_PI    = PI / 2
     QUARTER_PI = PI / 4
     TWO_PI     = PI * 2
