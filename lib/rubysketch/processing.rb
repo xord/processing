@@ -340,12 +340,12 @@ module RubySketch
 
     # @private
     def to_rgba__ (*args)
-      _0, _1, _2, _3 = args
-      return parse_color__(_0, _1 || alphaMax__) if _0.kind_of?(String)
+      a, b, c, d = args
+      return parse_color__(a, b || alphaMax__) if a.kind_of?(String)
 
       rgba  = case args.size
-        when 1, 2 then [_0, _0, _0, _1 || alphaMax__]
-        when 3, 4 then [_0, _1, _2, _3 || alphaMax__]
+        when 1, 2 then [a, a, a, b || alphaMax__]
+        when 3, 4 then [a, b, c, d || alphaMax__]
         else raise ArgumentError
       end
       rgba  = rgba.map.with_index {|value, i| value / @colorMaxes__[i]}
