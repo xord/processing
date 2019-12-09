@@ -64,20 +64,151 @@ module RubySketch
       setupMouseDraggedBlock__
     end
 
+    # Returns the absolute number of the value.
+    #
+    # @param value [Numeric] number
+    #
+    # @return [Numeric] absolute number
+    #
     def abs (value)
       value.abs
     end
 
+    # Returns the closest integer number greater than or equal to the value.
+    #
+    # @param value [Numeric] number
+    #
+    # @return [Numeric] rounded up number
+    #
     def ceil (value)
       value.ceil
     end
 
+    # Returns the closest integer number less than or equal to the value.
+    #
+    # @param value [Numeric] number
+    #
+    # @return [Numeric] rounded down number
+    #
     def floor (value)
       value.floor
     end
 
+    # Returns the closest integer number.
+    #
+    # @param value [Numeric] number
+    #
+    # @return [Numeric] rounded number
+    #
     def round (value)
       value.round
+    end
+
+    # Returns value raised to the power of exponent.
+    #
+    # @param value    [Numeric] base number
+    # @param exponent [Numeric] exponent number
+    #
+    # @return [Numeric] value ** exponent
+    #
+    def pow (value, exponent)
+      value ** exponent
+    end
+
+    # Returns squared value.
+    #
+    # @param value [Numeric] number
+    #
+    # @return [Numeric] squared value
+    #
+    def sq (value)
+      value * value
+    end
+
+    # Returns the magnitude (or length) of a vector.
+    #
+    # @overload mag(x, y)
+    # @overload mag(x, y, z)
+    #
+    # @param x [Numeric] x of point
+    # @param y [Numeric] y of point
+    # @param z [Numeric] z of point
+    #
+    # @return [Numeric] magnitude
+    #
+    def mag (*args)
+      x, y, z = *args
+      case args.size
+        when 2 then sqrt x * x + y * y
+        when 3 then sqrt x * x + y * y + z * z
+        else raise ArgumentError
+      end
+    end
+
+    # Returns distance between 2 points.
+    #
+    # @overload dist(x1, y1, x2, y2)
+    # @overload dist(x1, y1, z1, x2, y2, z2)
+    #
+    # @param x1 [Numeric] x of first point
+    # @param y1 [Numeric] y of first point
+    # @param z1 [Numeric] z of first point
+    # @param x2 [Numeric] x of second point
+    # @param y2 [Numeric] y of second point
+    # @param z2 [Numeric] z of second point
+    #
+    # @return [Numeric] distance between 2 points
+    #
+    def dist (*args)
+      case args.size
+        when 4
+          x1, y1, x2, y2 = *args
+          xx, yy = x2 - x1, y2 - y1
+          sqrt xx * xx + yy * yy
+        when 3
+          x1, y1, z1, x2, y2, z2 = *args
+          xx, yy, zz = x2 - x1, y2 - y1, z2 - z1
+          sqrt xx * xx + yy * yy + zz * zz
+        else raise ArgumentError
+      end
+    end
+
+    # Normalize the value from range start..stop into 0..1.
+    #
+    # @param value [Numeric] number to be normalized
+    # @param start [Numeric] lower bound of the range
+    # @param stop  [Numeric] upper bound of the range
+    #
+    # @return [Numeric] normalized value between 0..1
+    #
+    def norm (value, start, stop)
+      (value.to_f - start.to_f) / (stop.to_f - start.to_f)
+    end
+
+    # Returns the interpolated number between range start..stop.
+    #
+    # @param start  [Numeric] lower bound of the range
+    # @param stop   [Numeric] upper bound of the range
+    # @param amount [Numeric] amount to interpolate
+    #
+    # @return [Numeric] interporated number
+    #
+    def lerp (start, stop, amount)
+      start + (stop - start) * amount
+    end
+
+    # Maps a number from range start1..stop1 to range start2..stop2.
+    #
+    # @param value  [Numeric] number to be mapped
+    # @param start1 [Numeric] lower bound of the range1
+    # @param stop1  [Numeric] upper bound of the range1
+    # @param start2 [Numeric] lower bound of the range2
+    # @param stop2  [Numeric] upper bound of the range2
+    #
+    # @return [Numeric] mapped number
+    #
+    def map (value, start1, stop1, start2, stop2)
+      lerp start2, stop2, norm(value, start1, stop1)
     end
 
     # Returns minimum value.
@@ -114,6 +245,14 @@ module RubySketch
       args.flatten.max
     end
 
+    # Constrains the number between min..max.
+    #
+    # @param value [Numeric] number to be constrained
+    # @param min   [Numeric] lower bound of the range
+    # @param max   [Numeric] upper bound of the range
+    #
+    # @return [Numeric] constrained number
+    #
     def constrain (value, min, max)
       value < min ? min : (value > max ? max : value)
     end
