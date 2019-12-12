@@ -55,7 +55,7 @@ module RubySketch
     # @private
     def on_start__ (window)
       @window__  = window
-      @painter__ = window.canvas.painter
+      @painter__ = window.canvas_painter
 
       setupDrawBlock__
       setupMousePressedBlock__
@@ -286,7 +286,7 @@ module RubySketch
     def setupDrawBlock__ ()
       @window__.draw = proc do |e, painter|
         @painter__ = painter
-        @painter__.paint {|_| @drawBlock__.call e} if @drawBlock__
+        @drawBlock__.call e if @drawBlock__
         @frameCount__ += 1
         updateMousePrevPos__
       end
@@ -367,7 +367,8 @@ module RubySketch
       @mousePrevY__ = @mouseY__
     end
 
-    def size (width, height)
+    # @private
+    def size__ (width, height)
       raise 'size() must be called on startup or setup block' if @started__
 
       @painter__.send :end_paint

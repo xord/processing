@@ -19,6 +19,8 @@ module RubySketch
       else
         start.call
       end
+
+      window
     end
 
     private
@@ -42,7 +44,10 @@ module RubySketch
         end
       end
 
-      start context, start_at_exit: true
+      window = start context, start_at_exit: true
+
+      window.canvas_painter.__send__ :begin_paint
+      at_exit {window.canvas_painter.__send__ :end_paint}
     end
 
     self

@@ -8,10 +8,9 @@ module RubySketch
 
     attr_accessor :auto_resize
 
-    attr_reader :canvas
+    attr_reader :canvas, :canvas_painter
 
     def initialize (width = 500, height = 500, *args, &block)
-      @canvas      = nil
       @events      = []
       @auto_resize = true
       @error       = nil
@@ -19,10 +18,14 @@ module RubySketch
       reset_canvas 1, 1
 
       super *args, size: [width, height] do |_|
-        @canvas.painter.paint do |_|
-          block.call if block
-          on_setup
-        end
+        start &block if block
+      end
+    end
+
+    def start (&block)
+      @canvas_painter.paint do |_|
+        block.call if block
+        on_setup
       end
     end
 
@@ -40,8 +43,10 @@ module RubySketch
     end
 
     def on_draw (e)
-      call_block @draw, e, @canvas.painter
-      e.painter.image @canvas if @canvas
+      @canvas_painter.paint do |painter|
+        call_block @draw, e, painter
+      end
+      e.painter.image @canvas
     end
 
     def on_key (e)
@@ -72,14 +77,16 @@ module RubySketch
       return if width * height == 0
       return if width == @canvas&.width && height == @canvas&.height
 
-      old     = @canvas
-      cs      = old&.color_space   || Rays::ColorSpace::RGBA
-      pd      = old&.pixel_density || painter.pixel_density
-      @canvas = Rays::Image.new width, height, cs, pd
+      old_canvas  = @canvas
+      old_painter = @canvas_painter
 
-      if old
-        @canvas.paint {image old}
-        copy_painter_attributes old.painter, @canvas.painter
+      cs              = old_canvas&.color_space || Rays::ColorSpace::RGBA
+      @canvas         = Rays::Image.new width, height, cs, painter.pixel_density
+      @canvas_painter = @canvas.painter
+
+      if old_canvas
+        @canvas_painter.paint {image old_canvas}
+        copy_painter_attributes old_painter, @canvas_painter
       end
     end
 
