@@ -100,7 +100,7 @@ module RubySketch
     def call_block (block, event, *args)
       @events.push event
       block.call event, *args if block && !@error
-    rescue => e
+    rescue Exception => e
       @error = e
       $stderr.puts e.full_message
     ensure
