@@ -30,6 +30,11 @@ module RubySketch
     #
     DEGREES = :DEGREES
 
+    CORNER  = :CORNER
+    CORNERS = :CORNERS
+    CENTER  = :CENTER
+    RADIUS  = :RADIUS
+
     # @private
     DEG2RAD__ = PI / 180.0
 
@@ -48,8 +53,10 @@ module RubySketch
       @mousePrevY__   = 0
       @mousePressed__ = false
 
-      colorMode RGB, 255
-      angleMode RADIANS
+      colorMode   RGB, 255
+      angleMode   RADIANS
+      rectMode    CORNER
+      ellipseMode CENTER
     end
 
     # @private
@@ -531,6 +538,47 @@ module RubySketch
       angle * @angleScale__
     end
 
+    # Sets rect mode. Default is CORNER.
+    #
+    # CORNER  -> rect(left, top, width, height)
+    # CORNERS -> rect(left, top, right, bottom)
+    # CENTER  -> rect(center_x, center_y, width, height)
+    # RADIUS  -> rect(center_x, center_y, radius_h, radius_v)
+    #
+    # @param mode [CORNER, CORNERS, CENTER, RADIUS]
+    #
+    # @return [nil] nil
+    #
+    def rectMode (mode)
+      @rectMode__ = mode
+    end
+
+    # Sets ellipse mode. Default is CENTER.
+    #
+    # CORNER  -> ellipse(left, top, width, height)
+    # CORNERS -> ellipse(left, top, right, bottom)
+    # CENTER  -> ellipse(center_x, center_y, width, height)
+    # RADIUS  -> ellipse(center_x, center_y, radius_h, radius_v)
+    #
+    # @param mode [CORNER, CORNERS, CENTER, RADIUS]
+    #
+    # @return [nil] nil
+    #
+    def ellipseMode (mode)
+      @ellipseMode__ = mode
+    end
+
+    # @private
+    def to_xywh__ (mode, a, b, c, d)
+      case mode
+      when CORNER  then [a,           b,           c,     d]
+      when CORNERS then [a,           b,           c - a, d - b]
+      when CENTER  then [a - c / 2.0, b - d / 2.0, c,     d]
+      when RADIUS  then [a - c,       b - d,       c * 2, d * 2]
+      else raise ArgumentError # ToDo: refine error message
+      end
+    end
+
     # Clears screen.
     #
     # @overload background(str)
@@ -682,14 +730,14 @@ module RubySketch
 
     # Draws a rectangle.
     #
-    # @overload rect(x, y, w, h)
-    # @overload rect(x, y, w, h, r)
-    # @overload rect(x, y, w, h, tl, tr, br, bl)
+    # @overload rect(a, b, c, d)
+    # @overload rect(a, b, c, d, r)
+    # @overload rect(a, b, c, d, tl, tr, br, bl)
     #
-    # @param x  [Numeric] horizontal position
-    # @param y  [Numeric] vertical position
-    # @param w  [Numeric] width of the shape
-    # @param h  [Numeric] height of the shape
+    # @param a  [Numeric] horizontal position of the shape by default
+    # @param b  [Numeric] vertical position of the shape by default
+    # @param c  [Numeric] width of the shape by default
+    # @param d  [Numeric] height of the shape by default
     # @param r  [Numeric] radius for all corners
     # @param tl [Numeric] radius for top-left corner
     # @param tr [Numeric] radius for top-right corner
@@ -698,7 +746,8 @@ module RubySketch
     #
     # @return [nil] nil
     #
-    def rect (x, y, w, h, *args)
+    def rect (a, b, c, d, *args)
+      x, y, w, h = to_xywh__ @rectMode__, a, b, c, d
       case args.size
         when 0 then @painter__.rect x, y, w, h
         when 1 then @painter__.rect x, y, w, h, round: args[0]
@@ -708,24 +757,25 @@ module RubySketch
       nil
     end
 
-    # Draws a ellipse.
+    # Draws an ellipse.
     #
-    # @param x [Numeric] horizontal position
-    # @param y [Numeric] vertical position
-    # @param w [Numeric] width of the shape
-    # @param h [Numeric] height of the shape
+    # @param a [Numeric] horizontal position of the shape
+    # @param b [Numeric] vertical position of the shape
+    # @param c [Numeric] width of the shape
+    # @param d [Numeric] height of the shape
     #
     # @return [nil] nil
     #
-    def ellipse (x, y, w, h = w)
-      @painter__.ellipse (x - w / 2.0), (y - h / 2.0), w, h
+    def ellipse (a, b, c, d)
+      x, y, w, h = to_xywh__ @ellipseMode__, a, b, c, d
+      @painter__.ellipse x, y, w, h
       nil
     end
 
     # Draws a circle.
     #
-    # @param x      [Numeric] horizontal position
-    # @param y      [Numeric] vertical position
+    # @param x      [Numeric] horizontal position of the shape
+    # @param y      [Numeric] vertical position of the shape
     # @param extent [Numeric] width and height of the shape
     #
     # @return [nil] nil
@@ -736,19 +786,20 @@ module RubySketch
 
     # Draws an arc.
     #
-    # @param x     [Numeric] horizontal position
-    # @param y     [Numeric] vertical position
-    # @param w     [Numeric] width of the shape
-    # @param h     [Numeric] height of the shape
+    # @param a     [Numeric] horizontal position of the shape
+    # @param b     [Numeric] vertical position of the shape
+    # @param c     [Numeric] width of the shape
+    # @param d     [Numeric] height of the shape
     # @param start [Numeric] angle to start the arc
     # @param stop  [Numeric] angle to stop the arc
     #
     # @return [nil] nil
     #
-    def arc (x, y, w, h, start, stop)
-      start = to_angle__ start
-      stop  = to_angle__ stop
-      @painter__.ellipse x - w / 2, y - h / 2, w, h, from: start, to: stop
+    def arc (a, b, c, d, start, stop)
+      x, y, w, h = to_xywh__ @ellipseMode__, a, b, c, d
+      start      = to_angle__ start
+      stop       = to_angle__ stop
+      @painter__.ellipse x, y, w, h, from: start, to: stop
       nil
     end
 
