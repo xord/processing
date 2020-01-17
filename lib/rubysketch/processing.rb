@@ -47,6 +47,7 @@ module RubySketch
       @hsbColor__     = false
       @colorMaxes__   = [1.0] * 4
       @angleScale__   = 1.0
+      @styleStack     = []
       @mouseX__       =
       @mouseY__       =
       @mousePrevX__   =
@@ -295,7 +296,9 @@ module RubySketch
     def setupDrawBlock__ ()
       @window__.draw = proc do |e, painter|
         @painter__ = painter
+        pushStyle
         @drawBlock__.call e if @drawBlock__
+        popStyle
         @frameCount__ += 1
         updateMousePrevPos__
       end
@@ -938,6 +941,51 @@ module RubySketch
     def resetMatrix ()
       @painter__.matrix = 1
       nil
+    end
+
+    # Save current style values to the style stack.
+    #
+    # @return [nil] nil
+    #
+    def pushStyle ()
+      @painter__.push_state
+      @styleStack.push [
+        @hsbColor__,
+        @colorMaxes__,
+        @angleScale__,
+        @rectMode__,
+        @ellipseMode__
+      ]
+      nil
+    end
+
+    # Restore style values from the style stack.
+    #
+    # @return [nil] nil
+    #
+    def popStyle ()
+      @painter__.pop_state
+      @hsbColor__, @colorMaxes__, @angleScale__, @rectMode__, @ellipseMode__ =
+        @styleStack.pop
+      nil
+    end
+
+    # Save current styles and transformations to stack.
+    #
+    # @return [nil] nil
+    #
+    def push ()
+      pushMatrix
+      pushStyle
+    end
+
+    # Restore styles and transformations from stack.
+    #
+    # @return [nil] nil
+    #
+    def pop ()
+      popMatrix
+      popStyle
     end
 
     # Returns the perlin noise value.
