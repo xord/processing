@@ -812,6 +812,52 @@ module RubySketch
       nil
     end
 
+    # Draws a square.
+    #
+    # @param x      [Numeric] horizontal position of the shape
+    # @param y      [Numeric] vertical position of the shape
+    # @param extent [Numeric] width and height of the shape
+    #
+    # @return [nil] nil
+    #
+    def square (x, y, extent)
+      rect x, y, extent, extent
+    end
+
+    # Draws a triangle.
+    #
+    # @param x1 [Numeric] horizontal position of first point
+    # @param y1 [Numeric] vertical position of first point
+    # @param x2 [Numeric] horizontal position of second point
+    # @param y2 [Numeric] vertical position of second point
+    # @param x3 [Numeric] horizontal position of third point
+    # @param y3 [Numeric] vertical position of third point
+    #
+    # @return [nil] nil
+    #
+    def triangle (x1, y1, x2, y2, x3, y3)
+      @painter__.line x1, y1, x2, y2, x3, y3, loop: true
+      nil
+    end
+
+    # Draws a quad.
+    #
+    # @param x1 [Numeric] horizontal position of first point
+    # @param y1 [Numeric] vertical position of first point
+    # @param x2 [Numeric] horizontal position of second point
+    # @param y2 [Numeric] vertical position of second point
+    # @param x3 [Numeric] horizontal position of third point
+    # @param y3 [Numeric] vertical position of third point
+    # @param x4 [Numeric] horizontal position of fourth point
+    # @param y4 [Numeric] vertical position of fourth point
+    #
+    # @return [nil] nil
+    #
+    def quad (x1, y1, x2, y2, x3, y3, x4, y4)
+      @painter__.line x1, y1, x2, y2, x3, y3, x4, y4, loop: true
+      nil
+    end
+
     # Draws a text.
     #
     # @overload text(str)
