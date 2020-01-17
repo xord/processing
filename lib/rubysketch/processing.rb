@@ -867,12 +867,12 @@ module RubySketch
     # @overload text(str, x, y)
     #
     # @param str [String]  text to draw
-    # @param x   [Numeric] horizontal position
-    # @param y   [Numeric] vertical position
+    # @param x   [Numeric] horizontal position of the text
+    # @param y   [Numeric] vertical position of the text
     #
     # @return [nil] nil
     #
-    def text (str, x = 0, y = 0)
+    def text (str, x, y)
       @painter__.text str, x, y
       nil
     end
