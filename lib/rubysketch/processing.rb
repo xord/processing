@@ -277,6 +277,8 @@ module RubySketch
       radian * RAD2DEG__
     end
 
+    # Define setup block.
+    #
     def setup (&block)
       @window__.setup = block
       nil
@@ -292,6 +294,8 @@ module RubySketch
       end
     end
 
+    # Define draw block.
+    #
     def draw (&block)
       @drawBlock__ = block if block
       nil
@@ -483,7 +487,7 @@ module RubySketch
       a, b, c, d = args
       return parse_color__(a, b || alphaMax__) if a.kind_of?(String)
 
-      rgba  = case args.size
+      rgba = case args.size
         when 1, 2 then [a, a, a, b || alphaMax__]
         when 3, 4 then [a, b, c, d || alphaMax__]
         else raise ArgumentError
@@ -519,6 +523,7 @@ module RubySketch
         when DEGREES then 1.0
         else raise ArgumentError, "Invalid angle mode: #{mode}"
       end
+      nil
     end
 
     # @private
@@ -647,6 +652,20 @@ module RubySketch
       nil
     end
 
+    # Draws a point.
+    #
+    # @param x [Numeric] horizontal position
+    # @param y [Numeric] vertical position
+    #
+    # @return [nil] nil
+    #
+    def point (x, y)
+      w = @painter__.stroke_width
+      w = 1 if w == 0
+      @painter__.ellipse x - (w / 2.0), y - (w / 2.0), w, w
+      nil
+    end
+
     # Draws a line.
     #
     # @param x1 [Numeric] horizontal position for first point
@@ -730,18 +749,6 @@ module RubySketch
       start = to_angle__ start
       stop  = to_angle__ stop
       @painter__.ellipse x - w / 2, y - h / 2, w, h, from: start, to: stop
-      nil
-    end
-
-    # Draws a point.
-    #
-    # @param x [Numeric] horizontal position
-    # @param y [Numeric] vertical position
-    #
-    # @return [nil] nil
-    #
-    def point (x, y)
-      @painter__.rect x - 0.5, y - 0.5, 1, 1
       nil
     end
 
