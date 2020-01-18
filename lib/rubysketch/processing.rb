@@ -605,11 +605,9 @@ module RubySketch
       if rgba[3] == 1
         @painter__.background *rgba
       else
-        f = @painter__.fill *rgba
-        s = @painter__.stroke nil
-        @painter__.rect 0, 0, width, height
-        @painter__.fill   f
-        @painter__.stroke s
+        @painter__.push fill: rgba, stroke: nil do |_|
+          @painter__.rect 0, 0, width, height
+        end
       end
       nil
     end
