@@ -6,6 +6,7 @@ require 'rubysketch-processing'
 
 
 draw do
+  background 0, 10
   textSize 50
-  text 'hello, world!', 10, 10
+  text 'hello, world!', mouseX, mouseY
 end

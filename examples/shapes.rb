@@ -18,7 +18,7 @@ draw do
 
   translate 10, 10
 
-  push()
+  push
 
   text 'point', 0, 0
   point 0, 30
