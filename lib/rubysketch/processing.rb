@@ -43,11 +43,12 @@ module RubySketch
 
     # @private
     def initialize ()
+      @matrixStack__  = []
+      @styleStack__   = []
       @frameCount__   = 0
       @hsbColor__     = false
       @colorMaxes__   = [1.0] * 4
       @angleScale__   = 1.0
-      @styleStack     = []
       @mouseX__       =
       @mouseY__       =
       @mousePrevX__   =
@@ -296,9 +297,14 @@ module RubySketch
     def setupDrawBlock__ ()
       @window__.draw = proc do |e, painter|
         @painter__ = painter
-        pushStyle
-        @drawBlock__.call e if @drawBlock__
-        popStyle
+        @matrixStack__.clear
+        @styleStack__.clear
+        begin
+          push
+          @drawBlock__.call e if @drawBlock__
+        ensure
+          pop
+        end
         @frameCount__ += 1
         updateMousePrevPos__
       end
@@ -919,7 +925,7 @@ module RubySketch
     # @return [nil] nil
     #
     def pushMatrix ()
-      @painter__.push_matrix
+      @matrixStack__.push @painter__.matrix
       nil
     end
 
@@ -928,7 +934,8 @@ module RubySketch
     # @return [nil] nil
     #
     def popMatrix ()
-      @painter__.pop_matrix
+      raise "Matrix stack underflow" if @matrixStack__.empty?
+      @painter__.matrix = @matrixStack__.pop
       nil
     end
 
@@ -946,8 +953,11 @@ module RubySketch
     # @return [nil] nil
     #
     def pushStyle ()
-      @painter__.push_state
-      @styleStack.push [
+      @styleStack__.push [
+        @painter__.fill,
+        @painter__.stroke,
+        @painter__.stroke_width,
+        @painter__.font,
         @hsbColor__,
         @colorMaxes__,
         @angleScale__,
@@ -962,9 +972,16 @@ module RubySketch
     # @return [nil] nil
     #
     def popStyle ()
-      @painter__.pop_state
-      @hsbColor__, @colorMaxes__, @angleScale__, @rectMode__, @ellipseMode__ =
-        @styleStack.pop
+      raise "Style stack underflow" if @styleStack__.empty?
+      @painter__.fill,
+      @painter__.stroke,
+      @painter__.stroke_width,
+      @painter__.font,
+      @hsbColor__,
+      @colorMaxes__,
+      @angleScale__,
+      @rectMode__,
+      @ellipseMode__ = @styleStack__.pop
       nil
     end
 
