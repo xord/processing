@@ -2,7 +2,7 @@ module RubySketch
 
 
   # @private
-  class GLSL1
+  class GLSL
 
     extend Starter
 
@@ -27,10 +27,7 @@ module RubySketch
       end
     end
 
-  end# GLSL1
-
-
-  GLSL = GLSL1
+  end# GLSL
 
 
 end# RubySketch

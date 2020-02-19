@@ -1,9 +1,9 @@
 module RubySketch
 
 
-  # Processing compatible API v1
+  # Processing compatible API
   #
-  class Processing1
+  class Processing
 
     include Math
 
@@ -1065,10 +1065,7 @@ module RubySketch
 
     end# Font
 
-  end# Processing1
-
-
-  Processing = Processing1
+  end# Processing
 
 
 end# RubySketch
