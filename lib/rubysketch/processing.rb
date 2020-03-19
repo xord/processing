@@ -62,7 +62,7 @@ module RubySketch
     end
 
     # @private
-    def on_start__ (window)
+    private def on_start__ (window)
       @window__  = window
       @painter__ = window.canvas_painter
 
@@ -288,13 +288,13 @@ module RubySketch
 
     # Define setup block.
     #
-    def setup (&block)
+    private def setup (&block)
       @window__.setup = block
       nil
     end
 
     # @private
-    def setupDrawBlock__ ()
+    private def setupDrawBlock__ ()
       @window__.draw = proc do |e, painter|
         @painter__ = painter
         @matrixStack__.clear
@@ -312,83 +312,83 @@ module RubySketch
 
     # Define draw block.
     #
-    def draw (&block)
+    private def draw (&block)
       @drawBlock__ = block if block
       nil
     end
 
-    def key (&block)
+    private def key (&block)
       @window__.key = block
       nil
     end
 
     # @private
-    def setupMousePressedBlock__ ()
+    private def setupMousePressedBlock__ ()
       @window__.pointer_down = proc do |e|
         updateMouseState__ e.x, e.y, true
         @mousePressedBlock__.call e if @mousePressedBlock__
       end
     end
 
-    def mousePressed (&block)
+    private def mousePressed (&block)
       @mousePressedBlock__ = block if block
       @mousePressed__
     end
 
     # @private
-    def setupMouseReleasedBlock__ ()
+    private def setupMouseReleasedBlock__ ()
       @window__.pointer_up = proc do |e|
         updateMouseState__ e.x, e.y, false
         @mouseReleasedBlock__.call e if @mouseReleasedBlock__
       end
     end
 
-    def mouseReleased (&block)
+    private def mouseReleased (&block)
       @mouseReleasedBlock__ = block if block
       nil
     end
 
     # @private
-    def setupMouseMovedBlock__ ()
+    private def setupMouseMovedBlock__ ()
       @window__.pointer_move = proc do |e|
         updateMouseState__ e.x, e.y
         @mouseMovedBlock__.call e if @mouseMovedBlock__
       end
     end
 
-    def mouseMoved (&block)
+    private def mouseMoved (&block)
       @mouseMovedBlock__ = block if block
       nil
     end
 
     # @private
-    def setupMouseDraggedBlock__ ()
+    private def setupMouseDraggedBlock__ ()
       @window__.pointer_drag = proc do |e|
         updateMouseState__ e.x, e.y
         @mouseDraggedBlock__.call e if @mouseDraggedBlock__
       end
     end
 
-    def mouseDragged (&block)
+    private def mouseDragged (&block)
       @mouseDraggedBlock__ = block if block
       nil
     end
 
     # @private
-    def updateMouseState__ (x, y, pressed = nil)
+    private def updateMouseState__ (x, y, pressed = nil)
       @mouseX__       = x
       @mouseY__       = y
       @mousePressed__ = pressed if pressed != nil
     end
 
     # @private
-    def updateMousePrevPos__ ()
+    private def updateMousePrevPos__ ()
       @mousePrevX__ = @mouseX__
       @mousePrevY__ = @mouseY__
     end
 
     # @private
-    def size__ (width, height)
+    private def size__ (width, height)
       raise 'size() must be called on startup or setup block' if @started__
 
       @painter__.send :end_paint
@@ -499,7 +499,7 @@ module RubySketch
     end
 
     # @private
-    def to_rgba__ (*args)
+    private def to_rgba__ (*args)
       a, b, c, d = args
       return parse_color__(a, b || alphaMax__) if a.kind_of?(String)
 
@@ -514,7 +514,7 @@ module RubySketch
     end
 
     # @private
-    def parse_color__ (str, alpha)
+    private def parse_color__ (str, alpha)
       result = str.match /^\s*##{'([0-9a-f]{2})' * 3}\s*$/i
       raise ArgumentError, "Invalid color code: '#{str}'" unless result
 
@@ -523,7 +523,7 @@ module RubySketch
     end
 
     # @private
-    def alphaMax__ ()
+    private def alphaMax__ ()
       @colorMaxes__[3]
     end
 
@@ -543,7 +543,7 @@ module RubySketch
     end
 
     # @private
-    def to_angle__ (angle)
+    private def to_angle__ (angle)
       angle * @angleScale__
     end
 
@@ -578,7 +578,7 @@ module RubySketch
     end
 
     # @private
-    def to_xywh__ (mode, a, b, c, d)
+    private def to_xywh__ (mode, a, b, c, d)
       case mode
       when CORNER  then [a,           b,           c,     d]
       when CORNERS then [a,           b,           c - a, d - b]
