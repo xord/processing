@@ -62,7 +62,7 @@ module RubySketch
     end
 
     # @private
-    private def on_start__ (window)
+    def on_start__ (window)
       @window__  = window
       @painter__ = window.canvas_painter
 
@@ -288,7 +288,7 @@ module RubySketch
 
     # Define setup block.
     #
-    private def setup (&block)
+    def setup (&block)
       @window__.setup = block
       nil
     end
@@ -312,12 +312,12 @@ module RubySketch
 
     # Define draw block.
     #
-    private def draw (&block)
+    def draw (&block)
       @drawBlock__ = block if block
       nil
     end
 
-    private def key (&block)
+    def key (&block)
       @window__.key = block
       nil
     end
@@ -330,7 +330,7 @@ module RubySketch
       end
     end
 
-    private def mousePressed (&block)
+    def mousePressed (&block)
       @mousePressedBlock__ = block if block
       @mousePressed__
     end
@@ -343,7 +343,7 @@ module RubySketch
       end
     end
 
-    private def mouseReleased (&block)
+    def mouseReleased (&block)
       @mouseReleasedBlock__ = block if block
       nil
     end
@@ -356,7 +356,7 @@ module RubySketch
       end
     end
 
-    private def mouseMoved (&block)
+    def mouseMoved (&block)
       @mouseMovedBlock__ = block if block
       nil
     end
@@ -369,7 +369,7 @@ module RubySketch
       end
     end
 
-    private def mouseDragged (&block)
+    def mouseDragged (&block)
       @mouseDraggedBlock__ = block if block
       nil
     end
