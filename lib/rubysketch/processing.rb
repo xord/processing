@@ -881,6 +881,26 @@ module RubySketch
       nil
     end
 
+    # Draws an image.
+    #
+    # @overload image(img, x, y)
+    # @overload image(img, x, y, w, h)
+    #
+    # @param img [Image] image to draw
+    # @param x   [Numeric] horizontal position of the image
+    # @param y   [Numeric] vertical position of the image
+    # @param w   [Numeric] width of the image
+    # @param h   [Numeric] height of the image
+    #
+    # @return [nil] nil
+    #
+    def image (img, x, y, w = nil, h = nil)
+      w ||= img.width
+      h ||= img.height
+      @painter__.image img.internal, x, y, w, h
+      nil
+    end
+
     # Applies translation matrix to current transformation matrix.
     #
     # @param x [Numeric] horizontal transformation
@@ -1017,7 +1037,57 @@ module RubySketch
       Rays.perlin(x, y) / 2.0 + 1.0
     end
 
+    # Loads image.
+    #
+    # @param filename [String] file name to load image
+    #
+    def loadImage (filename)
+      Image.new Rays::Image.load filename
+    end
+
   end# Processing
+
+
+  # Image object.
+  #
+  class Processing::Image
+
+    # Initialize image.
+    #
+    def initialize (image)
+      @image = image
+    end
+
+    # Gets width of image.
+    #
+    # @return [Numeric] width of image
+    #
+    def width ()
+      @image.width
+    end
+
+    # Gets height of image.
+    #
+    # @return [Numeric] height of image
+    #
+    def height ()
+      @image.height
+    end
+
+    # Saves image to file.
+    #
+    # @param filename [String] file name to save image
+    #
+    def save (filename)
+      @image.save filename
+    end
+
+    # @private
+    def internal ()
+      @image
+    end
+
+  end# Processing::Image
 
 
   # Font object.
