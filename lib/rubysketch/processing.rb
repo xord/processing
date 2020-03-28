@@ -499,9 +499,9 @@ module RubySketch
     end
 
     # @private
-    private def to_rgba__ (*args)
+    private def toRGBA__ (*args)
       a, b, c, d = args
-      return parse_color__(a, b || alphaMax__) if a.kind_of?(String)
+      return parseColor__(a, b || alphaMax__) if a.kind_of?(String)
 
       rgba = case args.size
         when 1, 2 then [a, a, a, b || alphaMax__]
@@ -514,7 +514,7 @@ module RubySketch
     end
 
     # @private
-    private def parse_color__ (str, alpha)
+    private def parseColor__ (str, alpha)
       result = str.match /^\s*##{'([0-9a-f]{2})' * 3}\s*$/i
       raise ArgumentError, "Invalid color code: '#{str}'" unless result
 
@@ -543,7 +543,7 @@ module RubySketch
     end
 
     # @private
-    private def to_angle__ (angle)
+    private def toAngle__ (angle)
       angle * @angleScale__
     end
 
@@ -578,7 +578,7 @@ module RubySketch
     end
 
     # @private
-    private def to_xywh__ (mode, a, b, c, d)
+    private def toXYWH__ (mode, a, b, c, d)
       case mode
       when CORNER  then [a,           b,           c,     d]
       when CORNERS then [a,           b,           c - a, d - b]
@@ -607,7 +607,7 @@ module RubySketch
     # @return [nil] nil
     #
     def background (*args)
-      rgba = to_rgba__ *args
+      rgba = toRGBA__ *args
       if rgba[3] == 1
         @painter__.background *rgba
       else
@@ -637,7 +637,7 @@ module RubySketch
     # @return [nil] nil
     #
     def fill (*args)
-      @painter__.fill(*to_rgba__(*args))
+      @painter__.fill(*toRGBA__(*args))
       nil
     end
 
@@ -660,7 +660,7 @@ module RubySketch
     # @return [nil] nil
     #
     def stroke (*args)
-      @painter__.stroke(*to_rgba__(*args))
+      @painter__.stroke(*toRGBA__(*args))
       nil
     end
 
@@ -763,7 +763,7 @@ module RubySketch
     # @return [nil] nil
     #
     def rect (a, b, c, d, *args)
-      x, y, w, h = to_xywh__ @rectMode__, a, b, c, d
+      x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
       case args.size
         when 0 then @painter__.rect x, y, w, h
         when 1 then @painter__.rect x, y, w, h, round: args[0]
@@ -783,7 +783,7 @@ module RubySketch
     # @return [nil] nil
     #
     def ellipse (a, b, c, d)
-      x, y, w, h = to_xywh__ @ellipseMode__, a, b, c, d
+      x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
       @painter__.ellipse x, y, w, h
       nil
     end
@@ -812,9 +812,9 @@ module RubySketch
     # @return [nil] nil
     #
     def arc (a, b, c, d, start, stop)
-      x, y, w, h = to_xywh__ @ellipseMode__, a, b, c, d
-      start      = to_angle__ start
-      stop       = to_angle__ stop
+      x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
+      start      = toAngle__ start
+      stop       = toAngle__ stop
       @painter__.ellipse x, y, w, h, from: start, to: stop
       nil
     end
@@ -936,7 +936,7 @@ module RubySketch
     # @return [nil] nil
     #
     def rotate (angle)
-      @painter__.rotate to_angle__ angle
+      @painter__.rotate toAngle__ angle
       nil
     end
 
