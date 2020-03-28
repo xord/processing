@@ -1056,11 +1056,14 @@ module RubySketch
       path   = tmpdir + Digest::SHA1.hexdigest(uri)
       path   = path.sub_ext ext
 
-      URI.open uri do |input|
-        tmpdir.mkdir unless tmpdir.directory?
-        path.open('w') do |output|
-          while buf = input.read(2 ** 16)
-            output.write buf
+      unless path.file?
+        p "getting #{uri}"
+        URI.open uri do |input|
+          tmpdir.mkdir unless tmpdir.directory?
+          path.open('w') do |output|
+            while buf = input.read(2 ** 16)
+              output.write buf
+            end
           end
         end
       end
