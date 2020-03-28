@@ -487,7 +487,7 @@ module RubySketch
     # @return [nil] nil
     #
     def colorMode (mode, *maxes)
-      raise ArgumentError, "Invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
+      raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
       raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
 
       @hsbColor__ = mode.upcase == HSB
@@ -516,7 +516,7 @@ module RubySketch
     # @private
     private def parseColor__ (str, alpha)
       result = str.match /^\s*##{'([0-9a-f]{2})' * 3}\s*$/i
-      raise ArgumentError, "Invalid color code: '#{str}'" unless result
+      raise ArgumentError, "invalid color code: '#{str}'" unless result
 
       rgb = result[1..3].map.with_index {|hex, i| hex.to_i(16) / 255.0}
       return *rgb, (alpha / alphaMax__)
@@ -537,7 +537,7 @@ module RubySketch
       @angleScale__ = case mode
         when RADIANS then RAD2DEG__
         when DEGREES then 1.0
-        else raise ArgumentError, "Invalid angle mode: #{mode}"
+        else raise ArgumentError, "invalid angle mode: #{mode}"
       end
       nil
     end
@@ -954,7 +954,7 @@ module RubySketch
     # @return [nil] nil
     #
     def popMatrix ()
-      raise "Matrix stack underflow" if @matrixStack__.empty?
+      raise "matrix stack underflow" if @matrixStack__.empty?
       @painter__.matrix = @matrixStack__.pop
       nil
     end
@@ -992,7 +992,7 @@ module RubySketch
     # @return [nil] nil
     #
     def popStyle ()
-      raise "Style stack underflow" if @styleStack__.empty?
+      raise "style stack underflow" if @styleStack__.empty?
       @painter__.fill,
       @painter__.stroke,
       @painter__.stroke_width,
