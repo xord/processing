@@ -1061,7 +1061,6 @@ module RubySketch
       path   = path.sub_ext ext
 
       unless path.file?
-        p "getting #{uri}"
         URI.open uri do |input|
           tmpdir.mkdir unless tmpdir.directory?
           path.open('w') do |output|
