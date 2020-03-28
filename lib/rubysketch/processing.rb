@@ -1044,6 +1044,8 @@ module RubySketch
     # @param filename  [String] file name to load image
     # @param extension [String] type of image to load (ex. 'png')
     #
+    # @return [Image] loaded image object
+    #
     def loadImage (filename, extension = nil)
       filename = getImage__ filename, extension if filename =~ %r|^https?://|
       Image.new Rays::Image.load filename
