@@ -1039,10 +1039,32 @@ module RubySketch
 
     # Loads image.
     #
-    # @param filename [String] file name to load image
+    # @param filename  [String] file name to load image
+    # @param extension [String] type of image to load (ex. 'png')
     #
-    def loadImage (filename)
+    def loadImage (filename, extension = nil)
+      filename = getImage__ filename, extension if filename =~ %r|^https?://|
       Image.new Rays::Image.load filename
+    end
+
+    # @private
+    private def getImage__ (uri, ext)
+      ext ||= File.extname uri
+      raise "unsupported image type" unless ext =~ /^\.?(png)$/i
+
+      tmpdir = Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
+      path   = tmpdir + Digest::SHA1.hexdigest(uri)
+      path   = path.sub_ext ext
+
+      URI.open uri do |input|
+        tmpdir.mkdir unless tmpdir.directory?
+        path.open('w') do |output|
+          while buf = input.read(2 ** 16)
+            output.write buf
+          end
+        end
+      end
+      path.to_s
     end
 
   end# Processing

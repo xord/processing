@@ -1,3 +1,8 @@
+require 'digest/sha1'
+require 'pathname'
+require 'tmpdir'
+require 'open-uri'
+
 require 'reflex'
 require 'rubysketch/module'
 require 'rubysketch/starter'
