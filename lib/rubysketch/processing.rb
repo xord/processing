@@ -1027,14 +1027,16 @@ module RubySketch
     #
     # @overload noise(x)
     # @overload noise(x, y)
+    # @overload noise(x, y, z)
     #
     # @param x [Numeric] horizontal point in noise space
     # @param y [Numeric] vertical point in noise space
+    # @param z [Numeric] depth point in noise space
     #
     # @return [Numeric] noise value (0.0..1.0)
     #
-    def noise (x, y = 0)
-      Rays.perlin(x, y) / 2.0 + 1.0
+    def noise (x, y = 0, z = 0)
+      Rays.perlin(x, y, z) / 2.0 + 0.5
     end
 
     # Loads image.
