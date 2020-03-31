@@ -945,7 +945,7 @@ module RubySketch
     #
     def image (img, a, b, c = nil, d = nil)
       x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
-      @painter__.image img.internal, x, y, w, h
+      @painter__.image img.internal__, x, y, w, h
       nil
     end
 
@@ -1152,6 +1152,20 @@ module RubySketch
       @image.height
     end
 
+    # Resizes image.
+    #
+    # @param width  [Numeric] width for resized image
+    # @param height [Numeric] height for resized image
+    #
+    # @return [nil] nil
+    #
+    def resize (width, height)
+      @image = Rays::Image.new(width, height).paint do |painter|
+        painter.image @image, 0, 0, width, height
+      end
+      nil
+    end
+
     # Saves image to file.
     #
     # @param filename [String] file name to save image
@@ -1161,7 +1175,7 @@ module RubySketch
     end
 
     # @private
-    def internal ()
+    def internal__ ()
       @image
     end
 
