@@ -1166,6 +1166,29 @@ module RubySketch
       nil
     end
 
+    # Copies image.
+    #
+    # @overload copy(sx, sy, sw, sh, dx, dy, dw, dh)
+    # @overload copy(img, sx, sy, sw, sh, dx, dy, dw, dh)
+    #
+    # @param img [Image]   image for copy source
+    # @param sx  [Numrtic] x position of source region
+    # @param sy  [Numrtic] y position of source region
+    # @param sw  [Numrtic] width of source region
+    # @param sh  [Numrtic] height of source region
+    # @param dx  [Numrtic] x position of destination region
+    # @param dy  [Numrtic] y position of destination region
+    # @param dw  [Numrtic] width of destination region
+    # @param dh  [Numrtic] height of destination region
+    #
+    # @return [nil] nil
+    #
+    def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      @image.paint do |painter|
+        painter.image (img || self).internal__, sx, sy, sw, sh, dx, dy, dw, dh
+      end
+    end
+
     # Saves image to file.
     #
     # @param filename [String] file name to save image
