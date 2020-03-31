@@ -61,6 +61,7 @@ module RubySketch
       angleMode   RADIANS
       rectMode    CORNER
       ellipseMode CENTER
+      imageMode   CORNER
     end
 
     # @private
@@ -587,6 +588,20 @@ module RubySketch
       @ellipseMode__ = mode
     end
 
+    # Sets image mode. Default is CORNER.
+    #
+    # CORNER  -> image(img, left, top, width, height)
+    # CORNERS -> image(img, left, top, right, bottom)
+    # CENTER  -> image(img, center_x, center_y, width, height)
+    #
+    # @param mode [CORNER, CORNERS, CENTER]
+    #
+    # @return [nil] nil
+    #
+    def imageMode (mode)
+      @imageMode__ = mode
+    end
+
     # @private
     private def toXYWH__ (mode, a, b, c, d)
       case mode
@@ -917,20 +932,19 @@ module RubySketch
 
     # Draws an image.
     #
-    # @overload image(img, x, y)
-    # @overload image(img, x, y, w, h)
+    # @overload image(img, a, b)
+    # @overload image(img, a, b, c, d)
     #
     # @param img [Image] image to draw
-    # @param x   [Numeric] horizontal position of the image
-    # @param y   [Numeric] vertical position of the image
-    # @param w   [Numeric] width of the image
-    # @param h   [Numeric] height of the image
+    # @param a   [Numeric] horizontal position of the image
+    # @param b   [Numeric] vertical position of the image
+    # @param c   [Numeric] width of the image
+    # @param d   [Numeric] height of the image
     #
     # @return [nil] nil
     #
-    def image (img, x, y, w = nil, h = nil)
-      w ||= img.width
-      h ||= img.height
+    def image (img, a, b, c = nil, d = nil)
+      x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
       @painter__.image img.internal, x, y, w, h
       nil
     end
@@ -1016,7 +1030,8 @@ module RubySketch
         @colorMaxes__,
         @angleScale__,
         @rectMode__,
-        @ellipseMode__
+        @ellipseMode__,
+        @imageMode__
       ]
       nil
     end
@@ -1035,7 +1050,8 @@ module RubySketch
       @colorMaxes__,
       @angleScale__,
       @rectMode__,
-      @ellipseMode__ = @styleStack__.pop
+      @ellipseMode__,
+      @imageMode__ = @styleStack__.pop
       nil
     end
 
