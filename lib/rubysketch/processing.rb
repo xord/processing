@@ -61,6 +61,7 @@ module RubySketch
       angleMode   RADIANS
       rectMode    CORNER
       ellipseMode CENTER
+      imageMode   CORNER
     end
 
     # @private
@@ -587,6 +588,20 @@ module RubySketch
       @ellipseMode__ = mode
     end
 
+    # Sets image mode. Default is CORNER.
+    #
+    # CORNER  -> image(img, left, top, width, height)
+    # CORNERS -> image(img, left, top, right, bottom)
+    # CENTER  -> image(img, center_x, center_y, width, height)
+    #
+    # @param mode [CORNER, CORNERS, CENTER]
+    #
+    # @return [nil] nil
+    #
+    def imageMode (mode)
+      @imageMode__ = mode
+    end
+
     # @private
     private def toXYWH__ (mode, a, b, c, d)
       case mode
@@ -766,10 +781,10 @@ module RubySketch
 
     # Draws a line.
     #
-    # @param x1 [Numeric] horizontal position for first point
-    # @param y1 [Numeric] vertical position for first point
-    # @param x2 [Numeric] horizontal position for second point
-    # @param y2 [Numeric] vertical position for second point
+    # @param x1 [Numeric] horizontal position of first point
+    # @param y1 [Numeric] vertical position of first point
+    # @param x2 [Numeric] horizontal position of second point
+    # @param y2 [Numeric] vertical position of second point
     #
     # @return [nil] nil
     #
@@ -917,22 +932,43 @@ module RubySketch
 
     # Draws an image.
     #
-    # @overload image(img, x, y)
-    # @overload image(img, x, y, w, h)
+    # @overload image(img, a, b)
+    # @overload image(img, a, b, c, d)
     #
     # @param img [Image] image to draw
-    # @param x   [Numeric] horizontal position of the image
-    # @param y   [Numeric] vertical position of the image
-    # @param w   [Numeric] width of the image
-    # @param h   [Numeric] height of the image
+    # @param a   [Numeric] horizontal position of the image
+    # @param b   [Numeric] vertical position of the image
+    # @param c   [Numeric] width of the image
+    # @param d   [Numeric] height of the image
     #
     # @return [nil] nil
     #
-    def image (img, x, y, w = nil, h = nil)
-      w ||= img.width
-      h ||= img.height
-      @painter__.image img.internal, x, y, w, h
+    def image (img, a, b, c = nil, d = nil)
+      x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
+      @painter__.image img.to_internal__, x, y, w, h
       nil
+    end
+
+    # Copies image.
+    #
+    # @overload copy(sx, sy, sw, sh, dx, dy, dw, dh)
+    # @overload copy(img, sx, sy, sw, sh, dx, dy, dw, dh)
+    #
+    # @param img [Image]   image for copy source
+    # @param sx  [Numrtic] x position of source region
+    # @param sy  [Numrtic] y position of source region
+    # @param sw  [Numrtic] width of source region
+    # @param sh  [Numrtic] height of source region
+    # @param dx  [Numrtic] x position of destination region
+    # @param dy  [Numrtic] y position of destination region
+    # @param dw  [Numrtic] width of destination region
+    # @param dh  [Numrtic] height of destination region
+    #
+    # @return [nil] nil
+    #
+    def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      src = img&.to_internal__ || @window__.canvas
+      @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
     end
 
     # Applies translation matrix to current transformation matrix.
@@ -1016,7 +1052,8 @@ module RubySketch
         @colorMaxes__,
         @angleScale__,
         @rectMode__,
-        @ellipseMode__
+        @ellipseMode__,
+        @imageMode__
       ]
       nil
     end
@@ -1035,7 +1072,8 @@ module RubySketch
       @colorMaxes__,
       @angleScale__,
       @rectMode__,
-      @ellipseMode__ = @styleStack__.pop
+      @ellipseMode__,
+      @imageMode__ = @styleStack__.pop
       nil
     end
 
@@ -1114,8 +1152,7 @@ module RubySketch
   #
   class Processing::Image
 
-    # Initialize image.
-    #
+    # @private
     def initialize (image)
       @image = image
     end
@@ -1136,6 +1173,44 @@ module RubySketch
       @image.height
     end
 
+    # Resizes image.
+    #
+    # @param width  [Numeric] width for resized image
+    # @param height [Numeric] height for resized image
+    #
+    # @return [nil] nil
+    #
+    def resize (width, height)
+      @image = Rays::Image.new(width, height).paint do |painter|
+        painter.image @image, 0, 0, width, height
+      end
+      nil
+    end
+
+    # Copies image.
+    #
+    # @overload copy(sx, sy, sw, sh, dx, dy, dw, dh)
+    # @overload copy(img, sx, sy, sw, sh, dx, dy, dw, dh)
+    #
+    # @param img [Image]   image for copy source
+    # @param sx  [Numrtic] x position of source region
+    # @param sy  [Numrtic] y position of source region
+    # @param sw  [Numrtic] width of source region
+    # @param sh  [Numrtic] height of source region
+    # @param dx  [Numrtic] x position of destination region
+    # @param dy  [Numrtic] y position of destination region
+    # @param dw  [Numrtic] width of destination region
+    # @param dh  [Numrtic] height of destination region
+    #
+    # @return [nil] nil
+    #
+    def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      img ||= self
+      @image.paint do |painter|
+        painter.image img.to_internal__, sx, sy, sw, sh, dx, dy, dw, dh
+      end
+    end
+
     # Saves image to file.
     #
     # @param filename [String] file name to save image
@@ -1145,7 +1220,7 @@ module RubySketch
     end
 
     # @private
-    def internal ()
+    def to_internal__ ()
       @image
     end
 
@@ -1156,10 +1231,7 @@ module RubySketch
   #
   class Processing::Font
 
-    # Initialize font.
-    #
     # @private
-    #
     def initialize (font)
       @font = font
     end
@@ -1205,13 +1277,7 @@ module RubySketch
     #
     attr_reader :h
 
-    # Initialize bouding box.
-    #
-    # @param x [Numeric] horizontal position
-    # @param y [Numeric] vertical position
-    # @param w [Numeric] width of bounding box
-    # @param h [Numeric] height of bounding box
-    #
+    # @private
     def initialize (x, y, w, h)
       @x, @y, @w, @h = x, y, w, h
     end
