@@ -781,10 +781,10 @@ module RubySketch
 
     # Draws a line.
     #
-    # @param x1 [Numeric] horizontal position for first point
-    # @param y1 [Numeric] vertical position for first point
-    # @param x2 [Numeric] horizontal position for second point
-    # @param y2 [Numeric] vertical position for second point
+    # @param x1 [Numeric] horizontal position of first point
+    # @param y1 [Numeric] vertical position of first point
+    # @param x2 [Numeric] horizontal position of second point
+    # @param y2 [Numeric] vertical position of second point
     #
     # @return [nil] nil
     #
@@ -945,7 +945,7 @@ module RubySketch
     #
     def image (img, a, b, c = nil, d = nil)
       x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
-      @painter__.image img.internal__, x, y, w, h
+      @painter__.image img.to_internal__, x, y, w, h
       nil
     end
 
@@ -967,7 +967,7 @@ module RubySketch
     # @return [nil] nil
     #
     def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
-      src = img&.internal__ || @window__.canvas
+      src = img&.to_internal__ || @window__.canvas
       @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
     end
 
@@ -1152,8 +1152,7 @@ module RubySketch
   #
   class Processing::Image
 
-    # Initialize image.
-    #
+    # @private
     def initialize (image)
       @image = image
     end
@@ -1206,8 +1205,9 @@ module RubySketch
     # @return [nil] nil
     #
     def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      img ||= self
       @image.paint do |painter|
-        painter.image (img || self).internal__, sx, sy, sw, sh, dx, dy, dw, dh
+        painter.image img.to_internal__, sx, sy, sw, sh, dx, dy, dw, dh
       end
     end
 
@@ -1220,7 +1220,7 @@ module RubySketch
     end
 
     # @private
-    def internal__ ()
+    def to_internal__ ()
       @image
     end
 
@@ -1231,10 +1231,7 @@ module RubySketch
   #
   class Processing::Font
 
-    # Initialize font.
-    #
     # @private
-    #
     def initialize (font)
       @font = font
     end
@@ -1280,13 +1277,7 @@ module RubySketch
     #
     attr_reader :h
 
-    # Initialize bouding box.
-    #
-    # @param x [Numeric] horizontal position
-    # @param y [Numeric] vertical position
-    # @param w [Numeric] width of bounding box
-    # @param h [Numeric] height of bounding box
-    #
+    # @private
     def initialize (x, y, w, h)
       @x, @y, @w, @h = x, y, w, h
     end
