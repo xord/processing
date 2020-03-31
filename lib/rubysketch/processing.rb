@@ -43,6 +43,8 @@ module RubySketch
 
     # @private
     def initialize ()
+      @loop__         = true
+      @redraw__       = false
       @matrixStack__  = []
       @styleStack__   = []
       @frameCount__   = 0
@@ -296,18 +298,26 @@ module RubySketch
     # @private
     private def setupDrawBlock__ ()
       @window__.draw = proc do |e, painter|
-        @painter__ = painter
-        @matrixStack__.clear
-        @styleStack__.clear
-        begin
-          push
-          @drawBlock__.call e if @drawBlock__
-        ensure
-          pop
+        if @loop__ || @redraw__
+          @redraw__ = false
+          drawFrame__ e, painter
         end
-        @frameCount__ += 1
         updateMousePrevPos__
       end
+    end
+
+    # @private
+    private def drawFrame__ (event, painter)
+      @painter__ = painter
+      @matrixStack__.clear
+      @styleStack__.clear
+      begin
+        push
+        @drawBlock__.call event if @drawBlock__
+      ensure
+        pop
+      end
+      @frameCount__ += 1
     end
 
     # Define draw block.
@@ -586,6 +596,30 @@ module RubySketch
       when RADIUS  then [a - c,       b - d,       c * 2, d * 2]
       else raise ArgumentError # ToDo: refine error message
       end
+    end
+
+    # Enables calling draw block on every frame.
+    #
+    # @return [nil] nil
+    #
+    def loop ()
+      @loop__ = true
+    end
+
+    # Disables calling draw block on every frame.
+    #
+    # @return [nil] nil
+    #
+    def noLoop ()
+      @loop__ = false
+    end
+
+    # Calls draw block to redraw frame.
+    #
+    # @return [nil] nil
+    #
+    def redraw ()
+      @redraw__ = true
     end
 
     # Clears screen.
