@@ -914,6 +914,42 @@ module RubySketch
       nil
     end
 
+    # Draws a Catmull-Rom spline curve.
+    #
+    # @param cx1 [Numeric] horizontal position of beginning control point
+    # @param cy1 [Numeric] vertical position of beginning control point
+    # @param x1  [Numeric] horizontal position of first point
+    # @param y1  [Numeric] vertical position of first point
+    # @param x2  [Numeric] horizontal position of second point
+    # @param y2  [Numeric] vertical position of second point
+    # @param cx2 [Numeric] horizontal position of ending control point
+    # @param cy2 [Numeric] vertical position of ending control point
+    #
+    # @return [nil] nil
+    #
+    def curve (cx1, cy1, x1, y1, x2, y2, cx2, cy2)
+      @painter__.curve cx1, cy1, x1, y1, x2, y2, cx2, cy2
+      nil
+    end
+
+    # Draws a Bezier spline curve.
+    #
+    # @param x1  [Numeric] horizontal position of first point
+    # @param y1  [Numeric] vertical position of first point
+    # @param cx1 [Numeric] horizontal position of first control point
+    # @param cy1 [Numeric] vertical position of first control point
+    # @param cx2 [Numeric] horizontal position of second control point
+    # @param cy2 [Numeric] vertical position of second control point
+    # @param x2  [Numeric] horizontal position of second point
+    # @param y2  [Numeric] vertical position of second point
+    #
+    # @return [nil] nil
+    #
+    def bezier (x1, y1, cx1, cy1, cx2, cy2, x2, y2)
+      @painter__.bezier x1, y1, cx1, cy1, cx2, cy2, x2, y2
+      nil
+    end
+
     # Draws a text.
     #
     # @overload text(str)

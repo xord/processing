@@ -80,7 +80,7 @@ module RubySketch
       old_canvas  = @canvas
       old_painter = @canvas_painter
 
-      cs              = old_canvas&.color_space || Rays::ColorSpace::RGBA
+      cs              = old_canvas&.color_space || Rays::RGBA
       @canvas         = Rays::Image.new width, height, cs, painter.pixel_density
       @canvas_painter = @canvas.painter
 
