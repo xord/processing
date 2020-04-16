@@ -67,11 +67,57 @@ module RubySketch
       @window__  = window
       @painter__ = window.canvas_painter
 
-      setupDrawBlock__
-      setupMousePressedBlock__
-      setupMouseReleasedBlock__
-      setupMouseMovedBlock__
-      setupMouseDraggedBlock__
+      drawFrame = -> event {
+        @painter__ = window.canvas_painter
+        @matrixStack__.clear
+        @styleStack__.clear
+        begin
+          push
+          @drawBlock__.call event if @drawBlock__
+        ensure
+          pop
+        end
+        @frameCount__ += 1
+      }
+
+      updateMouseState = -> x, y, pressed = nil {
+        @mouseX__       = x
+        @mouseY__       = y
+        @mousePressed__ = pressed if pressed != nil
+      }
+
+      updateMousePrevPos = -> {
+        @mousePrevX__ = @mouseX__
+        @mousePrevY__ = @mouseY__
+      }
+
+      @window__.draw = proc do |e|
+        if @loop__ || @redraw__
+          @redraw__ = false
+          drawFrame.call e
+        end
+        updateMousePrevPos.call
+      end
+
+      @window__.pointer_down = proc do |e|
+        updateMouseState.call e.x, e.y, true
+        @mousePressedBlock__.call e if @mousePressedBlock__
+      end
+
+      @window__.pointer_up = proc do |e|
+        updateMouseState.call e.x, e.y, false
+        @mouseReleasedBlock__.call e if @mouseReleasedBlock__
+      end
+
+      @window__.pointer_move = proc do |e|
+        updateMouseState.call e.x, e.y
+        @mouseMovedBlock__.call e if @mouseMovedBlock__
+      end
+
+      @window__.pointer_drag = proc do |e|
+        updateMouseState.call e.x, e.y
+        @mouseDraggedBlock__.call e if @mouseDraggedBlock__
+      end
     end
 
     # Returns the absolute number of the value.
@@ -294,31 +340,6 @@ module RubySketch
       nil
     end
 
-    # @private
-    private def setupDrawBlock__ ()
-      @window__.draw = proc do |e, painter|
-        if @loop__ || @redraw__
-          @redraw__ = false
-          drawFrame__ e, painter
-        end
-        updateMousePrevPos__
-      end
-    end
-
-    # @private
-    private def drawFrame__ (event, painter)
-      @painter__ = painter
-      @matrixStack__.clear
-      @styleStack__.clear
-      begin
-        push
-        @drawBlock__.call event if @drawBlock__
-      ensure
-        pop
-      end
-      @frameCount__ += 1
-    end
-
     # Define draw block.
     #
     def draw (&block)
@@ -331,25 +352,9 @@ module RubySketch
       nil
     end
 
-    # @private
-    private def setupMousePressedBlock__ ()
-      @window__.pointer_down = proc do |e|
-        updateMouseState__ e.x, e.y, true
-        @mousePressedBlock__.call e if @mousePressedBlock__
-      end
-    end
-
     def mousePressed (&block)
       @mousePressedBlock__ = block if block
       @mousePressed__
-    end
-
-    # @private
-    private def setupMouseReleasedBlock__ ()
-      @window__.pointer_up = proc do |e|
-        updateMouseState__ e.x, e.y, false
-        @mouseReleasedBlock__.call e if @mouseReleasedBlock__
-      end
     end
 
     def mouseReleased (&block)
@@ -357,43 +362,14 @@ module RubySketch
       nil
     end
 
-    # @private
-    private def setupMouseMovedBlock__ ()
-      @window__.pointer_move = proc do |e|
-        updateMouseState__ e.x, e.y
-        @mouseMovedBlock__.call e if @mouseMovedBlock__
-      end
-    end
-
     def mouseMoved (&block)
       @mouseMovedBlock__ = block if block
       nil
     end
 
-    # @private
-    private def setupMouseDraggedBlock__ ()
-      @window__.pointer_drag = proc do |e|
-        updateMouseState__ e.x, e.y
-        @mouseDraggedBlock__.call e if @mouseDraggedBlock__
-      end
-    end
-
     def mouseDragged (&block)
       @mouseDraggedBlock__ = block if block
       nil
-    end
-
-    # @private
-    private def updateMouseState__ (x, y, pressed = nil)
-      @mouseX__       = x
-      @mouseY__       = y
-      @mousePressed__ = pressed if pressed != nil
-    end
-
-    # @private
-    private def updateMousePrevPos__ ()
-      @mousePrevX__ = @mouseX__
-      @mousePrevY__ = @mouseY__
     end
 
     # @private

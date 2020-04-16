@@ -41,8 +41,8 @@ module RubySketch
     end
 
     def on_draw (e)
-      @canvas_painter.paint do |painter|
-        call_block @draw, e, painter
+      @canvas_painter.paint do |_|
+        call_block @draw, e
       end
       e.painter.image @canvas
     end
