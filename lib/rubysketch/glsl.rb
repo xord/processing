@@ -4,8 +4,6 @@ module RubySketch
   # @private
   class GLSL
 
-    extend Starter
-
     def initialize (glsl)
       @shader = Reflex::Shader.new glsl
     end

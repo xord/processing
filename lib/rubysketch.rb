@@ -5,7 +5,6 @@ require 'open-uri'
 
 require 'reflex'
 require 'rubysketch/module'
-require 'rubysketch/starter'
 require 'rubysketch/window'
 require 'rubysketch/processing'
 require 'rubysketch/glsl'

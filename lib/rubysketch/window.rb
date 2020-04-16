@@ -17,9 +17,7 @@ module RubySketch
 
       reset_canvas 1, 1
 
-      super *args, size: [width, height] do |_|
-        start &block if block
-      end
+      super *args, size: [width, height], &block
     end
 
     def start (&block)

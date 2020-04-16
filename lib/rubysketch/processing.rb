@@ -7,8 +7,6 @@ module RubySketch
 
     include Math
 
-    extend Starter
-
     HALF_PI    = PI / 2
     QUARTER_PI = PI / 4
     TWO_PI     = PI * 2
@@ -65,7 +63,7 @@ module RubySketch
     end
 
     # @private
-    def on_start__ (window)
+    def setup__ (window)
       @window__  = window
       @painter__ = window.canvas_painter
 
