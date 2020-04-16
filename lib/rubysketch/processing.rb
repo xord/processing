@@ -1026,8 +1026,12 @@ module RubySketch
     #
     # @return [nil] nil
     #
-    def pushMatrix ()
+    def pushMatrix (&block)
       @matrixStack__.push @painter__.matrix
+      if block
+        block.call
+        popMatrix
+      end
       nil
     end
 
@@ -1054,7 +1058,7 @@ module RubySketch
     #
     # @return [nil] nil
     #
-    def pushStyle ()
+    def pushStyle (&block)
       @styleStack__.push [
         @painter__.fill,
         @painter__.stroke,
@@ -1069,6 +1073,10 @@ module RubySketch
         @ellipseMode__,
         @imageMode__
       ]
+      if block
+        block.call
+        popStyle
+      end
       nil
     end
 
@@ -1097,9 +1105,13 @@ module RubySketch
     #
     # @return [nil] nil
     #
-    def push ()
+    def push (&block)
       pushMatrix
       pushStyle
+      if block
+        block.call
+        pop
+      end
     end
 
     # Restore styles and transformations from stack.
