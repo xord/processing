@@ -1,9 +1,14 @@
-# ChangeLog for RubySketch
+# RubySketch ChangeLog
 
 
-## [0.2.6?] - 2020-04-?
+## [0.2.6] - 2020-04-17
 
+- push(), pushMatrix() and pushStyle() take block to automatic pop
+- add stroke_cap() and stroke_join()
+- refine startup process
 - add curve() and bezier()
+- add imageMode(), Image#resize(), Image#copy() and copy()
+- add loop(), noLoop() and redraw()
 
 
 ## [0.2.5] - 2020-03-29
