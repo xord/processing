@@ -65,7 +65,9 @@ module RubySketch
     # @private
     def setup__ (window)
       @window__  = window
-      @painter__ = window.canvas_painter
+      @painter__ = window.canvas_painter.tap do |o|
+        o.miter_limit = 10
+      end
 
       drawFrame = -> event {
         @painter__ = window.canvas_painter
@@ -1057,6 +1059,8 @@ module RubySketch
         @painter__.fill,
         @painter__.stroke,
         @painter__.stroke_width,
+        @painter__.stroke_cap,
+        @painter__.stroke_join,
         @painter__.font,
         @hsbColor__,
         @colorMaxes__,
@@ -1077,6 +1081,8 @@ module RubySketch
       @painter__.fill,
       @painter__.stroke,
       @painter__.stroke_width,
+      @painter__.stroke_cap,
+      @painter__.stroke_join,
       @painter__.font,
       @hsbColor__,
       @colorMaxes__,

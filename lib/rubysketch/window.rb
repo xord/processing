@@ -92,6 +92,9 @@ module RubySketch
       to.fill         = from.fill
       to.stroke       = from.stroke
       to.stroke_width = from.stroke_width
+      to.stroke_cap   = from.stroke_cap
+      to.stroke_join  = from.stroke_join
+      to.miter_limit  = from.miter_limit
       to.font         = from.font
     end
 
