@@ -12,26 +12,53 @@ module RubySketch
     TWO_PI     = PI * 2
     TAU        = PI * 2
 
-    # RGB mode for colorMode() function.
+    # RGB mode for colorMode().
     #
     RGB = :RGB
 
-    # HSB mode for colorMode() function.
+    # HSB mode for colorMode().
     #
     HSB = :HSB
 
-    # Radian mode for angleMode() function.
+    # Radian mode for angleMode().
     #
     RADIANS = :RADIANS
 
-    # Degree mode for angleMode() function.
+    # Degree mode for angleMode().
     #
     DEGREES = :DEGREES
 
+    # Mode for rectMode(), ellipseMode() and imageMode().
+    #
     CORNER  = :CORNER
+
+    # Mode for rectMode(), ellipseMode() and imageMode().
+    #
     CORNERS = :CORNERS
+
+    # Mode for rectMode(), ellipseMode() and imageMode().
+    #
     CENTER  = :CENTER
+
+    # Mode for rectMode() and ellipseMode().
+    #
     RADIUS  = :RADIUS
+
+    # Mode for strokeCap().
+    #
+    BUTT   = :butt
+
+    # Mode for strokeJoin().
+    #
+    MITER  = :miter
+
+    # Mode for strokeCap() and strokeJoin().
+    #
+    ROUND  = :round
+
+    # Mode for strokeCap() and strokeJoin().
+    #
+    SQUARE = :square
 
     # @private
     DEG2RAD__ = PI / 180.0
@@ -697,6 +724,28 @@ module RubySketch
     #
     def strokeWeight (weight)
       @painter__.stroke_width weight
+      nil
+    end
+
+    # Sets stroke cap mode.
+    #
+    # @param cap [BUTT, ROUND, SQUARE]
+    #
+    # @return [nil] nil
+    #
+    def strokeCap (cap)
+      @painter__.stroke_cap cap
+      nil
+    end
+
+    # Sets stroke join mode.
+    #
+    # @param join [MITER, ROUND, SQUARE]
+    #
+    # @return [nil] nil
+    #
+    def strokeJoin (join)
+      @painter__.stroke_join join
       nil
     end
 
