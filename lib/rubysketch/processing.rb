@@ -5,12 +5,6 @@ module RubySketch
   #
   module Processing
 
-    # @private
-    DEG2RAD__ = Math::PI / 180.0
-
-    # @private
-    RAD2DEG__ = 180.0 / Math::PI
-
 
     # Image object.
     #
@@ -318,7 +312,7 @@ module RubySketch
       #
       def angleMode (mode)
         @angleScale__ = case mode
-          when RADIANS then RAD2DEG__
+          when RADIANS then Utility::RAD2DEG__
           when DEGREES then 1.0
           else raise ArgumentError, "invalid angle mode: #{mode}"
           end
@@ -979,6 +973,12 @@ module RubySketch
 
 
     module Utility
+
+      # @private
+      DEG2RAD__ = Math::PI / 180.0
+
+      # @private
+      RAD2DEG__ = 180.0 / Math::PI
 
       # Converts degree to radian.
       #
