@@ -3,8 +3,9 @@ module RubySketch
 
   class Window < Reflex::Window
 
-    attr_accessor :setup, :update, :draw, :key, :motion, :resize,
-      :pointer_down, :pointer_up, :pointer_move, :pointer_drag
+    attr_accessor :setup, :update, :draw, :before_draw, :after_draw, :resize,
+      :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
+      :key, :motion
 
     attr_accessor :auto_resize
 
@@ -21,7 +22,7 @@ module RubySketch
     end
 
     def start (&block)
-      @canvas_painter.paint do |_|
+      draw_canvas do
         block.call if block
         on_setup
       end
@@ -41,9 +42,7 @@ module RubySketch
     end
 
     def on_draw (e)
-      @canvas_painter.paint do |_|
-        call_block @draw, e
-      end
+      draw_canvas {call_block @draw, e}
       e.painter.image @canvas
     end
 
@@ -96,6 +95,23 @@ module RubySketch
       to.stroke_join  = from.stroke_join
       to.miter_limit  = from.miter_limit
       to.font         = from.font
+    end
+
+    def draw_canvas (&block)
+      begin_draw
+      block.call
+    ensure
+      end_draw
+    end
+
+    def begin_draw ()
+      @canvas_painter.__send__ :begin_paint
+      @before_draw&.call
+    end
+
+    def end_draw ()
+      @after_draw&.call
+      @canvas_painter.__send__ :end_paint
     end
 
     def call_block (block, event, *args)
