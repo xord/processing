@@ -479,24 +479,30 @@ module RubySketch
       # Sets font.
       #
       # @param name [String]  font name
-      # @param size [Numeric] font size
+      # @param size [Numeric] font size (max 256)
       #
       # @return [Font] current font
       #
       def textFont (name = nil, size = nil)
-        @painter__.font name, size if name || size
+        setFont__ name, size if name || size
         Font.new @painter__.font
       end
 
       # Sets text size.
       #
-      # @param size [Numeric] font size
+      # @param size [Numeric] font size (max 256)
       #
       # @return [nil] nil
       #
       def textSize (size)
-        @painter__.font @painter__.font.name, size
+        setFont__ @painter__.font.name, size
         nil
+      end
+
+      # @private
+      def setFont__ (name, size)
+        size = 256 if size && size > 256
+        @painter__.font name, size
       end
 
       # Clears screen.
