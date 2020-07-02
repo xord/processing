@@ -42,12 +42,12 @@ module RubySketch
     end
 
     def on_draw (e)
-      draw_canvas {call_block @draw, e}
+      draw_canvas {call_block @draw, e} if @draw
       e.painter.image @canvas
     end
 
     def on_key (e)
-      call_block @key, e
+      draw_canvas {call_block @key, e} if @key
     end
 
     def on_pointer (e)
@@ -56,16 +56,16 @@ module RubySketch
         when :up   then @pointer_up
         when :move then e.drag? ? @pointer_drag : @pointer_move
       end
-      call_block block, e if block
+      draw_canvas {call_block block, e} if block
     end
 
     def on_motion (e)
-      call_block @motion, e
+      draw_canvas {call_block @motion, e} if @motion
     end
 
     def on_resize (e)
       reset_canvas e.width, e.height if @auto_resize
-      call_block @resize, e
+      draw_canvas {call_block @resize, e} if @resize
     end
 
     private
