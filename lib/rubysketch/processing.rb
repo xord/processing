@@ -143,6 +143,30 @@ module RubySketch
     end# TextBounds
 
 
+    # Touch object.
+    #
+    class Touch
+
+      # Horizontal position of touch
+      #
+      attr_reader :x
+
+      # Vertical position of touch
+      #
+      attr_reader :y
+
+      # @private
+      def initialize (x, y)
+        @x, @y = x, y
+      end
+
+      def id ()
+        raise NotImplementedError
+      end
+
+    end# Touch
+
+
     # Drawing context
     #
     module GraphicsContext
@@ -1268,11 +1292,10 @@ module RubySketch
         @loop__         = true
         @redraw__       = false
         @frameCount__   = 0
-        @mouseX__       =
-        @mouseY__       =
-        @mousePrevX__   =
-        @mousePrevY__   = 0
+        @mousePos__     =
+        @mousePrevPos__ = Rays::Point.new 0
         @mousePressed__ = false
+        @touches__      = []
 
         @window__  = window
         @image__   = @window__.canvas
@@ -1280,58 +1303,53 @@ module RubySketch
 
         @painter__.miter_limit = 10
 
-        drawFrame = -> event {
+        @window__.before_draw = proc {beginDraw}
+        @window__.after_draw  = proc {endDraw}
+
+        drawFrame = -> {
           @image__   = @window__.canvas
           @painter__ = @window__.canvas_painter
           begin
             push
-            @drawBlock__.call event if @drawBlock__
+            @drawBlock__.call if @drawBlock__
           ensure
             pop
             @frameCount__ += 1
           end
         }
 
-        updateMouseState = -> x, y, pressed = nil {
-          @mouseX__       = x
-          @mouseY__       = y
-          @mousePressed__ = pressed if pressed != nil
-        }
-
-        updateMousePrevPos = -> {
-          @mousePrevX__ = @mouseX__
-          @mousePrevY__ = @mouseY__
-        }
-
-        @window__.before_draw = proc {beginDraw}
-        @window__.after_draw  = proc {endDraw}
-
         @window__.draw = proc do |e|
           if @loop__ || @redraw__
             @redraw__ = false
-            drawFrame.call e
+            drawFrame.call
           end
-          updateMousePrevPos.call
+          @mousePrevPos__ = @mousePos__
         end
 
+        updatePointerStates = -> event, pressed = nil {
+          @mousePos__     = event.pos
+          @mousePressed__ = pressed if pressed != nil
+          @touches__      = event.positions.map {|pos| Touch.new pos.x, pos.y}
+        }
+
         @window__.pointer_down = proc do |e|
-          updateMouseState.call e.x, e.y, true
-          @mousePressedBlock__.call e if @mousePressedBlock__
+          updatePointerStates.call e, true
+          (@touchStartedBlock__ || @mousePressedBlock__)&.call
         end
 
         @window__.pointer_up = proc do |e|
-          updateMouseState.call e.x, e.y, false
-          @mouseReleasedBlock__.call e if @mouseReleasedBlock__
+          updatePointerStates.call e, false
+          (@touchEndedBlock__ || @mouseReleasedBlock__)&.call
         end
 
         @window__.pointer_move = proc do |e|
-          updateMouseState.call e.x, e.y
-          @mouseMovedBlock__.call e if @mouseMovedBlock__
+          updatePointerStates.call e
+          (@touchMovedBlock__ || @mouseMovedBlock__)&.call
         end
 
         @window__.pointer_drag = proc do |e|
-          updateMouseState.call e.x, e.y
-          @mouseDraggedBlock__.call e if @mouseDraggedBlock__
+          updatePointerStates.call e
+          (@touchMovedBlock__ || @mouseDraggedBlock__)&.call
         end
       end
 
@@ -1371,6 +1389,21 @@ module RubySketch
 
       def mouseDragged (&block)
         @mouseDraggedBlock__ = block if block
+        nil
+      end
+
+      def touchStarted (&block)
+        @touchStartedBlock__ = block if block
+        nil
+      end
+
+      def touchEnded (&block)
+        @touchEndedBlock__ = block if block
+        nil
+      end
+
+      def touchMoved (&block)
+        @touchMovedBlock__ = block if block
         nil
       end
 
@@ -1422,7 +1455,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def mouseX ()
-        @mouseX__
+        @mousePos__.x
       end
 
       # Returns mouse y position
@@ -1430,7 +1463,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def mouseY ()
-        @mouseY__
+        @mousePos__.y
       end
 
       # Returns mouse x position in previous frame
@@ -1438,7 +1471,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def pmouseX ()
-        @mousePrevX__
+        @mousePrevPos__.x
       end
 
       # Returns mouse y position in previous frame
@@ -1446,7 +1479,15 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def pmouseY ()
-        @mousePrevY__
+        @mousePrevPos__.y
+      end
+
+      # Returns array of touches
+      #
+      # @return [Array] Touch objects
+      #
+      def touches ()
+        @touches__
       end
 
       # Enables calling draw block on every frame.
