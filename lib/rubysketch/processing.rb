@@ -235,7 +235,10 @@ module RubySketch
       #
       SQUARE = :square
 
-      def setup__ ()
+      def setup__ (painter)
+        @painter__             = painter
+        @painter__.miter_limit = 10
+
         @drawing       = false
         @hsbColor__    = false
         @colorMaxes__  = [1.0] * 4
@@ -982,9 +985,8 @@ module RubySketch
       include GraphicsContext
 
       def initialize (width, height)
-        setup__
-        @image__   = Rays::Image.new width, height
-        @painter__ = @image__.painter
+        @image__ = Rays::Image.new width, height
+        setup__ @image__.painter
       end
 
       def beginDraw ()
@@ -1288,7 +1290,10 @@ module RubySketch
 
       # @private
       def setup__ (window)
-        super()
+        @window__ = window
+        @image__  = @window__.canvas
+        super @window__.canvas_painter
+
         @loop__         = true
         @redraw__       = false
         @frameCount__   = 0
@@ -1296,12 +1301,6 @@ module RubySketch
         @mousePrevPos__ = Rays::Point.new 0
         @mousePressed__ = false
         @touches__      = []
-
-        @window__  = window
-        @image__   = @window__.canvas
-        @painter__ = @window__.canvas_painter
-
-        @painter__.miter_limit = 10
 
         @window__.before_draw = proc {beginDraw}
         @window__.after_draw  = proc {endDraw}
