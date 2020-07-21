@@ -254,6 +254,9 @@ module RubySketch
         rectMode    CORNER
         ellipseMode CENTER
         imageMode   CORNER
+
+        fill 255
+        stroke 0
       end
 
       def beginDraw ()
