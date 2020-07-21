@@ -1292,7 +1292,7 @@ module RubySketch
       def setup__ (window)
         @window__ = window
         @image__  = @window__.canvas
-        super @window__.canvas_painter
+        super @window__.canvas_painter.paint {background 0.8}
 
         @loop__         = true
         @redraw__       = false
