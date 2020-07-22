@@ -799,15 +799,35 @@ module RubySketch
       #
       # @overload text(str)
       # @overload text(str, x, y)
+      # @overload text(str, a, b, c, d)
       #
       # @param str [String]  text to draw
       # @param x   [Numeric] horizontal position of the text
       # @param y   [Numeric] vertical position of the text
+      # @param a   [Numeric] equivalent to parameters of the rect(), see rectMode()
+      # @param b   [Numeric] equivalent to parameters of the rect(), see rectMode()
+      # @param c   [Numeric] equivalent to parameters of the rect(), see rectMode()
+      # @param d   [Numeric] equivalent to parameters of the rect(), see rectMode()
       #
       # @return [nil] nil
       #
-      def text (str, x, y)
+      def text (str, x, y, x2 = nil, y2 = nil)
         assertDrawing__
+        if x2
+          raise ArgumentError, "missing y2 parameter" unless y2
+          x, y, w, h = toXYWH__ @rectMode__, x, y, x2, y2
+          case @textAlignH__
+          when RIGHT  then x +=  w - @painter__.font.width(str)
+          when CENTER then x += (w - @painter__.font.width(str)) / 2
+          end
+          case @textAlignV__
+          when BOTTOM then y +=  h - @painter__.font.height
+          when CENTER then y += (h - @painter__.font.height) / 2
+          else
+          end
+        else
+          y -= @painter__.font.ascent
+        end
         @painter__.text str, x, y
         nil
       end
