@@ -1,6 +1,14 @@
 # RubySketch ChangeLog
 
 
+## [0.3.2] - 2020-07-22
+
+- text() draws to the baseline by default
+- add textWidth(), textAscent(), textDescent() and textAlign()
+- change initial color for fill() and stroke()
+- change initial background color to grayscale 0.8
+
+
 ## [0.3.1] - 2020-07-17
 
 - add touchStarted(), touchEnded(), touchMoved() and touches()
