@@ -312,10 +312,11 @@ module RubySketch
       # @return [nil] nil
       #
       def colorMode (mode, *maxes)
+        mode = mode.upcase.to_sym
         raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
         raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
 
-        @hsbColor__ = mode.upcase == HSB
+        @hsbColor__ = mode == HSB
         case maxes.size
         when 1    then @colorMaxes__                 = [maxes.first.to_f] * 4
         when 3, 4 then @colorMaxes__[0...maxes.size] = maxes.map &:to_f
@@ -359,7 +360,7 @@ module RubySketch
       # @return [nil] nil
       #
       def angleMode (mode)
-        @angleScale__ = case mode
+        @angleScale__ = case mode.upcase.to_sym
           when RADIANS then Utility::RAD2DEG__
           when DEGREES then 1.0
           else raise ArgumentError, "invalid angle mode: #{mode}"
