@@ -211,13 +211,28 @@ module RubySketch
       #
       CORNERS = :CORNERS
 
-      # Mode for rectMode(), ellipseMode() and imageMode().
+      # Mode for rectMode(), ellipseMode(), imageMode() and textAlign().
       #
       CENTER  = :CENTER
 
       # Mode for rectMode() and ellipseMode().
       #
       RADIUS  = :RADIUS
+
+      # Mode for textAlign().
+      LEFT     = :LEFT
+
+      # Mode for textAlign().
+      RIGHT    = :RIGHT
+
+      # Mode for textAlign().
+      TOP      = :TOP
+
+      # Mode for textAlign().
+      BOTTOM   = :BOTTOM
+
+      # Mode for textAlign().
+      BASELINE = :BASELINE
 
       # Mode for strokeCap().
       #
@@ -246,6 +261,8 @@ module RubySketch
         @rectMode__    = nil
         @ellipseMode__ = nil
         @imageMode__   = nil
+        @textAlignH__  = nil
+        @textAlignV__  = nil
         @matrixStack__ = []
         @styleStack__  = []
 
@@ -254,6 +271,7 @@ module RubySketch
         rectMode    CORNER
         ellipseMode CENTER
         imageMode   CORNER
+        textAlign   LEFT
 
         fill 255
         stroke 0
@@ -527,6 +545,23 @@ module RubySketch
       def textSize (size)
         setFont__ @painter__.font.name, size
         nil
+      end
+
+      def textWidth (str)
+        @painter__.font.width str
+      end
+
+      def textAscent ()
+        @painter__.font.ascent
+      end
+
+      def textDescent ()
+        @painter__.font.descent
+      end
+
+      def textAlign (horizontal, vertical = BASELINE)
+        @textAlignH__ = horizontal
+        @textAlignV__ = vertical
       end
 
       # @private
