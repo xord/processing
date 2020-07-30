@@ -12,7 +12,7 @@ module RubySketch
 
       # @private
       def initialize (image)
-        @image__ = image
+        @image = image
       end
 
       # Gets width of image.
@@ -20,7 +20,7 @@ module RubySketch
       # @return [Numeric] width of image
       #
       def width ()
-        @image__.width
+        @image.width
       end
 
       # Gets height of image.
@@ -28,7 +28,7 @@ module RubySketch
       # @return [Numeric] height of image
       #
       def height ()
-        @image__.height
+        @image.height
       end
 
       # Resizes image.
@@ -39,8 +39,8 @@ module RubySketch
       # @return [nil] nil
       #
       def resize (width, height)
-        @image__ = Rays::Image.new(width, height).paint do |painter|
-          painter.image @image__, 0, 0, width, height
+        @image = Rays::Image.new(width, height).paint do |painter|
+          painter.image @image, 0, 0, width, height
         end
         nil
       end
@@ -64,7 +64,7 @@ module RubySketch
       #
       def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
         img ||= self
-        @image__.paint do |painter|
+        @image.paint do |painter|
           painter.image img.getInternal__, sx, sy, sw, sh, dx, dy, dw, dh
         end
       end
@@ -74,12 +74,12 @@ module RubySketch
       # @param filename [String] file name to save image
       #
       def save (filename)
-        @image__.save filename
+        @image.save filename
       end
 
       # @private
       def getInternal__ ()
-        @image__
+        @image
       end
 
     end# Image
