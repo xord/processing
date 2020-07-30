@@ -111,6 +111,10 @@ module RubySketch
         @point.z = z
       end
 
+      def array ()
+        @point.to_a 3
+      end
+
       def add (*args)
         @point += toVector__(*args).getInternal__
         self
@@ -149,26 +153,61 @@ module RubySketch
 
       def self.add (v1, v2, target = nil)
         v = v1 + v2
-        target.set v if target
+        target.set v if self === target
         v
       end
 
       def self.sub (v1, v2, target = nil)
         v = v1 - v2
-        target.set v if target
+        target.set v if self === target
         v
       end
 
       def self.mult (v1, num, target = nil)
         v = v1 * num
-        target.set v if target
+        target.set v if self === target
         v
       end
 
       def self.div (v1, num, target = nil)
         v = v1 / num
-        target.set v if target
+        target.set v if self === target
         v
+      end
+
+      def mag ()
+        @point.length
+      end
+
+      def magSq ()
+        Rays::Point::dot(@point, @point)
+      end
+
+      def dist (o)
+        (self - o).mag
+      end
+
+      def self.dist (v1, v2)
+        v1.dist v2
+      end
+
+      def dot (*args)
+        Rays::Point::dot getInternal__, toVector__(*args).getInternal__
+      end
+
+      def self.dot (v1, v2)
+        v1.dot v2
+      end
+
+      def cross (o, *args)
+        target = self.class === args.last ? args.pop : nil
+        v = self.class.new Rays::Point::cross getInternal__, toVector__(o, *args).getInternal__
+        target.set v if self.class === target
+        v
+      end
+
+      def self.cross (v1, v2, target = nil)
+        v1.cross v2, target
       end
 
       # Rotate the vector.

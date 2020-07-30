@@ -89,6 +89,10 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal vec(7, 8, 9), v
   end
 
+  def test_array ()
+    assert_equal [1, 2, 3], vec(1, 2, 3).array
+  end
+
   def test_add ()
     v = vec 1, 2, 3
     v.add 4, 5, 6
@@ -221,6 +225,95 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal vec(1, 2, 3), V.div(v1, 2, result)
     assert_equal vec(2, 4, 6), v1
     assert_equal vec(1, 2, 3), result
+  end
+
+  def test_mag ()
+    assert_in_delta Math.sqrt(5),  vec(1, 2)   .mag, 0.000001
+    assert_in_delta Math.sqrt(14), vec(1, 2, 3).mag, 0.000001
+  end
+
+  def test_magSq ()
+    assert_equal 5,  vec(1, 2)   .magSq
+    assert_equal 14, vec(1, 2, 3).magSq
+  end
+
+  def test_setMag ()
+  end
+
+  def test_dist ()
+    v1 = vec 1, 2, 3
+    v2 = vec 4, 5, 6
+
+    assert_in_delta Math.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), v1.dist(v2), 0.000001
+    assert_equal vec(1, 2, 3), v1
+    assert_equal vec(4, 5, 6), v2
+
+    assert_in_delta Math.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), V.dist(v1, v2), 0.000001
+    assert_equal vec(1, 2, 3), v1
+    assert_equal vec(4, 5, 6), v2
+  end
+
+  def test_normalize ()
+  end
+
+  def test_limit ()
+  end
+
+  def test_dot ()
+    v1 = vec 1, 2, 3
+    v2 = vec 4, 5, 6
+
+    assert_equal 1*4 + 2*5 + 3*6, v1.dot(4, 5, 6)
+    assert_equal vec(1, 2, 3), v1
+
+    assert_equal 1*4 + 2*5 + 3*6, v1.dot(v2)
+    assert_equal vec(1, 2, 3), v1
+    assert_equal vec(4, 5, 6), v2
+
+    assert_equal 1*4 + 2*5 + 3*6, V.dot(v1, v2)
+    assert_equal vec(1, 2, 3), v1
+    assert_equal vec(4, 5, 6), v2
+  end
+
+  def test_cross ()
+    v1 = vec 1, 0, 0
+    v2 = vec 0, 1, 0
+
+    assert_equal vec(0, 0, 1), v1.cross(0, 1, 0)
+    assert_equal vec(1, 0, 0), v1
+
+    result = vec 1, 2, 3
+    assert_equal vec(0, 0, 1), v1.cross(v2, result)
+    assert_equal vec(1, 0, 0), v1
+    assert_equal vec(0, 1, 0), v2
+    assert_equal vec(0, 0, 1), result
+
+    result = vec 1, 2, 3
+    assert_equal vec(0, 0, 1), V.cross(v1, v2, result)
+    assert_equal vec(1, 0, 0), v1
+    assert_equal vec(0, 1, 0), v2
+    assert_equal vec(0, 0, 1), result
+  end
+
+  def test_rotate ()
+  end
+
+  def test_fromAngle ()
+  end
+
+  def test_heading ()
+  end
+
+  def test_angleBetween ()
+  end
+
+  def test_lerp ()
+  end
+
+  def test_random2D ()
+  end
+
+  def test_random3D ()
   end
 
 end# TestProcessingVector
