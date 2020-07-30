@@ -54,7 +54,7 @@ module RubySketch
       #
       def set (*args)
         initialize *args
-        nil
+        self
       end
 
       def initialize_copy (o)
@@ -181,6 +181,14 @@ module RubySketch
 
       def magSq ()
         Rays::Point::dot(@point, @point)
+      end
+
+      def setMag (target = nil, len)
+        (target || self).set @point.normal * len
+      end
+
+      def normalize (target = nil)
+        (target || self).set @point.normal
       end
 
       def dist (o)

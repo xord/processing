@@ -238,6 +238,31 @@ class TestProcessingVector < Test::Unit::TestCase
   end
 
   def test_setMag ()
+    v = vec 3, 4, 0
+    assert_equal vec(6, 8, 0), v.setMag(10)
+    assert_equal vec(6, 8, 0), v
+
+    v      = vec 3, 4, 0
+    result = vec
+    assert_equal vec(6, 8, 0), v.setMag(result, 10)
+    assert_equal vec(3, 4, 0), v
+    assert_equal vec(6, 8, 0), result
+  end
+
+  def test_normalize ()
+    v      = vec 1, 2, 3
+    normal = v / v.mag
+    assert_equal normal, v.normalize
+    assert_equal normal, v
+
+    v      = vec 1, 2, 3
+    result = vec
+    assert_equal normal,       v.normalize(result)
+    assert_equal vec(1, 2, 3), v
+    assert_equal normal,       result
+  end
+
+  def test_limit ()
   end
 
   def test_dist ()
@@ -251,12 +276,6 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_in_delta Math.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), V.dist(v1, v2), 0.000001
     assert_equal vec(1, 2, 3), v1
     assert_equal vec(4, 5, 6), v2
-  end
-
-  def test_normalize ()
-  end
-
-  def test_limit ()
   end
 
   def test_dot ()
