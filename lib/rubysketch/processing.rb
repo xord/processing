@@ -6,6 +6,199 @@ module RubySketch
   module Processing
 
 
+    # Vector class.
+    #
+    class Vector
+
+      include Comparable
+
+      # Initialize vector object.
+      #
+      # @overload new()
+      # @overload new(x)
+      # @overload new(x, y)
+      # @overload new(x, y, z)
+      # @overload new(v)
+      # @overload new(a)
+      #
+      # @param x [Numeric] x of vector
+      # @param y [Numeric] y of vector
+      # @param z [Numeric] z of vector
+      # @param v [Vector]  vector object to copy
+      # @param a [Array]   array like [x, y, z]
+      #
+      def initialize (x = 0, y = 0, z = 0)
+        @point = case x
+          when Rays::Point then x.dup
+          when Vector      then x.getInternal__.dup
+          when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
+          else                  Rays::Point.new x    || 0, y    || 0, z    || 0
+          end
+      end
+
+      # Sets x, y and z.
+      #
+      # @overload set(x)
+      # @overload set(x, y)
+      # @overload set(x, y, z)
+      # @overload set(v)
+      # @overload set(a)
+      #
+      # @param x [Numeric] x of vector
+      # @param y [Numeric] y of vector
+      # @param z [Numeric] z of vector
+      # @param v [Vector]  vector object to copy
+      # @param a [Array]   array with x, y, z
+      #
+      # @return [nil] nil
+      #
+      def set (*args)
+        initialize *args
+        nil
+      end
+
+      def initialize_copy (o)
+        @point = o.getInternal__.dup
+      end
+
+      alias copy dup
+
+      # Gets x value.
+      #
+      # @return [Numeric] x value of vector
+      #
+      def x ()
+        @point.x
+      end
+
+      # Gets y value.
+      #
+      # @return [Numeric] y value of vector
+      #
+      def y ()
+        @point.y
+      end
+
+      # Gets z value.
+      #
+      # @return [Numeric] z value of vector
+      #
+      def z ()
+        @point.z
+      end
+
+      # Sets x value.
+      #
+      # @return [Numeric] x value of vector
+      #
+      def x= (x)
+        @point.x = x
+      end
+
+      # Sets y value.
+      #
+      # @return [Numeric] y value of vector
+      #
+      def y= (y)
+        @point.y = y
+      end
+
+      # Sets z value.
+      #
+      # @return [Numeric] z value of vector
+      #
+      def z= (z)
+        @point.z = z
+      end
+
+      def add (*args)
+        @point += toVector__(*args).getInternal__
+        self
+      end
+
+      def sub (*args)
+        @point -= toVector__(*args).getInternal__
+        self
+      end
+
+      def mult (num)
+        @point *= num
+        self
+      end
+
+      def div (num)
+        @point /= num
+        self
+      end
+
+      def + (o)
+        dup.add o
+      end
+
+      def - (o)
+        dup.sub o
+      end
+
+      def * (o)
+        dup.mult o
+      end
+
+      def / (o)
+        dup.div o
+      end
+
+      def self.add (v1, v2, target = nil)
+        v = v1 + v2
+        target.set v if target
+        v
+      end
+
+      def self.sub (v1, v2, target = nil)
+        v = v1 - v2
+        target.set v if target
+        v
+      end
+
+      def self.mult (v1, num, target = nil)
+        v = v1 * num
+        target.set v if target
+        v
+      end
+
+      def self.div (v1, num, target = nil)
+        v = v1 / num
+        target.set v if target
+        v
+      end
+
+      # Rotate the vector.
+      #
+      # @param angle [Numeric] the angle of rotation
+      #
+      # @return [Vector] rotated this object
+      #
+      def rotate (angle)
+        @p.rotate! to_angle__ angle
+        self
+      end
+
+      def <=> (o)
+        @point <=> o.getInternal__
+      end
+
+      # @private
+      protected def getInternal__ ()
+        @point
+      end
+
+      # @private
+      private def toVector__ (*args)
+        self.class === args.first ? args.first : self.class.new(*args)
+      end
+
+    end# Vector
+
+
     # Image object.
     #
     class Image

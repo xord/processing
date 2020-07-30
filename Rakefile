@@ -18,6 +18,7 @@ MODULES = [Xot, Rucy, Rays, Reflex, RubySketch]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
+test_ruby_extension
 generate_documents
 build_ruby_gem
 
