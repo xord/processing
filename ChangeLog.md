@@ -1,6 +1,11 @@
 # RubySketch ChangeLog
 
 
+## [0.3.3] - 2020-08-01
+
+- add Vector class
+
+
 ## [0.3.2] - 2020-07-22
 
 - text() draws to the baseline by default
