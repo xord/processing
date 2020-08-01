@@ -1628,7 +1628,7 @@ module RubySketch
     #
     module Context
 
-      include GraphicsContext, Utility, Math
+      include GraphicsContext, Math
 
       @@context__ = nil
 
