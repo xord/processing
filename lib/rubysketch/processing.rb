@@ -1904,6 +1904,13 @@ module RubySketch
         Vector.new *args
       end
 
+      # Creates a new off-screen graphics context object.
+      #
+      # @param width  [Numeric] width of graphics image
+      # @param height [Numeric] height of graphics image
+      #
+      # @return [Graphics] graphics object
+      #
       def createGraphics (width, height)
         Graphics.new width, height
       end
