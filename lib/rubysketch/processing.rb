@@ -1863,6 +1863,10 @@ module RubySketch
         @redraw__ = true
       end
 
+      #
+      # Utility functions
+      #
+
       # Converts degree to radian.
       #
       # @param degree [Numeric] degree to convert
