@@ -1,6 +1,11 @@
 # RubySketch ChangeLog
 
 
+## [0.3.4] - 2020-08-02
+
+- delete Utility module
+
+
 ## [0.3.3] - 2020-08-01
 
 - add Vector class
