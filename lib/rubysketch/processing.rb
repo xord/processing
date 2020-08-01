@@ -6,6 +6,13 @@ module RubySketch
   module Processing
 
 
+    # @private
+    DEG2RAD__ = Math::PI / 180.0
+
+    # @private
+    RAD2DEG__ = 180.0 / Math::PI
+
+
     # Vector class.
     #
     class Vector
@@ -464,7 +471,7 @@ module RubySketch
       # @return [Vector] rotated this object
       #
       def rotate (angle)
-        angle = @context ? @context.toAngle__(angle) : angle * Utility::RAD2DEG__
+        angle = @context ? @context.toAngle__(angle) : angle * RAD2DEG__
         @point.rotate! angle
         self
       end
@@ -915,7 +922,7 @@ module RubySketch
       #
       def angleMode (mode)
         @angleScale__ = case mode.upcase.to_sym
-          when RADIANS then Utility::RAD2DEG__
+          when RADIANS then RAD2DEG__
           when DEGREES then 1.0
           else raise ArgumentError, "invalid angle mode: #{mode}"
           end
@@ -1854,6 +1861,296 @@ module RubySketch
       #
       def redraw ()
         @redraw__ = true
+      end
+
+      # Converts degree to radian.
+      #
+      # @param degree [Numeric] degree to convert
+      #
+      # @return [Numeric] radian
+      #
+      def radians (degree)
+        degree * DEG2RAD__
+      end
+
+      # Converts radian to degree.
+      #
+      # @param radian [Numeric] radian to convert
+      #
+      # @return [Numeric] degree
+      #
+      def degrees (radian)
+        radian * RAD2DEG__
+      end
+
+      # Returns the absolute number of the value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] absolute number
+      #
+      def abs (value)
+        value.abs
+      end
+
+      # Returns the closest integer number greater than or equal to the value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] rounded up number
+      #
+      def ceil (value)
+        value.ceil
+      end
+
+      # Returns the closest integer number less than or equal to the value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] rounded down number
+      #
+      def floor (value)
+        value.floor
+      end
+
+      # Returns the closest integer number.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] rounded number
+      #
+      def round (value)
+        value.round
+      end
+
+      # Returns value raised to the power of exponent.
+      #
+      # @param value    [Numeric] base number
+      # @param exponent [Numeric] exponent number
+      #
+      # @return [Numeric] value ** exponent
+      #
+      def pow (value, exponent)
+        value ** exponent
+      end
+
+      # Returns squared value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] squared value
+      #
+      def sq (value)
+        value * value
+      end
+
+      # Returns the magnitude (or length) of a vector.
+      #
+      # @overload mag(x, y)
+      # @overload mag(x, y, z)
+      #
+      # @param x [Numeric] x of point
+      # @param y [Numeric] y of point
+      # @param z [Numeric] z of point
+      #
+      # @return [Numeric] magnitude
+      #
+      def mag (*args)
+        x, y, z = *args
+        case args.size
+        when 2 then Math.sqrt x * x + y * y
+        when 3 then Math.sqrt x * x + y * y + z * z
+        else raise ArgumentError
+        end
+      end
+
+      # Returns distance between 2 points.
+      #
+      # @overload dist(x1, y1, x2, y2)
+      # @overload dist(x1, y1, z1, x2, y2, z2)
+      #
+      # @param x1 [Numeric] x of first point
+      # @param y1 [Numeric] y of first point
+      # @param z1 [Numeric] z of first point
+      # @param x2 [Numeric] x of second point
+      # @param y2 [Numeric] y of second point
+      # @param z2 [Numeric] z of second point
+      #
+      # @return [Numeric] distance between 2 points
+      #
+      def dist (*args)
+        case args.size
+        when 4
+          x1, y1, x2, y2 = *args
+          xx, yy = x2 - x1, y2 - y1
+          Math.sqrt xx * xx + yy * yy
+        when 3
+          x1, y1, z1, x2, y2, z2 = *args
+          xx, yy, zz = x2 - x1, y2 - y1, z2 - z1
+          Math.sqrt xx * xx + yy * yy + zz * zz
+        else raise ArgumentError
+        end
+      end
+
+      # Normalize the value from range start..stop into 0..1.
+      #
+      # @param value [Numeric] number to be normalized
+      # @param start [Numeric] lower bound of the range
+      # @param stop  [Numeric] upper bound of the range
+      #
+      # @return [Numeric] normalized value between 0..1
+      #
+      def norm (value, start, stop)
+        (value.to_f - start.to_f) / (stop.to_f - start.to_f)
+      end
+
+      # Returns the interpolated number between range start..stop.
+      #
+      # @param start  [Numeric] lower bound of the range
+      # @param stop   [Numeric] upper bound of the range
+      # @param amount [Numeric] amount to interpolate
+      #
+      # @return [Numeric] interporated number
+      #
+      def lerp (start, stop, amount)
+        start + (stop - start) * amount
+      end
+
+      # Maps a number from range start1..stop1 to range start2..stop2.
+      #
+      # @param value  [Numeric] number to be mapped
+      # @param start1 [Numeric] lower bound of the range1
+      # @param stop1  [Numeric] upper bound of the range1
+      # @param start2 [Numeric] lower bound of the range2
+      # @param stop2  [Numeric] upper bound of the range2
+      #
+      # @return [Numeric] mapped number
+      #
+      def map (value, start1, stop1, start2, stop2)
+        lerp start2, stop2, norm(value, start1, stop1)
+      end
+
+      # Returns minimum value.
+      #
+      # @overload min(a, b)
+      # @overload min(a, b, c)
+      # @overload min(array)
+      #
+      # @param a     [Numeric] value to compare
+      # @param b     [Numeric] value to compare
+      # @param c     [Numeric] value to compare
+      # @param array [Numeric] values to compare
+      #
+      # @return [Numeric] minimum value
+      #
+      def min (*args)
+        args.flatten.min
+      end
+
+      # Returns maximum value.
+      #
+      # @overload max(a, b)
+      # @overload max(a, b, c)
+      # @overload max(array)
+      #
+      # @param a     [Numeric] value to compare
+      # @param b     [Numeric] value to compare
+      # @param c     [Numeric] value to compare
+      # @param array [Numeric] values to compare
+      #
+      # @return [Numeric] maximum value
+      #
+      def max (*args)
+        args.flatten.max
+      end
+
+      # Constrains the number between min..max.
+      #
+      # @param value [Numeric] number to be constrained
+      # @param min   [Numeric] lower bound of the range
+      # @param max   [Numeric] upper bound of the range
+      #
+      # @return [Numeric] constrained number
+      #
+      def constrain (value, min, max)
+        value < min ? min : (value > max ? max : value)
+      end
+
+      # Returns the perlin noise value.
+      #
+      # @overload noise(x)
+      # @overload noise(x, y)
+      # @overload noise(x, y, z)
+      #
+      # @param x [Numeric] horizontal point in noise space
+      # @param y [Numeric] vertical point in noise space
+      # @param z [Numeric] depth point in noise space
+      #
+      # @return [Numeric] noise value (0.0..1.0)
+      #
+      def noise (x, y = 0, z = 0)
+        Rays.perlin(x, y, z) / 2.0 + 0.5
+      end
+
+      # Creates a new vector.
+      #
+      # @overload createVector()
+      # @overload createVector(x, y)
+      # @overload createVector(x, y, z)
+      #
+      # @param x [Numeric] x of new vector
+      # @param y [Numeric] y of new vector
+      # @param z [Numeric] z of new vector
+      #
+      # @return [Vector] new vector
+      #
+      def createVector (*args)
+        Vector.new *args
+      end
+
+      # Creates a new off-screen graphics context object.
+      #
+      # @param width  [Numeric] width of graphics image
+      # @param height [Numeric] height of graphics image
+      #
+      # @return [Graphics] graphics object
+      #
+      def createGraphics (width, height)
+        Graphics.new width, height
+      end
+
+      # Loads image.
+      #
+      # @param filename  [String] file name to load image
+      # @param extension [String] type of image to load (ex. 'png')
+      #
+      # @return [Image] loaded image object
+      #
+      def loadImage (filename, extension = nil)
+        filename = getImage__ filename, extension if filename =~ %r|^https?://|
+        Image.new Rays::Image.load filename
+      end
+
+      # @private
+      private def getImage__ (uri, ext)
+        ext ||= File.extname uri
+        raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png)$/i
+
+        tmpdir = Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
+        path   = tmpdir + Digest::SHA1.hexdigest(uri)
+        path   = path.sub_ext ext
+
+        unless path.file?
+          URI.open uri do |input|
+            tmpdir.mkdir unless tmpdir.directory?
+            path.open('w') do |output|
+              while buf = input.read(2 ** 16)
+                output.write buf
+              end
+            end
+          end
+        end
+        path.to_s
       end
 
     end# Context
