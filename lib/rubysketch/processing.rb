@@ -27,13 +27,14 @@ module RubySketch
       # @param v [Vector]  vector object to copy
       # @param a [Array]   array like [x, y, z]
       #
-      def initialize (x = 0, y = 0, z = 0)
+      def initialize (x = 0, y = 0, z = 0, context: context)
         @point = case x
           when Rays::Point then x.dup
           when Vector      then x.getInternal__.dup
           when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
           else                  Rays::Point.new x    || 0, y    || 0, z    || 0
           end
+        @context = context
       end
 
       # Sets x, y and z.
@@ -109,6 +110,18 @@ module RubySketch
       #
       def z= (z)
         @point.z = z
+      end
+
+      def lerp (*args, amount)
+        v      = toVector__ *args
+        self.x = x + (v.x - x) * amount
+        self.y = y + (v.y - y) * amount
+        self.z = z + (v.z - z) * amount
+        self
+      end
+
+      def self.lerp (v1, v2, amount)
+        v1.dup.lerp v2, amount
       end
 
       def array ()
@@ -191,6 +204,11 @@ module RubySketch
         (target || self).set @point.normal
       end
 
+      def limit (max)
+        setMag max if magSq > max ** 2
+        self
+      end
+
       def dist (o)
         (self - o).mag
       end
@@ -225,8 +243,51 @@ module RubySketch
       # @return [Vector] rotated this object
       #
       def rotate (angle)
-        @p.rotate! to_angle__ angle
+        angle = @context ? @context.toAngle__(angle) : angle * Utility::RAD2DEG__
+        @point.rotate! angle
         self
+      end
+
+      def heading ()
+        Math.atan2 y, x
+      end
+
+      def self.fromAngle (angle, target = nil)
+        v = self.new(1, 0, 0).rotate(angle)
+        target.set v if target
+        v
+      end
+
+      def self.angleBetween (v1, v2)
+        x1, y1, z1 = v1.array
+        x2, y2, z2 = v2.array
+        return 0 if (x1 == 0 && y1 == 0 && z1 == 0) || (x2 == 0 && y2 == 0 && z2 == 0)
+
+        x = dot(v1, v2) / (v1.mag * v2.mag)
+        return Math::PI if x <= -1
+        return 0        if x >= 1
+        return Math.acos x
+      end
+
+      def self.random2D (target = nil)
+        v = self.fromAngle rand 0.0...(Math::PI * 2)
+        target.set v if target
+        v
+      end
+
+      def self.random3D (target = nil)
+        angle = rand 0.0...(Math::PI * 2)
+        z     = rand -1.0..1.0
+        z2    = z ** 2
+        x     = Math.sqrt(1.0 - z2) * Math.cos(angle)
+        y     = Math.sqrt(1.0 - z2) * Math.sin(angle)
+        v     = self.new x, y, z
+        target.set v if target
+        v
+      end
+
+      def inspect ()
+        "<##{self.class.name} #{x}, #{y}, #{z}>"
       end
 
       def <=> (o)
@@ -609,7 +670,7 @@ module RubySketch
       end
 
       # @private
-      private def toAngle__ (angle)
+      protected def toAngle__ (angle)
         angle * @angleScale__
       end
 
@@ -1265,12 +1326,12 @@ module RubySketch
       end
 
       # @private
-      def getInternal__ ()
+      private def getInternal__ ()
         @image__
       end
 
       # @private
-      def assertDrawing__ ()
+      private def assertDrawing__ ()
         raise "call beginDraw() before drawing" unless @drawing
       end
 

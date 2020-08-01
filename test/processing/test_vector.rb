@@ -8,6 +8,10 @@ class TestProcessingVector < Test::Unit::TestCase
 
   V = RubySketch::Processing::Vector
 
+  M = Math
+
+  PI = M::PI
+
   def vec (*args)
     V.new *args
   end
@@ -228,8 +232,8 @@ class TestProcessingVector < Test::Unit::TestCase
   end
 
   def test_mag ()
-    assert_in_delta Math.sqrt(5),  vec(1, 2)   .mag, 0.000001
-    assert_in_delta Math.sqrt(14), vec(1, 2, 3).mag, 0.000001
+    assert_in_delta M.sqrt(5),  vec(1, 2)   .mag, 0.000001
+    assert_in_delta M.sqrt(14), vec(1, 2, 3).mag, 0.000001
   end
 
   def test_magSq ()
@@ -263,17 +267,25 @@ class TestProcessingVector < Test::Unit::TestCase
   end
 
   def test_limit ()
+    v = vec 1, 2, 3
+    assert_in_delta 1, v.limit(1).mag, 0.000001
+    assert_in_delta 1, v         .mag, 0.000001
+
+    assert_in_delta 1,                vec(1, 2, 3).limit(1).mag, 0.000001
+    assert_in_delta 2,                vec(1, 2, 3).limit(2).mag, 0.000001
+    assert_in_delta 3,                vec(1, 2, 3).limit(3).mag, 0.000001
+    assert_in_delta vec(1, 2, 3).mag, vec(1, 2, 3).limit(4).mag, 0.000001
   end
 
   def test_dist ()
     v1 = vec 1, 2, 3
     v2 = vec 4, 5, 6
 
-    assert_in_delta Math.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), v1.dist(v2), 0.000001
+    assert_in_delta M.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), v1.dist(v2), 0.000001
     assert_equal vec(1, 2, 3), v1
     assert_equal vec(4, 5, 6), v2
 
-    assert_in_delta Math.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), V.dist(v1, v2), 0.000001
+    assert_in_delta M.sqrt((4-1)**2 + (5-2)**2 + (6-3)**2), V.dist(v1, v2), 0.000001
     assert_equal vec(1, 2, 3), v1
     assert_equal vec(4, 5, 6), v2
   end
@@ -315,24 +327,69 @@ class TestProcessingVector < Test::Unit::TestCase
   end
 
   def test_rotate ()
+    angle   = PI * 2 * 0.1
+    context = Object.new.tap {|o| def o.toAngle__ (angle); angle; end}
+
+    v = vec 1, 0, 0
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), v.rotate(angle)
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), v
+
+    v = vec 1, 0, 0, context: context
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), v.rotate(36)
   end
 
   def test_fromAngle ()
+    angle  = PI * 2 * 0.1
+    result = vec
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), V.fromAngle(angle)
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), V.fromAngle(angle, result)
+    assert_equal vec(M.cos(angle), M.sin(angle), 0), result
   end
 
   def test_heading ()
+    angle = PI * 1 * 0.1
+    assert_in_delta  angle, V.fromAngle( angle).heading, 0.000001
+    assert_in_delta -angle, V.fromAngle(-angle).heading, 0.000001
   end
 
   def test_angleBetween ()
+    v1 = V.fromAngle PI * 0.25
+    v2 = V.fromAngle PI * 0.75
+    assert_in_delta PI / 2, V.angleBetween(v1, v2), 0.000001
   end
 
   def test_lerp ()
+    assert_equal vec(0.5, 0.5, 0.5), vec(0, 0, 0).lerp(vec(1, 1, 1),    0.5)
+    assert_equal vec(0.5, 0.5, 0.5), vec(0, 0, 0).lerp(    1, 1, 1,     0.5)
+    assert_equal vec(0.5, 0.5, 0.5), V.lerp(vec(0, 0, 0), vec(1, 1, 1), 0.5)
   end
 
   def test_random2D ()
+    v1 = V.random2D
+    v2 = V.random2D
+    assert          v1.x != 0
+    assert          v1.y != 0
+    assert_equal 0, v1.z
+    assert          v2.x != 0
+    assert          v2.y != 0
+    assert_equal 0, v2.z
+    assert_not_equal v1, v2
+    assert_in_delta 1, v1.mag, 0.000001
+    assert_in_delta 1, v2.mag, 0.000001
   end
 
   def test_random3D ()
+    v1 = V.random3D
+    v2 = V.random3D
+    assert v1.x != 0
+    assert v1.y != 0
+    assert v1.z != 0
+    assert v2.x != 0
+    assert v2.y != 0
+    assert v2.z != 0
+    assert_not_equal v1, v2
+    assert_in_delta 1, v1.mag, 0.000001
+    assert_in_delta 1, v2.mag, 0.000001
   end
 
 end# TestProcessingVector
