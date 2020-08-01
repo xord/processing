@@ -6,7 +6,9 @@ require_relative '../helper'
 
 class TestProcessingVector < Test::Unit::TestCase
 
-  V = RubySketch::Processing::Vector
+  P = RubySketch::Processing
+
+  V = P::Vector
 
   M = Math
 
@@ -328,11 +330,7 @@ class TestProcessingVector < Test::Unit::TestCase
 
   def test_rotate ()
     angle   = PI * 2 * 0.1
-    context = Object.new.tap do |o|
-      def o.toAngle__ (a)
-        a * 2 * RubySketch::Processing::Utility::RAD2DEG__
-      end
-    end
+    context = Object.new.tap {|o| def o.toAngle__ (a); a * 2 * P::RAD2DEG__; end}
 
     v = vec 1, 0, 0
     assert_equal_vector vec(M.cos(angle), M.sin(angle), 0), v.rotate(angle)
