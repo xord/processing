@@ -1854,6 +1854,33 @@ module RubySketch
         Rays.perlin(x, y, z) / 2.0 + 0.5
       end
 
+      # Creates a new vector.
+      #
+      # @overload createVector()
+      # @overload createVector(x, y)
+      # @overload createVector(x, y, z)
+      #
+      # @param x [Numeric] x of new vector
+      # @param y [Numeric] y of new vector
+      # @param z [Numeric] z of new vector
+      #
+      # @return [Vector] new vector
+      #
+      def createVector (*args)
+        Vector.new *args
+      end
+
+      # Creates a new off-screen graphics context object.
+      #
+      # @param width  [Numeric] width of graphics image
+      # @param height [Numeric] height of graphics image
+      #
+      # @return [Graphics] graphics object
+      #
+      def createGraphics (width, height)
+        Graphics.new width, height
+      end
+
       # Loads image.
       #
       # @param filename  [String] file name to load image
@@ -1886,33 +1913,6 @@ module RubySketch
           end
         end
         path.to_s
-      end
-
-      # Creates a new vector.
-      #
-      # @overload createVector()
-      # @overload createVector(x, y)
-      # @overload createVector(x, y, z)
-      #
-      # @param x [Numeric] x of new vector
-      # @param y [Numeric] y of new vector
-      # @param z [Numeric] z of new vector
-      #
-      # @return [Vector] new vector
-      #
-      def createVector (*args)
-        Vector.new *args
-      end
-
-      # Creates a new off-screen graphics context object.
-      #
-      # @param width  [Numeric] width of graphics image
-      # @param height [Numeric] height of graphics image
-      #
-      # @return [Graphics] graphics object
-      #
-      def createGraphics (width, height)
-        Graphics.new width, height
       end
 
     end# Utility
