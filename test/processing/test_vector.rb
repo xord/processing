@@ -149,9 +149,10 @@ class TestProcessingVector < Test::Unit::TestCase
 
   def test_op_add ()
     v1 = vec 1, 2, 3
-    v2 = v1 + vec(4, 5, 6)
+    v2 = vec 4, 5, 6
+    assert_equal vec(5, 7, 9), v1 + v2
     assert_equal vec(1, 2, 3), v1
-    assert_equal vec(5, 7, 9), v2
+    assert_equal vec(4, 5, 6), v2
 
     assert_equal vec(5, 2, 3), vec(1, 2, 3) + 4
 
@@ -166,9 +167,10 @@ class TestProcessingVector < Test::Unit::TestCase
 
   def test_op_sub ()
     v1 = vec 9, 8, 7
-    v2 = v1 - vec(1, 2, 3)
+    v2 = vec 1, 2, 3
+    assert_equal vec(8, 6, 4), v1 - v2
     assert_equal vec(9, 8, 7), v1
-    assert_equal vec(8, 6, 4), v2
+    assert_equal vec(1, 2, 3), v2
 
     assert_equal vec(8, 8, 7), vec(9, 8, 7) - 1
 
@@ -182,17 +184,15 @@ class TestProcessingVector < Test::Unit::TestCase
   end
 
   def test_op_mult ()
-    v1 = vec 1, 2, 3
-    v2 = v1 * 2
-    assert_equal vec(1, 2, 3), v1
-    assert_equal vec(2, 4, 6), v2
+    v = vec 1, 2, 3
+    assert_equal vec(2, 4, 6), v * 2
+    assert_equal vec(1, 2, 3), v
   end
 
   def test_op_div ()
-    v1 = vec 2, 4, 6
-    v2 = v1 / 2
-    assert_equal vec(2, 4, 6), v1
-    assert_equal vec(1, 2, 3), v2
+    v = vec 2, 4, 6
+    assert_equal vec(1, 2, 3), v / 2
+    assert_equal vec(2, 4, 6), v
   end
 
   def test_fun_add ()
