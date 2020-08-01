@@ -27,14 +27,14 @@ module RubySketch
       # @param v [Vector]  vector object to copy
       # @param a [Array]   array like [x, y, z]
       #
-      def initialize (x = 0, y = 0, z = 0, context: context)
+      def initialize (x = 0, y = 0, z = 0, context: nil)
         @point = case x
           when Rays::Point then x.dup
           when Vector      then x.getInternal__.dup
           when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
           else                  Rays::Point.new x    || 0, y    || 0, z    || 0
           end
-        @context = context
+        @context = context || Context.context__
       end
 
       # Initializer for dup or clone
@@ -1924,8 +1924,16 @@ module RubySketch
 
       include GraphicsContext, Utility, Math
 
+      @@context__ = nil
+
+      def self.context__ ()
+        @@context__
+      end
+
       # @private
       def setup__ (window)
+        @@context__ = self
+
         @window__ = window
         @image__  = @window__.canvas
         super @window__.canvas_painter.paint {background 0.8}
