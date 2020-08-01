@@ -1888,6 +1888,22 @@ module RubySketch
         path.to_s
       end
 
+      # Creates a new vector.
+      #
+      # @overload createVector()
+      # @overload createVector(x, y)
+      # @overload createVector(x, y, z)
+      #
+      # @param x [Numeric] x of new vector
+      # @param y [Numeric] y of new vector
+      # @param z [Numeric] z of new vector
+      #
+      # @return [Vector] new vector
+      #
+      def createVector (*args)
+        Vector.new *args
+      end
+
       def createGraphics (width, height)
         Graphics.new width, height
       end
