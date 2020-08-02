@@ -732,6 +732,8 @@ module RubySketch
     #
     module GraphicsContext
 
+      Vector = Processing::Vector
+
       # PI / 2
       #
       HALF_PI    = Math::PI / 2
