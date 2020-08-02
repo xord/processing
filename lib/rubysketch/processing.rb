@@ -1865,9 +1865,7 @@ module RubySketch
         @redraw__ = true
       end
 
-      #
-      # Utility functions
-      #
+      module_function
 
       # Returns the absolute number of the value.
       #
