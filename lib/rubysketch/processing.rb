@@ -2169,6 +2169,20 @@ module RubySketch
         Rays.perlin(x, y, z) / 2.0 + 0.5
       end
 
+      # Returns a random number in range low...high
+      #
+      # @overload random(high)
+      # @overload random(low, high)
+      #
+      # @param low  [Numeric] lower limit
+      # @param high [Numeric] upper limit
+      #
+      # @return [Float] random number
+      #
+      def random (low = nil, high)
+        rand (low || 0).to_f...high.to_f
+      end
+
       # Creates a new vector.
       #
       # @overload createVector()
