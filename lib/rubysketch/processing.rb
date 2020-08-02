@@ -930,7 +930,7 @@ module RubySketch
       end
 
       # @private
-      protected def toAngle__ (angle)
+      def toAngle__ (angle)
         angle * @angleScale__
       end
 
