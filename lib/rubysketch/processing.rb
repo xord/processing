@@ -141,9 +141,9 @@ module RubySketch
       #
       def lerp (*args, amount)
         v      = toVector__ *args
-        self.x = x + (v.x - x) * amount
-        self.y = y + (v.y - y) * amount
-        self.z = z + (v.z - z) * amount
+        self.x = Context.lerp x, v.x, amount
+        self.y = Context.lerp y, v.y, amount
+        self.z = Context.lerp z, v.z, amount
         self
       end
 
