@@ -1869,26 +1869,6 @@ module RubySketch
       # Utility functions
       #
 
-      # Converts degree to radian.
-      #
-      # @param degree [Numeric] degree to convert
-      #
-      # @return [Numeric] radian
-      #
-      def radians (degree)
-        degree * DEG2RAD__
-      end
-
-      # Converts radian to degree.
-      #
-      # @param radian [Numeric] radian to convert
-      #
-      # @return [Numeric] degree
-      #
-      def degrees (radian)
-        radian * RAD2DEG__
-      end
-
       # Returns the absolute number of the value.
       #
       # @param value [Numeric] number
@@ -2080,6 +2060,97 @@ module RubySketch
       #
       def constrain (value, min, max)
         value < min ? min : (value > max ? max : value)
+      end
+
+      # Converts degree to radian.
+      #
+      # @param degree [Numeric] degree to convert
+      #
+      # @return [Numeric] radian
+      #
+      def radians (degree)
+        degree * DEG2RAD__
+      end
+
+      # Converts radian to degree.
+      #
+      # @param radian [Numeric] radian to convert
+      #
+      # @return [Numeric] degree
+      #
+      def degrees (radian)
+        radian * RAD2DEG__
+      end
+
+      # Returns the sine of an angle.
+      #
+      # @param angle [Numeric] angle in radians
+      #
+      # @return [Numeric] the sine
+      #
+      def sin (angle)
+        Math.sin angle
+      end
+
+      # Returns the cosine of an angle.
+      #
+      # @param angle [Numeric] angle in radians
+      #
+      # @return [Numeric] the cosine
+      #
+      def cos (angle)
+        Math.cos angle
+      end
+
+      # Returns the ratio of the sine and cosine of an angle.
+      #
+      # @param angle [Numeric] angle in radians
+      #
+      # @return [Numeric] the tangent
+      #
+      def tan (angle)
+        Math.tan angle
+      end
+
+      # Returns the inverse of sin().
+      #
+      # @param value [Numeric] value for calculation
+      #
+      # @return [Numeric] the arc sine
+      #
+      def asin (value)
+        Math.asin value
+      end
+
+      # Returns the inverse of cos().
+      #
+      # @param value [Numeric] value for calculation
+      #
+      # @return [Numeric] the arc cosine
+      #
+      def acos (value)
+        Math.acos value
+      end
+
+      # Returns the inverse of tan().
+      #
+      # @param value [Numeric] value for valculation
+      #
+      # @return [Numeric] the arc tangent
+      #
+      def atan (value)
+        Math.atan value
+      end
+
+      # Returns the angle from a specified point.
+      #
+      # @param y [Numeric] y of the point
+      # @param x [Numeric] x of the point
+      #
+      # @return [Numeric] the angle in radians
+      #
+      def atan2 (y, x)
+        Math.atan2 y, x
       end
 
       # Returns the perlin noise value.
