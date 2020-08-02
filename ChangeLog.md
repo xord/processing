@@ -1,6 +1,14 @@
 # RubySketch ChangeLog
 
 
+## [0.3.5] - 2020-08-02
+
+- add random()
+- add sin(), cos(), tan(), asin(), acos(), atan() and atan2()
+- make Vector class accessible from user script context
+- fix error on calling rotate()
+
+
 ## [0.3.4] - 2020-08-02
 
 - delete Utility module
