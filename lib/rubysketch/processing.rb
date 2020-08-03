@@ -2169,16 +2169,21 @@ module RubySketch
 
       # Returns a random number in range low...high
       #
+      # @overload random()
       # @overload random(high)
       # @overload random(low, high)
+      # @overload random(choices)
       #
-      # @param low  [Numeric] lower limit
-      # @param high [Numeric] upper limit
+      # @param low     [Numeric] lower limit
+      # @param high    [Numeric] upper limit
+      # @param choices [Array]   array to choose from
       #
       # @return [Float] random number
       #
-      def random (low = nil, high)
-        rand (low || 0).to_f...high.to_f
+      def random (*args)
+        return args.first.sample if args.first.kind_of? Array
+        high, low = args.reverse
+        rand (low || 0).to_f...(high || 1).to_f
       end
 
       # Creates a new vector.
