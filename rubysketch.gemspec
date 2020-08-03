@@ -39,6 +39,4 @@ Gem::Specification.new do |s|
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
   s.extra_rdoc_files = rdocs.to_a
   s.has_rdoc         = true
-
-  s.extensions << 'Rakefile'
 end
