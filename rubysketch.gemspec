@@ -28,15 +28,9 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '~> 2'
 
-  s.add_runtime_dependency 'yard'
-  s.add_runtime_dependency 'xot',       '~> 0.1'
-  s.add_runtime_dependency 'beeps',     '~> 0.1'
-  s.add_runtime_dependency 'rucy',      '~> 0.1'
-  s.add_runtime_dependency 'rays',      '~> 0.1'
   s.add_runtime_dependency 'reflexion', '~> 0.1'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
   s.extra_rdoc_files = rdocs.to_a
-  s.has_rdoc         = true
 end
