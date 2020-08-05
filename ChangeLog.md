@@ -1,6 +1,12 @@
 # RubySketch ChangeLog
 
 
+## [0.3.6] - 2020-08-02
+
+- random() can take array or nothing
+- use github actions to release gem package
+
+
 ## [0.3.5] - 2020-08-02
 
 - add random()
