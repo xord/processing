@@ -1588,7 +1588,7 @@ module RubySketch
       end
 
       # @private
-      private def getInternal__ ()
+      def getInternal__ ()
         @image__
       end
 
