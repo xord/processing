@@ -817,7 +817,7 @@ module RubySketch
         @painter__             = painter
         @painter__.miter_limit = 10
 
-        @drawing       = false
+        @drawing__     = false
         @hsbColor__    = false
         @colorMaxes__  = [1.0] * 4
         @angleScale__  = 1.0
@@ -843,11 +843,11 @@ module RubySketch
       def beginDraw ()
         @matrixStack__.clear
         @styleStack__.clear
-        @drawing = true
+        @drawing__ = true
       end
 
       def endDraw ()
-        @drawing = false
+        @drawing__ = false
       end
 
       def width ()
@@ -1594,7 +1594,7 @@ module RubySketch
 
       # @private
       private def assertDrawing__ ()
-        raise "call beginDraw() before drawing" unless @drawing
+        raise "call beginDraw() before drawing" unless @drawing__
       end
 
     end# GraphicsContext
