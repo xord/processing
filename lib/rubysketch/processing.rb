@@ -734,21 +734,25 @@ module RubySketch
 
       Vector = Processing::Vector
 
+      # PI
+      #
+      PI         = Math::PI
+
       # PI / 2
       #
-      HALF_PI    = Math::PI / 2
+      HALF_PI    = PI / 2
 
       # PI / 4
       #
-      QUARTER_PI = Math::PI / 4
+      QUARTER_PI = PI / 4
 
       # PI * 2
       #
-      TWO_PI     = Math::PI * 2
+      TWO_PI     = PI * 2
 
       # PI * 2
       #
-      TAU        = Math::PI * 2
+      TAU        = PI * 2
 
       # RGB mode for colorMode().
       #
