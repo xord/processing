@@ -1628,9 +1628,9 @@ module RubySketch
 
     # Processing context
     #
-    module Context
+    class Context
 
-      include GraphicsContext, Math
+      include GraphicsContext
 
       @@context__ = nil
 
@@ -1639,12 +1639,12 @@ module RubySketch
       end
 
       # @private
-      def setup__ (window)
+      def initialize (window)
         @@context__ = self
 
         @window__ = window
         @image__  = @window__.canvas
-        super @window__.canvas_painter.paint {background 0.8}
+        setup__ @window__.canvas_painter.paint {background 0.8}
 
         @loop__         = true
         @redraw__       = false
