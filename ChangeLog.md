@@ -1,6 +1,15 @@
 # RubySketch ChangeLog
 
 
+## [0.3.7] - 2020-11-18
+
+- add Capture class
+- add log(), exp(), sqrt() and PI
+- add examples/camera.rb
+- add examples/breakout.rb
+- fix error on calling image()
+
+
 ## [0.3.6] - 2020-08-02
 
 - random() can take array or nothing
