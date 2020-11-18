@@ -728,11 +728,72 @@ module RubySketch
     end# Touch
 
 
+    # Camera object.
+    #
+    class Capture
+
+      # Returns a list of available camera device names
+      #
+      # @return [Array] device name list
+      #
+      def self.list ()
+        ['default']
+      end
+
+      # Initialize camera object.
+      #
+      def initialize ()
+        @camera = Rays::Camera.new
+      end
+
+      # Start capturing.
+      #
+      # @return [Capture] self
+      #
+      def start ()
+        raise "Failed to start capture" unless @camera.start
+        self
+      end
+
+      # Stop capturing.
+      #
+      # @return [nil] nil
+      #
+      def stop ()
+        @camera.stop
+        nil
+      end
+
+      # Returns is the next captured image available?
+      #
+      # @return [Boolean] true means object has next frame
+      #
+      def available ()
+        @camera.active?
+      end
+
+      # Reads next frame image
+      #
+      def read ()
+        @camera.image
+      end
+
+      # @private
+      def getInternal__ ()
+        @camera.image || dummyImage__
+      end
+
+      # @private
+      private def dummyImage__ ()
+        @dummy ||= Rays::Image.new 1, 1
+      end
+
+    end# Capture
+
+
     # Drawing context
     #
     module GraphicsContext
-
-      Vector = Processing::Vector
 
       # PI
       #
@@ -1643,6 +1704,10 @@ module RubySketch
 
       include GraphicsContext
 
+      Vector   = Processing::Vector
+      Capture  = Processing::Capture
+      Graphics = Processing::Graphics
+
       @@context__ = nil
 
       def self.context__ ()
@@ -2213,6 +2278,14 @@ module RubySketch
       #
       def createVector (*args)
         Vector.new *args
+      end
+
+      # Creates a camera object as a video input device.
+      #
+      # @return [Capture] camera object
+      #
+      def createCapture (*args)
+        Capture.new *args
       end
 
       # Creates a new off-screen graphics context object.
