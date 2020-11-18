@@ -1611,17 +1611,23 @@ module RubySketch
 
       include GraphicsContext
 
+      # Initialize graphics object.
+      #
       def initialize (width, height)
         @image__ = Rays::Image.new width, height
         setup__ @image__.painter
       end
 
+      # Start drawing.
+      #
       def beginDraw ()
         @painter__.__send__ :begin_paint
         super
         push
       end
 
+      # End drawing.
+      #
       def endDraw ()
         pop
         super
