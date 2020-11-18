@@ -1415,8 +1415,9 @@ module RubySketch
       #
       def image (img, a, b, c = nil, d = nil)
         assertDrawing__
-        x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
-        @painter__.image img.getInternal__, x, y, w, h
+        i = img.getInternal__
+        x, y, w, h = toXYWH__ @imageMode__, a, b, c || i.width, d || i.height
+        @painter__.image i, x, y, w, h
         nil
       end
 
