@@ -1985,6 +1985,26 @@ module RubySketch
         value.round
       end
 
+      # Returns the natural logarithm (the base-e logarithm) of a number.
+      #
+      # @param value [Numeric] number (> 0.0)
+      #
+      # @return [Numeric] result number
+      #
+      def log (n)
+        Math.log n
+      end
+
+      # Returns Euler's number e raised to the power of value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] result number
+      #
+      def exp (n)
+        Math.exp n
+      end
+
       # Returns value raised to the power of exponent.
       #
       # @param value    [Numeric] base number
@@ -2004,6 +2024,16 @@ module RubySketch
       #
       def sq (value)
         value * value
+      end
+
+      # Returns squared value.
+      #
+      # @param value [Numeric] number
+      #
+      # @return [Numeric] squared value
+      #
+      def sqrt (value)
+        Math.sqrt value
       end
 
       # Returns the magnitude (or length) of a vector.
