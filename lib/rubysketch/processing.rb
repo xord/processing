@@ -737,13 +737,32 @@ module RubySketch
       # @return [Array] device name list
       #
       def self.list ()
-        ['default']
+        Rays::Camera.device_names
       end
 
       # Initialize camera object.
       #
-      def initialize ()
-        @camera = Rays::Camera.new
+      # @overload Capture.new()
+      # @overload Capture.new(cameraName)
+      # @overload Capture.new(requestWidth, requestHeight)
+      # @overload Capture.new(requestWidth, requestHeight, cameraName)
+      #
+      # @param requestWidth  [Integer] captured image width
+      # @param requestHeight [Integer] captured image height
+      # @param cameraName    [String]  camera device name
+      #
+      def initialize (*args)
+        width, height, name =
+          if args.empty?
+            [-1, -1, nil]
+          elsif args[0].kind_of?(String)
+            [-1, -1, args[0]]
+          elsif args[0].kind_of?(Numeric) && args[1].kind_of?(Numeric)
+            [args[0], args[1], args[2]]
+          else
+            raise ArgumentError
+          end
+        @camera = Rays::Camera.new width, height, device_name: name
       end
 
       # Start capturing.

@@ -5,7 +5,7 @@
 require 'rubysketch-processing'
 
 
-cam = Capture.new
+cam = Capture.new 300, 200, Capture.list.last
 cam.start
 
 draw do
