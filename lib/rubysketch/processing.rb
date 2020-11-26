@@ -797,6 +797,22 @@ module RubySketch
         @camera.image
       end
 
+      # Returns the width of captured image
+      #
+      # @return [Numeric] the width of captured image
+      #
+      def width ()
+        @camera.image&.width || 0
+      end
+
+      # Returns the height of captured image
+      #
+      # @return [Numeric] the height of captured image
+      #
+      def height ()
+        @camera.image&.height || 0
+      end
+
       # @private
       def getInternal__ ()
         @camera.image || dummyImage__
