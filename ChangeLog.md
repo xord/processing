@@ -1,6 +1,12 @@
 # RubySketch ChangeLog
 
 
+## [0.3.8] - 2020-11-27
+
+- Capture#initialize() can take requestWidth, requestHeight and cameraName
+- add Capture#width and Capture#height
+
+
 ## [0.3.7] - 2020-11-18
 
 - add Capture class
