@@ -940,10 +940,14 @@ module RubySketch
         stroke 0
       end
 
-      def beginDraw ()
+      def beginDraw (&block)
         @matrixStack__.clear
         @styleStack__.clear
         @drawing__ = true
+        if block
+          block.call
+          endDraw
+        end
       end
 
       def endDraw ()
