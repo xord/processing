@@ -767,11 +767,11 @@ module RubySketch
 
       # Start capturing.
       #
-      # @return [Capture] self
+      # @return [nil] nil
       #
       def start ()
         raise "Failed to start capture" unless @camera.start
-        self
+        nil
       end
 
       # Stop capturing.
