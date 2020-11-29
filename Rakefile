@@ -23,3 +23,28 @@ generate_documents
 build_ruby_gem
 
 task :default => :test
+
+
+namespace :version do
+
+  namespace :bump do
+
+    task :major do
+      update_and_tag_version 0
+    end
+
+    task :minor do
+      update_and_tag_version 1
+    end
+
+    task :patch do
+      update_and_tag_version 2
+    end
+
+    task :build do
+      update_and_tag_version 3
+    end
+
+  end# bump
+
+end# version
