@@ -940,17 +940,15 @@ module RubySketch
         stroke 0
       end
 
-      def beginDraw (&block)
+      # @private
+      def beginDraw__ ()
         @matrixStack__.clear
         @styleStack__.clear
         @drawing__ = true
-        if block
-          block.call
-          endDraw
-        end
       end
 
-      def endDraw ()
+      # @private
+      def endDraw__ ()
         @drawing__ = false
       end
 
@@ -1720,17 +1718,21 @@ module RubySketch
 
       # Start drawing.
       #
-      def beginDraw ()
+      def beginDraw (&block)
         @painter__.__send__ :begin_paint
-        super
+        beginDraw__
         push
+        if block
+          block.call
+          endDraw
+        end
       end
 
       # End drawing.
       #
       def endDraw ()
         pop
-        super
+        endDraw__
         @painter__.__send__ :end_paint
       end
 
@@ -1769,8 +1771,8 @@ module RubySketch
         @mousePressed__ = false
         @touches__      = []
 
-        @window__.before_draw = proc {beginDraw}
-        @window__.after_draw  = proc {endDraw}
+        @window__.before_draw = proc {beginDraw__}
+        @window__.after_draw  = proc {endDraw__}
 
         drawFrame = -> {
           @image__   = @window__.canvas
