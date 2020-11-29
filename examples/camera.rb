@@ -5,10 +5,29 @@
 require 'rubysketch-processing'
 
 
-cam = Capture.new 300, 200, Capture.list.last
+w, h = width, height
+
+cam = Capture.new w, h, Capture.list.last
 cam.start
 
+images = 60.times.map {
+  Graphics.new w, h
+}
+
 draw do
+  if frameCount % 2 == 0
+    images.unshift images.pop
+    images.first.tap do |image|
+      image.beginDraw {
+        image.image cam, 0, 0
+      }
+    end
+  end
+
   background 0
-  image cam, 0, 0
+  segment_h= h / images.size
+  images.each.with_index do |image, i|
+    y = i * segment_h
+    copy image, 0, y, w, segment_h, 0, y, w, segment_h
+  end
 end
