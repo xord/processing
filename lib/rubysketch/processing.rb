@@ -1749,8 +1749,10 @@ module RubySketch
       Capture  = Processing::Capture
       Graphics = Processing::Graphics
 
+      # @private
       @@context__ = nil
 
+      # @private
       def self.context__ ()
         @@context__
       end
