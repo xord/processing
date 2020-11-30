@@ -1369,8 +1369,8 @@ module RubySketch
       def arc (a, b, c, d, start, stop)
         assertDrawing__
         x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-        start      = toAngle__ start
-        stop       = toAngle__ stop
+        start      = toAngle__ -start
+        stop       = toAngle__ -stop
         @painter__.ellipse x, y, w, h, from: start, to: stop
         nil
       end
