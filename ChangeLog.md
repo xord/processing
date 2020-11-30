@@ -1,6 +1,18 @@
 # RubySketch ChangeLog
 
 
+## [0.3.10] - 2020-12-1
+
+- invert angle parameter value for arc() to fix compatibility to processing API
+
+
+## [0.3.9] - 2020-11-30
+
+- Graphics#beginDraw() can take block to call endDraw automatically
+- Capture#start() always returns nil
+- add delay_camera.rb
+
+
 ## [0.3.8] - 2020-11-27
 
 - Capture#initialize() can take requestWidth, requestHeight and cameraName
