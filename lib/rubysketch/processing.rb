@@ -913,10 +913,7 @@ module RubySketch
       #
       SQUARE = :square
 
-      def setup__ (painter)
-        @painter__             = painter
-        @painter__.miter_limit = 10
-
+      def init__ (image, painter)
         @drawing__     = false
         @hsbColor__    = false
         @colorMaxes__  = [1.0] * 4
@@ -929,6 +926,8 @@ module RubySketch
         @matrixStack__ = []
         @styleStack__  = []
 
+        updateCanvas__ image, painter
+
         colorMode   RGB, 255
         angleMode   RADIANS
         rectMode    CORNER
@@ -938,6 +937,10 @@ module RubySketch
 
         fill 255
         stroke 0
+      end
+
+      def updateCanvas__ (image, painter)
+        @image__, @painter__ = image, painter
       end
 
       # @private
@@ -1712,8 +1715,8 @@ module RubySketch
       # Initialize graphics object.
       #
       def initialize (width, height)
-        @image__ = Rays::Image.new width, height
-        setup__ @image__.painter
+        image = Rays::Image.new width, height
+        init__ image, image.painter
       end
 
       # Start drawing.
@@ -1762,14 +1765,13 @@ module RubySketch
         @@context__ = self
 
         @window__ = window
-        @image__  = @window__.canvas
-        setup__ @window__.canvas_painter.paint {background 0.8}
+        init__ @window__.canvas, @window__.canvas_painter.paint {background 0.8}
 
         @loop__         = true
         @redraw__       = false
         @frameCount__   = 0
         @mousePos__     =
-        @mousePrevPos__ = Rays::Point.new 0
+        @mousePrevPos__ = [0, 0]
         @mousePressed__ = false
         @touches__      = []
 
@@ -1777,8 +1779,7 @@ module RubySketch
         @window__.after_draw  = proc {endDraw__}
 
         drawFrame = -> {
-          @image__   = @window__.canvas
-          @painter__ = @window__.canvas_painter
+          updateCanvas__ @window__.canvas, @window__.canvas_painter
           begin
             push
             @drawBlock__.call if @drawBlock__
@@ -1797,9 +1798,11 @@ module RubySketch
         end
 
         updatePointerStates = -> event, pressed = nil {
-          @mousePos__     = event.pos
+          @mousePos__     = @window__.to_canvas_coord event.pos.x, event.pos.y
           @mousePressed__ = pressed if pressed != nil
-          @touches__      = event.positions.map {|pos| Touch.new pos.x, pos.y}
+          @touches__      = event.positions.map {|pos|
+            Touch.new *@window__.to_canvas_coord(pos.x, pos.y)
+          }
         }
 
         @window__.pointer_down = proc do |e|
@@ -1877,15 +1880,59 @@ module RubySketch
         nil
       end
 
+      # Changes canvas size.
+      #
+      # @param width  [Integer] new width
+      # @param height [Integer] new height
+      #
+      # @return [nil] nil
+      #
+      def size (width, height)
+        resizeCanvas__ :size, width, height, pixelDensity
+        nil
+      end
+
+      # Changes canvas size.
+      #
+      # @param width  [Integer] new width
+      # @param height [Integer] new height
+      #
+      # @return [nil] nil
+      #
+      def createCanvas (width, height)
+        resizeCanvas__ :createCanvas, width, height, pixelDensity
+        nil
+      end
+
+      # Changes and returns canvas pixel density.
+      #
+      # @param density [Numeric] new pixel density
+      #
+      # @return [Numeric] current pixel density
+      #
+      def pixelDensity (density = nil)
+        resizeCanvas__ :pixelDensity, width, height, density if density
+        @painter__.pixel_density
+      end
+
       # @private
-      private def size__ (width, height)
-        raise 'size() must be called on startup or setup block' if @started__
+      def resizeCanvas__ (name, width, height, pixelDensity)
+        raise '#{name}() must be called on startup or setup block' if @started__
 
         @painter__.__send__ :end_paint
-        @window__.__send__ :reset_canvas, width, height
+        @window__.__send__ :resize_canvas, width, height, pixelDensity
+        updateCanvas__ @window__.canvas, @window__.canvas_painter
         @painter__.__send__ :begin_paint
 
-        @auto_resize__ = false
+        @window__.auto_resize = false
+      end
+
+      # Returns pixel density of display.
+      #
+      # @return [Numeric] pixel density
+      #
+      def displayDensity ()
+        @window__.painter.pixel_density
       end
 
       def windowWidth ()
@@ -1912,20 +1959,12 @@ module RubySketch
         @window__.event.fps
       end
 
-      # Returns pixel density
-      #
-      # @return [Numeric] pixel density
-      #
-      def displayDensity ()
-        @painter__.pixel_density
-      end
-
       # Returns mouse x position
       #
       # @return [Numeric] horizontal position of mouse
       #
       def mouseX ()
-        @mousePos__.x
+        @mousePos__[0]
       end
 
       # Returns mouse y position
@@ -1933,7 +1972,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def mouseY ()
-        @mousePos__.y
+        @mousePos__[1]
       end
 
       # Returns mouse x position in previous frame
@@ -1941,7 +1980,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def pmouseX ()
-        @mousePrevPos__.x
+        @mousePrevPos__[0]
       end
 
       # Returns mouse y position in previous frame
@@ -1949,7 +1988,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def pmouseY ()
-        @mousePrevPos__.y
+        @mousePrevPos__[1]
       end
 
       # Returns array of touches

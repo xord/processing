@@ -16,7 +16,8 @@ module RubySketch
       @auto_resize = true
       @error       = nil
 
-      reset_canvas 1, 1
+      painter.miter_limit = 10
+      resize_canvas 1, 1
 
       super *args, size: [width, height], &block
     end
@@ -43,7 +44,9 @@ module RubySketch
 
     def on_draw (e)
       draw_canvas {call_block @draw, e} if @draw
-      e.painter.image @canvas
+
+      x, y, w, h = coord_converter
+      e.painter.image @canvas, x, y, @canvas.width * w, @canvas.height * h
     end
 
     def on_key (e)
@@ -64,27 +67,45 @@ module RubySketch
     end
 
     def on_resize (e)
-      reset_canvas e.width, e.height if @auto_resize
+      resize_canvas e.width, e.height if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
+    end
+
+    def to_canvas_coord (x, y)
+      xx, yy, ww, hh = coord_converter
+      return (x - xx) / ww, (y - yy) / hh
     end
 
     private
 
-    def reset_canvas (width, height)
-      return if width * height == 0
-      return if width == @canvas&.width && height == @canvas&.height
+    def resize_canvas (width, height, pixel_density = nil)
+      return nil if width * height == 0
 
-      old_canvas  = @canvas
-      old_painter = @canvas_painter
+      unless width    == @canvas&.width  &&
+        height        == @canvas&.height &&
+        pixel_density == @canvas_painter&.pixel_density
 
-      cs              = old_canvas&.color_space || Rays::RGBA
-      @canvas         = Rays::Image.new width, height, cs, painter.pixel_density
-      @canvas_painter = @canvas.painter
+        old_canvas  = @canvas
+        old_painter = @canvas_painter
 
-      if old_canvas
-        @canvas_painter.paint {image old_canvas}
-        copy_painter_attributes old_painter, @canvas_painter
+        cs              = old_canvas&.color_space || Rays::RGBA
+        pd              = pixel_density || painter.pixel_density
+        @canvas         = Rays::Image.new width, height, cs, pd
+        @canvas_painter = @canvas.painter
+
+        if old_canvas
+          @canvas_painter.paint {image old_canvas}
+          copy_painter_attributes old_painter, @canvas_painter
+        end
+
+        resize_window width, height
       end
+
+      @canvas_painter
+    end
+
+    def resize_window (width, height)
+      size width, height
     end
 
     def copy_painter_attributes (from, to)
@@ -95,6 +116,21 @@ module RubySketch
       to.stroke_join  = from.stroke_join
       to.miter_limit  = from.miter_limit
       to.font         = from.font
+    end
+
+    def coord_converter ()
+      ww, wh =         width.to_f,         height.to_f
+      cw, ch = @canvas.width.to_f, @canvas.height.to_f
+      return [0, 0, 1, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
+
+      wratio, cratio = ww / wh, cw / ch
+      if wratio >= cratio
+        scaled_w = wh * cratio
+        return (ww - scaled_w) / 2, 0, scaled_w / cw, wh / ch
+      else
+        scaled_h = ww / cratio
+        return 0, (wh - scaled_h) / 2, ww / cw, scaled_h / ch
+      end
     end
 
     def draw_canvas (&block)
