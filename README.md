@@ -1,3 +1,11 @@
-# RubySketch - Processing like Creative Coding Framework
+# RubySketch - Processing compatible Creative Coding Framework
 
 by xordog@gmail.com
+
+
+# How to release
+
+```
+ $ rake version:bump:patch message="..."
+ $ git push origin --tags
+```

@@ -1,6 +1,11 @@
 # RubySketch ChangeLog
 
 
+## [0.3.11] - 2020-12-9
+
+- add size(), createCanvas() and pixelDensity()
+
+
 ## [0.3.10] - 2020-12-1
 
 - invert angle parameter value for arc() to fix compatibility to processing API
