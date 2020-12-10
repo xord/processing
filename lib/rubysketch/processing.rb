@@ -1882,8 +1882,9 @@ module RubySketch
 
       # Changes canvas size.
       #
-      # @param width  [Integer] new width
-      # @param height [Integer] new height
+      # @param width        [Integer] new width
+      # @param height       [Integer] new height
+      # @param pixelDensity [Numeric] new pixel density
       #
       # @return [nil] nil
       #
@@ -1894,8 +1895,9 @@ module RubySketch
 
       # Changes canvas size.
       #
-      # @param width  [Integer] new width
-      # @param height [Integer] new height
+      # @param width        [Integer] new width
+      # @param height       [Integer] new height
+      # @param pixelDensity [Numeric] new pixel density
       #
       # @return [nil] nil
       #
