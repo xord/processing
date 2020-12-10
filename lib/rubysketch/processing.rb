@@ -1887,7 +1887,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def size (width, height)
+      def size (width, height, pixelDensity: 1)
         resizeCanvas__ :size, width, height, pixelDensity
         nil
       end
@@ -1899,7 +1899,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def createCanvas (width, height)
+      def createCanvas (width, height, pixelDensity: 1)
         resizeCanvas__ :createCanvas, width, height, pixelDensity
         nil
       end
