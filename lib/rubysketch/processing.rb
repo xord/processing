@@ -2436,6 +2436,7 @@ module RubySketch
 
         unless path.file?
           URI.open uri do |input|
+            input.set_encoding nil# disable default_internal
             tmpdir.mkdir unless tmpdir.directory?
             path.open('w') do |output|
               while buf = input.read(2 ** 16)
