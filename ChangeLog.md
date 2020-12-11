@@ -1,6 +1,11 @@
 # RubySketch ChangeLog
 
 
+## [0.3.13] - 2020-12-12
+
+- size(), createCanvas(): default pixelDensity is same as current value
+
+
 ## [0.3.12] - 2020-12-10
 
 - size() and createCanvas() take 'pixelDensity' parameter and default value is 1
