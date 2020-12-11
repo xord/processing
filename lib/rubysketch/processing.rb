@@ -2439,6 +2439,7 @@ module RubySketch
             input.set_encoding nil# disable default_internal
             tmpdir.mkdir unless tmpdir.directory?
             path.open('w') do |output|
+              output.set_encoding Encoding::ASCII_8BIT
               while buf = input.read(2 ** 16)
                 output.write buf
               end

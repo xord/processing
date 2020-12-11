@@ -5,7 +5,7 @@
 require 'rubysketch-processing'
 
 
-icon = loadImage 'https://xord.org/rubysketch/rubysketch.png'
+icon = loadImage 'https://xord.org/rubysketch/images/rubysketch128.png'
 
 draw do
   background 0, 10
