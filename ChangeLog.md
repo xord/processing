@@ -1,6 +1,11 @@
 # RubySketch ChangeLog
 
 
+## [0.3.15] - 2020-12-12
+
+- delete temporary directory on launch
+
+
 ## [0.3.14] - 2020-12-12
 
 - fix loadImage() fails when Encoding.default_internal is not nil
