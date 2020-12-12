@@ -1847,36 +1847,50 @@ module RubySketch
         nil
       end
 
+      # Define mousePressed block.
+      #
       def mousePressed (&block)
         @mousePressedBlock__ = block if block
         @mousePressed__
       end
 
+      # Define mouseReleased block.
+      #
       def mouseReleased (&block)
         @mouseReleasedBlock__ = block if block
         nil
       end
 
+      # Define mouseMoved block.
+      #
       def mouseMoved (&block)
         @mouseMovedBlock__ = block if block
         nil
       end
 
+      # Define mouseDragged block.
+      #
       def mouseDragged (&block)
         @mouseDraggedBlock__ = block if block
         nil
       end
 
+      # Define touchStarted block.
+      #
       def touchStarted (&block)
         @touchStartedBlock__ = block if block
         nil
       end
 
+      # Define touchEnded block.
+      #
       def touchEnded (&block)
         @touchEndedBlock__ = block if block
         nil
       end
 
+      # Define touchMoved block.
+      #
       def touchMoved (&block)
         @touchMovedBlock__ = block if block
         nil
@@ -1939,10 +1953,18 @@ module RubySketch
         @window__.painter.pixel_density
       end
 
+      # Returns window width.
+      #
+      # @return [Numeric] window width
+      #
       def windowWidth ()
         @window__.width
       end
 
+      # Returns window height.
+      #
+      # @return [Numeric] window height
+      #
       def windowHeight ()
         @window__.height
       end
