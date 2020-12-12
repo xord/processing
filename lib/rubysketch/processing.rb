@@ -1764,6 +1764,8 @@ module RubySketch
       def initialize (window)
         @@context__ = self
 
+        tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?}
+
         @window__ = window
         init__ @window__.canvas, @window__.canvas_painter.paint {background 0.8}
 
@@ -2430,7 +2432,7 @@ module RubySketch
         ext ||= File.extname uri
         raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png)$/i
 
-        tmpdir = Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
+        tmpdir = tmpdir__
         path   = tmpdir + Digest::SHA1.hexdigest(uri)
         path   = path.sub_ext ext
 
@@ -2447,6 +2449,11 @@ module RubySketch
           end
         end
         path.to_s
+      end
+
+      # @private
+      private def tmpdir__ ()
+        Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
       end
 
     end# Context
