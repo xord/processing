@@ -1842,7 +1842,8 @@ module RubySketch
         nil
       end
 
-      def key (&block)
+      # @private
+      private def key__ (&block)
         @window__.key = block
         nil
       end
