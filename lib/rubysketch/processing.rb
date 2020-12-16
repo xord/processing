@@ -937,6 +937,7 @@ module RubySketch
 
         fill 255
         stroke 0
+        strokeWeight 1
       end
 
       def updateCanvas__ (image, painter)
