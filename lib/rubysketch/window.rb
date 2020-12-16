@@ -17,7 +17,7 @@ module RubySketch
       @error       = nil
 
       painter.miter_limit = 10
-      resize_canvas 1, 1
+      resize_canvas 1, 1, 1
 
       super *args, size: [width, height], &block
     end
