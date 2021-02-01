@@ -1829,14 +1829,14 @@ module RubySketch
         end
       end
 
-      # Define setup block.
+      # Defines setup block.
       #
       def setup (&block)
         @window__.setup = block
         nil
       end
 
-      # Define draw block.
+      # Defines draw block.
       #
       def draw (&block)
         @drawBlock__ = block if block
@@ -1849,49 +1849,49 @@ module RubySketch
         nil
       end
 
-      # Define mousePressed block.
+      # Defines mousePressed block.
       #
       def mousePressed (&block)
         @mousePressedBlock__ = block if block
         @mousePressed__
       end
 
-      # Define mouseReleased block.
+      # Defines mouseReleased block.
       #
       def mouseReleased (&block)
         @mouseReleasedBlock__ = block if block
         nil
       end
 
-      # Define mouseMoved block.
+      # Defines mouseMoved block.
       #
       def mouseMoved (&block)
         @mouseMovedBlock__ = block if block
         nil
       end
 
-      # Define mouseDragged block.
+      # Defines mouseDragged block.
       #
       def mouseDragged (&block)
         @mouseDraggedBlock__ = block if block
         nil
       end
 
-      # Define touchStarted block.
+      # Defines touchStarted block.
       #
       def touchStarted (&block)
         @touchStartedBlock__ = block if block
         nil
       end
 
-      # Define touchEnded block.
+      # Defines touchEnded block.
       #
       def touchEnded (&block)
         @touchEndedBlock__ = block if block
         nil
       end
 
-      # Define touchMoved block.
+      # Defines touchMoved block.
       #
       def touchMoved (&block)
         @touchMovedBlock__ = block if block
