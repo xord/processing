@@ -12,6 +12,8 @@ module RubySketch
     attr_reader :canvas, :canvas_painter
 
     def initialize (width = 500, height = 500, *args, **kwargs, &block)
+      RubySketch.instance_variable_set :@window, self
+
       @events      = []
       @auto_resize = true
       @error       = nil

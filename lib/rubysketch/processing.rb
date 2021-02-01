@@ -1825,6 +1825,11 @@ module RubySketch
           updatePointerStates.call e
           (@touchMovedBlock__ || @mouseDraggedBlock__)&.call
         end
+
+        @window__.motion = proc do |e|
+          @motionGravity__ = createVector *e.gravity.to_a(3)
+          @motionBlock__&.call
+        end
       end
 
       # Defines setup block.
@@ -1893,6 +1898,13 @@ module RubySketch
       #
       def touchMoved (&block)
         @touchMovedBlock__ = block if block
+        nil
+      end
+
+      # Defines motion block.
+      #
+      def motion (&block)
+        @motionBlock__ = block if block
         nil
       end
 
@@ -2023,6 +2035,14 @@ module RubySketch
       #
       def touches ()
         @touches__
+      end
+
+      # Returns vector for real world gravity
+      #
+      # @return [Vector] gravity vector
+      #
+      def motionGravity ()
+        @motionGravity__
       end
 
       # Enables calling draw block on every frame.
