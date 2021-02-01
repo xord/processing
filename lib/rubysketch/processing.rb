@@ -2417,7 +2417,7 @@ module RubySketch
       # @return [Vector] new vector
       #
       def createVector (*args)
-        Vector.new *args
+        Vector.new *args, context: self
       end
 
       # Creates a camera object as a video input device.
