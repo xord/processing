@@ -1801,11 +1801,9 @@ module RubySketch
         end
 
         updatePointerStates = -> event, pressed = nil {
-          @mousePos__     = @window__.to_canvas_coord event.pos.x, event.pos.y
+          @mousePos__     = event.pos.to_a
           @mousePressed__ = pressed if pressed != nil
-          @touches__      = event.positions.map {|pos|
-            Touch.new *@window__.to_canvas_coord(pos.x, pos.y)
-          }
+          @touches__      = event.positions.map {|pos| Touch.new *pos.to_a}
         }
 
         @window__.pointer_down = proc do |e|
