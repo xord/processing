@@ -18,6 +18,6 @@ begin
   window.__send__ :begin_draw
   at_exit do
     window.__send__ :end_draw
-    Reflex.start {window.show} unless $!
+    RubySketch::App.new {window.show}.start unless $!
   end
 end
