@@ -19,6 +19,11 @@ module RubySketch
       painter.miter_limit = 10
       resize_canvas 1, 1
 
+      root.on(:update)  {|e| on_canvas_update e}
+      root.on(:draw)    {|e| on_canvas_draw e}
+      root.on(:key)     {|e| on_canvas_key e}
+      root.on(:pointer) {|e| on_canvas_pointer e}
+
       super *args, size: [width, height], **kwargs, &block
     end
 
@@ -37,43 +42,37 @@ module RubySketch
       call_block @setup, nil
     end
 
-    def on_update (e)
-      call_block @update, e
-      redraw
-    end
-
-    def on_draw (e)
-      draw_canvas {call_block @draw, e} if @draw
-
-      x, y, w, h = coord_converter
-      e.painter.image @canvas, x, y, @canvas.width * w, @canvas.height * h
-    end
-
-    def on_key (e)
-      draw_canvas {call_block @key, e} if @key
-    end
-
-    def on_pointer (e)
-      block = case e.type
-        when :down then @pointer_down
-        when :up   then @pointer_up
-        when :move then e.drag? ? @pointer_drag : @pointer_move
-      end
-      draw_canvas {call_block block, e} if block
+    def on_resize (e)
+      resize_canvas e.width, e.height if @auto_resize
+      update_canvas_view
+      draw_canvas {call_block @resize, e} if @resize
     end
 
     def on_motion (e)
       draw_canvas {call_block @motion, e} if @motion
     end
 
-    def on_resize (e)
-      resize_canvas e.width, e.height if @auto_resize
-      draw_canvas {call_block @resize, e} if @resize
+    def on_canvas_update (e)
+      call_block @update, e
+      redraw
     end
 
-    def to_canvas_coord (x, y)
-      xx, yy, ww, hh = coord_converter
-      return (x - xx) / ww, (y - yy) / hh
+    def on_canvas_draw (e)
+      draw_canvas {call_block @draw, e} if @draw
+      e.painter.image @canvas
+    end
+
+    def on_canvas_key (e)
+      draw_canvas {call_block @key, e} if @key
+    end
+
+    def on_canvas_pointer (e)
+      block = case e.type
+        when :down then @pointer_down
+        when :up   then @pointer_up
+        when :move then e.drag? ? @pointer_drag : @pointer_move
+      end
+      draw_canvas {call_block block, e} if block
     end
 
     private
@@ -106,10 +105,6 @@ module RubySketch
       @canvas_painter
     end
 
-    def resize_window (width, height)
-      size width, height
-    end
-
     def copy_painter_attributes (from, to)
       to.fill         = from.fill
       to.stroke       = from.stroke
@@ -120,18 +115,28 @@ module RubySketch
       to.font         = from.font
     end
 
-    def coord_converter ()
+    def resize_window (width, height)
+      size width, height
+    end
+
+    def update_canvas_view ()
+      scrollx, scrolly, zoom = get_scroll_and_zoom
+      root.scroll_to scrollx, scrolly
+      root.zoom zoom
+    end
+
+    def get_scroll_and_zoom ()
       ww, wh =         width.to_f,         height.to_f
       cw, ch = @canvas.width.to_f, @canvas.height.to_f
-      return [0, 0, 1, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
+      return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
       if wratio >= cratio
         scaled_w = wh * cratio
-        return (ww - scaled_w) / 2, 0, scaled_w / cw, wh / ch
+        return (ww - scaled_w) / 2, 0, scaled_w / cw
       else
         scaled_h = ww / cratio
-        return 0, (wh - scaled_h) / 2, ww / cw, scaled_h / ch
+        return 0, (wh - scaled_h) / 2, ww / cw
       end
     end
 
