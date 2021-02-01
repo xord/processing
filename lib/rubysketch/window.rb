@@ -11,7 +11,7 @@ module RubySketch
 
     attr_reader :canvas, :canvas_painter
 
-    def initialize (width = 500, height = 500, *args, &block)
+    def initialize (width = 500, height = 500, *args, **kwargs, &block)
       @events      = []
       @auto_resize = true
       @error       = nil
@@ -19,7 +19,7 @@ module RubySketch
       painter.miter_limit = 10
       resize_canvas 1, 1
 
-      super *args, size: [width, height], &block
+      super *args, size: [width, height], **kwargs, &block
     end
 
     def start (&block)
