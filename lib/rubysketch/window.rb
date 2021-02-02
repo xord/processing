@@ -44,9 +44,12 @@ module RubySketch
       call_block @setup, nil
     end
 
+    def on_draw ()
+      update_canvas_view
+    end
+
     def on_resize (e)
       resize_canvas e.width, e.height if @auto_resize
-      update_canvas_view
       draw_canvas {call_block @resize, e} if @resize
     end
 
