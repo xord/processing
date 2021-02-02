@@ -11,7 +11,7 @@ module RubySketch
 
     attr_reader :canvas, :canvas_painter
 
-    def initialize (width = 500, height = 500, *args, **kwargs, &block)
+    def initialize(width = 500, height = 500, *args, **kwargs, &block)
       RubySketch.instance_variable_set :@window, self
 
       @events      = []
@@ -26,52 +26,52 @@ module RubySketch
       root.on(:key)     {|e| on_canvas_key e}
       root.on(:pointer) {|e| on_canvas_pointer e}
 
-      super *args, size: [width, height], **kwargs, &block
+      super(*args, size: [width, height], **kwargs, &block)
     end
 
-    def start (&block)
+    def start(&block)
       draw_canvas do
         block.call if block
         on_setup
       end
     end
 
-    def event ()
+    def event()
       @events.last
     end
 
-    def on_setup ()
+    def on_setup()
       call_block @setup, nil
     end
 
-    def on_draw ()
+    def on_draw()
       update_canvas_view
     end
 
-    def on_resize (e)
+    def on_resize(e)
       resize_canvas e.width, e.height if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
     end
 
-    def on_motion (e)
+    def on_motion(e)
       draw_canvas {call_block @motion, e} if @motion
     end
 
-    def on_canvas_update (e)
+    def on_canvas_update(e)
       call_block @update, e
       redraw
     end
 
-    def on_canvas_draw (e)
+    def on_canvas_draw(e)
       draw_canvas {call_block @draw, e} if @draw
       e.painter.image @canvas
     end
 
-    def on_canvas_key (e)
+    def on_canvas_key(e)
       draw_canvas {call_block @key, e} if @key
     end
 
-    def on_canvas_pointer (e)
+    def on_canvas_pointer(e)
       block = case e.type
         when :down then @pointer_down
         when :up   then @pointer_up
@@ -82,7 +82,7 @@ module RubySketch
 
     private
 
-    def resize_canvas (width, height, pixel_density = nil)
+    def resize_canvas(width, height, pixel_density = nil)
       return nil if width * height == 0
 
       unless width    == @canvas&.width  &&
@@ -110,7 +110,7 @@ module RubySketch
       @canvas_painter
     end
 
-    def copy_painter_attributes (from, to)
+    def copy_painter_attributes(from, to)
       to.fill         = from.fill
       to.stroke       = from.stroke
       to.stroke_width = from.stroke_width
@@ -120,17 +120,17 @@ module RubySketch
       to.font         = from.font
     end
 
-    def resize_window (width, height)
+    def resize_window(width, height)
       size width, height
     end
 
-    def update_canvas_view ()
+    def update_canvas_view()
       scrollx, scrolly, zoom = get_scroll_and_zoom
       root.scroll_to scrollx, scrolly
       root.zoom zoom
     end
 
-    def get_scroll_and_zoom ()
+    def get_scroll_and_zoom()
       ww, wh =         width.to_f,         height.to_f
       cw, ch = @canvas.width.to_f, @canvas.height.to_f
       return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
@@ -145,24 +145,24 @@ module RubySketch
       end
     end
 
-    def draw_canvas (&block)
+    def draw_canvas(&block)
       begin_draw
       block.call
     ensure
       end_draw
     end
 
-    def begin_draw ()
+    def begin_draw()
       @canvas_painter.__send__ :begin_paint
       @before_draw&.call
     end
 
-    def end_draw ()
+    def end_draw()
       @after_draw&.call
       @canvas_painter.__send__ :end_paint
     end
 
-    def call_block (block, event, *args)
+    def call_block(block, event, *args)
       @events.push event
       block.call event, *args if block && !@error
     rescue Exception => e

@@ -4,12 +4,12 @@ module RubySketch
   # @private
   class GLSL
 
-    def initialize (glsl)
+    def initialize(glsl)
       @shader = Reflex::Shader.new glsl
     end
 
     # @private
-    def on_start__ (window)
+    def on_start__(window)
       start = Time.now.to_f
 
       window.draw = proc do |e, painter|

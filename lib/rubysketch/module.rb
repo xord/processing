@@ -5,15 +5,15 @@ module RubySketch
 
     module_function
 
-    def name ()
+    def name()
       super.split('::')[-2]
     end
 
-    def version ()
+    def version()
       open(root_dir 'VERSION') {|f| f.readline.chomp}
     end
 
-    def root_dir (path = '')
+    def root_dir(path = '')
       File.expand_path "../../#{path}", __dir__
     end
 

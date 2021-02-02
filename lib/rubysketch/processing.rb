@@ -34,7 +34,7 @@ module RubySketch
       # @param v [Vector]  vector object to copy
       # @param a [Array]   array like [x, y, z]
       #
-      def initialize (x = 0, y = 0, z = 0, context: nil)
+      def initialize(x = 0, y = 0, z = 0, context: nil)
         @point = case x
           when Rays::Point then x.dup
           when Vector      then x.getInternal__.dup
@@ -46,7 +46,7 @@ module RubySketch
 
       # Initializer for dup or clone
       #
-      def initialize_copy (o)
+      def initialize_copy(o)
         @point = o.getInternal__.dup
       end
 
@@ -72,8 +72,8 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def set (*args)
-        initialize *args
+      def set(*args)
+        initialize(*args)
         self
       end
 
@@ -81,7 +81,7 @@ module RubySketch
       #
       # @return [Numeric] x value of vector
       #
-      def x ()
+      def x()
         @point.x
       end
 
@@ -89,7 +89,7 @@ module RubySketch
       #
       # @return [Numeric] y value of vector
       #
-      def y ()
+      def y()
         @point.y
       end
 
@@ -97,7 +97,7 @@ module RubySketch
       #
       # @return [Numeric] z value of vector
       #
-      def z ()
+      def z()
         @point.z
       end
 
@@ -105,7 +105,7 @@ module RubySketch
       #
       # @return [Numeric] x value of vector
       #
-      def x= (x)
+      def x=(x)
         @point.x = x
       end
 
@@ -113,7 +113,7 @@ module RubySketch
       #
       # @return [Numeric] y value of vector
       #
-      def y= (y)
+      def y=(y)
         @point.y = y
       end
 
@@ -121,7 +121,7 @@ module RubySketch
       #
       # @return [Numeric] z value of vector
       #
-      def z= (z)
+      def z=(z)
         @point.z = z
       end
 
@@ -139,8 +139,8 @@ module RubySketch
       #
       # @return [Vector] interporated vector
       #
-      def lerp (*args, amount)
-        v      = toVector__ *args
+      def lerp(*args, amount)
+        v      = toVector__(*args)
         self.x = x + (v.x - x) * amount
         self.y = y + (v.y - y) * amount
         self.z = z + (v.z - z) * amount
@@ -155,7 +155,7 @@ module RubySketch
       #
       # @return [Vector] interporated vector
       #
-      def self.lerp (v1, v2, amount)
+      def self.lerp(v1, v2, amount)
         v1.dup.lerp v2, amount
       end
 
@@ -163,7 +163,7 @@ module RubySketch
       #
       # @return [Array] array of x, y, z
       #
-      def array ()
+      def array()
         @point.to_a 3
       end
 
@@ -180,7 +180,7 @@ module RubySketch
       #
       # @return [Vector] added vector
       #
-      def add (*args)
+      def add(*args)
         @point += toVector__(*args).getInternal__
         self
       end
@@ -198,7 +198,7 @@ module RubySketch
       #
       # @return [Vector] subtracted vector
       #
-      def sub (*args)
+      def sub(*args)
         @point -= toVector__(*args).getInternal__
         self
       end
@@ -209,7 +209,7 @@ module RubySketch
       #
       # @return [Vector] multiplied vector
       #
-      def mult (num)
+      def mult(num)
         @point *= num
         self
       end
@@ -220,7 +220,7 @@ module RubySketch
       #
       # @return [Vector] divided vector
       #
-      def div (num)
+      def div(num)
         @point /= num
         self
       end
@@ -231,7 +231,7 @@ module RubySketch
       #
       # @return [Vector] added vector
       #
-      def + (v)
+      def +(v)
         dup.add v
       end
 
@@ -241,7 +241,7 @@ module RubySketch
       #
       # @return [Vector] subtracted vector
       #
-      def - (v)
+      def -(v)
         dup.sub v
       end
 
@@ -251,7 +251,7 @@ module RubySketch
       #
       # @return [Vector] multiplied vector
       #
-      def * (num)
+      def *(num)
         dup.mult num
       end
 
@@ -261,7 +261,7 @@ module RubySketch
       #
       # @return [Vector] divided vector
       #
-      def / (num)
+      def /(num)
         dup.div num
       end
 
@@ -276,7 +276,7 @@ module RubySketch
       #
       # @return [Vector] added vector
       #
-      def self.add (v1, v2, target = nil)
+      def self.add(v1, v2, target = nil)
         v = v1 + v2
         target.set v if self === target
         v
@@ -293,7 +293,7 @@ module RubySketch
       #
       # @return [Vector] subtracted vector
       #
-      def self.sub (v1, v2, target = nil)
+      def self.sub(v1, v2, target = nil)
         v = v1 - v2
         target.set v if self === target
         v
@@ -310,7 +310,7 @@ module RubySketch
       #
       # @return [Vector] multiplied vector
       #
-      def self.mult (v1, num, target = nil)
+      def self.mult(v1, num, target = nil)
         v = v1 * num
         target.set v if self === target
         v
@@ -327,7 +327,7 @@ module RubySketch
       #
       # @return [Vector] divided vector
       #
-      def self.div (v1, num, target = nil)
+      def self.div(v1, num, target = nil)
         v = v1 / num
         target.set v if self === target
         v
@@ -337,7 +337,7 @@ module RubySketch
       #
       # @return [Numeric] length
       #
-      def mag ()
+      def mag()
         @point.length
       end
 
@@ -345,7 +345,7 @@ module RubySketch
       #
       # @return [Numeric] squared length
       #
-      def magSq ()
+      def magSq()
         Rays::Point::dot(@point, @point)
       end
 
@@ -359,7 +359,7 @@ module RubySketch
       #
       # @return [Vector] vector with new length
       #
-      def setMag (target = nil, len)
+      def setMag(target = nil, len)
         (target || self).set @point.normal * len
       end
 
@@ -369,7 +369,7 @@ module RubySketch
       #
       # @return [Vector] normalized vector
       #
-      def normalize (target = nil)
+      def normalize(target = nil)
         (target || self).set @point.normal
       end
 
@@ -379,7 +379,7 @@ module RubySketch
       #
       # @return [Vector] new vector
       #
-      def limit (max)
+      def limit(max)
         setMag max if magSq > max ** 2
         self
       end
@@ -390,7 +390,7 @@ module RubySketch
       #
       # @return [Numeric] the distance
       #
-      def dist (v)
+      def dist(v)
         (self - v).mag
       end
 
@@ -401,7 +401,7 @@ module RubySketch
       #
       # @return [Numeric] the distance
       #
-      def self.dist (v1, v2)
+      def self.dist(v1, v2)
         v1.dist v2
       end
 
@@ -418,7 +418,7 @@ module RubySketch
       #
       # @return [Numeric] result of dot product
       #
-      def dot (*args)
+      def dot(*args)
         Rays::Point::dot getInternal__, toVector__(*args).getInternal__
       end
 
@@ -429,7 +429,7 @@ module RubySketch
       #
       # @return [Numeric] result of dot product
       #
-      def self.dot (v1, v2)
+      def self.dot(v1, v2)
         v1.dot v2
       end
 
@@ -446,7 +446,7 @@ module RubySketch
       #
       # @return [Numeric] result of cross product
       #
-      def cross (a, *rest)
+      def cross(a, *rest)
         target = self.class === rest.last ? rest.pop : nil
         v = self.class.new Rays::Point::cross getInternal__, toVector__(a, *rest).getInternal__
         target.set v if self.class === target
@@ -460,7 +460,7 @@ module RubySketch
       #
       # @return [Numeric] result of cross product
       #
-      def self.cross (v1, v2, target = nil)
+      def self.cross(v1, v2, target = nil)
         v1.cross v2, target
       end
 
@@ -470,7 +470,7 @@ module RubySketch
       #
       # @return [Vector] rotated this object
       #
-      def rotate (angle)
+      def rotate(angle)
         angle = @context ? @context.toAngle__(angle) : angle * RAD2DEG__
         @point.rotate! angle
         self
@@ -480,7 +480,7 @@ module RubySketch
       #
       # @return [Numeric] the angle in radians
       #
-      def heading ()
+      def heading()
         Math.atan2 y, x
       end
 
@@ -491,7 +491,7 @@ module RubySketch
       #
       # @return [Vector] rotated vector
       #
-      def self.fromAngle (angle, target = nil)
+      def self.fromAngle(angle, target = nil)
         v = self.new(1, 0, 0).rotate(angle)
         target.set v if target
         v
@@ -504,7 +504,7 @@ module RubySketch
       #
       # @return [Numeric] angle in radians
       #
-      def self.angleBetween (v1, v2)
+      def self.angleBetween(v1, v2)
         x1, y1, z1 = v1.array
         x2, y2, z2 = v2.array
         return 0 if (x1 == 0 && y1 == 0 && z1 == 0) || (x2 == 0 && y2 == 0 && z2 == 0)
@@ -521,7 +521,7 @@ module RubySketch
       #
       # @return [Vector] a random vector
       #
-      def self.random2D (target = nil)
+      def self.random2D(target = nil)
         v = self.fromAngle rand 0.0...(Math::PI * 2)
         target.set v if target
         v
@@ -533,9 +533,9 @@ module RubySketch
       #
       # @return [Vector] a random vector
       #
-      def self.random3D (target = nil)
+      def self.random3D(target = nil)
         angle = rand 0.0...(Math::PI * 2)
-        z     = rand -1.0..1.0
+        z     = rand(-1.0..1.0)
         z2    = z ** 2
         x     = Math.sqrt(1.0 - z2) * Math.cos(angle)
         y     = Math.sqrt(1.0 - z2) * Math.sin(angle)
@@ -545,22 +545,22 @@ module RubySketch
       end
 
       # @private
-      def inspect ()
+      def inspect()
         "<##{self.class.name} #{x}, #{y}, #{z}>"
       end
 
       # @private
-      def <=> (o)
+      def <=>(o)
         @point <=> o.getInternal__
       end
 
       # @private
-      protected def getInternal__ ()
+      protected def getInternal__()
         @point
       end
 
       # @private
-      private def toVector__ (*args)
+      private def toVector__(*args)
         self.class === args.first ? args.first : self.class.new(*args)
       end
 
@@ -572,7 +572,7 @@ module RubySketch
     class Image
 
       # @private
-      def initialize (image)
+      def initialize(image)
         @image = image
       end
 
@@ -580,7 +580,7 @@ module RubySketch
       #
       # @return [Numeric] width of image
       #
-      def width ()
+      def width()
         @image.width
       end
 
@@ -588,7 +588,7 @@ module RubySketch
       #
       # @return [Numeric] height of image
       #
-      def height ()
+      def height()
         @image.height
       end
 
@@ -599,7 +599,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def resize (width, height)
+      def resize(width, height)
         @image = Rays::Image.new(width, height).paint do |painter|
           painter.image @image, 0, 0, width, height
         end
@@ -623,7 +623,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
         img ||= self
         @image.paint do |painter|
           painter.image img.getInternal__, sx, sy, sw, sh, dx, dy, dw, dh
@@ -634,12 +634,12 @@ module RubySketch
       #
       # @param filename [String] file name to save image
       #
-      def save (filename)
+      def save(filename)
         @image.save filename
       end
 
       # @private
-      def getInternal__ ()
+      def getInternal__()
         @image
       end
 
@@ -651,7 +651,7 @@ module RubySketch
     class Font
 
       # @private
-      def initialize (font)
+      def initialize(font)
         @font = font
       end
 
@@ -668,7 +668,7 @@ module RubySketch
       #
       # @return [TextBounds] bounding box for text
       #
-      def textBounds (str, x = 0, y = 0, fontSize = nil)
+      def textBounds(str, x = 0, y = 0, fontSize = nil)
         f = fontSize ? Rays::Font.new(@font.name, fontSize) : @font
         TextBounds.new x, y, x + f.width(str), y + f.height
       end
@@ -697,7 +697,7 @@ module RubySketch
       attr_reader :h
 
       # @private
-      def initialize (x, y, w, h)
+      def initialize(x, y, w, h)
         @x, @y, @w, @h = x, y, w, h
       end
 
@@ -717,11 +717,11 @@ module RubySketch
       attr_reader :y
 
       # @private
-      def initialize (x, y)
+      def initialize(x, y)
         @x, @y = x, y
       end
 
-      def id ()
+      def id()
         raise NotImplementedError
       end
 
@@ -736,7 +736,7 @@ module RubySketch
       #
       # @return [Array] device name list
       #
-      def self.list ()
+      def self.list()
         Rays::Camera.device_names
       end
 
@@ -751,7 +751,7 @@ module RubySketch
       # @param requestHeight [Integer] captured image height
       # @param cameraName    [String]  camera device name
       #
-      def initialize (*args)
+      def initialize(*args)
         width, height, name =
           if args.empty?
             [-1, -1, nil]
@@ -769,7 +769,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def start ()
+      def start()
         raise "Failed to start capture" unless @camera.start
         nil
       end
@@ -778,7 +778,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def stop ()
+      def stop()
         @camera.stop
         nil
       end
@@ -787,13 +787,13 @@ module RubySketch
       #
       # @return [Boolean] true means object has next frame
       #
-      def available ()
+      def available()
         @camera.active?
       end
 
       # Reads next frame image
       #
-      def read ()
+      def read()
         @camera.image
       end
 
@@ -801,7 +801,7 @@ module RubySketch
       #
       # @return [Numeric] the width of captured image
       #
-      def width ()
+      def width()
         @camera.image&.width || 0
       end
 
@@ -809,17 +809,17 @@ module RubySketch
       #
       # @return [Numeric] the height of captured image
       #
-      def height ()
+      def height()
         @camera.image&.height || 0
       end
 
       # @private
-      def getInternal__ ()
+      def getInternal__()
         @camera.image || dummyImage__
       end
 
       # @private
-      private def dummyImage__ ()
+      private def dummyImage__()
         @dummy ||= Rays::Image.new 1, 1
       end
 
@@ -913,7 +913,7 @@ module RubySketch
       #
       SQUARE = :square
 
-      def init__ (image, painter)
+      def init__(image, painter)
         @drawing__     = false
         @hsbColor__    = false
         @colorMaxes__  = [1.0] * 4
@@ -940,27 +940,27 @@ module RubySketch
         strokeWeight 1
       end
 
-      def updateCanvas__ (image, painter)
+      def updateCanvas__(image, painter)
         @image__, @painter__ = image, painter
       end
 
       # @private
-      def beginDraw__ ()
+      def beginDraw__()
         @matrixStack__.clear
         @styleStack__.clear
         @drawing__ = true
       end
 
       # @private
-      def endDraw__ ()
+      def endDraw__()
         @drawing__ = false
       end
 
-      def width ()
+      def width()
         @image__.width
       end
 
-      def height ()
+      def height()
         @image__.height
       end
 
@@ -980,7 +980,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def colorMode (mode, *maxes)
+      def colorMode(mode, *maxes)
         mode = mode.upcase.to_sym
         raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
         raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
@@ -994,7 +994,7 @@ module RubySketch
       end
 
       # @private
-      private def toRGBA__ (*args)
+      private def toRGBA__(*args)
         a, b, c, d = args
         return parseColor__(a, b || alphaMax__) if a.kind_of?(String)
 
@@ -1009,8 +1009,8 @@ module RubySketch
       end
 
       # @private
-      private def parseColor__ (str, alpha)
-        result = str.match /^\s*##{'([0-9a-f]{2})' * 3}\s*$/i
+      private def parseColor__(str, alpha)
+        result = str.match(/^\s*##{'([0-9a-f]{2})' * 3}\s*$/i)
         raise ArgumentError, "invalid color code: '#{str}'" unless result
 
         rgb = result[1..3].map.with_index {|hex, i| hex.to_i(16) / 255.0}
@@ -1018,7 +1018,7 @@ module RubySketch
       end
 
       # @private
-      private def alphaMax__ ()
+      private def alphaMax__()
         @colorMaxes__[3]
       end
 
@@ -1028,7 +1028,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def angleMode (mode)
+      def angleMode(mode)
         @angleScale__ = case mode.upcase.to_sym
           when RADIANS then RAD2DEG__
           when DEGREES then 1.0
@@ -1038,7 +1038,7 @@ module RubySketch
       end
 
       # @private
-      def toAngle__ (angle)
+      def toAngle__(angle)
         angle * @angleScale__
       end
 
@@ -1053,7 +1053,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def rectMode (mode)
+      def rectMode(mode)
         @rectMode__ = mode
       end
 
@@ -1068,7 +1068,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def ellipseMode (mode)
+      def ellipseMode(mode)
         @ellipseMode__ = mode
       end
 
@@ -1082,12 +1082,12 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def imageMode (mode)
+      def imageMode(mode)
         @imageMode__ = mode
       end
 
       # @private
-      private def toXYWH__ (mode, a, b, c, d)
+      private def toXYWH__(mode, a, b, c, d)
         case mode
         when CORNER  then [a,           b,           c,     d]
         when CORNERS then [a,           b,           c - a, d - b]
@@ -1115,7 +1115,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def fill (*args)
+      def fill(*args)
         @painter__.fill(*toRGBA__(*args))
         nil
       end
@@ -1138,7 +1138,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def stroke (*args)
+      def stroke(*args)
         @painter__.stroke(*toRGBA__(*args))
         nil
       end
@@ -1149,7 +1149,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def strokeWeight (weight)
+      def strokeWeight(weight)
         @painter__.stroke_width weight
         nil
       end
@@ -1160,7 +1160,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def strokeCap (cap)
+      def strokeCap(cap)
         @painter__.stroke_cap cap
         nil
       end
@@ -1171,7 +1171,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def strokeJoin (join)
+      def strokeJoin(join)
         @painter__.stroke_join join
         nil
       end
@@ -1180,7 +1180,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def noFill ()
+      def noFill()
         @painter__.fill nil
         nil
       end
@@ -1189,7 +1189,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def noStroke ()
+      def noStroke()
         @painter__.stroke nil
         nil
       end
@@ -1201,7 +1201,7 @@ module RubySketch
       #
       # @return [Font] current font
       #
-      def textFont (name = nil, size = nil)
+      def textFont(name = nil, size = nil)
         setFont__ name, size if name || size
         Font.new @painter__.font
       end
@@ -1212,30 +1212,30 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def textSize (size)
+      def textSize(size)
         setFont__ @painter__.font.name, size
         nil
       end
 
-      def textWidth (str)
+      def textWidth(str)
         @painter__.font.width str
       end
 
-      def textAscent ()
+      def textAscent()
         @painter__.font.ascent
       end
 
-      def textDescent ()
+      def textDescent()
         @painter__.font.descent
       end
 
-      def textAlign (horizontal, vertical = BASELINE)
+      def textAlign(horizontal, vertical = BASELINE)
         @textAlignH__ = horizontal
         @textAlignV__ = vertical
       end
 
       # @private
-      def setFont__ (name, size)
+      def setFont__(name, size)
         size = 256 if size && size > 256
         @painter__.font name, size
       end
@@ -1258,11 +1258,11 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def background (*args)
+      def background(*args)
         assertDrawing__
-        rgba = toRGBA__ *args
+        rgba = toRGBA__(*args)
         if rgba[3] == 1
-          @painter__.background *rgba
+          @painter__.background(*rgba)
         else
           @painter__.push fill: rgba, stroke: nil do |_|
             @painter__.rect 0, 0, width, height
@@ -1278,7 +1278,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def point (x, y)
+      def point(x, y)
         assertDrawing__
         w = @painter__.stroke_width
         w = 1 if w == 0
@@ -1295,7 +1295,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def line (x1, y1, x2, y2)
+      def line(x1, y1, x2, y2)
         assertDrawing__
         @painter__.line x1, y1, x2, y2
         nil
@@ -1319,7 +1319,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def rect (a, b, c, d, *args)
+      def rect(a, b, c, d, *args)
         assertDrawing__
         x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
         case args.size
@@ -1340,7 +1340,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def ellipse (a, b, c, d)
+      def ellipse(a, b, c, d)
         assertDrawing__
         x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
         @painter__.ellipse x, y, w, h
@@ -1355,7 +1355,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def circle (x, y, extent)
+      def circle(x, y, extent)
         ellipse x, y, extent, extent
       end
 
@@ -1370,11 +1370,11 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def arc (a, b, c, d, start, stop)
+      def arc(a, b, c, d, start, stop)
         assertDrawing__
         x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-        start      = toAngle__ -start
-        stop       = toAngle__ -stop
+        start      = toAngle__(-start)
+        stop       = toAngle__(-stop)
         @painter__.ellipse x, y, w, h, from: start, to: stop
         nil
       end
@@ -1387,7 +1387,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def square (x, y, extent)
+      def square(x, y, extent)
         rect x, y, extent, extent
       end
 
@@ -1402,7 +1402,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def triangle (x1, y1, x2, y2, x3, y3)
+      def triangle(x1, y1, x2, y2, x3, y3)
         assertDrawing__
         @painter__.line x1, y1, x2, y2, x3, y3, loop: true
         nil
@@ -1421,7 +1421,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def quad (x1, y1, x2, y2, x3, y3, x4, y4)
+      def quad(x1, y1, x2, y2, x3, y3, x4, y4)
         assertDrawing__
         @painter__.line x1, y1, x2, y2, x3, y3, x4, y4, loop: true
         nil
@@ -1440,7 +1440,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def curve (cx1, cy1, x1, y1, x2, y2, cx2, cy2)
+      def curve(cx1, cy1, x1, y1, x2, y2, cx2, cy2)
         assertDrawing__
         @painter__.curve cx1, cy1, x1, y1, x2, y2, cx2, cy2
         nil
@@ -1459,7 +1459,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def bezier (x1, y1, cx1, cy1, cx2, cy2, x2, y2)
+      def bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
         assertDrawing__
         @painter__.bezier x1, y1, cx1, cy1, cx2, cy2, x2, y2
         nil
@@ -1481,7 +1481,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def text (str, x, y, x2 = nil, y2 = nil)
+      def text(str, x, y, x2 = nil, y2 = nil)
         assertDrawing__
         if x2
           raise ArgumentError, "missing y2 parameter" unless y2
@@ -1515,7 +1515,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def image (img, a, b, c = nil, d = nil)
+      def image(img, a, b, c = nil, d = nil)
         assertDrawing__
         i = img.getInternal__
         x, y, w, h = toXYWH__ @imageMode__, a, b, c || i.width, d || i.height
@@ -1540,7 +1540,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def copy (img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+      def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
         assertDrawing__
         src = img&.getInternal__ || @window__.canvas
         @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
@@ -1553,7 +1553,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def translate (x, y)
+      def translate(x, y)
         assertDrawing__
         @painter__.translate x, y
         nil
@@ -1570,7 +1570,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def scale (x, y)
+      def scale(x, y)
         assertDrawing__
         @painter__.scale x, y
         nil
@@ -1582,7 +1582,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def rotate (angle)
+      def rotate(angle)
         assertDrawing__
         @painter__.rotate toAngle__ angle
         nil
@@ -1592,7 +1592,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def pushMatrix (&block)
+      def pushMatrix(&block)
         assertDrawing__
         @matrixStack__.push @painter__.matrix
         if block
@@ -1606,7 +1606,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def popMatrix ()
+      def popMatrix()
         assertDrawing__
         raise "matrix stack underflow" if @matrixStack__.empty?
         @painter__.matrix = @matrixStack__.pop
@@ -1617,7 +1617,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def resetMatrix ()
+      def resetMatrix()
         assertDrawing__
         @painter__.matrix = 1
         nil
@@ -1627,7 +1627,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def pushStyle (&block)
+      def pushStyle(&block)
         assertDrawing__
         @styleStack__.push [
           @painter__.fill,
@@ -1654,7 +1654,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def popStyle ()
+      def popStyle()
         assertDrawing__
         raise "style stack underflow" if @styleStack__.empty?
         @painter__.fill,
@@ -1676,7 +1676,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def push (&block)
+      def push(&block)
         pushMatrix
         pushStyle
         if block
@@ -1689,18 +1689,18 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def pop ()
+      def pop()
         popMatrix
         popStyle
       end
 
       # @private
-      def getInternal__ ()
+      def getInternal__()
         @image__
       end
 
       # @private
-      private def assertDrawing__ ()
+      private def assertDrawing__()
         raise "call beginDraw() before drawing" unless @drawing__
       end
 
@@ -1715,14 +1715,14 @@ module RubySketch
 
       # Initialize graphics object.
       #
-      def initialize (width, height)
+      def initialize(width, height)
         image = Rays::Image.new width, height
         init__ image, image.painter
       end
 
       # Start drawing.
       #
-      def beginDraw (&block)
+      def beginDraw(&block)
         @painter__.__send__ :begin_paint
         beginDraw__
         push
@@ -1734,7 +1734,7 @@ module RubySketch
 
       # End drawing.
       #
-      def endDraw ()
+      def endDraw()
         pop
         endDraw__
         @painter__.__send__ :end_paint
@@ -1757,12 +1757,12 @@ module RubySketch
       @@context__ = nil
 
       # @private
-      def self.context__ ()
+      def self.context__()
         @@context__
       end
 
       # @private
-      def initialize (window)
+      def initialize(window)
         @@context__ = self
 
         tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?}
@@ -1803,7 +1803,7 @@ module RubySketch
         updatePointerStates = -> event, pressed = nil {
           @mousePos__     = event.pos.to_a
           @mousePressed__ = pressed if pressed != nil
-          @touches__      = event.positions.map {|pos| Touch.new *pos.to_a}
+          @touches__      = event.positions.map {|pos| Touch.new(*pos.to_a)}
         }
 
         @window__.pointer_down = proc do |e|
@@ -1827,83 +1827,83 @@ module RubySketch
         end
 
         @window__.motion = proc do |e|
-          @motionGravity__ = createVector *e.gravity.to_a(3)
+          @motionGravity__ = createVector(*e.gravity.to_a(3))
           @motionBlock__&.call
         end
       end
 
       # Defines setup block.
       #
-      def setup (&block)
+      def setup(&block)
         @window__.setup = block
         nil
       end
 
       # Defines draw block.
       #
-      def draw (&block)
+      def draw(&block)
         @drawBlock__ = block if block
         nil
       end
 
       # @private
-      private def key__ (&block)
+      private def key__(&block)
         @window__.key = block
         nil
       end
 
       # Defines mousePressed block.
       #
-      def mousePressed (&block)
+      def mousePressed(&block)
         @mousePressedBlock__ = block if block
         @mousePressed__
       end
 
       # Defines mouseReleased block.
       #
-      def mouseReleased (&block)
+      def mouseReleased(&block)
         @mouseReleasedBlock__ = block if block
         nil
       end
 
       # Defines mouseMoved block.
       #
-      def mouseMoved (&block)
+      def mouseMoved(&block)
         @mouseMovedBlock__ = block if block
         nil
       end
 
       # Defines mouseDragged block.
       #
-      def mouseDragged (&block)
+      def mouseDragged(&block)
         @mouseDraggedBlock__ = block if block
         nil
       end
 
       # Defines touchStarted block.
       #
-      def touchStarted (&block)
+      def touchStarted(&block)
         @touchStartedBlock__ = block if block
         nil
       end
 
       # Defines touchEnded block.
       #
-      def touchEnded (&block)
+      def touchEnded(&block)
         @touchEndedBlock__ = block if block
         nil
       end
 
       # Defines touchMoved block.
       #
-      def touchMoved (&block)
+      def touchMoved(&block)
         @touchMovedBlock__ = block if block
         nil
       end
 
       # Defines motion block.
       #
-      def motion (&block)
+      def motion(&block)
         @motionBlock__ = block if block
         nil
       end
@@ -1916,7 +1916,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def size (width, height, pixelDensity: self.pixelDensity)
+      def size(width, height, pixelDensity: self.pixelDensity)
         resizeCanvas__ :size, width, height, pixelDensity
         nil
       end
@@ -1929,7 +1929,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def createCanvas (width, height, pixelDensity: self.pixelDensity)
+      def createCanvas(width, height, pixelDensity: self.pixelDensity)
         resizeCanvas__ :createCanvas, width, height, pixelDensity
         nil
       end
@@ -1940,13 +1940,13 @@ module RubySketch
       #
       # @return [Numeric] current pixel density
       #
-      def pixelDensity (density = nil)
+      def pixelDensity(density = nil)
         resizeCanvas__ :pixelDensity, width, height, density if density
         @painter__.pixel_density
       end
 
       # @private
-      def resizeCanvas__ (name, width, height, pixelDensity)
+      def resizeCanvas__(name, width, height, pixelDensity)
         raise '#{name}() must be called on startup or setup block' if @started__
 
         @painter__.__send__ :end_paint
@@ -1961,7 +1961,7 @@ module RubySketch
       #
       # @return [Numeric] pixel density
       #
-      def displayDensity ()
+      def displayDensity()
         @window__.painter.pixel_density
       end
 
@@ -1969,7 +1969,7 @@ module RubySketch
       #
       # @return [Numeric] window width
       #
-      def windowWidth ()
+      def windowWidth()
         @window__.width
       end
 
@@ -1977,7 +1977,7 @@ module RubySketch
       #
       # @return [Numeric] window height
       #
-      def windowHeight ()
+      def windowHeight()
         @window__.height
       end
 
@@ -1985,7 +1985,7 @@ module RubySketch
       #
       # @return [Integer] total number of frames
       #
-      def frameCount ()
+      def frameCount()
         @frameCount__
       end
 
@@ -1993,7 +1993,7 @@ module RubySketch
       #
       # @return [Float] frames per second
       #
-      def frameRate ()
+      def frameRate()
         @window__.event.fps
       end
 
@@ -2001,7 +2001,7 @@ module RubySketch
       #
       # @return [Numeric] horizontal position of mouse
       #
-      def mouseX ()
+      def mouseX()
         @mousePos__[0]
       end
 
@@ -2009,7 +2009,7 @@ module RubySketch
       #
       # @return [Numeric] vertical position of mouse
       #
-      def mouseY ()
+      def mouseY()
         @mousePos__[1]
       end
 
@@ -2017,7 +2017,7 @@ module RubySketch
       #
       # @return [Numeric] horizontal position of mouse
       #
-      def pmouseX ()
+      def pmouseX()
         @mousePrevPos__[0]
       end
 
@@ -2025,7 +2025,7 @@ module RubySketch
       #
       # @return [Numeric] vertical position of mouse
       #
-      def pmouseY ()
+      def pmouseY()
         @mousePrevPos__[1]
       end
 
@@ -2033,7 +2033,7 @@ module RubySketch
       #
       # @return [Array] Touch objects
       #
-      def touches ()
+      def touches()
         @touches__
       end
 
@@ -2041,7 +2041,7 @@ module RubySketch
       #
       # @return [Vector] gravity vector
       #
-      def motionGravity ()
+      def motionGravity()
         @motionGravity__
       end
 
@@ -2049,7 +2049,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def loop ()
+      def loop()
         @loop__ = true
       end
 
@@ -2057,7 +2057,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def noLoop ()
+      def noLoop()
         @loop__ = false
       end
 
@@ -2065,7 +2065,7 @@ module RubySketch
       #
       # @return [nil] nil
       #
-      def redraw ()
+      def redraw()
         @redraw__ = true
       end
 
@@ -2079,7 +2079,7 @@ module RubySketch
       #
       # @return [Numeric] absolute number
       #
-      def abs (value)
+      def abs(value)
         value.abs
       end
 
@@ -2089,7 +2089,7 @@ module RubySketch
       #
       # @return [Numeric] rounded up number
       #
-      def ceil (value)
+      def ceil(value)
         value.ceil
       end
 
@@ -2099,7 +2099,7 @@ module RubySketch
       #
       # @return [Numeric] rounded down number
       #
-      def floor (value)
+      def floor(value)
         value.floor
       end
 
@@ -2109,7 +2109,7 @@ module RubySketch
       #
       # @return [Numeric] rounded number
       #
-      def round (value)
+      def round(value)
         value.round
       end
 
@@ -2119,7 +2119,7 @@ module RubySketch
       #
       # @return [Numeric] result number
       #
-      def log (n)
+      def log(n)
         Math.log n
       end
 
@@ -2129,7 +2129,7 @@ module RubySketch
       #
       # @return [Numeric] result number
       #
-      def exp (n)
+      def exp(n)
         Math.exp n
       end
 
@@ -2140,7 +2140,7 @@ module RubySketch
       #
       # @return [Numeric] value ** exponent
       #
-      def pow (value, exponent)
+      def pow(value, exponent)
         value ** exponent
       end
 
@@ -2150,7 +2150,7 @@ module RubySketch
       #
       # @return [Numeric] squared value
       #
-      def sq (value)
+      def sq(value)
         value * value
       end
 
@@ -2160,7 +2160,7 @@ module RubySketch
       #
       # @return [Numeric] squared value
       #
-      def sqrt (value)
+      def sqrt(value)
         Math.sqrt value
       end
 
@@ -2175,7 +2175,7 @@ module RubySketch
       #
       # @return [Numeric] magnitude
       #
-      def mag (*args)
+      def mag(*args)
         x, y, z = *args
         case args.size
         when 2 then Math.sqrt x * x + y * y
@@ -2198,7 +2198,7 @@ module RubySketch
       #
       # @return [Numeric] distance between 2 points
       #
-      def dist (*args)
+      def dist(*args)
         case args.size
         when 4
           x1, y1, x2, y2 = *args
@@ -2220,7 +2220,7 @@ module RubySketch
       #
       # @return [Numeric] normalized value between 0..1
       #
-      def norm (value, start, stop)
+      def norm(value, start, stop)
         (value.to_f - start.to_f) / (stop.to_f - start.to_f)
       end
 
@@ -2232,7 +2232,7 @@ module RubySketch
       #
       # @return [Numeric] interporated number
       #
-      def lerp (start, stop, amount)
+      def lerp(start, stop, amount)
         start + (stop - start) * amount
       end
 
@@ -2246,7 +2246,7 @@ module RubySketch
       #
       # @return [Numeric] mapped number
       #
-      def map (value, start1, stop1, start2, stop2)
+      def map(value, start1, stop1, start2, stop2)
         lerp start2, stop2, norm(value, start1, stop1)
       end
 
@@ -2263,7 +2263,7 @@ module RubySketch
       #
       # @return [Numeric] minimum value
       #
-      def min (*args)
+      def min(*args)
         args.flatten.min
       end
 
@@ -2280,7 +2280,7 @@ module RubySketch
       #
       # @return [Numeric] maximum value
       #
-      def max (*args)
+      def max(*args)
         args.flatten.max
       end
 
@@ -2292,7 +2292,7 @@ module RubySketch
       #
       # @return [Numeric] constrained number
       #
-      def constrain (value, min, max)
+      def constrain(value, min, max)
         value < min ? min : (value > max ? max : value)
       end
 
@@ -2302,7 +2302,7 @@ module RubySketch
       #
       # @return [Numeric] radian
       #
-      def radians (degree)
+      def radians(degree)
         degree * DEG2RAD__
       end
 
@@ -2312,7 +2312,7 @@ module RubySketch
       #
       # @return [Numeric] degree
       #
-      def degrees (radian)
+      def degrees(radian)
         radian * RAD2DEG__
       end
 
@@ -2322,7 +2322,7 @@ module RubySketch
       #
       # @return [Numeric] the sine
       #
-      def sin (angle)
+      def sin(angle)
         Math.sin angle
       end
 
@@ -2332,7 +2332,7 @@ module RubySketch
       #
       # @return [Numeric] the cosine
       #
-      def cos (angle)
+      def cos(angle)
         Math.cos angle
       end
 
@@ -2342,7 +2342,7 @@ module RubySketch
       #
       # @return [Numeric] the tangent
       #
-      def tan (angle)
+      def tan(angle)
         Math.tan angle
       end
 
@@ -2352,7 +2352,7 @@ module RubySketch
       #
       # @return [Numeric] the arc sine
       #
-      def asin (value)
+      def asin(value)
         Math.asin value
       end
 
@@ -2362,7 +2362,7 @@ module RubySketch
       #
       # @return [Numeric] the arc cosine
       #
-      def acos (value)
+      def acos(value)
         Math.acos value
       end
 
@@ -2372,7 +2372,7 @@ module RubySketch
       #
       # @return [Numeric] the arc tangent
       #
-      def atan (value)
+      def atan(value)
         Math.atan value
       end
 
@@ -2383,7 +2383,7 @@ module RubySketch
       #
       # @return [Numeric] the angle in radians
       #
-      def atan2 (y, x)
+      def atan2(y, x)
         Math.atan2 y, x
       end
 
@@ -2399,7 +2399,7 @@ module RubySketch
       #
       # @return [Numeric] noise value (0.0..1.0)
       #
-      def noise (x, y = 0, z = 0)
+      def noise(x, y = 0, z = 0)
         Rays.perlin(x, y, z) / 2.0 + 0.5
       end
 
@@ -2416,7 +2416,7 @@ module RubySketch
       #
       # @return [Float] random number
       #
-      def random (*args)
+      def random(*args)
         return args.first.sample if args.first.kind_of? Array
         high, low = args.reverse
         rand (low || 0).to_f...(high || 1).to_f
@@ -2434,16 +2434,16 @@ module RubySketch
       #
       # @return [Vector] new vector
       #
-      def createVector (*args)
-        Vector.new *args, context: self
+      def createVector(*args)
+        Vector.new(*args, context: self)
       end
 
       # Creates a camera object as a video input device.
       #
       # @return [Capture] camera object
       #
-      def createCapture (*args)
-        Capture.new *args
+      def createCapture(*args)
+        Capture.new(*args)
       end
 
       # Creates a new off-screen graphics context object.
@@ -2453,7 +2453,7 @@ module RubySketch
       #
       # @return [Graphics] graphics object
       #
-      def createGraphics (width, height)
+      def createGraphics(width, height)
         Graphics.new width, height
       end
 
@@ -2464,13 +2464,13 @@ module RubySketch
       #
       # @return [Image] loaded image object
       #
-      def loadImage (filename, extension = nil)
+      def loadImage(filename, extension = nil)
         filename = getImage__ filename, extension if filename =~ %r|^https?://|
         Image.new Rays::Image.load filename
       end
 
       # @private
-      private def getImage__ (uri, ext)
+      private def getImage__(uri, ext)
         ext ||= File.extname uri
         raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png)$/i
 
@@ -2494,7 +2494,7 @@ module RubySketch
       end
 
       # @private
-      private def tmpdir__ ()
+      private def tmpdir__()
         Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
       end
 

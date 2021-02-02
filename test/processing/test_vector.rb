@@ -14,15 +14,15 @@ class TestProcessingVector < Test::Unit::TestCase
 
   PI = M::PI
 
-  def vec (*args)
-    V.new *args
+  def vec(*args)
+    V.new(*args)
   end
 
-  def point (*args)
-    Rays::Point.new *args
+  def point(*args)
+    Rays::Point.new(*args)
   end
 
-  def test_initialize ()
+  def test_initialize()
     assert_equal_vector vec(0, 0, 0), vec()
     assert_equal_vector vec(1, 0, 0), vec(1)
     assert_equal_vector vec(1, 2, 0), vec(1, 2)
@@ -37,7 +37,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(1, 2, 3), vec(point 1, 2, 3)
   end
 
-  def test_set ()
+  def test_set()
     v0 = vec 9, 9, 9
 
     v = v0.dup; v.set;         assert_equal_vector vec(0, 0, 0), v
@@ -54,7 +54,7 @@ class TestProcessingVector < Test::Unit::TestCase
     v = v0.dup; v.set point(1, 2, 3); assert_equal_vector vec(1, 2, 3), v
   end
 
-  def test_dup ()
+  def test_dup()
     v1 = vec 1, 2, 3
     assert_equal_vector vec(1, 2, 3), v1
 
@@ -67,7 +67,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(1, 2, 3), v2
   end
 
-  def test_copy ()
+  def test_copy()
     v1 = vec 1, 2, 3
     assert_equal_vector vec(1, 2, 3), v1
 
@@ -80,7 +80,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(1, 2, 3), v2
   end
 
-  def test_xyz ()
+  def test_xyz()
     v = vec 1, 2, 3
     assert_equal_vector vec(1, 2, 3), v
     assert_equal           [1, 2, 3], [v.x, v.y, v.z]
@@ -95,11 +95,11 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(7, 8, 9), v
   end
 
-  def test_array ()
+  def test_array()
     assert_equal [1, 2, 3], vec(1, 2, 3).array
   end
 
-  def test_add ()
+  def test_add()
     v = vec 1, 2, 3
     v.add 4, 5, 6
     assert_equal_vector vec(5, 7, 9), v
@@ -118,7 +118,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(5, 7, 9), vec(1, 2, 3).add(point(4, 5, 6))
   end
 
-  def test_sub ()
+  def test_sub()
     v = vec 9, 8, 7
     v.sub 1, 2, 3
     assert_equal_vector vec(8, 6, 4), v
@@ -137,19 +137,19 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(8, 6, 4), vec(9, 8, 7).sub(point(1, 2, 3))
   end
 
-  def test_mult ()
+  def test_mult()
     v = vec 1, 2, 3
     v.mult 2
     assert_equal_vector vec(2, 4, 6), v
   end
 
-  def test_div ()
+  def test_div()
     v = vec 2, 4, 6
     v.div 2
     assert_equal_vector vec(1, 2, 3), v
   end
 
-  def test_op_add ()
+  def test_op_add()
     v1 = vec 1, 2, 3
     v2 = vec 4, 5, 6
     assert_equal_vector vec(5, 7, 9), v1 + v2
@@ -167,7 +167,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(5, 7, 9), vec(1, 2, 3) + point(4, 5, 6)
   end
 
-  def test_op_sub ()
+  def test_op_sub()
     v1 = vec 9, 8, 7
     v2 = vec 1, 2, 3
     assert_equal_vector vec(8, 6, 4), v1 - v2
@@ -185,19 +185,19 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(8, 6, 4), vec(9, 8, 7) - point(1, 2, 3)
   end
 
-  def test_op_mult ()
+  def test_op_mult()
     v = vec 1, 2, 3
     assert_equal_vector vec(2, 4, 6), v * 2
     assert_equal_vector vec(1, 2, 3), v
   end
 
-  def test_op_div ()
+  def test_op_div()
     v = vec 2, 4, 6
     assert_equal_vector vec(1, 2, 3), v / 2
     assert_equal_vector vec(2, 4, 6), v
   end
 
-  def test_fun_add ()
+  def test_fun_add()
     v1     = vec 1, 2, 3
     v2     = vec 4, 5, 6
     result = vec
@@ -207,7 +207,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(5, 7, 9), result
   end
 
-  def test_fun_sub ()
+  def test_fun_sub()
     v1     = vec 9, 8, 7
     v2     = vec 1, 2, 3
     result = vec
@@ -217,7 +217,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(8, 6, 4), result
   end
 
-  def test_fun_mult ()
+  def test_fun_mult()
     v1     = vec 1, 2, 3
     result = vec
     assert_equal_vector vec(2, 4, 6), V.mult(v1, 2, result)
@@ -225,7 +225,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(2, 4, 6), result
   end
 
-  def test_fun_div ()
+  def test_fun_div()
     v1     = vec 2, 4, 6
     result = vec
     assert_equal_vector vec(1, 2, 3), V.div(v1, 2, result)
@@ -233,17 +233,17 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(1, 2, 3), result
   end
 
-  def test_mag ()
+  def test_mag()
     assert_in_delta M.sqrt(5),  vec(1, 2)   .mag, 0.000001
     assert_in_delta M.sqrt(14), vec(1, 2, 3).mag, 0.000001
   end
 
-  def test_magSq ()
+  def test_magSq()
     assert_equal 5,  vec(1, 2)   .magSq
     assert_equal 14, vec(1, 2, 3).magSq
   end
 
-  def test_setMag ()
+  def test_setMag()
     v = vec 3, 4, 0
     assert_equal_vector vec(6, 8, 0), v.setMag(10)
     assert_equal_vector vec(6, 8, 0), v
@@ -255,7 +255,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(6, 8, 0), result
   end
 
-  def test_normalize ()
+  def test_normalize()
     v      = vec 1, 2, 3
     normal = v / v.mag
     assert_equal_vector normal, v.normalize
@@ -268,7 +268,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector normal,       result
   end
 
-  def test_limit ()
+  def test_limit()
     v = vec 1, 2, 3
     assert_in_delta 1, v.limit(1).mag, 0.000001
     assert_in_delta 1, v         .mag, 0.000001
@@ -279,7 +279,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_in_delta vec(1, 2, 3).mag, vec(1, 2, 3).limit(4).mag, 0.000001
   end
 
-  def test_dist ()
+  def test_dist()
     v1 = vec 1, 2, 3
     v2 = vec 4, 5, 6
 
@@ -292,7 +292,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(4, 5, 6), v2
   end
 
-  def test_dot ()
+  def test_dot()
     v1 = vec 1, 2, 3
     v2 = vec 4, 5, 6
 
@@ -308,7 +308,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(4, 5, 6), v2
   end
 
-  def test_cross ()
+  def test_cross()
     v1 = vec 1, 0, 0
     v2 = vec 0, 1, 0
 
@@ -328,9 +328,9 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(0, 0, 1), result
   end
 
-  def test_rotate ()
+  def test_rotate()
     angle   = PI * 2 * 0.1
-    context = Object.new.tap {|o| def o.toAngle__ (a); a * 2 * P::RAD2DEG__; end}
+    context = Object.new.tap {|o| def o.toAngle__(a); a * 2 * P::RAD2DEG__; end}
 
     v = vec 1, 0, 0
     assert_equal_vector vec(M.cos(angle), M.sin(angle), 0), v.rotate(angle)
@@ -340,7 +340,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(M.cos(angle * 2), M.sin(angle * 2), 0), v.rotate(angle)
   end
 
-  def test_fromAngle ()
+  def test_fromAngle()
     angle  = PI * 2 * 0.1
     result = vec
     assert_equal_vector vec(M.cos(angle), M.sin(angle), 0), V.fromAngle(angle)
@@ -348,25 +348,25 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_equal_vector vec(M.cos(angle), M.sin(angle), 0), result
   end
 
-  def test_heading ()
+  def test_heading()
     angle = PI * 1 * 0.1
-    assert_in_delta  angle, V.fromAngle( angle).heading, 0.000001
-    assert_in_delta -angle, V.fromAngle(-angle).heading, 0.000001
+    assert_in_delta( angle, V.fromAngle( angle).heading, 0.000001)
+    assert_in_delta(-angle, V.fromAngle(-angle).heading, 0.000001)
   end
 
-  def test_angleBetween ()
+  def test_angleBetween()
     v1 = V.fromAngle PI * 0.25
     v2 = V.fromAngle PI * 0.75
     assert_in_delta PI / 2, V.angleBetween(v1, v2), 0.000001
   end
 
-  def test_lerp ()
+  def test_lerp()
     assert_equal_vector vec(0.5, 0.5, 0.5), vec(0, 0, 0).lerp(vec(1, 1, 1),    0.5)
     assert_equal_vector vec(0.5, 0.5, 0.5), vec(0, 0, 0).lerp(    1, 1, 1,     0.5)
     assert_equal_vector vec(0.5, 0.5, 0.5), V.lerp(vec(0, 0, 0), vec(1, 1, 1), 0.5)
   end
 
-  def test_random2D ()
+  def test_random2D()
     v1 = V.random2D
     v2 = V.random2D
     assert          v1.x != 0
@@ -380,7 +380,7 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_in_delta 1, v2.mag, 0.000001
   end
 
-  def test_random3D ()
+  def test_random3D()
     v1 = V.random3D
     v2 = V.random3D
     assert v1.x != 0

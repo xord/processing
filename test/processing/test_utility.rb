@@ -6,15 +6,14 @@ require_relative '../helper'
 
 class TestProcessingUtility < Test::Unit::TestCase
 
-  class Context
-    include RubySketch::Processing::Context
+  class Context < RubySketch::Processing::Context
   end
 
   def context
     Context.new
   end
 
-  def test_random ()
+  def test_random()
     c = context
 
     assert_equal Float,  c.random(1).class
