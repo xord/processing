@@ -890,7 +890,7 @@ module RubySketch
       BACKSPACE = :backspace
       ESC       = :escape
       HOME      = :home
-      END       = :end
+      #END       = :end
       PAGEUP    = :pageup
       PAGEDOWN  = :pagedown
       CLEAR     = :clear
