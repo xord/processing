@@ -6,11 +6,8 @@ require_relative '../helper'
 
 class TestProcessingUtility < Test::Unit::TestCase
 
-  class Context < RubySketch::Processing::Context
-  end
-
-  def context
-    Context.new
+  def context()
+    RubySketch::Processing::Context.new RubySketch::Window.new
   end
 
   def test_random()
