@@ -15,9 +15,11 @@ module RubySketch
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
       RubySketch.instance_variable_set :@window, self
 
-      @events      = []
-      @auto_resize = true
-      @error       = nil
+      @canvas         =
+      @canvas_painter = nil
+      @events         = []
+      @auto_resize    = true
+      @error          = nil
 
       painter.miter_limit = 10
       resize_canvas 1, 1

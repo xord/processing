@@ -6,20 +6,17 @@ require_relative '../helper'
 
 class TestProcessingVector < Test::Unit::TestCase
 
-  P = RubySketch::Processing
-
-  V = P::Vector
-
-  M = Math
-
+  P  = RubySketch::Processing
+  V  = P::Vector
+  M  = Math
   PI = M::PI
 
-  def vec(*args)
-    V.new(*args)
+  def vec(*args, **kwargs)
+    V.new(*args, **kwargs)
   end
 
-  def point(*args)
-    Rays::Point.new(*args)
+  def point(*args, **kwargs)
+    Rays::Point.new(*args, **kwargs)
   end
 
   def test_initialize()
