@@ -1,6 +1,12 @@
 # RubySketch ChangeLog
 
 
+## [0.3.16] - 2021-2-14
+
+- add key, keyCode and keyPressed system values
+- add keyPressed(), keyReleased() and keyTyped() functions
+
+
 ## [0.3.15] - 2020-12-12
 
 - delete temporary directory on launch

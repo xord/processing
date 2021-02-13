@@ -4,8 +4,9 @@ module RubySketch
   class Window < Reflex::Window
 
     attr_accessor :setup, :update, :draw, :before_draw, :after_draw, :resize,
+      :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
-      :key, :motion
+      :motion
 
     attr_accessor :auto_resize
 
@@ -23,7 +24,6 @@ module RubySketch
 
       root.on(:update)  {|e| on_canvas_update e}
       root.on(:draw)    {|e| on_canvas_draw e}
-      root.on(:key)     {|e| on_canvas_key e}
       root.on(:pointer) {|e| on_canvas_pointer e}
 
       super(*args, size: [width, height], **kwargs, &block)
@@ -53,6 +53,14 @@ module RubySketch
       draw_canvas {call_block @resize, e} if @resize
     end
 
+    def on_key(e)
+      block = case e.type
+        when :down then @key_down
+        when :up   then @key_up
+      end
+      draw_canvas {call_block block, e} if block
+    end
+
     def on_motion(e)
       draw_canvas {call_block @motion, e} if @motion
     end
@@ -65,10 +73,6 @@ module RubySketch
     def on_canvas_draw(e)
       draw_canvas {call_block @draw, e} if @draw
       e.painter.image @canvas
-    end
-
-    def on_canvas_key(e)
-      draw_canvas {call_block @key, e} if @key
     end
 
     def on_canvas_pointer(e)

@@ -852,50 +852,99 @@ module RubySketch
 
       # RGB mode for colorMode().
       #
-      RGB = :RGB
+      RGB = :rgb
 
       # HSB mode for colorMode().
       #
-      HSB = :HSB
+      HSB = :hsb
 
       # Radian mode for angleMode().
       #
-      RADIANS = :RADIANS
+      RADIANS = :radians
 
       # Degree mode for angleMode().
       #
-      DEGREES = :DEGREES
+      DEGREES = :degrees
 
       # Mode for rectMode(), ellipseMode() and imageMode().
       #
-      CORNER  = :CORNER
+      CORNER  = :corner
 
       # Mode for rectMode(), ellipseMode() and imageMode().
       #
-      CORNERS = :CORNERS
+      CORNERS = :corners
 
       # Mode for rectMode(), ellipseMode(), imageMode() and textAlign().
       #
-      CENTER  = :CENTER
+      CENTER  = :center
 
       # Mode for rectMode() and ellipseMode().
       #
-      RADIUS  = :RADIUS
+      RADIUS  = :radius
+
+      # Key codes.
+      ENTER     = :enter
+      SPACE     = :space
+      TAB       = :tab
+      DELETE    = :delete
+      BACKSPACE = :backspace
+      ESC       = :escape
+      HOME      = :home
+      END       = :end
+      PAGEUP    = :pageup
+      PAGEDOWN  = :pagedown
+      CLEAR     = :clear
+      SHIFT     = :shift
+      CONTROL   = :control
+      ALT       = :alt
+      WIN       = :win
+      COMMAND   = :command
+      OPTION    = :option
+      FUNCTION  = :function
+      CAPSLOCK  = :capslock
+      SECTION   = :section
+      HELP      = :help
+      F1        = :f1
+      F2        = :f2
+      F3        = :f3
+      F4        = :f4
+      F5        = :f5
+      F6        = :f6
+      F7        = :f7
+      F8        = :f8
+      F9        = :f9
+      F10       = :f10
+      F11       = :f11
+      F12       = :f12
+      F13       = :f13
+      F14       = :f14
+      F15       = :f15
+      F16       = :f16
+      F17       = :f17
+      F18       = :f18
+      F19       = :f19
+      F20       = :f20
+      F21       = :f21
+      F22       = :f22
+      F23       = :f23
+      F24       = :f24
+      UP        = :up
+      DOWN      = :down
+
+      # Key code or Mode for textAlign().
+      LEFT     = :left
+
+      # Key code or Mode for textAlign().
+      RIGHT    = :right
 
       # Mode for textAlign().
-      LEFT     = :LEFT
+      TOP      = :top
 
       # Mode for textAlign().
-      RIGHT    = :RIGHT
+      BOTTOM   = :bottom
 
       # Mode for textAlign().
-      TOP      = :TOP
-
-      # Mode for textAlign().
-      BOTTOM   = :BOTTOM
-
-      # Mode for textAlign().
-      BASELINE = :BASELINE
+      BASELINE = :baseline
 
       # Mode for strokeCap().
       #
@@ -981,7 +1030,7 @@ module RubySketch
       # @return [nil] nil
       #
       def colorMode(mode, *maxes)
-        mode = mode.upcase.to_sym
+        mode = mode.downcase.to_sym
         raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
         raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
 
@@ -1029,7 +1078,7 @@ module RubySketch
       # @return [nil] nil
       #
       def angleMode(mode)
-        @angleScale__ = case mode.upcase.to_sym
+        @angleScale__ = case mode.downcase.to_sym
           when RADIANS then RAD2DEG__
           when DEGREES then 1.0
           else raise ArgumentError, "invalid angle mode: #{mode}"
@@ -1770,13 +1819,16 @@ module RubySketch
         @window__ = window
         init__ @window__.canvas, @window__.canvas_painter.paint {background 0.8}
 
-        @loop__         = true
-        @redraw__       = false
-        @frameCount__   = 0
-        @mousePos__     =
-        @mousePrevPos__ = [0, 0]
-        @mousePressed__ = false
-        @touches__      = []
+        @loop__            = true
+        @redraw__          = false
+        @frameCount__      = 0
+        @key__             = nil
+        @keyCode__         = nil
+        @keysPressed__     = Set.new
+        @pointerPos__      =
+        @pointerPrevPos__  = [0, 0]
+        @pointersPressed__ = Set.new
+        @touches__         = []
 
         @window__.before_draw = proc {beginDraw__}
         @window__.after_draw  = proc {endDraw__}
@@ -1797,14 +1849,37 @@ module RubySketch
             @redraw__ = false
             drawFrame.call
           end
-          @mousePrevPos__ = @mousePos__
+          @pointerPrevPos__ = @pointerPos__
         end
 
-        updatePointerStates = -> event, pressed = nil {
-          @mousePos__     = event.pos.to_a
-          @mousePressed__ = pressed if pressed != nil
-          @touches__      = event.positions.map {|pos| Touch.new(*pos.to_a)}
+        updateKeyStates = -> event, pressed {
+          @key__     = event.chars
+          @keyCode__ = event.key
+          if pressed != nil
+            set, key = @keysPressed__, event.key
+            pressed ? set.add(key) : set.delete(key)
+          end
         }
+
+        updatePointerStates = -> event, pressed = nil {
+          @pointerPos__ = event.pos.to_a
+          @touches__    = event.positions.map {|pos| Touch.new(*pos.to_a)}
+          if pressed != nil
+            set, type = @pointersPressed__, event.pointer_type
+            pressed ? set.add(type) : set.delete(type)
+          end
+        }
+
+        @window__.key_down = proc do |e|
+          updateKeyStates.call e, true
+          @keyPressed__&.call
+          @keyTyped__&.call unless @key__.empty?
+        end
+
+        @window__.key_up = proc do |e|
+          updateKeyStates.call e, false
+          @keyReleased__&.call
+        end
 
         @window__.pointer_down = proc do |e|
           updatePointerStates.call e, true
@@ -1846,17 +1921,36 @@ module RubySketch
         nil
       end
 
-      # @private
-      private def key__(&block)
-        @window__.key = block
+      # Defines keyPressed block.
+      #
+      # @return [Boolean] is any key pressed or not
+      #
+      def keyPressed(&block)
+        @keyPressedBlock__ = block if block
+        not @keysPressed__.empty?
+      end
+
+      # Defines keyReleased block.
+      #
+      def keyReleased(&block)
+        @keyReleasedBlock__ = block if block
+        nil
+      end
+
+      # Defines keyTyped block.
+      #
+      def keyTyped(&block)
+        @keyTypedBlock__ = block if block
         nil
       end
 
       # Defines mousePressed block.
       #
+      # @return [Boolean] is any mouse button pressed or not
+      #
       def mousePressed(&block)
         @mousePressedBlock__ = block if block
-        @mousePressed__
+        not @pointersPressed__.empty?
       end
 
       # Defines mouseReleased block.
@@ -1997,12 +2091,28 @@ module RubySketch
         @window__.event.fps
       end
 
+      # Returns the last key that was pressed or released.
+      #
+      # @return [String] last key
+      #
+      def key()
+        @key__
+      end
+
+      # Returns the last key code that was pressed or released.
+      #
+      # @return [Symbol] last key code
+      #
+      def keyCode()
+        @keyCode__
+      end
+
       # Returns mouse x position
       #
       # @return [Numeric] horizontal position of mouse
       #
       def mouseX()
-        @mousePos__[0]
+        @pointerPos__[0]
       end
 
       # Returns mouse y position
@@ -2010,7 +2120,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def mouseY()
-        @mousePos__[1]
+        @pointerPos__[1]
       end
 
       # Returns mouse x position in previous frame
@@ -2018,7 +2128,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def pmouseX()
-        @mousePrevPos__[0]
+        @pointerPrevPos__[0]
       end
 
       # Returns mouse y position in previous frame
@@ -2026,7 +2136,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def pmouseY()
-        @mousePrevPos__[1]
+        @pointerPrevPos__[1]
       end
 
       # Returns array of touches

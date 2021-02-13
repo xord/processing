@@ -1,3 +1,4 @@
+require 'set'
 require 'digest/sha1'
 require 'pathname'
 require 'tmpdir'
