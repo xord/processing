@@ -1872,13 +1872,13 @@ module RubySketch
 
         @window__.key_down = proc do |e|
           updateKeyStates.call e, true
-          @keyPressed__&.call
-          @keyTyped__&.call unless @key__.empty?
+          @keyPressedBlock__&.call
+          @keyTypedBlock__&.call unless @key__.empty?
         end
 
         @window__.key_up = proc do |e|
           updateKeyStates.call e, false
-          @keyReleased__&.call
+          @keyReleasedBlock__&.call
         end
 
         @window__.pointer_down = proc do |e|
