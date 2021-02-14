@@ -5,6 +5,7 @@
 
 - add key, keyCode and keyPressed system values
 - add keyPressed(), keyReleased() and keyTyped() functions
+- add motionGravity value and motion() function
 
 
 ## [0.3.15] - 2020-12-12
