@@ -1829,6 +1829,7 @@ module RubySketch
         @pointerPrevPos__  = [0, 0]
         @pointersPressed__ = Set.new
         @touches__         = []
+        @motionGravity__   = createVector 0, 0
 
         @window__.before_draw = proc {beginDraw__}
         @window__.after_draw  = proc {endDraw__}
