@@ -10,12 +10,12 @@ module RubySketch
 
     attr_accessor :auto_resize
 
-    attr_reader :canvas, :canvas_painter
+    attr_reader :canvas_image, :canvas_painter
 
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
       RubySketch.instance_variable_set :@window, self
 
-      @canvas         =
+      @canvas_image   =
       @canvas_painter = nil
       @events         = []
       @auto_resize    = true
@@ -72,7 +72,7 @@ module RubySketch
 
     def on_canvas_draw(e)
       draw_canvas {call_block @draw, e} if @draw
-      e.painter.image @canvas
+      e.painter.image @canvas_image
     end
 
     def on_canvas_pointer(e)
@@ -94,22 +94,22 @@ module RubySketch
     def resize_canvas(width, height, pixel_density = nil)
       return nil if width * height == 0
 
-      unless width    == @canvas&.width  &&
-        height        == @canvas&.height &&
+      unless width    == @canvas_image&.width  &&
+        height        == @canvas_image&.height &&
         pixel_density == @canvas_painter&.pixel_density
 
-        old_canvas  = @canvas
+        old_image   = @canvas_image
         old_painter = @canvas_painter
-        cs          = old_canvas&.color_space || Rays::RGBA
+        cs          = old_image&.color_space || Rays::RGBA
         pd          =  pixel_density ||
           old_painter&.pixel_density ||
           painter     .pixel_density
 
-        @canvas         = Rays::Image.new width, height, cs, pd
-        @canvas_painter = @canvas.painter
+        @canvas_image   = Rays::Image.new width, height, cs, pd
+        @canvas_painter = @canvas_image.painter
 
-        if old_canvas
-          @canvas_painter.paint {image old_canvas}
+        if old_image
+          @canvas_painter.paint {image old_image}
           copy_painter_attributes old_painter, @canvas_painter
         end
 
@@ -140,8 +140,8 @@ module RubySketch
     end
 
     def get_scroll_and_zoom()
-      ww, wh =         width.to_f,         height.to_f
-      cw, ch = @canvas.width.to_f, @canvas.height.to_f
+      ww, wh =               width.to_f,               height.to_f
+      cw, ch = @canvas_image.width.to_f, @canvas_image.height.to_f
       return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch

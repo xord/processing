@@ -1591,7 +1591,7 @@ module RubySketch
       #
       def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
         assertDrawing__
-        src = img&.getInternal__ || @window__.canvas
+        src = img&.getInternal__ || @window__.canvas_image
         @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
       end
 
@@ -1817,7 +1817,9 @@ module RubySketch
         tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?}
 
         @window__ = window
-        init__ @window__.canvas, @window__.canvas_painter.paint {background 0.8}
+        init__(
+          @window__.canvas_image,
+          @window__.canvas_painter.paint {background 0.8})
 
         @loop__            = true
         @redraw__          = false
@@ -1835,7 +1837,7 @@ module RubySketch
         @window__.after_draw  = proc {endDraw__}
 
         drawFrame = -> {
-          updateCanvas__ @window__.canvas, @window__.canvas_painter
+          updateCanvas__ @window__.canvas_image, @window__.canvas_painter
           begin
             push
             @drawBlock__.call if @drawBlock__
@@ -2046,7 +2048,7 @@ module RubySketch
 
         @painter__.__send__ :end_paint
         @window__.__send__ :resize_canvas, width, height, pixelDensity
-        updateCanvas__ @window__.canvas, @window__.canvas_painter
+        updateCanvas__ @window__.canvas_image, @window__.canvas_painter
         @painter__.__send__ :begin_paint
 
         @window__.auto_resize = false
