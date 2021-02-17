@@ -21,12 +21,15 @@ module RubySketch
       @auto_resize    = true
       @error          = nil
 
+      @canvas_view = add Reflex::View.new {|v|
+        v.on(:update)  {|e| on_canvas_update e}
+        v.on(:draw)    {|e| on_canvas_draw e}
+        v.on(:pointer) {|e| on_canvas_pointer e}
+        v.on(:resize)  {|e| on_canvas_resize e}
+      }
+
       painter.miter_limit = 10
       resize_canvas 1, 1
-
-      root.on(:update)  {|e| on_canvas_update e}
-      root.on(:draw)    {|e| on_canvas_draw e}
-      root.on(:pointer) {|e| on_canvas_pointer e}
 
       super(*args, size: [width, height], **kwargs, &block)
     end
@@ -50,11 +53,6 @@ module RubySketch
       update_canvas_view
     end
 
-    def on_resize(e)
-      resize_canvas e.width, e.height if @auto_resize
-      draw_canvas {call_block @resize, e} if @resize
-    end
-
     def on_key(e)
       block = case e.type
         when :down then @key_down
@@ -69,7 +67,7 @@ module RubySketch
 
     def on_canvas_update(e)
       call_block @update, e
-      redraw
+      @canvas_view.redraw
     end
 
     def on_canvas_draw(e)
@@ -84,6 +82,11 @@ module RubySketch
         when :move then e.drag? ? @pointer_drag : @pointer_move
       end
       draw_canvas {call_block block, e} if block
+    end
+
+    def on_canvas_resize(e)
+      resize_canvas e.width, e.height if @auto_resize
+      draw_canvas {call_block @resize, e} if @resize
     end
 
     private
@@ -132,8 +135,8 @@ module RubySketch
 
     def update_canvas_view()
       scrollx, scrolly, zoom = get_scroll_and_zoom
-      root.scroll_to scrollx, scrolly
-      root.zoom zoom
+      @canvas_view.scroll_to scrollx, scrolly
+      @canvas_view.zoom zoom
     end
 
     def get_scroll_and_zoom()
