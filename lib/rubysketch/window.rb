@@ -49,6 +49,10 @@ module RubySketch
       call_block @setup, nil
     end
 
+    def on_resize(e)
+      on_canvas_resize e
+    end
+
     def on_draw(e)
       update_canvas_view
     end
