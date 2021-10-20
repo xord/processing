@@ -21,15 +21,15 @@ module RubySketch
       @auto_resize    = true
       @error          = nil
 
+      painter.miter_limit = 10
+      resize_canvas 1, 1
+
       @canvas_view = add Reflex::View.new {|v|
         v.on(:update)  {|e| on_canvas_update e}
         v.on(:draw)    {|e| on_canvas_draw e}
         v.on(:pointer) {|e| on_canvas_pointer e}
         v.on(:resize)  {|e| on_canvas_resize e}
       }
-
-      painter.miter_limit = 10
-      resize_canvas 1, 1
 
       super(*args, size: [width, height], **kwargs, &block)
     end
