@@ -708,6 +708,10 @@ module RubySketch
     #
     class Touch
 
+      # Identifier of each touch
+      #
+      attr_reader :id
+
       # Horizontal position of touch
       #
       attr_reader :x
@@ -717,12 +721,8 @@ module RubySketch
       attr_reader :y
 
       # @private
-      def initialize(x, y)
-        @x, @y = x, y
-      end
-
-      def id()
-        raise NotImplementedError
+      def initialize(id, x, y)
+        @id, @x, @y = id, x, y
       end
 
     end# Touch
@@ -1866,7 +1866,7 @@ module RubySketch
 
         updatePointerStates = -> event, pressed = nil {
           @pointerPos__ = event.pos.to_a
-          @touches__    = event.pointers.map {|p| Touch.new(*p.pos.to_a)}
+          @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
           if pressed != nil
             set, type = @pointersPressed__, event.type
             pressed ? set.add(type) : set.delete(type)
