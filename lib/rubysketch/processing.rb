@@ -1866,9 +1866,9 @@ module RubySketch
 
         updatePointerStates = -> event, pressed = nil {
           @pointerPos__ = event.pos.to_a
-          @touches__    = event.positions.map {|pos| Touch.new(*pos.to_a)}
+          @touches__    = event.pointers.map {|p| Touch.new(*p.pos.to_a)}
           if pressed != nil
-            set, type = @pointersPressed__, event.pointer_type
+            set, type = @pointersPressed__, event.type
             pressed ? set.add(type) : set.delete(type)
           end
         }
@@ -1876,7 +1876,7 @@ module RubySketch
         @window__.key_down = proc do |e|
           updateKeyStates.call e, true
           @keyPressedBlock__&.call
-          @keyTypedBlock__&.call unless @key__.empty?
+          @keyTypedBlock__&.call if @key__ && !@key__.empty?
         end
 
         @window__.key_up = proc do |e|
