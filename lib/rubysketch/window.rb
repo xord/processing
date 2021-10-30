@@ -81,9 +81,9 @@ module RubySketch
 
     def on_canvas_pointer(e)
       block = case e.action
-        when :down then @pointer_down
-        when :up   then @pointer_up
-        when :move then e.drag? ? @pointer_drag : @pointer_move
+        when :down        then @pointer_down
+        when :up, :cancel then @pointer_up
+        when :move        then e.drag? ? @pointer_drag : @pointer_move
       end
       draw_canvas {call_block block, e} if block
     end
