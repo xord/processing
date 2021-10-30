@@ -24,7 +24,7 @@ module RubySketch
       painter.miter_limit = 10
       resize_canvas 1, 1
 
-      @canvas_view = add Reflex::View.new {|v|
+      @canvas_view = add Reflex::View.new(name: :canvas) {|v|
         v.on(:update)  {|e| on_canvas_update e}
         v.on(:draw)    {|e| on_canvas_draw e}
         v.on(:pointer) {|e| on_canvas_pointer e}
