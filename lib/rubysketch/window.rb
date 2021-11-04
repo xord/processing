@@ -58,7 +58,7 @@ module RubySketch
     end
 
     def on_key(e)
-      block = case e.type
+      block = case e.action
         when :down then @key_down
         when :up   then @key_up
       end
