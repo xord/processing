@@ -1875,7 +1875,7 @@ module RubySketch
           @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
           if pressed != nil
             array = @pointersPressed__
-            event.type
+            event.types
               .tap {|types| types.delete :mouse}
               .map {|type| mouseButtonMap[type] || type}
               .each {|type| pressed ? array.push(type) : array.delete(type)}
