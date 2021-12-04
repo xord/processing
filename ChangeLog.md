@@ -1,6 +1,12 @@
 # RubySketch ChangeLog
 
 
+## [0.3.17] - 2021-12-5
+
+- add 'mouseButton'
+- pointer cancel event calls pointer_up block
+
+
 ## [0.3.16] - 2021-2-14
 
 - add key, keyCode and keyPressed system values
