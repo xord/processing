@@ -1829,7 +1829,7 @@ module RubySketch
         @keysPressed__     = Set.new
         @pointerPos__      =
         @pointerPrevPos__  = [0, 0]
-        @pointersPressed__ = Set.new
+        @pointersPressed__ = []
         @touches__         = []
         @motionGravity__   = createVector 0, 0
 
@@ -1864,12 +1864,21 @@ module RubySketch
           end
         }
 
+        mouseButtonMap = {
+          mouse_left:   LEFT,
+          mouse_right:  RIGHT,
+          mouse_middle: CENTER
+        }
+
         updatePointerStates = -> event, pressed = nil {
           @pointerPos__ = event.pos.to_a
           @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
           if pressed != nil
-            set, type = @pointersPressed__, event.type
-            pressed ? set.add(type) : set.delete(type)
+            array = @pointersPressed__
+            event.type
+              .tap {|types| types.delete :mouse}
+              .map {|type| mouseButtonMap[type] || type}
+              .each {|type| pressed ? array.push(type) : array.delete(type)}
           end
         }
 
@@ -2140,6 +2149,14 @@ module RubySketch
       #
       def pmouseY()
         @pointerPrevPos__[1]
+      end
+
+      # Returns which mouse button was pressed
+      #
+      # @return [Numeric] LEFT, RIGHT, CENTER or 0
+      #
+      def mouseButton()
+        (@pointersPressed__ & [LEFT, RIGHT, CENTER]).last || 0
       end
 
       # Returns array of touches
