@@ -6,8 +6,8 @@ begin
   context = RubySketch::Processing::Context.new window
 
   (context.methods - Object.instance_methods).each do |method|
-    define_method method do |*args, &block|
-      context.__send__ method, *args, &block
+    define_method method do |*args, **kwargs, &block|
+      context.__send__ method, *args, **kwargs, &block
     end
   end
 
