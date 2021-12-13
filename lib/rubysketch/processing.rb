@@ -974,6 +974,7 @@ module RubySketch
         @textAlignV__  = nil
         @matrixStack__ = []
         @styleStack__  = []
+        @fontCache__   = {}
 
         updateCanvas__ image, painter
 
@@ -1245,13 +1246,19 @@ module RubySketch
 
       # Sets font.
       #
+      # @overload textFont(font)
+      # @overload textFont(name)
+      # @overload textFont(font, size)
+      # @overload textFont(name, size)
+      #
+      # @param font [Font]    font
       # @param name [String]  font name
       # @param size [Numeric] font size (max 256)
       #
       # @return [Font] current font
       #
-      def textFont(name = nil, size = nil)
-        setFont__ name, size if name || size
+      def textFont(font = nil, size = nil)
+        setFont__ font, size if font || size
         Font.new @painter__.font
       end
 
@@ -1262,7 +1269,7 @@ module RubySketch
       # @return [nil] nil
       #
       def textSize(size)
-        setFont__ @painter__.font.name, size
+        setFont__ nil, size
         nil
       end
 
@@ -1284,9 +1291,15 @@ module RubySketch
       end
 
       # @private
-      def setFont__(name, size)
-        size = 256 if size && size > 256
-        @painter__.font name, size
+      def setFont__(fontOrName, size)
+        name = case fontOrName
+          when Font then fontOrName.name
+          else fontOrName || @painter__.font.name
+          end
+        size ||= @painter__.font.size
+        size = 256 if size > 256
+        font = @fontCache__[[name, size]] ||= Rays::Font.new name, size
+        @painter__.font = font
       end
 
       # Clears screen.
