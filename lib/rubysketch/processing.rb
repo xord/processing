@@ -1865,7 +1865,6 @@ module RubySketch
             @redraw__ = false
             drawFrame.call
           end
-          @pointerPrevPos__ = @pointerPos__
         end
 
         updateKeyStates = -> event, pressed {
@@ -1884,6 +1883,7 @@ module RubySketch
         }
 
         updatePointerStates = -> event, pressed = nil {
+          @pointerPrevPos__ = @pointerPos__
           @pointerPos__ = event.pos.to_a
           @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
           if pressed != nil
