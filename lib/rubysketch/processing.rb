@@ -1841,7 +1841,7 @@ module RubySketch
         @keyCode__         = nil
         @keysPressed__     = Set.new
         @pointerPos__      =
-        @pointerPrevPos__  = [0, 0]
+        @pointerPrevPos__  = Rays::Point.new 0
         @pointersPressed__ = []
         @touches__         = []
         @motionGravity__   = createVector 0, 0
@@ -1884,7 +1884,7 @@ module RubySketch
 
         updatePointerStates = -> event, pressed = nil {
           @pointerPrevPos__ = @pointerPos__
-          @pointerPos__ = event.pos.to_a
+          @pointerPos__ = event.pos.dup
           @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
           if pressed != nil
             array = @pointersPressed__
@@ -1908,12 +1908,17 @@ module RubySketch
 
         @window__.pointer_down = proc do |e|
           updatePointerStates.call e, true
+          @pointerDownStartPos__ = @pointerPos__.dup
           (@touchStartedBlock__ || @mousePressedBlock__)&.call
         end
 
         @window__.pointer_up = proc do |e|
           updatePointerStates.call e, false
           (@touchEndedBlock__ || @mouseReleasedBlock__)&.call
+          if startPos = @pointerDownStartPos__
+            @mouseClickedBlock__&.call if (@pointerPos__ - startPos).length < 3
+            @pointerDownStartPos__ = nil
+          end
         end
 
         @window__.pointer_move = proc do |e|
@@ -2010,6 +2015,15 @@ module RubySketch
       #
       def mouseDragged(&block)
         @mouseDraggedBlock__ = block if block
+        nil
+      end
+
+      # Defines mouseClicked block.
+      #
+      # @return [nil] nil
+      #
+      def mouseClicked(&block)
+        @mouseClickedBlock__ = block if block
         nil
       end
 
@@ -2159,7 +2173,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def mouseX()
-        @pointerPos__[0]
+        @pointerPos__.x
       end
 
       # Returns mouse y position
@@ -2167,7 +2181,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def mouseY()
-        @pointerPos__[1]
+        @pointerPos__.y
       end
 
       # Returns mouse x position in previous frame
@@ -2175,7 +2189,7 @@ module RubySketch
       # @return [Numeric] horizontal position of mouse
       #
       def pmouseX()
-        @pointerPrevPos__[0]
+        @pointerPrevPos__.x
       end
 
       # Returns mouse y position in previous frame
@@ -2183,7 +2197,7 @@ module RubySketch
       # @return [Numeric] vertical position of mouse
       #
       def pmouseY()
-        @pointerPrevPos__[1]
+        @pointerPrevPos__.y
       end
 
       # Returns which mouse button was pressed
