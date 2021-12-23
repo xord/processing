@@ -1934,12 +1934,16 @@ module RubySketch
 
       # Defines setup block.
       #
+      # @return [nil] nil
+      #
       def setup(&block)
         @window__.setup = block
         nil
       end
 
       # Defines draw block.
+      #
+      # @return [nil] nil
       #
       def draw(&block)
         @drawBlock__ = block if block
@@ -1957,12 +1961,16 @@ module RubySketch
 
       # Defines keyReleased block.
       #
+      # @return [nil] nil
+      #
       def keyReleased(&block)
         @keyReleasedBlock__ = block if block
         nil
       end
 
       # Defines keyTyped block.
+      #
+      # @return [nil] nil
       #
       def keyTyped(&block)
         @keyTypedBlock__ = block if block
@@ -1980,12 +1988,16 @@ module RubySketch
 
       # Defines mouseReleased block.
       #
+      # @return [nil] nil
+      #
       def mouseReleased(&block)
         @mouseReleasedBlock__ = block if block
         nil
       end
 
       # Defines mouseMoved block.
+      #
+      # @return [nil] nil
       #
       def mouseMoved(&block)
         @mouseMovedBlock__ = block if block
@@ -1994,12 +2006,16 @@ module RubySketch
 
       # Defines mouseDragged block.
       #
+      # @return [nil] nil
+      #
       def mouseDragged(&block)
         @mouseDraggedBlock__ = block if block
         nil
       end
 
       # Defines touchStarted block.
+      #
+      # @return [nil] nil
       #
       def touchStarted(&block)
         @touchStartedBlock__ = block if block
@@ -2008,6 +2024,8 @@ module RubySketch
 
       # Defines touchEnded block.
       #
+      # @return [nil] nil
+      #
       def touchEnded(&block)
         @touchEndedBlock__ = block if block
         nil
@@ -2015,12 +2033,16 @@ module RubySketch
 
       # Defines touchMoved block.
       #
+      # @return [nil] nil
+      #
       def touchMoved(&block)
         @touchMovedBlock__ = block if block
         nil
       end
 
       # Defines motion block.
+      #
+      # @return [nil] nil
       #
       def motion(&block)
         @motionBlock__ = block if block
