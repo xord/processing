@@ -996,6 +996,7 @@ module RubySketch
 
       # @private
       def beginDraw__()
+        @painter__.clear color: false, depth: true
         @matrixStack__.clear
         @styleStack__.clear
         @drawing__ = true
