@@ -1611,14 +1611,18 @@ module RubySketch
 
       # Applies translation matrix to current transformation matrix.
       #
-      # @param x [Numeric] horizontal transformation
-      # @param y [Numeric] vertical transformation
+      # @overload translate(x, y)
+      # @overload translate(x, y, z)
+      #
+      # @param x [Numeric] left/right translation
+      # @param y [Numeric] up/down translation
+      # @param y [Numeric] forward/backward translation
       #
       # @return [nil] nil
       #
-      def translate(x, y)
+      def translate(x, y, z = 0)
         assertDrawing__
-        @painter__.translate x, y
+        @painter__.translate x, y, z
         nil
       end
 
