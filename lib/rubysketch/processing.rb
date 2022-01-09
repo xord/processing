@@ -962,6 +962,7 @@ module RubySketch
       #
       SQUARE = :square
 
+      # @private
       def init__(image, painter)
         @drawing__     = false
         @hsbColor__    = false
