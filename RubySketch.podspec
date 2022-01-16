@@ -10,7 +10,15 @@ Pod::Spec.new do |s|
   s.source       = {:git => "https://github.com/xord/rubysketch.git"}
   s.author       = {"xordog" => "xordog@gmail.com"}
   s.homepage     = "https://github.com/xord/rubysketch"
-  s.xcconfig     = {"HEADER_SEARCH_PATHS" => "${PODS_ROOT}/src"}
-  s.source_files = "src/*.m"
+
+  incdirs = %W[
+    #{s.name}/src
+    CRuby/CRuby/include
+  ].map {|s| "${PODS_ROOT}/#{s}"}
+
+  s.preserve_paths = "src"
+  s.source_files   = "src/*.m"
+  s.xcconfig       = {"HEADER_SEARCH_PATHS" => incdirs.join(' ')}
+
   s.resource_bundles = {'RubySketch' => 'lib'}
 end
