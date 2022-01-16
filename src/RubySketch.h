@@ -4,6 +4,10 @@
 
 @interface RubySketch : NSObject
 
-+ (void)setup;
+	+ (void) setup;
+
+	+ (void) setActiveReflexViewController: (id) reflexViewController;
+
+	+ (void) resetActiveReflexViewController;
 
 @end

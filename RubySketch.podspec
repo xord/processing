@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   incdirs = %W[
     #{s.name}/src
     CRuby/CRuby/include
+    Reflexion/reflex/include
   ].map {|s| "${PODS_ROOT}/#{s}"}
 
   s.preserve_paths = "src"
