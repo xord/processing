@@ -33,12 +33,12 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 
 	+ (void) setActiveReflexViewController: (id) reflexViewController
 	{
-    active_reflex_view_controller = reflexViewController;
+		active_reflex_view_controller = reflexViewController;
 	}
 
 	+ (void) resetActiveReflexViewController
 	{
-    active_reflex_view_controller = nil;
+		active_reflex_view_controller = nil;
 	}
 
 @end
