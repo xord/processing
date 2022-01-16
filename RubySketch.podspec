@@ -11,6 +11,9 @@ Pod::Spec.new do |s|
   s.author       = {"xordog" => "xordog@gmail.com"}
   s.homepage     = "https://github.com/xord/rubysketch"
 
+  s.osx.deployment_target = "10.10"
+  s.ios.deployment_target = "10.0"
+
   incdirs = %W[
     #{s.name}/src
     CRuby/CRuby/include
