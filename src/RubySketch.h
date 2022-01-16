@@ -3,4 +3,7 @@
 
 
 @interface RubySketch : NSObject
+
++ (void)setup;
+
 @end

@@ -4,8 +4,12 @@
 
 @implementation RubySketch
 
-+ (void)initialize
++ (void)setup
 {
+	static BOOL done = NO;
+	if (done) return;
+	done = YES;
+
 	[CRuby addLibrary:@"RubySketch" bundle:[NSBundle bundleForClass:RubySketch.class]];
 }
 
