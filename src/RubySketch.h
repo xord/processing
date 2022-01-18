@@ -6,6 +6,8 @@
 
 	+ (void) setup;
 
+	+ (void) start: (NSString*) path;
+
 	+ (void) setActiveReflexViewController: (id) reflexViewController;
 
 	+ (void) resetActiveReflexViewController;

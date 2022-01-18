@@ -20,4 +20,6 @@ begin
     window.__send__ :end_draw
     RubySketch::App.new {window.show}.start unless $!
   end
+
+  RUBYSKETCH_WINDOW = window
 end

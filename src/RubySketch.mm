@@ -31,6 +31,17 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 		ReflexViewController_set_show_fun(ReflexViewController_show);
 	}
 
+	+ (void) start: (NSString*) path
+	{
+		[CRuby evaluate:[NSString stringWithFormat:@
+			"raise 'already started' unless require 'rubysketch-processing'\n"
+			"load '%@'\n"
+			"RUBYSKETCH_WINDOW.__send__ :end_draw\n"
+			"RUBYSKETCH_WINDOW.show",
+			path
+		]];
+	}
+
 	+ (void) setActiveReflexViewController: (id) reflexViewController
 	{
 		active_reflex_view_controller = reflexViewController;
