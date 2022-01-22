@@ -24,5 +24,5 @@ Pod::Spec.new do |s|
   s.source_files   = "src/*.mm"
   s.xcconfig       = {"HEADER_SEARCH_PATHS" => incdirs.join(' ')}
 
-  s.resource_bundles = {'RubySketch' => 'lib'}
+  s.resource_bundles = {'RubySketch' => %w[lib VERSION]}
 end
