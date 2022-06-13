@@ -24,11 +24,14 @@ module RubySketch
       painter.miter_limit = 10
       resize_canvas 1, 1
 
-      @canvas_view = add Reflex::View.new(name: :canvas) {|v|
-        v.on(:update)  {|e| on_canvas_update e}
-        v.on(:draw)    {|e| on_canvas_draw e}
-        v.on(:pointer) {|e| on_canvas_pointer e}
-        v.on(:resize)  {|e| on_canvas_resize e}
+      @canvas_view = add Reflex::View.new(name: :canvas) {|view|
+        view.instance_variable_set :@weak_win, WeakRef.new(self)
+        weak_view = WeakRef.new view
+
+        def weak_view.on_update(e)  @weak_win.on_canvas_update(e);  end
+        def weak_view.on_draw(e)    @weak_win.on_canvas_draw(e);    end
+        def weak_view.on_pointer(e) @weak_win.on_canvas_pointer(e); end
+        def weak_view.on_resize(e)  @weak_win.on_canvas_resize(e);  end
       }
 
       super(*args, size: [width, height], **kwargs, &block)
