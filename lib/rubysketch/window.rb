@@ -121,6 +121,7 @@ module RubySketch
         end
 
         resize_window width, height
+        GC.start
       end
 
       @canvas_painter
