@@ -3,6 +3,24 @@ module RubySketch
 
   class Window < Reflex::Window
 
+    class CanvasView < Reflex::View
+      def on_update(e)
+        window.on_canvas_update e
+      end
+
+      def on_draw(e)
+        window.on_canvas_draw e
+      end
+
+      def on_pointer(e)
+        window.on_canvas_pointer e
+      end
+
+      def on_resize(e)
+        window.on_canvas_resize e
+      end
+    end
+
     attr_accessor :setup, :update, :draw, :before_draw, :after_draw, :resize,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
@@ -24,15 +42,7 @@ module RubySketch
       painter.miter_limit = 10
       resize_canvas 1, 1
 
-      @canvas_view = add Reflex::View.new(name: :canvas) {|view|
-        view.instance_variable_set :@weak_win, WeakRef.new(self)
-        weak_view = WeakRef.new view
-
-        def weak_view.on_update(e)  @weak_win.on_canvas_update(e);  end
-        def weak_view.on_draw(e)    @weak_win.on_canvas_draw(e);    end
-        def weak_view.on_pointer(e) @weak_win.on_canvas_pointer(e); end
-        def weak_view.on_resize(e)  @weak_win.on_canvas_resize(e);  end
-      }
+      @canvas_view = add CanvasView.new name: :canvas
 
       super(*args, size: [width, height], **kwargs, &block)
     end

@@ -3,7 +3,6 @@ require 'digest/sha1'
 require 'pathname'
 require 'tmpdir'
 require 'open-uri'
-require 'weakref'
 
 require 'reflex'
 require 'rubysketch/module'
