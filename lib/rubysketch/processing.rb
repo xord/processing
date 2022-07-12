@@ -991,6 +991,7 @@ module RubySketch
         strokeWeight 1
       end
 
+      # @private
       def updateCanvas__(image, painter)
         @image__, @painter__ = image, painter
       end
