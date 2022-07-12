@@ -2110,9 +2110,12 @@ module RubySketch
         raise '#{name}() must be called on startup or setup block' if @started__
 
         @painter__.__send__ :end_paint
-        @window__.__send__ :resize_canvas, width, height, pixelDensity
-        updateCanvas__ @window__.canvas_image, @window__.canvas_painter
-        @painter__.__send__ :begin_paint
+        begin
+          @window__.__send__ :resize_canvas, width, height, pixelDensity
+          updateCanvas__ @window__.canvas_image, @window__.canvas_painter
+        ensure
+          @painter__.__send__ :begin_paint
+        end
 
         @window__.auto_resize = false
       end
