@@ -882,6 +882,37 @@ module RubySketch
       #
       RADIUS  = :radius
 
+      # Mode for strokeCap().
+      #
+      BUTT   = :butt
+
+      # Mode for strokeJoin().
+      #
+      MITER  = :miter
+
+      # Mode for strokeCap() and strokeJoin().
+      #
+      ROUND  = :round
+
+      # Mode for strokeCap() and strokeJoin().
+      #
+      SQUARE = :square
+
+      # Key code or Mode for textAlign().
+      LEFT     = :left
+
+      # Key code or Mode for textAlign().
+      RIGHT    = :right
+
+      # Mode for textAlign().
+      TOP      = :top
+
+      # Mode for textAlign().
+      BOTTOM   = :bottom
+
+      # Mode for textAlign().
+      BASELINE = :baseline
+
       # Key codes.
       ENTER     = :enter
       SPACE     = :space
@@ -930,37 +961,6 @@ module RubySketch
       F24       = :f24
       UP        = :up
       DOWN      = :down
-
-      # Key code or Mode for textAlign().
-      LEFT     = :left
-
-      # Key code or Mode for textAlign().
-      RIGHT    = :right
-
-      # Mode for textAlign().
-      TOP      = :top
-
-      # Mode for textAlign().
-      BOTTOM   = :bottom
-
-      # Mode for textAlign().
-      BASELINE = :baseline
-
-      # Mode for strokeCap().
-      #
-      BUTT   = :butt
-
-      # Mode for strokeJoin().
-      #
-      MITER  = :miter
-
-      # Mode for strokeCap() and strokeJoin().
-      #
-      ROUND  = :round
-
-      # Mode for strokeCap() and strokeJoin().
-      #
-      SQUARE = :square
 
       # @private
       def init__(image, painter)
