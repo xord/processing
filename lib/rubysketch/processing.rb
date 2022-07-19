@@ -898,6 +898,42 @@ module RubySketch
       #
       SQUARE = :square
 
+      # Mode for blendMode().
+      #
+      BLEND     = :normal
+
+      # Mode for blendMode().
+      #
+      ADD       = :add
+
+      # Mode for blendMode().
+      #
+      SUBTRACT  = :subtract
+
+      # Mode for blendMode().
+      #
+      LIGHTEST  = :lightest
+
+      # Mode for blendMode().
+      #
+      DARKEST   = :darkest
+
+      # Mode for blendMode().
+      #
+      EXCLUSION = :exclusion
+
+      # Mode for blendMode().
+      #
+      MULTIPLY  = :multiply
+
+      # Mode for blendMode().
+      #
+      SCREEN    = :screen
+
+      # Mode for blendMode().
+      #
+      REPLACE   = :replace
+
       # Key code or Mode for textAlign().
       LEFT     = :left
 
@@ -984,6 +1020,7 @@ module RubySketch
         rectMode    CORNER
         ellipseMode CENTER
         imageMode   CORNER
+        blendMode   BLEND
         textAlign   LEFT
 
         fill 255
@@ -1243,6 +1280,17 @@ module RubySketch
       #
       def noStroke()
         @painter__.stroke nil
+        nil
+      end
+
+      # Sets blend mode. Default is BLEND.
+      #
+      # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE]
+      #
+      # @return [nil] nil
+      #
+      def blendMode(mode)
+        @painter__.blend_mode = mode
         nil
       end
 
@@ -1703,6 +1751,7 @@ module RubySketch
           @painter__.stroke_width,
           @painter__.stroke_cap,
           @painter__.stroke_join,
+          @painter__.blend_mode,
           @painter__.font,
           @hsbColor__,
           @colorMaxes__,
@@ -1730,6 +1779,7 @@ module RubySketch
         @painter__.stroke_width,
         @painter__.stroke_cap,
         @painter__.stroke_join,
+        @painter__.blend_mode,
         @painter__.font,
         @hsbColor__,
         @colorMaxes__,
