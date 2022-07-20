@@ -1415,14 +1415,16 @@ module RubySketch
 
       # Draws a rectangle.
       #
+      # The parameters a, b, c, and d are determined by rectMode().
+      #
       # @overload rect(a, b, c, d)
       # @overload rect(a, b, c, d, r)
       # @overload rect(a, b, c, d, tl, tr, br, bl)
       #
-      # @param a  [Numeric] horizontal position of the shape by default
-      # @param b  [Numeric] vertical position of the shape by default
-      # @param c  [Numeric] width of the shape by default
-      # @param d  [Numeric] height of the shape by default
+      # @param a  [Numeric] horizontal position of the shape, by default
+      # @param b  [Numeric] vertical position of the shape, by default
+      # @param c  [Numeric] width of the shape, by default
+      # @param d  [Numeric] height of the shape, by default
       # @param r  [Numeric] radius for all corners
       # @param tl [Numeric] radius for top-left corner
       # @param tr [Numeric] radius for top-right corner
@@ -1445,10 +1447,12 @@ module RubySketch
 
       # Draws an ellipse.
       #
-      # @param a [Numeric] horizontal position of the shape
-      # @param b [Numeric] vertical position of the shape
-      # @param c [Numeric] width of the shape
-      # @param d [Numeric] height of the shape
+      # The parameters a, b, c, and d are determined by ellipseMode().
+      #
+      # @param a [Numeric] horizontal position of the shape, by default
+      # @param b [Numeric] vertical position of the shape, by default
+      # @param c [Numeric] width of the shape, by default
+      # @param d [Numeric] height of the shape, by default
       #
       # @return [nil] nil
       #
@@ -1468,15 +1472,19 @@ module RubySketch
       # @return [nil] nil
       #
       def circle(x, y, extent)
-        ellipse x, y, extent, extent
+        assertDrawing__
+        @painter__.ellipse x, y, extent, extent
+        nil
       end
 
       # Draws an arc.
       #
-      # @param a     [Numeric] horizontal position of the shape
-      # @param b     [Numeric] vertical position of the shape
-      # @param c     [Numeric] width of the shape
-      # @param d     [Numeric] height of the shape
+      # The parameters a, b, c, and d are determined by ellipseMode().
+      #
+      # @param a     [Numeric] horizontal position of the shape, by default
+      # @param b     [Numeric] vertical position of the shape, by default
+      # @param c     [Numeric] width of the shape, by default
+      # @param d     [Numeric] height of the shape, by default
       # @param start [Numeric] angle to start the arc
       # @param stop  [Numeric] angle to stop the arc
       #
@@ -1579,6 +1587,8 @@ module RubySketch
 
       # Draws a text.
       #
+      # The parameters a, b, c, and d are determined by rectMode().
+      #
       # @overload text(str)
       # @overload text(str, x, y)
       # @overload text(str, a, b, c, d)
@@ -1586,10 +1596,10 @@ module RubySketch
       # @param str [String]  text to draw
       # @param x   [Numeric] horizontal position of the text
       # @param y   [Numeric] vertical position of the text
-      # @param a   [Numeric] equivalent to parameters of the rect(), see rectMode()
-      # @param b   [Numeric] equivalent to parameters of the rect(), see rectMode()
-      # @param c   [Numeric] equivalent to parameters of the rect(), see rectMode()
-      # @param d   [Numeric] equivalent to parameters of the rect(), see rectMode()
+      # @param a   [Numeric] horizontal position of the text, by default
+      # @param b   [Numeric] vertical position of the text, by default
+      # @param c   [Numeric] width of the text, by default
+      # @param d   [Numeric] height of the text, by default
       #
       # @return [nil] nil
       #
@@ -1616,14 +1626,16 @@ module RubySketch
 
       # Draws an image.
       #
+      # The parameters a, b, c, and d are determined by imageMode().
+      #
       # @overload image(img, a, b)
       # @overload image(img, a, b, c, d)
       #
       # @param img [Image] image to draw
-      # @param a   [Numeric] horizontal position of the image
-      # @param b   [Numeric] vertical position of the image
-      # @param c   [Numeric] width of the image
-      # @param d   [Numeric] height of the image
+      # @param a   [Numeric] horizontal position of the image, by default
+      # @param b   [Numeric] vertical position of the image, by default
+      # @param c   [Numeric] width of the image, by default
+      # @param d   [Numeric] height of the image, by default
       #
       # @return [nil] nil
       #
