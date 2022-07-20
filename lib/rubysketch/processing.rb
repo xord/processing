@@ -1283,6 +1283,32 @@ module RubySketch
         nil
       end
 
+      # Limits the drawable rectangle.
+      #
+      # The parameters a, b, c, and d are determined by rectMode().
+      #
+      # @param a [Numeric] horizontal position of the drawable area, by default
+      # @param b [Numeric] vertical position of the drawable area, by default
+      # @param c [Numeric] width of the drawable area, by default
+      # @param d [Numeric] height of the drawable area, by default
+      #
+      # @return [nil] nil
+      #
+      def clip(a, b, c, d)
+        x, y, w, h = toXYWH__ @imageMode__, a, b, c, d
+        @painter__.clip x, y, w, h
+        nil
+      end
+
+      # Disables clipping.
+      #
+      # @return [nil] nil
+      #
+      def noClip()
+        @painter__.no_clip
+        nil
+      end
+
       # Sets blend mode. Default is BLEND.
       #
       # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE]
@@ -1763,6 +1789,7 @@ module RubySketch
           @painter__.stroke_width,
           @painter__.stroke_cap,
           @painter__.stroke_join,
+          @painter__.clip,
           @painter__.blend_mode,
           @painter__.font,
           @hsbColor__,
@@ -1791,6 +1818,7 @@ module RubySketch
         @painter__.stroke_width,
         @painter__.stroke_cap,
         @painter__.stroke_join,
+        @painter__.clip,
         @painter__.blend_mode,
         @painter__.font,
         @hsbColor__,
