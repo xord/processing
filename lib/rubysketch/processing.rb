@@ -1209,6 +1209,15 @@ module RubySketch
         nil
       end
 
+      # Disables filling.
+      #
+      # @return [nil] nil
+      #
+      def noFill()
+        @painter__.fill nil
+        nil
+      end
+
       # Sets stroke color.
       #
       # @overload stroke(rgb)
@@ -1229,6 +1238,15 @@ module RubySketch
       #
       def stroke(*args)
         @painter__.stroke(*toRGBA__(*args))
+        nil
+      end
+
+      # Disables drawing stroke.
+      #
+      # @return [nil] nil
+      #
+      def noStroke()
+        @painter__.stroke nil
         nil
       end
 
@@ -1262,24 +1280,6 @@ module RubySketch
       #
       def strokeJoin(join)
         @painter__.stroke_join join
-        nil
-      end
-
-      # Disables filling.
-      #
-      # @return [nil] nil
-      #
-      def noFill()
-        @painter__.fill nil
-        nil
-      end
-
-      # Disables drawing stroke.
-      #
-      # @return [nil] nil
-      #
-      def noStroke()
-        @painter__.stroke nil
         nil
       end
 
