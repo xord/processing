@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: ruby 2.7
+      - name: ruby 3.0
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.7.x
+          ruby-version: 3.0.x
 
       - name: install gems
         run: |
