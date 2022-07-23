@@ -1,6 +1,15 @@
 # RubySketch ChangeLog
 
 
+## [0.3.20] - 2022-07-24
+
+- add mouseClicked()
+- add blendMode()
+- add clip() and noClip()
+- translate() can take 'z' parameter
+- fix that resizing canvas consumes too much memory
+
+
 ## [0.3.19] - 2021-12-5
 
 - fix runtime error
