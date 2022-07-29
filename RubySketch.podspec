@@ -20,9 +20,10 @@ Pod::Spec.new do |s|
     Reflexion/reflex/include
   ].map {|s| "${PODS_ROOT}/#{s}"}
 
-  s.preserve_paths = "src"
-  s.source_files   = "src/*.mm"
-  s.xcconfig       = {"HEADER_SEARCH_PATHS" => incdirs.join(' ')}
+  s.prepare_command = "rake doc"
+  s.preserve_paths  = %w[src doc]
+  s.source_files    = "src/*.mm"
+  s.xcconfig        = {"HEADER_SEARCH_PATHS" => incdirs.join(' ')}
 
   s.resource_bundles = {'RubySketch' => %w[lib VERSION]}
 end
