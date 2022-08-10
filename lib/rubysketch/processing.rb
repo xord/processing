@@ -1186,6 +1186,17 @@ module RubySketch
         end
       end
 
+      # Sets blend mode. Default is BLEND.
+      #
+      # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE]
+      #
+      # @return [nil] nil
+      #
+      def blendMode(mode)
+        @painter__.blend_mode = mode
+        nil
+      end
+
       # Sets fill color.
       #
       # @overload fill(rgb)
@@ -1306,17 +1317,6 @@ module RubySketch
       #
       def noClip()
         @painter__.no_clip
-        nil
-      end
-
-      # Sets blend mode. Default is BLEND.
-      #
-      # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE]
-      #
-      # @return [nil] nil
-      #
-      def blendMode(mode)
-        @painter__.blend_mode = mode
         nil
       end
 
