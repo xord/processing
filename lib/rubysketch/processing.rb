@@ -1021,6 +1021,8 @@ module RubySketch
         ellipseMode CENTER
         imageMode   CORNER
         blendMode   BLEND
+        strokeCap   ROUND
+        strokeJoin  MITER
         textAlign   LEFT
 
         fill 255
