@@ -1420,9 +1420,7 @@ module RubySketch
       #
       def point(x, y)
         assertDrawing__
-        w = @painter__.stroke_width
-        w = 1 if w == 0
-        @painter__.ellipse x - (w / 2.0), y - (w / 2.0), w, w
+        @painter__.line x, y, x, y
         nil
       end
 
