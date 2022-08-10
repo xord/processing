@@ -624,9 +624,34 @@ module RubySketch
       # @return [nil] nil
       #
       def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+        blend img, sx, sy, sw, sh, dx, dy, dw, dh, :normal
+      end
+
+      # Blends image.
+      #
+      # @overload blend(sx, sy, sw, sh, dx, dy, dw, dh, mode)
+      # @overload blend(img, sx, sy, sw, sh, dx, dy, dw, dh, mode)
+      #
+      # @param img  [Image]   image for blend source
+      # @param sx   [Numrtic] x position of source region
+      # @param sy   [Numrtic] y position of source region
+      # @param sw   [Numrtic] width of source region
+      # @param sh   [Numrtic] height of source region
+      # @param dx   [Numrtic] x position of destination region
+      # @param dy   [Numrtic] y position of destination region
+      # @param dw   [Numrtic] width of destination region
+      # @param dh   [Numrtic] height of destination region
+      # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE] blend mode
+      #
+      # @return [nil] nil
+      #
+      def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
         img ||= self
         @image.paint do |painter|
+          current = painter.blend_mode
+          painter.blend_mode = mode
           painter.image img.getInternal__, sx, sy, sw, sh, dx, dy, dw, dh
+          painter.blend_mode = current
         end
       end
 
@@ -1691,9 +1716,35 @@ module RubySketch
       # @return [nil] nil
       #
       def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
+        blend img, sx, sy, sw, sh, dx, dy, dw, dh, BLEND
+      end
+
+      # Blends image.
+      #
+      # @overload blend(sx, sy, sw, sh, dx, dy, dw, dh, mode)
+      # @overload blend(img, sx, sy, sw, sh, dx, dy, dw, dh, mode)
+      #
+      # @param img  [Image]   image for blend source
+      # @param sx   [Numrtic] x position of source region
+      # @param sy   [Numrtic] y position of source region
+      # @param sw   [Numrtic] width of source region
+      # @param sh   [Numrtic] height of source region
+      # @param dx   [Numrtic] x position of destination region
+      # @param dy   [Numrtic] y position of destination region
+      # @param dw   [Numrtic] width of destination region
+      # @param dh   [Numrtic] height of destination region
+      # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE] blend mode
+      #
+      # @return [nil] nil
+      #
+      def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
         assertDrawing__
-        src = img&.getInternal__ || @window__.canvas_image
+        src     = img&.getInternal__ || @window__.canvas_image
+        current = @painter__.blend_mode
+
+        @painter__.blend_mode = mode
         @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
+        @painter__.blend_mode = current
       end
 
       # Applies translation matrix to current transformation matrix.
