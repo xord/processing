@@ -1783,6 +1783,14 @@ module RubySketch
         @painter__.blend_mode = current
       end
 
+      # Saves screen image to file.
+      #
+      # @param filename [String] file name to save image
+      #
+      def save(filename)
+        @window__.canvas_image.save filename
+      end
+
       # Applies translation matrix to current transformation matrix.
       #
       # @overload translate(x, y)
