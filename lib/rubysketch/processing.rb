@@ -1032,6 +1032,7 @@ module RubySketch
         @rectMode__    = nil
         @ellipseMode__ = nil
         @imageMode__   = nil
+        @tint__        = nil
         @textAlignH__  = nil
         @textAlignV__  = nil
         @matrixStack__ = []
@@ -1053,6 +1054,7 @@ module RubySketch
         fill 255
         stroke 0
         strokeWeight 1
+        noTint
       end
 
       # @private
@@ -1321,6 +1323,37 @@ module RubySketch
         nil
       end
 
+      # Sets fill color for drawing images.
+      #
+      # @overload tint(rgb)
+      # @overload tint(rgb, alpha)
+      # @overload tint(gray)
+      # @overload tint(gray, alpha)
+      # @overload tint(r, g, b)
+      # @overload tint(r, g, b, alpha)
+      #
+      # @param rgb   [String]  color code like '#00AAFF'
+      # @param gray  [Integer]  gray value (0..255)
+      # @param r     [Integer]   red value (0..255)
+      # @param g     [Integer] green value (0..255)
+      # @param b     [Integer]  blue value (0..255)
+      # @param alpha [Integer] alpha value (0..255)
+      #
+      # @return [nil] nil
+      #
+      def tint(*args)
+        @tint__ = args
+        nil
+      end
+
+      # Resets tint color.
+      #
+      # @return [nil] nil
+      #
+      def noTint()
+        @tint__ = nil
+      end
+
       # Limits the drawable rectangle.
       #
       # The parameters a, b, c, and d are determined by rectMode().
@@ -1429,7 +1462,7 @@ module RubySketch
         if rgba[3] == 1
           @painter__.background(*rgba)
         else
-          @painter__.push fill: rgba, stroke: nil do |_|
+          @painter__.push fill: rgba, stroke: :none do |_|
             @painter__.rect 0, 0, width, height
           end
         end
@@ -1692,9 +1725,12 @@ module RubySketch
       #
       def image(img, a, b, c = nil, d = nil)
         assertDrawing__
-        i = img.getInternal__
+        i          = img.getInternal__
         x, y, w, h = toXYWH__ @imageMode__, a, b, c || i.width, d || i.height
-        @painter__.image i, x, y, w, h
+        tint       = @tint__ ? toRGBA__(*@tint__) : 1
+        @painter__.push fill: tint, stroke: :none do |_|
+          @painter__.image i, x, y, w, h
+        end
         nil
       end
 
