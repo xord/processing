@@ -875,13 +875,17 @@ module RubySketch
       #
       TAU        = PI * 2
 
-      # RGB mode for colorMode().
+      # RGBA format for createImage().
       #
-      RGB = :rgb
+      RGBA = :rgba
+
+      # RGB format for createImage, or RGB mode for colorMode().
+      #
+      RGB  = :rgb
 
       # HSB mode for colorMode().
       #
-      HSB = :hsb
+      HSB  = :hsb
 
       # Radian mode for angleMode().
       #
@@ -2820,6 +2824,23 @@ module RubySketch
       #
       def createVector(*args)
         Vector.new(*args, context: self)
+      end
+
+      # Creates a new image.
+      #
+      # @overload createImage(w, h)
+      # @overload createImage(w, h, format)
+      #
+      # @param w      [Numeric]   width of new image
+      # @param h      [Numeric]   height of new image
+      # @param format [RGB, RGBA] image format
+      #
+      # @return [Image] new image
+      #
+      def createImage(w, h, format = RGBA)
+        colorspace = {RGB => Rays::RGB, RGBA => Rays::RGBA}[format]
+        raise ArgumentError, "Unknown image format" unless colorspace
+        Image.new Rays::Image.new(w, h, colorspace).paint {background 0, 0}
       end
 
       # Creates a camera object as a video input device.
