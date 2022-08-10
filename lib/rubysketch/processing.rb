@@ -2280,6 +2280,17 @@ module RubySketch
         nil
       end
 
+      # Changes title of window.
+      #
+      # @param title [String] new title
+      #
+      # @return [nil] nil
+      #
+      def setTitle(title)
+        @window__.title = title
+        nil
+      end
+
       # Changes and returns canvas pixel density.
       #
       # @param density [Numeric] new pixel density
