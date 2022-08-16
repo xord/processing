@@ -5,6 +5,7 @@
 
 - add blend(), createImage(), setTitle(), tint() and noTint()
 - add save() that saves screen image to file
+- circle() function is affected by ellipseMode()
 - point() draws by line(x, y, x, y)
 - change initial values for strokeCap and strokeJoin to ROUND and MITER
 

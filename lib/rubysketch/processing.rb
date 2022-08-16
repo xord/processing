@@ -1560,9 +1560,7 @@ module RubySketch
       # @return [nil] nil
       #
       def circle(x, y, extent)
-        assertDrawing__
-        @painter__.ellipse x, y, extent, extent
-        nil
+        ellipse x, y, extent, extent
       end
 
       # Draws an arc.
