@@ -1,6 +1,14 @@
 # RubySketch ChangeLog
 
 
+## [0.3.?] - 2022-x-x
+
+- add blend(), createImage(), setTitle(), tint() and noTint()
+- add save() that saves screen image to file
+- point() draws by line(x, y, x, y)
+- change initial values for strokeCap and strokeJoin to ROUND and MITER
+
+
 ## [0.3.20] - 2022-07-24
 
 - add mouseClicked()
