@@ -4,9 +4,11 @@
 
 require 'rubysketch-glsl'
 
-uniform vec2 resolution;
-uniform float time;
-void main() {
-  vec2 pos = gl_FragCoord.xy / resolution;
-  gl_FragColor = vec4(pos * abs(sin(time)), 0, 1);
-}
+run <<END
+  uniform vec2 resolution;
+  uniform float time;
+  void main() {
+    vec2 pos = gl_FragCoord.xy / resolution;
+    gl_FragColor = vec4(pos * abs(sin(time)), 0, 1);
+  }
+END
