@@ -4,7 +4,7 @@
 
 require 'rubysketch-glsl'
 
-run <<END
+RubySketch::GLSL.run <<END
   uniform vec2 resolution;
   uniform float time;
   void main() {

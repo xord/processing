@@ -1,15 +1,11 @@
 require 'rubysketch'
 
 
-begin
-  window  = RubySketch::Window.new(title: 'RubySketch') {start}
-  context = RubySketch::GLSL.new window
-
-  define_method :run do |shader_source|
-    context.run shader_source
-  end
-
-  at_exit do
-    RubySketch::App.new {window.show}.start unless $!
-  end
+def (RubySketch::GLSL).run(
+    shader_source,
+    title: 'RubySketch',
+    width: 500, height: 500)
+  w = RubySketch::Window.new(title: title, w: width, h: height) {start}
+  RubySketch::GLSL::Context.new w, shader_source
+  at_exit {RubySketch::App.new {w.show}.start unless $!}
 end

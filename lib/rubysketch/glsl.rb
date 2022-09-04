@@ -1,32 +1,36 @@
 module RubySketch
 
 
-  # @private
-  class GLSL
+  # OpenGL Shader Language
+  #
+  module GLSL
+
 
     # @private
-    def initialize(window)
-      @window = window
-    end
+    class Context
 
-    def run(shader_source)
-      shader = Rays::Shader.new shader_source
-      start  = now__
-      @window.draw = proc do |e|
-        i, p = @window.canvas_image, @window.canvas_painter
-        w, h = i.width, i.height
-        p.shader shader, resolution: [w, h], time: now__ - start
-        p.fill 1
-        p.rect 0, 0, w, h
+      # @private
+      def initialize(window, shader_source)
+        shader = Rays::Shader.new shader_source
+        start  = now__
+        window.draw = proc do |e|
+          i, p = window.canvas_image, window.canvas_painter
+          w, h = i.width, i.height
+          p.shader shader, resolution: [w, h], time: now__ - start
+          p.fill 1
+          p.rect 0, 0, w, h
+        end
       end
-    end
 
-    private
+      private
 
-    # @private
-    def now__()
-      Time.now.to_f
-    end
+      # @private
+      def now__()
+        Time.now.to_f
+      end
+
+    end# Context
+
 
   end# GLSL
 
