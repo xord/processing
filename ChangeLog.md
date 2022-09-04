@@ -1,8 +1,9 @@
 # RubySketch ChangeLog
 
 
-## [0.3.?] - 2022-x-x
+## [0.3.21] - 2022-x-x
 
+- add rubysketch-glsl.rb
 - add blend(), createImage(), setTitle(), tint() and noTint()
 - add save() that saves screen image to file
 - circle() function is affected by ellipseMode()
