@@ -20,7 +20,8 @@ jobs:
 
       - name: install gems
         run: |
-          gem install rubysketch-*.gem
+          gem install bundler
+          bundle install --jobs 4 --retry 3
 
       - name: test
         run: rake test
