@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'reflexion', '~> 0.1.28'
 
+  s.add_development_dependency 'yard'
+
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
   s.extra_rdoc_files = rdocs.to_a
