@@ -10,11 +10,15 @@ module RubySketch
     class Context
 
       # @private
-      def initialize(window, shader_source)
+      def initialize(window)
+        @window = window
+      end
+
+      def run(shader_source)
         shader = Rays::Shader.new shader_source
         start  = now__
-        window.draw = proc do |e|
-          i, p = window.canvas_image, window.canvas_painter
+        @window.draw = proc do |e|
+          i, p = @window.canvas_image, @window.canvas_painter
           w, h = i.width, i.height
           p.shader shader, resolution: [w, h], time: now__ - start
           p.fill 1
