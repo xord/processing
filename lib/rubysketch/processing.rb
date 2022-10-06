@@ -1846,11 +1846,10 @@ module RubySketch
       def pushMatrix(&block)
         assertDrawing__
         @matrixStack__.push @painter__.matrix
-        if block
-          block.call
-          popMatrix
-        end
+        block.call if block
         nil
+      ensure
+        popMatrix if block
       end
 
       # Pops the current transformation matrix from stack.
@@ -1896,11 +1895,10 @@ module RubySketch
           @ellipseMode__,
           @imageMode__
         ]
-        if block
-          block.call
-          popStyle
-        end
+        block.call if block
         nil
+      ensure
+        popStyle if block
       end
 
       # Restore style values from the style stack.
@@ -1934,10 +1932,9 @@ module RubySketch
       def push(&block)
         pushMatrix
         pushStyle
-        if block
-          block.call
-          pop
-        end
+        block.call if block
+      ensure
+        pop if block
       end
 
       # Restore styles and transformations from stack.
