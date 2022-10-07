@@ -660,7 +660,7 @@ module RubySketch
       # overload filter(type, param)
       #
       # @param shader [Shader]  a fragment shader to apply
-      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
       # @param param  [Numeric] a parameter for each filter
       #
       def filter(*args)
@@ -857,6 +857,39 @@ module RubySketch
               gl_FragColor = vec4(vec3(1.0 - col.rgb), 1.0) * vertColor;
             }
           END
+        when :blur
+          self.new(nil, <<~END).tap {|sh| sh.set :radius, (args.shift || 1).to_f}
+            #define PI 3.1415926538
+            uniform float radius;
+            uniform sampler2D texMap;
+            uniform vec3 texMin;
+            uniform vec3 texMax;
+            uniform vec3 texOffset;
+            varying vec4 vertTexCoord;
+            varying vec4 vertColor;
+            float gaussian(vec2 pos, float sigma) {
+              float s2 = sigma * sigma;
+              return 1.0 / (2.0 * PI * s2) * exp(-(dot(pos, pos) / (2.0 * s2)));
+            }
+            void main() {
+              float sigma        = radius * 0.5;
+              vec3 color         = vec3(0.0);
+              float total_weight = 0.0;
+              for (float y = -radius; y < radius; y += 1.0)
+              for (float x = -radius; x < radius; x += 1.0) {
+                vec2 offset   = vec2(x, y);
+                float weight  = gaussian(offset, sigma);
+                vec2 texcoord = vertTexCoord.xy + offset * texOffset.xy;
+                if (
+                  texcoord.x < texMin.x || texMax.x < texcoord.x ||
+                  texcoord.y < texMin.y || texMax.y < texcoord.y
+                ) continue;
+                color += texture2D(texMap, texcoord).rgb * weight;
+                total_weight += weight;
+              }
+              gl_FragColor = vec4(color / total_weight, 1.0) * vertColor;
+            }
+          END
         else
           nil
         end
@@ -957,7 +990,7 @@ module RubySketch
       # overload filter(type, param)
       #
       # @param shader [Shader]  a fragment shader to apply
-      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
       # @param param  [Numeric] a parameter for each filter
       #
       def filter(*args)
@@ -1111,6 +1144,9 @@ module RubySketch
 
       # Filter type for filter()
       INVERT    = :invert
+
+      # Filter type for filter()
+      BLUR      = :blur
 
       # Key codes.
       ENTER     = :enter
@@ -1920,7 +1956,7 @@ module RubySketch
       # overload filter(type, param)
       #
       # @param shader [Shader]  a fragment shader to apply
-      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
       # @param param  [Numeric] a parameter for each filter
       #
       def filter(*args)
