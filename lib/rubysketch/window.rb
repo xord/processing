@@ -89,7 +89,7 @@ module RubySketch
 
     def on_canvas_draw(e)
       draw_canvas {call_block @draw, e} if @draw
-      e.painter.image @canvas_image
+      draw_screen e.painter
     end
 
     def on_canvas_pointer(e)
@@ -187,6 +187,10 @@ module RubySketch
     def end_draw()
       @after_draw&.call
       @canvas_painter.__send__ :end_paint
+    end
+
+    def draw_screen(painter)
+      painter.image @canvas_image
     end
 
     def call_block(block, event, *args)

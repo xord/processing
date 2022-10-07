@@ -648,11 +648,23 @@ module RubySketch
       def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
         img ||= self
         @image.paint do |painter|
-          current = painter.blend_mode
-          painter.blend_mode = mode
-          painter.image img.getInternal__, sx, sy, sw, sh, dx, dy, dw, dh
-          painter.blend_mode = current
+          img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
         end
+        nil
+      end
+
+      # Applies an image filter.
+      #
+      # overload filter(shader)
+      # overload filter(type)
+      # overload filter(type, param)
+      #
+      # @param shader [Shader]  a fragment shader to apply
+      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param param  [Numeric] a parameter for each filter
+      #
+      def filter(*args)
+        @filter = Shader.createFilter__(*args)
       end
 
       # Saves image to file.
@@ -664,8 +676,11 @@ module RubySketch
       end
 
       # @private
-      def getInternal__()
-        @image
+      def drawImage__(painter, *args, **states)
+        shader = painter.shader || @filter&.getShader__
+        painter.push shader: shader, **states do |_|
+          painter.image @image, *args
+        end
       end
 
     end# Image
@@ -753,6 +768,103 @@ module RubySketch
     end# Touch
 
 
+    # Shader object.
+    #
+    class Shader
+
+      # Initialize shader object.
+      #
+      # @param vertSrc [String] vertex shader source
+      # @param fragSrc [String] fragment shader source
+      #
+      def initialize(vertSrc, fragSrc)
+        @shader = Rays::Shader.new fragSrc, vertSrc, ENV__
+      end
+
+      # Sets uniform variables.
+      #
+      # @overload set(name, a)
+      # @overload set(name, a, b)
+      # @overload set(name, a, b, c)
+      # @overload set(name, a, b, c, d)
+      #
+      # @param name [String]  uniform variable name
+      # @param a    [Numeric] value for uniform variable
+      # @param b    [Numeric] value for uniform variable
+      # @param c    [Numeric] value for uniform variable
+      # @param d    [Numeric] value for uniform variable
+      #
+      def set(name, *args)
+        @shader.uniform name, *args
+      end
+
+      # @private
+      def getShader__()
+        @shader
+      end
+
+      # @private
+      ENV__ = {
+        attribute_position:      [:vertex, :position],
+        attribute_texcoord:      :texCoord,
+        attribute_color:         :color,
+        varying_position:        :vertPosition,
+        varying_texcoord:        :vertTexCoord,
+        varying_color:           :vertColor,
+        uniform_position_matrix: [:transform, :transformMatrix],
+        uniform_texcoord_matrix: :texMatrix,
+        uniform_texcoord_min:    :texMin,
+        uniform_texcoord_max:    :texMax,
+        uniform_texcoord_offset: :texOffset,
+        uniform_texture:         [:texMap, :texture]
+      }.freeze
+
+      # @private
+      def self.createFilter__(*args)
+        case arg = args.shift
+        when Shader
+          arg
+        when :threshold
+          self.new(nil, <<~END).tap {|sh| sh.set :threshold, (args.shift || 0.5)}
+            uniform float threshold;
+            uniform sampler2D texMap;
+            varying vec4 vertTexCoord;
+            varying vec4 vertColor;
+            void main() {
+              vec4 col     = texture2D(texMap, vertTexCoord.xy) * vertColor;
+              float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
+              gl_FragColor = vec4(vec3(gray > threshold ? 1.0 : 0.0), 1.0);
+            }
+          END
+        when :gray
+          self.new nil, <<~END
+            uniform sampler2D texMap;
+            varying vec4 vertTexCoord;
+            varying vec4 vertColor;
+            void main() {
+              vec4 col     = texture2D(texMap, vertTexCoord.xy);
+              float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
+              gl_FragColor = vec4(vec3(gray), 1.0) * vertColor;
+            }
+          END
+        when :invert
+          self.new nil, <<~END
+            uniform sampler2D texMap;
+            varying vec4 vertTexCoord;
+            varying vec4 vertColor;
+            void main() {
+              vec4 col     = texture2D(texMap, vertTexCoord.xy);
+              gl_FragColor = vec4(vec3(1.0 - col.rgb), 1.0) * vertColor;
+            }
+          END
+        else
+          nil
+        end
+      end
+
+    end# Shader
+
+
     # Camera object.
     #
     class Capture
@@ -838,14 +950,27 @@ module RubySketch
         @camera.image&.height || 0
       end
 
-      # @private
-      def getInternal__()
-        @camera.image || dummyImage__
+      # Applies an image filter.
+      #
+      # overload filter(shader)
+      # overload filter(type)
+      # overload filter(type, param)
+      #
+      # @param shader [Shader]  a fragment shader to apply
+      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param param  [Numeric] a parameter for each filter
+      #
+      def filter(*args)
+        @filter = Shader.createFilter__(*args)
       end
 
       # @private
-      private def dummyImage__()
-        @dummy ||= Rays::Image.new 1, 1
+      def drawImage__(painter, *args, **states)
+        image  = @camera.image || (@dummyImage ||= Rays::Image.new 1, 1)
+        shader = painter.shader || @filter&.getShader__
+        painter.push shader: shader, **states do |_|
+          painter.image image, *args
+        end
       end
 
     end# Capture
@@ -978,6 +1103,15 @@ module RubySketch
       # Mode for textAlign().
       BASELINE = :baseline
 
+      # Filter type for filter()
+      THRESHOLD = :threshold
+
+      # Filter type for filter()
+      GRAY      = :gray
+
+      # Filter type for filter()
+      INVERT    = :invert
+
       # Key codes.
       ENTER     = :enter
       SPACE     = :space
@@ -1037,6 +1171,7 @@ module RubySketch
         @ellipseMode__ = nil
         @imageMode__   = nil
         @tint__        = nil
+        @filter__      = nil
         @textAlignH__  = nil
         @textAlignV__  = nil
         @matrixStack__ = []
@@ -1727,12 +1862,9 @@ module RubySketch
       #
       def image(img, a, b, c = nil, d = nil)
         assertDrawing__
-        i          = img.getInternal__
-        x, y, w, h = toXYWH__ @imageMode__, a, b, c || i.width, d || i.height
+        x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
         tint       = @tint__ ? toRGBA__(*@tint__) : 1
-        @painter__.push fill: tint, stroke: :none do |_|
-          @painter__.image i, x, y, w, h
-        end
+        img.drawImage__ @painter__, x, y, w, h, fill: tint, stroke: :none
         nil
       end
 
@@ -1777,12 +1909,22 @@ module RubySketch
       #
       def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
         assertDrawing__
-        src     = img&.getInternal__ || @window__.canvas_image
-        current = @painter__.blend_mode
+        img ||= self
+        img.drawImage__ @painter__, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
+      end
 
-        @painter__.blend_mode = mode
-        @painter__.image src, sx, sy, sw, sh, dx, dy, dw, dh
-        @painter__.blend_mode = current
+      # Applies an image filter to screen.
+      #
+      # overload filter(shader)
+      # overload filter(type)
+      # overload filter(type, param)
+      #
+      # @param shader [Shader]  a fragment shader to apply
+      # @param type   [THRESHOLD, GRAY, INVERT] filter type
+      # @param param  [Numeric] a parameter for each filter
+      #
+      def filter(*args)
+        @filter__ = Shader.createFilter__(*args)
       end
 
       # Saves screen image to file.
@@ -1947,8 +2089,11 @@ module RubySketch
       end
 
       # @private
-      def getInternal__()
-        @image__
+      def drawImage__(painter, *args, **states)
+        shader = painter.shader || @filter__&.getShader__
+        painter.push shader: shader, **states do |_|
+          painter.image @image__, *args
+        end
       end
 
       # @private
@@ -2004,6 +2149,7 @@ module RubySketch
       Vector   = Processing::Vector
       Capture  = Processing::Capture
       Graphics = Processing::Graphics
+      Shader   = Processing::Shader
 
       # @private
       @@context__ = nil
@@ -2038,6 +2184,11 @@ module RubySketch
 
         @window__.before_draw = proc {beginDraw__}
         @window__.after_draw  = proc {endDraw__}
+
+        @window__.instance_variable_set :@context, self
+        def @window__.draw_screen(painter)
+          @context.drawImage__ painter
+        end
 
         drawFrame = -> {
           updateCanvas__ @window__.canvas_image, @window__.canvas_painter
