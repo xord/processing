@@ -37,7 +37,7 @@ module RubySketch
       def initialize(x = 0, y = 0, z = 0, context: nil)
         @point = case x
           when Rays::Point then x.dup
-          when Vector      then x.getInternal__.dup
+          when Vector      then x.getPoint__.dup
           when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
           else                  Rays::Point.new x    || 0, y    || 0, z    || 0
           end
@@ -47,7 +47,7 @@ module RubySketch
       # Initializer for dup or clone
       #
       def initialize_copy(o)
-        @point = o.getInternal__.dup
+        @point = o.getPoint__.dup
       end
 
       # Copy vector object
@@ -181,7 +181,7 @@ module RubySketch
       # @return [Vector] added vector
       #
       def add(*args)
-        @point += toVector__(*args).getInternal__
+        @point += toVector__(*args).getPoint__
         self
       end
 
@@ -199,7 +199,7 @@ module RubySketch
       # @return [Vector] subtracted vector
       #
       def sub(*args)
-        @point -= toVector__(*args).getInternal__
+        @point -= toVector__(*args).getPoint__
         self
       end
 
@@ -419,7 +419,7 @@ module RubySketch
       # @return [Numeric] result of dot product
       #
       def dot(*args)
-        Rays::Point::dot getInternal__, toVector__(*args).getInternal__
+        Rays::Point::dot getPoint__, toVector__(*args).getPoint__
       end
 
       # Calculates the dot product of 2 vectors.
@@ -448,7 +448,7 @@ module RubySketch
       #
       def cross(a, *rest)
         target = self.class === rest.last ? rest.pop : nil
-        v = self.class.new Rays::Point::cross getInternal__, toVector__(a, *rest).getInternal__
+        v = self.class.new Rays::Point::cross getPoint__, toVector__(a, *rest).getPoint__
         target.set v if self.class === target
         v
       end
@@ -551,11 +551,11 @@ module RubySketch
 
       # @private
       def <=>(o)
-        @point <=> o.getInternal__
+        @point <=> o.getPoint__
       end
 
       # @private
-      protected def getInternal__()
+      protected def getPoint__()
         @point
       end
 
