@@ -1206,10 +1206,10 @@ module RubySketch
         @rectMode__    = nil
         @ellipseMode__ = nil
         @imageMode__   = nil
-        @tint__        = nil
-        @filter__      = nil
         @textAlignH__  = nil
         @textAlignV__  = nil
+        @tint__        = nil
+        @filter__      = nil
         @matrixStack__ = []
         @styleStack__  = []
         @fontCache__   = {}
@@ -2071,7 +2071,11 @@ module RubySketch
           @angleScale__,
           @rectMode__,
           @ellipseMode__,
-          @imageMode__
+          @imageMode__,
+          @textAlignH__,
+          @textAlignV__,
+          @tint__,
+          @filter__,
         ]
         block.call if block
         nil
@@ -2099,7 +2103,11 @@ module RubySketch
         @angleScale__,
         @rectMode__,
         @ellipseMode__,
-        @imageMode__ = @styleStack__.pop
+        @imageMode__,
+        @textAlignH__,
+        @textAlignV__,
+        @tint__,
+        @filter__ = @styleStack__.pop
         nil
       end
 
