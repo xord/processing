@@ -592,6 +592,20 @@ module RubySketch
         @image.height
       end
 
+      # Applies an image filter.
+      #
+      # overload filter(shader)
+      # overload filter(type)
+      # overload filter(type, param)
+      #
+      # @param shader [Shader]  a fragment shader to apply
+      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
+      # @param param  [Numeric] a parameter for each filter
+      #
+      def filter(*args)
+        @filter = Shader.createFilter__(*args)
+      end
+
       # Resizes image.
       #
       # @param width  [Numeric] width for resized image
@@ -651,20 +665,6 @@ module RubySketch
           img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
         end
         nil
-      end
-
-      # Applies an image filter.
-      #
-      # overload filter(shader)
-      # overload filter(type)
-      # overload filter(type, param)
-      #
-      # @param shader [Shader]  a fragment shader to apply
-      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
-      # @param param  [Numeric] a parameter for each filter
-      #
-      def filter(*args)
-        @filter = Shader.createFilter__(*args)
       end
 
       # Saves image to file.
@@ -1613,6 +1613,20 @@ module RubySketch
         @painter__.font = font
       end
 
+      # Applies an image filter to screen.
+      #
+      # overload filter(shader)
+      # overload filter(type)
+      # overload filter(type, param)
+      #
+      # @param shader [Shader]  a fragment shader to apply
+      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
+      # @param param  [Numeric] a parameter for each filter
+      #
+      def filter(*args)
+        @filter__ = Shader.createFilter__(*args)
+      end
+
       # Clears screen.
       #
       # @overload background(str)
@@ -1947,20 +1961,6 @@ module RubySketch
         assertDrawing__
         img ||= self
         img.drawImage__ @painter__, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
-      end
-
-      # Applies an image filter to screen.
-      #
-      # overload filter(shader)
-      # overload filter(type)
-      # overload filter(type, param)
-      #
-      # @param shader [Shader]  a fragment shader to apply
-      # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
-      # @param param  [Numeric] a parameter for each filter
-      #
-      def filter(*args)
-        @filter__ = Shader.createFilter__(*args)
       end
 
       # Saves screen image to file.
@@ -3025,14 +3025,6 @@ module RubySketch
         Image.new Rays::Image.new(w, h, colorspace).paint {background 0, 0}
       end
 
-      # Creates a camera object as a video input device.
-      #
-      # @return [Capture] camera object
-      #
-      def createCapture(*args)
-        Capture.new(*args)
-      end
-
       # Creates a new off-screen graphics context object.
       #
       # @param width  [Numeric] width of graphics image
@@ -3042,6 +3034,14 @@ module RubySketch
       #
       def createGraphics(width, height)
         Graphics.new width, height
+      end
+
+      # Creates a camera object as a video input device.
+      #
+      # @return [Capture] camera object
+      #
+      def createCapture(*args)
+        Capture.new(*args)
       end
 
       # Loads image.
