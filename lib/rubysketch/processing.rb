@@ -1613,13 +1613,33 @@ module RubySketch
         @painter__.font = font
       end
 
+      # Sets shader.
+      #
+      # @param shader [Shader] a shader to apply
+      #
+      # @return [nil] nil
+      #
+      def shader(shader)
+        @painter__.shader shader&.getShader__
+        nil
+      end
+
+      # Resets shader.
+      #
+      # @return [nil] nil
+      #
+      def resetShader()
+        @painter__.no_shader
+        nil
+      end
+
       # Applies an image filter to screen.
       #
       # overload filter(shader)
       # overload filter(type)
       # overload filter(type, param)
       #
-      # @param shader [Shader]  a fragment shader to apply
+      # @param shader [Shader]  a shader to apply
       # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
       # @param param  [Numeric] a parameter for each filter
       #
@@ -2066,6 +2086,7 @@ module RubySketch
           @painter__.clip,
           @painter__.blend_mode,
           @painter__.font,
+          @painter__.shader,
           @hsbColor__,
           @colorMaxes__,
           @angleScale__,
@@ -2098,6 +2119,7 @@ module RubySketch
         @painter__.clip,
         @painter__.blend_mode,
         @painter__.font,
+        @painter__.shader,
         @hsbColor__,
         @colorMaxes__,
         @angleScale__,
@@ -3044,6 +3066,24 @@ module RubySketch
         Graphics.new width, height
       end
 
+      # Creates a shader object.
+      #
+      # @overload createShader(vertPath, fragPath)
+      # @overload createShader(vertSource, fragSource)
+      #
+      # @param vertPath   [String] vertex shader file path
+      # @param fragPath   [String] fragment shader file path
+      # @param vertSource [String] vertex shader source
+      # @param fragSource [String] fragment shader source
+      #
+      # @return [Shader] shader object
+      #
+      def createShader(vert, frag)
+        vert = File.read if vert && File.exist?(vert)
+        frag = File.read if frag && File.exist?(frag)
+        Shader.new vert, frag
+      end
+
       # Creates a camera object as a video input device.
       #
       # @return [Capture] camera object
@@ -3062,6 +3102,20 @@ module RubySketch
       def loadImage(filename, extension = nil)
         filename = getImage__ filename, extension if filename =~ %r|^https?://|
         Image.new Rays::Image.load filename
+      end
+
+      # Loads shader file.
+      #
+      # @overload loadShader(fragPath)
+      # @overload loadShader(fragPath, vertPath)
+      #
+      # @param fragPath [String] fragment shader file path
+      # @param vertPath [String] vertex shader file path
+      #
+      # @return [Shader] loaded shader object
+      #
+      def loadShader(fragPath, vertPath = nil)
+        createShader vertPath, fragPath
       end
 
       # @private
