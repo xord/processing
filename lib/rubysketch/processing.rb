@@ -3135,7 +3135,7 @@ module RubySketch
       # @private
       private def getImage__(uri, ext)
         ext ||= File.extname uri
-        raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png)$/i
+        raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png|jpg|gif)$/i
 
         tmpdir = tmpdir__
         path   = tmpdir + Digest::SHA1.hexdigest(uri)
