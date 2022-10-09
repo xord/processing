@@ -37,7 +37,7 @@ module RubySketch
       def initialize(x = 0, y = 0, z = 0, context: nil)
         @point = case x
           when Rays::Point then x.dup
-          when Vector      then x.getPoint__.dup
+          when Vector      then x.getInternal__.dup
           when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
           else                  Rays::Point.new x    || 0, y    || 0, z    || 0
           end
@@ -47,7 +47,7 @@ module RubySketch
       # Initializer for dup or clone
       #
       def initialize_copy(o)
-        @point = o.getPoint__.dup
+        @point = o.getInternal__.dup
       end
 
       # Copy vector object
@@ -181,7 +181,7 @@ module RubySketch
       # @return [Vector] added vector
       #
       def add(*args)
-        @point += toVector__(*args).getPoint__
+        @point += toVector__(*args).getInternal__
         self
       end
 
@@ -199,7 +199,7 @@ module RubySketch
       # @return [Vector] subtracted vector
       #
       def sub(*args)
-        @point -= toVector__(*args).getPoint__
+        @point -= toVector__(*args).getInternal__
         self
       end
 
@@ -419,7 +419,7 @@ module RubySketch
       # @return [Numeric] result of dot product
       #
       def dot(*args)
-        Rays::Point::dot getPoint__, toVector__(*args).getPoint__
+        Rays::Point::dot getInternal__, toVector__(*args).getInternal__
       end
 
       # Calculates the dot product of 2 vectors.
@@ -448,7 +448,7 @@ module RubySketch
       #
       def cross(a, *rest)
         target = self.class === rest.last ? rest.pop : nil
-        v = self.class.new Rays::Point::cross getPoint__, toVector__(a, *rest).getPoint__
+        v = self.class.new Rays::Point::cross getInternal__, toVector__(a, *rest).getInternal__
         target.set v if self.class === target
         v
       end
@@ -551,11 +551,11 @@ module RubySketch
 
       # @private
       def <=>(o)
-        @point <=> o.getPoint__
+        @point <=> o.getInternal__
       end
 
       # @private
-      protected def getPoint__()
+      protected def getInternal__()
         @point
       end
 
@@ -676,10 +676,15 @@ module RubySketch
       end
 
       # @private
+      def getInternal__()
+        @image
+      end
+
+      # @private
       def drawImage__(painter, *args, **states)
-        shader = painter.shader || @filter&.getShader__
+        shader = painter.shader || @filter&.getInternal__
         painter.push shader: shader, **states do |_|
-          painter.image @image, *args
+          painter.image getInternal__, *args
         end
       end
 
@@ -799,7 +804,7 @@ module RubySketch
       end
 
       # @private
-      def getShader__()
+      def getInternal__()
         @shader
       end
 
@@ -998,11 +1003,15 @@ module RubySketch
       end
 
       # @private
+      def getInternal__()
+        @camera.image || (@dummyImage ||= Rays::Image.new 1, 1)
+      end
+
+      # @private
       def drawImage__(painter, *args, **states)
-        image  = @camera.image || (@dummyImage ||= Rays::Image.new 1, 1)
-        shader = painter.shader || @filter&.getShader__
+        shader = painter.shader || @filter&.getInternal__
         painter.push shader: shader, **states do |_|
-          painter.image image, *args
+          painter.image getInternal__, *args
         end
       end
 
@@ -1620,7 +1629,7 @@ module RubySketch
       # @return [nil] nil
       #
       def shader(shader)
-        @painter__.shader shader&.getShader__
+        @painter__.shader shader&.getInternal__
         nil
       end
 
@@ -2155,10 +2164,15 @@ module RubySketch
       end
 
       # @private
+      def getInternal__()
+        @image__
+      end
+
+      # @private
       def drawImage__(painter, *args, **states)
-        shader = painter.shader || @filter__&.getShader__
+        shader = painter.shader || @filter__&.getInternal__
         painter.push shader: shader, **states do |_|
-          painter.image @image__, *args
+          painter.image getInternal__, *args
         end
       end
 
