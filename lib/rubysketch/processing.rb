@@ -555,7 +555,7 @@ module RubySketch
       end
 
       # @private
-      protected def getInternal__()
+      def getInternal__()
         @point
       end
 
@@ -792,16 +792,39 @@ module RubySketch
       # @overload set(name, a, b)
       # @overload set(name, a, b, c)
       # @overload set(name, a, b, c, d)
+      # @overload set(name, nums)
+      # @overload set(name, vec)
+      # @overload set(name, vec, ncoords)
+      # @overload set(name, tex)
       #
-      # @param name [String]  uniform variable name
-      # @param a    [Numeric] value for uniform variable
-      # @param b    [Numeric] value for uniform variable
-      # @param c    [Numeric] value for uniform variable
-      # @param d    [Numeric] value for uniform variable
+      # @param name    [String]  uniform variable name
+      # @param a       [Numeric] int or float value
+      # @param b       [Numeric] int or float value
+      # @param c       [Numeric] int or float value
+      # @param d       [Numeric] int or float value
+      # @param nums    [Array]   int or float array
+      # @param vec     [Vector]  vector
+      # @param ncoords [Integer] number of coordinates, max 4
+      # @param tex     [Image]   texture image
       #
-      def set(name, *args)
-        @shader.uniform name, *args
+      def setUniform(name, *args)
+        arg = args.first
+        case
+        when Array === arg
+          @shader.uniform name, *arg
+        when Numeric === arg
+          @shader.uniform name, *args
+        when Vector === arg
+          vec, ncoords = args
+          @shader.uniform name, vec.getInternal__.to_a(ncoords || 3)
+        when arg.respond_to?(:getInternal__)
+          @shader.uniform name, arg.getInternal__
+        else
+          raise ArgumentError
+        end
       end
+
+      alias set setUniform
 
       # @private
       def getInternal__()
