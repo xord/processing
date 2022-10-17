@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-require_relative '../helper'
+require_relative 'helper'
 
 
 class TestProcessingUtility < Test::Unit::TestCase
