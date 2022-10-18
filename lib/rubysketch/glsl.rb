@@ -16,7 +16,8 @@ module RubySketch
       end
 
       def run(shader_source)
-        shader = Rays::Shader.new shader_source
+        shader = Rays::Shader.new(
+          shader_source, ignore_no_uniform_location_error: true)
         start  = now__
         @window.draw = proc do |e|
           i, p = @window.canvas_image, @window.canvas_painter
