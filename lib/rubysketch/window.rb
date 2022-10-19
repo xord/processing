@@ -28,23 +28,24 @@ module RubySketch
 
     attr_accessor :auto_resize
 
-    attr_reader :canvas_image, :canvas_painter
-
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
       RubySketch.instance_variable_set :@window, self
 
-      @canvas_image   =
-      @canvas_painter = nil
-      @events         = []
-      @auto_resize    = true
-      @error          = nil
-
-      painter.miter_limit = 10
-      resize_canvas 1, 1
-
+      @events      = []
+      @error       = nil
+      @auto_resize = true
+      @canvas      = Canvas.new self
       @canvas_view = add CanvasView.new name: :canvas
 
       super(*args, size: [width, height], **kwargs, &block)
+    end
+
+    def canvas_image()
+      @canvas.image
+    end
+
+    def canvas_painter()
+      @canvas.painter
     end
 
     def start(&block)
@@ -109,46 +110,9 @@ module RubySketch
     private
 
     def resize_canvas(width, height, pixel_density = nil)
-      return nil if width * height == 0
-
-      unless width    == @canvas_image&.width  &&
-        height        == @canvas_image&.height &&
-        pixel_density == @canvas_painter&.pixel_density
-
-        old_image   = @canvas_image
-        old_painter = @canvas_painter
-        cs          = old_image&.color_space || Rays::RGBA
-        pd          =  pixel_density ||
-          old_painter&.pixel_density ||
-          painter     .pixel_density
-
-        @canvas_image   = Rays::Image.new width, height, cs, pd
-        @canvas_painter = @canvas_image.painter
-
-        if old_image
-          @canvas_painter.paint {image old_image}
-          copy_painter_attributes old_painter, @canvas_painter
-        end
-
-        resize_window width, height
-        GC.start
+      if @canvas.resize width, height, pixel_density
+        size width, height
       end
-
-      @canvas_painter
-    end
-
-    def copy_painter_attributes(from, to)
-      to.fill         = from.fill
-      to.stroke       = from.stroke
-      to.stroke_width = from.stroke_width
-      to.stroke_cap   = from.stroke_cap
-      to.stroke_join  = from.stroke_join
-      to.miter_limit  = from.miter_limit
-      to.font         = from.font
-    end
-
-    def resize_window(width, height)
-      size width, height
     end
 
     def update_canvas_view()
@@ -159,7 +123,7 @@ module RubySketch
 
     def get_scroll_and_zoom()
       ww, wh =               width.to_f,               height.to_f
-      cw, ch = @canvas_image.width.to_f, @canvas_image.height.to_f
+      cw, ch = @canvas.image.width.to_f, @canvas.image.height.to_f
       return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
@@ -180,17 +144,17 @@ module RubySketch
     end
 
     def begin_draw()
-      @canvas_painter.__send__ :begin_paint
+      @canvas.painter.__send__ :begin_paint
       @before_draw&.call
     end
 
     def end_draw()
       @after_draw&.call
-      @canvas_painter.__send__ :end_paint
+      @canvas.painter.__send__ :end_paint
     end
 
     def draw_screen(painter)
-      painter.image @canvas_image
+      painter.image @canvas.image
     end
 
     def call_block(block, event, *args)
@@ -204,6 +168,56 @@ module RubySketch
     end
 
   end# Window
+
+
+  class Window::Canvas
+
+    attr_reader :image, :painter
+
+    def initialize(window)
+      @image   = nil
+      @painter = window.painter
+
+      resize 1, 1
+      painter.miter_limit = 10
+    end
+
+    def resize(width, height, pixel_density = nil)
+      return false if width * height == 0
+
+      return false if
+        width         == @image&.width  &&
+        height        == @image&.height &&
+        pixel_density == @painter.pixel_density
+
+      old_image   = @image
+      old_painter = @painter
+      cs          = old_image&.color_space || Rays::RGBA
+      pd          = pixel_density || old_painter.pixel_density
+
+      @image   = Rays::Image.new width, height, cs, pd
+      @painter = @image.painter
+
+      @painter.paint {image old_image} if old_image
+      copy_painter old_painter, @painter
+
+      GC.start
+      return true
+    end
+
+    private
+
+    def copy_painter(from, to)
+      to.fill         = from.fill
+      to.stroke       = from.stroke
+      to.stroke_width = from.stroke_width
+      to.stroke_cap   = from.stroke_cap
+      to.stroke_join  = from.stroke_join
+      to.miter_limit  = from.miter_limit
+      to.font         = from.font
+    end
+
+  end# Window::Canvas
 
 
 end# RubySketch
