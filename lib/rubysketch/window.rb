@@ -68,6 +68,9 @@ module RubySketch
     end
 
     def on_draw(e)
+      painter.pixel_density.tap do |pd|
+        resize_canvas width, height, pd if pd != @canvas.painter.pixel_density
+      end
       update_canvas_view
     end
 
@@ -103,7 +106,7 @@ module RubySketch
     end
 
     def on_canvas_resize(e)
-      resize_canvas e.width, e.height if @auto_resize
+      resize_canvas e.width, e.height, painter.pixel_density if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
     end
 
