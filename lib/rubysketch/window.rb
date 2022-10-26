@@ -21,10 +21,11 @@ module RubySketch
       end
     end
 
-    attr_accessor :setup, :update, :draw, :before_draw, :after_draw, :resize,
+    attr_accessor :setup, :update, :draw, :resize,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
-      :motion
+      :motion,
+      :before_draw, :after_draw, :update_canvas
 
     attr_accessor :auto_resize
 
@@ -48,10 +49,21 @@ module RubySketch
       @canvas.painter
     end
 
+    def window_painter()
+      self.painter
+    end
+
     def start(&block)
       draw_canvas do
         block.call if block
         on_setup
+      end
+    end
+
+    def resize_canvas(width, height, pixel_density = nil)
+      if @canvas.resize width, height, pixel_density
+        @update_canvas.call canvas_image, canvas_painter if @update_canvas
+        size width, height
       end
     end
 
@@ -68,8 +80,8 @@ module RubySketch
     end
 
     def on_draw(e)
-      painter.pixel_density.tap do |pd|
-        resize_canvas width, height, pd if pd != @canvas.painter.pixel_density
+      window_painter.pixel_density.tap do |pd|
+        resize_canvas width, height, pd if pd != canvas_painter.pixel_density
       end
       update_canvas_view
     end
@@ -106,17 +118,11 @@ module RubySketch
     end
 
     def on_canvas_resize(e)
-      resize_canvas e.width, e.height, painter.pixel_density if @auto_resize
+      resize_canvas e.width, e.height, window_painter.pixel_density if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
     end
 
     private
-
-    def resize_canvas(width, height, pixel_density = nil)
-      if @canvas.resize width, height, pixel_density
-        size width, height
-      end
-    end
 
     def update_canvas_view()
       scrollx, scrolly, zoom = get_scroll_and_zoom
@@ -125,8 +131,8 @@ module RubySketch
     end
 
     def get_scroll_and_zoom()
-      ww, wh =               width.to_f,               height.to_f
-      cw, ch = @canvas.image.width.to_f, @canvas.image.height.to_f
+      ww, wh =              width.to_f,              height.to_f
+      cw, ch = canvas_image.width.to_f, canvas_image.height.to_f
       return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
@@ -147,17 +153,17 @@ module RubySketch
     end
 
     def begin_draw()
-      @canvas.painter.__send__ :begin_paint
+      canvas_painter.__send__ :begin_paint
       @before_draw&.call
     end
 
     def end_draw()
       @after_draw&.call
-      @canvas.painter.__send__ :end_paint
+      canvas_painter.__send__ :end_paint
     end
 
     def draw_screen(painter)
-      painter.image @canvas.image
+      window_painter.image canvas_image
     end
 
     def call_block(block, event, *args)

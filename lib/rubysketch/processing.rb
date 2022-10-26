@@ -2285,8 +2285,9 @@ module RubySketch
         @touches__         = []
         @motionGravity__   = createVector 0, 0
 
-        @window__.before_draw = proc {beginDraw__}
-        @window__.after_draw  = proc {endDraw__}
+        @window__.before_draw   = proc {beginDraw__}
+        @window__.after_draw    = proc {endDraw__}
+        @window__.update_canvas = proc {|i, p| updateCanvas__ i, p}
 
         @window__.instance_variable_set :@context, self
         def @window__.draw_screen(painter)
@@ -2294,7 +2295,6 @@ module RubySketch
         end
 
         drawFrame = -> {
-          updateCanvas__ @window__.canvas_image, @window__.canvas_painter
           begin
             push
             @drawBlock__.call if @drawBlock__
@@ -2560,14 +2560,10 @@ module RubySketch
         raise '#{name}() must be called on startup or setup block' if @started__
 
         @painter__.__send__ :end_paint
-        begin
-          @window__.__send__ :resize_canvas, width, height, pixelDensity
-          updateCanvas__ @window__.canvas_image, @window__.canvas_painter
-        ensure
-          @painter__.__send__ :begin_paint
-        end
-
+        @window__.resize_canvas width, height, pixelDensity
         @window__.auto_resize = false
+      ensure
+        @painter__.__send__ :begin_paint
       end
 
       # Returns pixel density of display.
