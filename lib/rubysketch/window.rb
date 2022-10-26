@@ -53,6 +53,10 @@ module RubySketch
       self.painter
     end
 
+    def event()
+      @events.last
+    end
+
     def start(&block)
       draw_canvas do
         block.call if block
@@ -65,10 +69,6 @@ module RubySketch
         @update_canvas.call canvas_image, canvas_painter if @update_canvas
         size width, height
       end
-    end
-
-    def event()
-      @events.last
     end
 
     def on_setup()
