@@ -1271,6 +1271,7 @@ module RubySketch
 
       # @private
       def beginDraw__()
+        raise "call beginDraw() before drawing" if @drawing__
         @matrixStack__.clear
         @styleStack__.clear
         @drawing__ = true
@@ -1278,6 +1279,7 @@ module RubySketch
 
       # @private
       def endDraw__()
+        raise unless @drawing__
         @drawing__ = false
       end
 
@@ -2701,8 +2703,8 @@ module RubySketch
       # Start drawing.
       #
       def beginDraw(&block)
-        @painter__.__send__ :begin_paint
         beginDraw__
+        @painter__.__send__ :begin_paint
         push
         if block
           block.call
@@ -2714,8 +2716,8 @@ module RubySketch
       #
       def endDraw()
         pop
-        endDraw__
         @painter__.__send__ :end_paint
+        endDraw__
       end
 
     end# Graphics
