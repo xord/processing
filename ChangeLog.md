@@ -1,7 +1,21 @@
 # RubySketch ChangeLog
 
 
-## [0.3.21] - 2022-x-x
+## [0.3.22] - 2022-11-14
+
+RubySketch::Processing
+- add Shader class
+- add shader(), resetShader(), createShader(), loadShader(), and filter()
+- update the pixel density of context if the screen pixel density is changed
+- setUniform() can also take array of numbers, vector, and texture image.
+- pushStyle() manages states of textAlign, tint, and filter
+- push/pushMatrix/pushStyle call pop() on ensure
+
+RubySketch::GLSL
+- displays with pixel density 1.0
+
+
+## [0.3.21] - 2022-09-05
 
 - add rubysketch-glsl.rb
 - add blend(), createImage(), setTitle(), tint() and noTint()
