@@ -1103,19 +1103,19 @@ module RubySketch
 
       # Mode for strokeCap().
       #
-      BUTT   = :butt
+      PROJECT = :square
 
       # Mode for strokeJoin().
       #
-      MITER  = :miter
+      MITER   = :miter
 
       # Mode for strokeCap() and strokeJoin().
       #
-      ROUND  = :round
+      ROUND   = :round
 
       # Mode for strokeCap() and strokeJoin().
       #
-      SQUARE = :square
+      SQUARE  = :butt
 
       # Mode for blendMode().
       #
