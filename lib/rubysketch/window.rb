@@ -64,8 +64,9 @@ module RubySketch
       end
     end
 
-    def resize_canvas(width, height, pixel_density = nil)
-      if @canvas.resize width, height, pixel_density
+    def resize_canvas(width, height, pixel_density = nil, window_pixel_density: nil)
+      @pixel_density = pixel_density if pixel_density
+      if @canvas.resize width, height, pixel_density || @pixel_density || window_pixel_density
         @update_canvas.call canvas_image, canvas_painter if @update_canvas
         size width, height
       end
@@ -79,9 +80,14 @@ module RubySketch
       on_canvas_resize e
     end
 
+    def on_change_pixel_density(pixel_density)
+      resize_canvas width, height, window_pixel_density: pixel_density
+    end
+
     def on_draw(e)
       window_painter.pixel_density.tap do |pd|
-        resize_canvas width, height, pd if pd != canvas_painter.pixel_density
+        prev, @prev_pixel_density = @prev_pixel_density, pd
+        on_change_pixel_density pd if prev && pd != prev
       end
       update_canvas_view
     end
@@ -118,7 +124,7 @@ module RubySketch
     end
 
     def on_canvas_resize(e)
-      resize_canvas e.width, e.height, window_painter.pixel_density if @auto_resize
+      resize_canvas e.width, e.height if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
     end
 
@@ -192,7 +198,7 @@ module RubySketch
     end
 
     def resize(width, height, pixel_density = nil)
-      return false if width * height == 0
+      return false if width <= 0 || height <= 0
 
       return false if
         width         == @image&.width  &&
