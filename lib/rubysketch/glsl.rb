@@ -12,7 +12,7 @@ module RubySketch
       # @private
       def initialize(window)
         @window = window
-        #@window.resize_canvas window.width, window.height, 1
+        @window.resize_canvas window.width, window.height, 1
       end
 
       def run(shader_source)
