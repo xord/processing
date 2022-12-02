@@ -2605,6 +2605,26 @@ module RubySketch
 
       # Creates a shader object.
       #
+      # Passing nil for a vertex shader parameter causes the following default vertex shader to be used.
+      # ```
+      # attribute vec3 position;
+      # attribute vec3 texCoord;
+      # attribute vec4 color;
+      # varying vec4 vertPosition;
+      # varying vec4 vertTexCoord;
+      # varying vec4 vertColor;
+      # uniform mat4 transform;
+      # uniform mat4 texMatrix;
+      # void main ()
+      # {
+      #   vec4 pos__   = vec4(position, 1.0);
+      #   vertPosition = pos__;
+      #   vertTexCoord = texMatrix * vec4(texCoord, 1.0);
+      #   vertColor    = color;
+      #   gl_Position  = transform * pos__;
+      # }
+      # ```
+      #
       # @overload createShader(vertPath, fragPath)
       # @overload createShader(vertSource, fragSource)
       #
