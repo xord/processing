@@ -1,8 +1,8 @@
-%w[xot rays reflex rubysketch]
+%w[xot rays reflex processing]
   .map  {|s| File.expand_path "../../#{s}/lib", __dir__}
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
-require 'rubysketch-processing'
+require 'processing/include'
 
 
 cam = Capture.new 300, 300
