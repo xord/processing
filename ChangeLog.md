@@ -1,4 +1,4 @@
-# RubySketch ChangeLog
+# Processing for CRuby ChangeLog
 
 
 ## [0.3.22] - 2022-11-14

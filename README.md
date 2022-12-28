@@ -1,4 +1,4 @@
-# RubySketch - Processing compatible Creative Coding Framework
+# Processing for CRuby - Processing compatible Creative Coding Framework
 
 by xordog@gmail.com
 

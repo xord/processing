@@ -1,4 +1,4 @@
-module RubySketch
+module Processing
 
 
   # Processing compatible API
@@ -3208,4 +3208,4 @@ module RubySketch
   end# Processing
 
 
-end# RubySketch
+end# Processing

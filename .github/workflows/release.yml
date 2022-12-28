@@ -47,8 +47,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./rubysketch-${{ steps.version.outputs.value }}.gem
-          asset_name:   rubysketch-${{ steps.version.outputs.value }}.gem
+          asset_path: ./processing-${{ steps.version.outputs.value }}.gem
+          asset_name:   processing-${{ steps.version.outputs.value }}.gem
           asset_content_type: application/zip
 
       - name: upload to rubygems

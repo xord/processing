@@ -11,7 +11,7 @@ class TestProcessingShader < Test::Unit::TestCase
   end
 
   def shader(vs = vshader, fs = fshader)
-    RubySketch::Processing::Shader.new vs, fs
+    Processing::Processing::Shader.new vs, fs
   end
 
   def vshader()

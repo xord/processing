@@ -6,7 +6,7 @@ require_relative 'helper'
 
 class TestProcessingVector < Test::Unit::TestCase
 
-  P  = RubySketch::Processing
+  P  = Processing::Processing
   V  = P::Vector
   M  = Math
   PI = M::PI

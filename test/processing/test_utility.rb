@@ -6,7 +6,7 @@ require_relative 'helper'
 
 class TestProcessingUtility < Test::Unit::TestCase
 
-  P = RubySketch::Processing
+  P = Processing::Processing
 
   include P::GraphicsContext
 
