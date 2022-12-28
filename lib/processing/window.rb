@@ -1,4 +1,4 @@
-module RubySketch
+module Processing
 
 
   class Window < Reflex::Window
@@ -30,7 +30,7 @@ module RubySketch
     attr_accessor :auto_resize
 
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
-      RubySketch.instance_variable_set :@window, self
+      Processing.instance_variable_set :@window, self
 
       @events      = []
       @error       = nil
@@ -235,4 +235,4 @@ module RubySketch
   end# Window::Canvas
 
 
-end# RubySketch
+end# Processing

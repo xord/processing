@@ -1,4 +1,4 @@
-module RubySketch
+module Processing
 
 
   module Module
@@ -20,4 +20,4 @@ module RubySketch
   end# Module
 
 
-end# RubySketch
+end# Processing
