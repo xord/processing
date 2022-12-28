@@ -11,10 +11,10 @@ require 'xot/module'
 require 'rucy/module'
 require 'rays/module'
 require 'reflex/module'
-require 'rubysketch/module'
+require 'processing/module'
 
 
-MODULES = [Xot, Rucy, Rays, Reflex, RubySketch]
+MODULES = [Xot, Rucy, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
