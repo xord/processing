@@ -1,5 +1,5 @@
 #import <CRuby.h>
-#import "RubySketch.h"
+#import "RubyProcessing.h"
 #include "../src/ios/view_controller.h"
 
 
@@ -17,7 +17,7 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 }
 
 
-@implementation RubySketch
+@implementation RubyProcessing
 
 	+ (void) setup
 	{
@@ -25,7 +25,7 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 		if (done) return;
 		done = YES;
 
-		[CRuby addLibrary:@"RubySketch" bundle:[NSBundle bundleForClass:RubySketch.class]];
+		[CRuby addLibrary:@"RubyProcessing" bundle:[NSBundle bundleForClass:RubyProcessing.class]];
 
 		ReflexViewController_set_create_fun(ReflexViewController_create);
 		ReflexViewController_set_show_fun(ReflexViewController_show);
@@ -34,10 +34,10 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 	+ (void) start: (NSString*) path
 	{
 		[CRuby evaluate:[NSString stringWithFormat:@
-			"raise 'already started' unless require 'rubysketch-processing'\n"
+			"raise 'already started' unless require 'processing/include'\n"
 			"load '%@'\n"
-			"RUBYSKETCH_WINDOW.__send__ :end_draw\n"
-			"RUBYSKETCH_WINDOW.show",
+			"PROCESSING_WINDOW.__send__ :end_draw\n"
+			"PROCESSING_WINDOW.show",
 			path
 		]];
 	}

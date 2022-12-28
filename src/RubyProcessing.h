@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface RubySketch : NSObject
+@interface RubyProcessing : NSObject
 
 	+ (void) setup;
 
