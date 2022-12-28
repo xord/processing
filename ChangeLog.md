@@ -1,6 +1,13 @@
 # Processing for CRuby ChangeLog
 
 
+## [0.4.0] - 2022-12-29
+
+- renamed from rubysketch.gem to processing.gem
+- renamed from RubySketch Pod to RubyProcessing Pod
+- delete glsl mode
+
+
 ## [0.3.22] - 2022-11-14
 
 RubySketch::Processing
