@@ -6,7 +6,7 @@ require_relative 'helper'
 
 class TestProcessingGraphics < Test::Unit::TestCase
 
-  P = RubySketch::Processing
+  P = Processing::Processing
 
   def graphics(w = 10, h = 10)
     P::Graphics.new w, h
