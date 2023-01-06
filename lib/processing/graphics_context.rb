@@ -190,6 +190,12 @@ module Processing
     DOWN      = :down
 
     # @private
+    DEG2RAD__ = Math::PI / 180.0
+
+    # @private
+    RAD2DEG__ = 180.0 / Math::PI
+
+    # @private
     def init__(image, painter)
       @drawing__     = false
       @hsbColor__    = false
