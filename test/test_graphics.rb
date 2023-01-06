@@ -4,9 +4,9 @@
 require_relative 'helper'
 
 
-class TestProcessingGraphics < Test::Unit::TestCase
+class TestGraphics < Test::Unit::TestCase
 
-  P = Processing::Processing
+  P = Processing
 
   def graphics(w = 10, h = 10)
     P::Graphics.new w, h
@@ -18,4 +18,4 @@ class TestProcessingGraphics < Test::Unit::TestCase
     assert_raise {g.beginDraw}
   end
 
-end# TestProcessingGraphics
+end# TestGraphics
