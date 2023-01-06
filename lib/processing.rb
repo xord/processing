@@ -1,20 +1,25 @@
-require 'set'
-require 'digest/sha1'
-require 'pathname'
-require 'tmpdir'
-require 'open-uri'
+require 'processing/all'
 
-require 'reflex'
-require 'processing/module'
-require 'processing/app'
-require 'processing/window'
 
-require 'processing/vector'
-require 'processing/image'
-require 'processing/font'
-require 'processing/touch'
-require 'processing/shader'
-require 'processing/capture'
-require 'processing/graphics_context'
-require 'processing/graphics'
-require 'processing/context.rb'
+begin
+  window  = Processing::Window.new {start}
+  context = Processing::Context.new window
+
+  (context.methods - Object.instance_methods).each do |method|
+    define_method method do |*args, **kwargs, &block|
+      context.__send__ method, *args, **kwargs, &block
+    end
+  end
+
+  context.class.constants.each do |const|
+    self.class.const_set const, context.class.const_get(const)
+  end
+
+  window.__send__ :begin_draw
+  at_exit do
+    window.__send__ :end_draw
+    Processing::App.new {window.show}.start unless $!
+  end
+
+  PROCESSING_WINDOW = window
+end

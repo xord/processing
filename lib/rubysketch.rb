@@ -1,1 +1,1 @@
-require 'processing'
+require 'processing/all'

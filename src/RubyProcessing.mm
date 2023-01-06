@@ -34,7 +34,7 @@ ReflexViewController_show (UIViewController*, ReflexViewController*)
 	+ (void) start: (NSString*) path
 	{
 		[CRuby evaluate:[NSString stringWithFormat:@
-			"raise 'already started' unless require 'processing/include'\n"
+			"raise 'already started' unless require 'processing'\n"
 			"load '%@'\n"
 			"PROCESSING_WINDOW.__send__ :end_draw\n"
 			"PROCESSING_WINDOW.show",

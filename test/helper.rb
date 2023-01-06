@@ -7,7 +7,7 @@
 
 require 'test/unit'
 require 'xot/test'
-require 'processing'
+require 'processing/all'
 
 include Xot::Test
 
