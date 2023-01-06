@@ -8,4 +8,6 @@ require 'reflex'
 require 'processing/module'
 require 'processing/app'
 require 'processing/window'
+
+require 'processing/vector'
 require 'processing/processing'
