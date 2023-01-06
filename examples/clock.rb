@@ -2,7 +2,7 @@
   .map  {|s| File.expand_path "../../#{s}/lib", __dir__}
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
-require 'processing/include'
+require 'processing'
 
 COLORS = %w[ #F99292 #FFBC61 #FFC679 #FFF4E0 ]
 
