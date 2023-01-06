@@ -3,7 +3,7 @@ require 'processing'
 
 begin
   window  = Processing::Window.new {start}
-  context = Processing::Processing::Context.new window
+  context = Processing::Context.new window
 
   (context.methods - Object.instance_methods).each do |method|
     define_method method do |*args, **kwargs, &block|
