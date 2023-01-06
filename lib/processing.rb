@@ -11,4 +11,5 @@ require 'processing/window'
 
 require 'processing/vector'
 require 'processing/image'
+require 'processing/font'
 require 'processing/processing'
