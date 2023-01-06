@@ -10,4 +10,5 @@ require 'processing/app'
 require 'processing/window'
 
 require 'processing/vector'
+require 'processing/image'
 require 'processing/processing'
