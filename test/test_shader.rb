@@ -4,14 +4,14 @@
 require_relative 'helper'
 
 
-class TestProcessingShader < Test::Unit::TestCase
+class TestShader < Test::Unit::TestCase
 
   def color(*args)
     Rays::Color.new(*args)
   end
 
   def shader(vs = vshader, fs = fshader)
-    Processing::Processing::Shader.new vs, fs
+    Processing::Shader.new vs, fs
   end
 
   def vshader()
@@ -44,4 +44,4 @@ class TestProcessingShader < Test::Unit::TestCase
     end
   end
 
-end# TestProcessingShader
+end# TestShader

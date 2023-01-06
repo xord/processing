@@ -4,9 +4,9 @@
 require_relative 'helper'
 
 
-class TestProcessingVector < Test::Unit::TestCase
+class TestVector < Test::Unit::TestCase
 
-  P  = Processing::Processing
+  P  = Processing
   V  = P::Vector
   M  = Math
   PI = M::PI
@@ -327,7 +327,11 @@ class TestProcessingVector < Test::Unit::TestCase
 
   def test_rotate()
     angle   = PI * 2 * 0.1
-    context = Object.new.tap {|o| def o.toAngle__(a); a * 2 * P::RAD2DEG__; end}
+    context = Object.new.tap {|o|
+      def o.toAngle__(a)
+        a * 2 * P::GraphicsContext::RAD2DEG__
+      end
+    }
 
     v = vec 1, 0, 0
     assert_equal_vector vec(M.cos(angle), M.sin(angle), 0), v.rotate(angle)
@@ -391,4 +395,4 @@ class TestProcessingVector < Test::Unit::TestCase
     assert_in_delta 1, v2.mag, 0.000001
   end
 
-end# TestProcessingVector
+end# TestVector

@@ -4,9 +4,9 @@
 require_relative 'helper'
 
 
-class TestProcessingUtility < Test::Unit::TestCase
+class TestUtility < Test::Unit::TestCase
 
-  P = Processing::Processing
+  P = Processing
 
   include P::GraphicsContext
 
@@ -38,4 +38,4 @@ class TestProcessingUtility < Test::Unit::TestCase
     assert_equal P::Shader, createShader(nil, fs).class
   end
 
-end# TestProcessingUtility
+end# TestUtility
