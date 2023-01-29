@@ -1,25 +1,30 @@
 require 'processing/all'
 
 
-begin
-  window  = Processing::Window.new {start}
-  context = Processing::Context.new window
+module Processing
+  WINDOW  = Processing::Window.new {start}
+  CONTEXT = Processing::Context.new WINDOW
 
-  (context.methods - Object.instance_methods).each do |method|
-    define_method method do |*args, **kwargs, &block|
-      context.__send__ method, *args, **kwargs, &block
+  refine Object do
+    (CONTEXT.methods - Object.instance_methods).each do |method|
+      define_method method do |*args, **kwargs, &block|
+        CONTEXT.__send__ method, *args, **kwargs, &block
+      end
     end
   end
+end# Processing
 
-  context.class.constants.each do |const|
-    self.class.const_set const, context.class.const_get(const)
+
+begin
+  w, c = Processing::WINDOW, Processing::CONTEXT
+
+  c.class.constants.each do |const|
+    self.class.const_set const, c.class.const_get(const)
   end
 
-  window.__send__ :begin_draw
+  w.__send__ :begin_draw
   at_exit do
-    window.__send__ :end_draw
-    Processing::App.new {window.show}.start unless $!
+    w.__send__ :end_draw
+    Processing::App.new {w.show}.start unless $!
   end
-
-  PROCESSING_WINDOW = window
 end

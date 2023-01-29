@@ -3,6 +3,8 @@
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'processing'
+using Processing
+
 
 COLORS = %w[ #F99292 #FFBC61 #FFC679 #FFF4E0 ]
 

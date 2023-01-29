@@ -3,6 +3,7 @@
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'processing'
+using Processing
 
 
 icon = loadImage 'https://xord.org/rubysketch/images/rubysketch128.png'
