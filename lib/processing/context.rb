@@ -157,6 +157,11 @@ module Processing
       nil
     end
 
+    # @private
+    def hasDrawBlock__()
+      @drawBlock__ != nil
+    end
+
     # Defines keyPressed block.
     #
     # @return [Boolean] is any key pressed or not
