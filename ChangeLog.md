@@ -4,6 +4,7 @@
 ## [0.5.0] - 2023-01-30
 
 - 'using Processing' is now required
+- do not show the window if a draw block is not given
 
 
 ## [0.4.0] - 2022-12-29
