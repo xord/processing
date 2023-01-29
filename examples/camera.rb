@@ -3,6 +3,7 @@
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'processing'
+using Processing
 
 
 cam = Capture.new 300, 300

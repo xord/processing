@@ -1,6 +1,11 @@
 # Processing for CRuby ChangeLog
 
 
+## [0.5.0] - 2023-01-30
+
+- 'using Processing' is now required
+
+
 ## [0.4.0] - 2022-12-29
 
 - renamed from rubysketch.gem to processing.gem

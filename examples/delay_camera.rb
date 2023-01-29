@@ -3,6 +3,7 @@
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'processing'
+using Processing
 
 
 w, h = width, height
