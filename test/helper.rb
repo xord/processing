@@ -2,7 +2,7 @@
 
 
 %w[../xot ../rucy ../rays ../reflex .]
-  .map  {|s| File.expand_path "../../#{s}/lib", __FILE__}
+  .map  {|s| File.expand_path "../#{s}/lib", __dir__}
   .each {|s| $:.unshift s if !$:.include?(s) && File.directory?(s)}
 
 require 'test/unit'
