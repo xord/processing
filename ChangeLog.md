@@ -1,9 +1,10 @@
 # Processing for CRuby ChangeLog
 
 
-## [0.5.0] - 2023-01-30
+## [0.5.0] - 2023-02-09
 
-- 'using Processing' is now required
+- requiring 'processing/include' is deprecated
+- require 'processing' and 'using Processing' is now required
 - do not show the window if a draw block is not given
 
 
