@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.name        = name
   s.summary     = 'Processing compatible Creative Coding Framework.'
-  s.description = 'Creative Coding Framework has API compatible to Processing API or p5.js.'
+  s.description = 'Creative Coding Framework has API compatible to Processing or p5.js.'
   s.version     = mod.version
 
   s.authors  = %w[xordog]
@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.7.0'
 
-  s.add_runtime_dependency 'reflexion', '~> 0.1.29'
+  s.add_runtime_dependency 'reflexion', '~> 0.1.30'
 
   s.add_development_dependency 'yard'
 
