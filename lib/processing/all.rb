@@ -5,7 +5,7 @@ require 'tmpdir'
 require 'open-uri'
 require 'reflex'
 
-require 'processing/module'
+require 'processing/extension'
 require 'processing/app'
 require 'processing/window'
 

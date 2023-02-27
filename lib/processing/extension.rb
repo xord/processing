@@ -1,7 +1,7 @@
 module Processing
 
 
-  module Module
+  module Extension
 
     module_function
 
@@ -17,7 +17,7 @@ module Processing
       File.expand_path "../../#{path}", __dir__
     end
 
-  end# Module
+  end# Extension
 
 
 end# Processing

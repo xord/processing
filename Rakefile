@@ -7,14 +7,15 @@
 
 require 'rucy/rake'
 
-require 'xot/module'
-require 'rucy/module'
-require 'rays/module'
-require 'reflex/module'
-require 'processing/module'
+require 'xot/extension'
+require 'rucy/extension'
+require 'beeps/extension'
+require 'rays/extension'
+require 'reflex/extension'
+require 'processing/extension'
 
 
-MODULES = [Xot, Rucy, Rays, Reflex, Processing]
+EXTENSIONS = [Xot, Rucy, Beeps, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
