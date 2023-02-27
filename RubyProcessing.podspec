@@ -3,7 +3,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "RubyProcessing"
-  s.version      = File.readlines(File.expand_path 'VERSION', __dir__)[0].chomp
+  s.version      = File.read(File.expand_path 'VERSION', __dir__)[/[\d\.]+/]
   s.summary      = "Yet Another Processing implementation for Ruby"
   s.description  = "Yet Another Processing implementation for Ruby"
   s.license      = "MIT"
