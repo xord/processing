@@ -1,4 +1,4 @@
-# Processing for CRuby ChangeLog
+# processing ChangeLog
 
 
 ## [0.5.0] - 2023-02-09
