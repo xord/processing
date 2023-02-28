@@ -9,26 +9,25 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
       - name: ruby 3.2
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
 
-      - name: install gems
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+      - name: checkout
+        uses: actions/checkout@v2
 
-      - name: version
-        id: version
-        run: |
-          echo value=$(ruby -e 'print "${{ github.ref }}"[/\/v([\w\.\-]+)/, 1]') >> $GITHUB_OUTPUT
+      - name: setup dependencies
+        run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
+
+      - name: test
+        run: rake quiet test
 
       - name: create gem
-        run: rake clean gem
+        id: create_gem
+        run: |
+          rake gem
+          echo gem=$(ruby -e 'print Dir.glob("*.gem").first') >> $GITHUB_OUTPUT
 
       - name: create release
         id: create_release
@@ -38,17 +37,15 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
 
-      - name: upload to releases
+      - name: upload to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./processing-${{ steps.version.outputs.value }}.gem
-          asset_name:   processing-${{ steps.version.outputs.value }}.gem
+          asset_path: ./${{ steps.create_gem.outputs.gem }}
+          asset_name:   ${{ steps.create_gem.outputs.gem }}
           asset_content_type: application/zip
 
       - name: upload to rubygems
