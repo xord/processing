@@ -28,11 +28,11 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.7.0'
 
-  s.add_runtime_dependency 'xot',       '~> 0.1.31'
-  s.add_runtime_dependency 'rucy',      '~> 0.1.31'
-  s.add_runtime_dependency 'beeps',     '~> 0.1.31'
-  s.add_runtime_dependency 'rays',      '~> 0.1.31'
-  s.add_runtime_dependency 'reflexion', '~> 0.1.30'
+  s.add_runtime_dependency 'xot',       '~> 0.1.32'
+  s.add_runtime_dependency 'rucy',      '~> 0.1.32'
+  s.add_runtime_dependency 'beeps',     '~> 0.1.32'
+  s.add_runtime_dependency 'rays',      '~> 0.1.32'
+  s.add_runtime_dependency 'reflexion', '~> 0.1.32'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit'
