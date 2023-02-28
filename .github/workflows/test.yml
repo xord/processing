@@ -11,17 +11,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v2
-
       - name: ruby 3.2
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
 
-      - name: install gems
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup dependencies
+        run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
 
       - name: test
         run: rake test
