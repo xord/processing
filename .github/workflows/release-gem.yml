@@ -20,6 +20,9 @@ jobs:
       - name: setup dependencies
         run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
 
+      - name: install gems
+        run: gem install yard
+
       - name: test
         run: rake test
 
