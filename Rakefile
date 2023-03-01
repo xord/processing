@@ -19,11 +19,10 @@ EXTENSIONS = [Xot, Rucy, Beeps, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
+default_tasks
 test_ruby_extension
 generate_documents
 build_ruby_gem
-
-task :default
 
 
 namespace :version do
