@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.2] - 2023-03-02
+
+- delete rubysketch.rb and rubysketch-processing.rb
+
+
 ## [v0.5.1] - 2023-03-01
 
 - requiring 'rubysketch-processing' is deprecated
