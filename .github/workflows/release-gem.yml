@@ -24,13 +24,13 @@ jobs:
         run: rake test
 
       - name: create gem
-        id: create_gem
+        id: gem
         run: |
           rake gem
-          echo gem=$(ruby -e 'print Dir.glob("*.gem").first') >> $GITHUB_OUTPUT
+          echo path=$(ruby -e 'print Dir.glob("*.gem").first') >> $GITHUB_OUTPUT
 
-      - name: create release
-        id: create_release
+      - name: create github release
+        id: release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,14 +38,14 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
 
-      - name: upload to release
+      - name: upload to github release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ steps.create_gem.outputs.gem }}
-          asset_name:   ${{ steps.create_gem.outputs.gem }}
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./${{ steps.gem.outputs.path }}
+          asset_name:   ${{ steps.gem.outputs.path }}
           asset_content_type: application/zip
 
       - name: upload to rubygems
