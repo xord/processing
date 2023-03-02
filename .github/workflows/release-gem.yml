@@ -24,7 +24,7 @@ jobs:
         run: gem install yard
 
       - name: test
-        run: rake test
+        run: rake quiet test
 
       - name: create gem
         id: gem
