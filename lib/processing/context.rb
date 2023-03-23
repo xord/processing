@@ -148,6 +148,23 @@ module Processing
       nil
     end
 
+    # @private
+    def hasUserBlocks__()
+      @drawBlock__          ||
+      @keyPressedBlock__    ||
+      @keyReleasedBlock__   ||
+      @keyTypedBlock__      ||
+      @mousePressedBlock__  ||
+      @mouseReleasedBlock__ ||
+      @mouseMovedBlock__    ||
+      @mouseDraggedBlock__  ||
+      @mouseClickedBlock__  ||
+      @touchStartedBlock__  ||
+      @touchEndedBlock__    ||
+      @touchMovedBlock__    ||
+      @motionBlock__
+    end
+
     # Defines draw block.
     #
     # @return [nil] nil
@@ -155,11 +172,6 @@ module Processing
     def draw(&block)
       @drawBlock__ = block if block
       nil
-    end
-
-    # @private
-    def hasDrawBlock__()
-      @drawBlock__ != nil
     end
 
     # Defines keyPressed block.
