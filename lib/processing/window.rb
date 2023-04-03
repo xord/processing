@@ -84,6 +84,10 @@ module Processing
       resize_canvas width, height, window_pixel_density: pixel_density
     end
 
+    def on_update(e)
+      Beeps.process_streams
+    end
+
     def on_draw(e)
       window_painter.pixel_density.tap do |pd|
         prev, @prev_pixel_density = @prev_pixel_density, pd
