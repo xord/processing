@@ -85,7 +85,7 @@ module Processing
     end
 
     def on_update(e)
-      Beeps.process_streams
+      Beeps.process_streams!
     end
 
     def on_draw(e)
