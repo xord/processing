@@ -25,6 +25,6 @@ begin
   w.__send__ :begin_draw
   at_exit do
     w.__send__ :end_draw
-    Processing::App.new {w.show}.start if c.hasUserBlock__ && !$!
+    Processing::App.new {w.show}.start if c.hasUserBlocks__ && !$!
   end
 end
