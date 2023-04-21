@@ -1,6 +1,13 @@
 # processing ChangeLog
 
 
+## [v0.5.3] - 2023-04-22
+
+- Delete RubyProcessing.podspec
+- Do not depend on Beeps
+- If there are no user blocks, the window is not displayed and exits
+
+
 ## [v0.5.2] - 2023-03-02
 
 - delete rubysketch.rb and rubysketch-processing.rb
