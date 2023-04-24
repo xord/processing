@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.4] - 2023-04-25
+
+- Update reflex to v0.1.34
+
+
 ## [v0.5.3] - 2023-04-22
 
 - Delete RubyProcessing.podspec
