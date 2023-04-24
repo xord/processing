@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'xot',       '~> 0.1.33'
   s.add_runtime_dependency 'rucy',      '~> 0.1.33'
   s.add_runtime_dependency 'rays',      '~> 0.1.33'
-  s.add_runtime_dependency 'reflexion', '~> 0.1.33'
+  s.add_runtime_dependency 'reflexion', '~> 0.1.34'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'test-unit'
