@@ -26,6 +26,9 @@ module Processing
       @image.height
     end
 
+    alias w width
+    alias h height
+
     # Applies an image filter.
     #
     # overload filter(shader)

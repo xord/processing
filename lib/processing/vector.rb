@@ -155,6 +155,8 @@ module Processing
       @point.to_a 3
     end
 
+    alias to_a array
+
     # Adds a vector.
     #
     # @overload add(v)
