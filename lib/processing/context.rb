@@ -48,6 +48,8 @@ module Processing
       @window__.update_canvas = proc {|i, p| updateCanvas__ i, p}
 
       @window__.instance_variable_set :@context, self
+
+      # @private
       def @window__.draw_screen(painter)
         @context.drawImage__ painter
       end

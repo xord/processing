@@ -1,6 +1,7 @@
 module Processing
 
 
+  # @private
   module Extension
 
     module_function

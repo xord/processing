@@ -1,6 +1,7 @@
 module Processing
 
 
+  # @private
   class Window < Reflex::Window
 
     class CanvasView < Reflex::View

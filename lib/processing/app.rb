@@ -1,6 +1,7 @@
 module Processing
 
 
+  # @private
   class App < Reflex::Application
 
     def on_motion(e)
