@@ -11,9 +11,13 @@ module Processing
 
     # Horizontal position of touch
     #
+    # @return [Numeric] position x
+    #
     attr_reader :x
 
     # Vertical position of touch
+    #
+    # @return [Numeric] position y
     #
     attr_reader :y
 
