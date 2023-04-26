@@ -20,8 +20,9 @@ def setup_dependencies(build: true, only: nil)
 
   exts.each do |ext|
     gem   = RENAMES[ext.to_sym].then {|s| s || ext}
-    clone = "git clone --depth 1 https://github.com/xord/#{ext}.git ../#{ext}"
     ver   = gemspec[/add_runtime_dependency.*['"]#{gem}['"].*['"]\s*~>\s*([\d\.]+)\s*['"]/, 1]
+    opts  = '-c advice.detachedHead=false --depth 1'
+    clone = "git clone #{opts} https://github.com/xord/#{ext}.git ../#{ext}"
 
     # 'rake subtree:push' pushes all subrepos, so cloning by new tag
     # often fails before tagging each new tag
