@@ -7,10 +7,14 @@ module Processing
 
     include GraphicsContext
 
-    Vector   = Processing::Vector
-    Capture  = Processing::Capture
-    Graphics = Processing::Graphics
-    Shader   = Processing::Shader
+    Capture    = Processing::Capture
+    Font       = Processing::Font
+    Graphics   = Processing::Graphics
+    Image      = Processing::Image
+    Shader     = Processing::Shader
+    TextBounds = Processing::TextBounds
+    Touch      = Processing::Touch
+    Vector     = Processing::Vector
 
     # @private
     @@context__ = nil
