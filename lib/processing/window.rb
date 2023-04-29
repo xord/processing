@@ -33,11 +33,12 @@ module Processing
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
       Processing.instance_variable_set :@window, self
 
-      @events      = []
-      @error       = nil
-      @auto_resize = true
-      @canvas      = Canvas.new self
-      @canvas_view = add CanvasView.new name: :canvas
+      @events       = []
+      @error        = nil
+      @auto_resize  = true
+      @canvas       = Canvas.new self
+      @canvas_view  =              add   CanvasView.new name: :canvas
+      @overlay_view = @canvas_view.add Reflex::View.new name: :overlay
 
       super(*args, size: [width, height], **kwargs, &block)
     end
@@ -56,6 +57,10 @@ module Processing
 
     def event()
       @events.last
+    end
+
+    def add_overlay(view)
+      @overlay_view.add view
     end
 
     def start(&block)
@@ -134,7 +139,8 @@ module Processing
     def update_canvas_view()
       scrollx, scrolly, zoom = get_scroll_and_zoom
       @canvas_view.scroll_to scrollx, scrolly
-      @canvas_view.zoom zoom
+      @canvas_view.zoom  = zoom
+      @overlay_view.size = canvas_image.size
     end
 
     def get_scroll_and_zoom()
