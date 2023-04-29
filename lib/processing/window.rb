@@ -4,24 +4,6 @@ module Processing
   # @private
   class Window < Reflex::Window
 
-    class CanvasView < Reflex::View
-      def on_update(e)
-        window.on_canvas_update e
-      end
-
-      def on_draw(e)
-        window.on_canvas_draw e
-      end
-
-      def on_pointer(e)
-        window.on_canvas_pointer e
-      end
-
-      def on_resize(e)
-        window.on_canvas_resize e
-      end
-    end
-
     attr_accessor :setup, :update, :draw, :resize,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
@@ -67,14 +49,6 @@ module Processing
       draw_canvas do
         block.call if block
         on_setup
-      end
-    end
-
-    def resize_canvas(width, height, pixel_density = nil, window_pixel_density: nil)
-      @pixel_density = pixel_density if pixel_density
-      if @canvas.resize width, height, pixel_density || @pixel_density || window_pixel_density
-        @update_canvas.call canvas_image, canvas_painter if @update_canvas
-        size width, height
       end
     end
 
@@ -132,6 +106,14 @@ module Processing
     def on_canvas_resize(e)
       resize_canvas e.width, e.height if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
+    end
+
+    def resize_canvas(width, height, pixel_density = nil, window_pixel_density: nil)
+      @pixel_density = pixel_density if pixel_density
+      if @canvas.resize width, height, pixel_density || @pixel_density || window_pixel_density
+        @update_canvas.call canvas_image, canvas_painter if @update_canvas
+        size width, height
+      end
     end
 
     private
@@ -240,6 +222,27 @@ module Processing
     end
 
   end# Window::Canvas
+
+
+  class Window::CanvasView < Reflex::View
+
+    def on_update(e)
+      window.on_canvas_update e
+    end
+
+    def on_draw(e)
+      window.on_canvas_draw e
+    end
+
+    def on_pointer(e)
+      window.on_canvas_pointer e
+    end
+
+    def on_resize(e)
+      window.on_canvas_resize e
+    end
+
+  end# Window::CanvasView
 
 
 end# Processing
