@@ -29,6 +29,14 @@ module Processing
     alias w width
     alias h height
 
+    # Returns the width and height of image.
+    #
+    # @return [Array<Numeric>] [width, height]
+    #
+    def size()
+      @image.size
+    end
+
     # Applies an image filter.
     #
     # overload filter(shader)
