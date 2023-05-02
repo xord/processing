@@ -198,12 +198,15 @@ module Processing
     # @private
     def init__(image, painter)
       @drawing__     = false
+      @colorMode__   = nil
       @hsbColor__    = false
       @colorMaxes__  = [1.0] * 4
+      @angleMode__   = nil
       @angleScale__  = 1.0
       @rectMode__    = nil
       @ellipseMode__ = nil
       @imageMode__   = nil
+      @blendMode__   = nil
       @textAlignH__  = nil
       @textAlignV__  = nil
       @tint__        = nil
@@ -271,19 +274,22 @@ module Processing
     # @param max3 [Numeric]  max value for blue or brightness
     # @param maxA [Numeric]  max value for alpha
     #
-    # @return [nil] nil
+    # @return [RGB, HSB] current mode
     #
-    def colorMode(mode, *maxes)
-      mode = mode.downcase.to_sym
-      raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
-      raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
+    def colorMode(mode = nil, *maxes)
+      if mode != nil
+        mode = mode.downcase.to_sym
+        raise ArgumentError, "invalid color mode: #{mode}" unless [RGB, HSB].include?(mode)
+        raise ArgumentError unless [0, 1, 3, 4].include?(maxes.size)
 
-      @hsbColor__ = mode == HSB
-      case maxes.size
-      when 1    then @colorMaxes__                 = [maxes.first.to_f] * 4
-      when 3, 4 then @colorMaxes__[0...maxes.size] = maxes.map &:to_f
+        @colorMode__ = mode
+        @hsbColor__  = mode == HSB
+        case maxes.size
+        when 1    then @colorMaxes__                 = [maxes.first.to_f] * 4
+        when 3, 4 then @colorMaxes__[0...maxes.size] = maxes.map &:to_f
+        end
       end
-      nil
+      @colorMode__
     end
 
     # @private
@@ -319,15 +325,19 @@ module Processing
     #
     # @param mode [RADIANS, DEGREES] RADIANS or DEGREES
     #
-    # @return [nil] nil
+    # @return [RADIANS, DEGREES] current mode
     #
-    def angleMode(mode)
-      @angleScale__ = case mode.downcase.to_sym
-        when RADIANS then RAD2DEG__
-        when DEGREES then 1.0
-        else raise ArgumentError, "invalid angle mode: #{mode}"
-        end
-      nil
+    def angleMode(mode = nil)
+      if mode != nil
+        @angleMode__  = mode
+        @angleScale__ =
+          case mode.downcase.to_sym
+          when RADIANS then RAD2DEG__
+          when DEGREES then 1.0
+          else raise ArgumentError, "invalid angle mode: #{mode}"
+          end
+      end
+      @angleMode__
     end
 
     # @private
@@ -396,9 +406,12 @@ module Processing
     #
     # @return [nil] nil
     #
-    def blendMode(mode)
-      @painter__.blend_mode = mode
-      nil
+    def blendMode(mode = nil)
+      if mode != nil
+        @blendMode__          = mode
+        @painter__.blend_mode = mode
+      end
+      @blendMode__
     end
 
     # Sets fill color.
