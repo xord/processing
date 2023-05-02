@@ -35,17 +35,18 @@ module Processing
         @window__.canvas_image,
         @window__.canvas_painter.paint {background 0.8})
 
-      @loop__            = true
-      @redraw__          = false
-      @frameCount__      = 0
-      @key__             = nil
-      @keyCode__         = nil
-      @keysPressed__     = Set.new
-      @pointerPos__      =
-      @pointerPrevPos__  = Rays::Point.new 0
-      @pointersPressed__ = []
-      @touches__         = []
-      @motionGravity__   = createVector 0, 0
+      @loop__             = true
+      @redraw__           = false
+      @frameCount__       = 0
+      @key__              = nil
+      @keyCode__          = nil
+      @keysPressed__      = Set.new
+      @pointerPos__       =
+      @pointerPrevPos__   = Rays::Point.new 0
+      @pointersPressed__  = []
+      @pointersReleased__ = []
+      @touches__          = []
+      @motionGravity__    = createVector 0, 0
 
       @window__.before_draw   = proc {beginDraw__}
       @window__.after_draw    = proc {endDraw__}
@@ -95,11 +96,13 @@ module Processing
         @pointerPos__ = event.pos.dup
         @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
         if pressed != nil
-          array = @pointersPressed__
           event.types
             .tap {|types| types.delete :mouse}
             .map {|type| mouseButtonMap[type] || type}
-            .each {|type| pressed ? array.push(type) : array.delete(type)}
+            .each do |type|
+              (pressed ? @pointersPressed__ : @pointersReleased__).push type
+              @pointersPressed__.delete type unless pressed
+            end
         end
       }
 
@@ -127,6 +130,7 @@ module Processing
           @mouseClickedBlock__&.call if (@pointerPos__ - startPos).length < 3
           @pointerDownStartPos__ = nil
         end
+        @pointersReleased__.clear
       end
 
       @window__.pointer_move = proc do |e|
@@ -440,7 +444,7 @@ module Processing
     # @return [Numeric] LEFT, RIGHT, CENTER or 0
     #
     def mouseButton()
-      (@pointersPressed__ & [LEFT, RIGHT, CENTER]).last || 0
+      ((@pointersPressed__ + @pointersReleased__) & [LEFT, RIGHT, CENTER]).last
     end
 
     # Returns array of touches
