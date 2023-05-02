@@ -345,6 +345,11 @@ module Processing
       angle * @angleScale__
     end
 
+    # @private
+    def fromAngle__(angle)
+      angle / @angleScale__
+    end
+
     # Sets rect mode. Default is CORNER.
     #
     # CORNER  -> rect(left, top, width, height)
