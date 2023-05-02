@@ -346,8 +346,21 @@ module Processing
     end
 
     # @private
-    def fromAngle__(angle)
-      angle / @angleScale__
+    def fromRadians__(radians)
+      case @angleMode__
+      when RADIANS then radians
+      when DEGREES then radians * RAD2DEG__
+      else raise "invalid angle mode: #{mode}"
+      end
+    end
+
+    # @private
+    def fromDegrees__(degrees)
+      case @angleMode__
+      when RADIANS then degrees * DEG2RAD__
+      when DEGREES then degrees
+      else raise "invalid angle mode: #{mode}"
+      end
     end
 
     # Sets rect mode. Default is CORNER.
