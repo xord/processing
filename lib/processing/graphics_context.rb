@@ -722,6 +722,8 @@ module Processing
       nil
     end
 
+    alias drawPoint point
+
     # Draws a line.
     #
     # @param x1 [Numeric] horizontal position of first point
@@ -736,6 +738,8 @@ module Processing
       @painter__.line x1, y1, x2, y2
       nil
     end
+
+    alias drawLine line
 
     # Draws a rectangle.
     #
@@ -769,6 +773,8 @@ module Processing
       nil
     end
 
+    alias drawRect rect
+
     # Draws an ellipse.
     #
     # The parameters a, b, c, and d are determined by ellipseMode().
@@ -787,6 +793,8 @@ module Processing
       nil
     end
 
+    alias drawEllipse ellipse
+
     # Draws a circle.
     #
     # @param x      [Numeric] horizontal position of the shape
@@ -798,6 +806,8 @@ module Processing
     def circle(x, y, extent)
       ellipse x, y, extent, extent
     end
+
+    alias drawCircle circle
 
     # Draws an arc.
     #
@@ -821,6 +831,8 @@ module Processing
       nil
     end
 
+    alias drawArc arc
+
     # Draws a square.
     #
     # @param x      [Numeric] horizontal position of the shape
@@ -832,6 +844,8 @@ module Processing
     def square(x, y, extent)
       rect x, y, extent, extent
     end
+
+    alias drawSquare square
 
     # Draws a triangle.
     #
@@ -849,6 +863,8 @@ module Processing
       @painter__.line x1, y1, x2, y2, x3, y3, loop: true
       nil
     end
+
+    alias drawTriangle triangle
 
     # Draws a quad.
     #
@@ -869,6 +885,8 @@ module Processing
       nil
     end
 
+    alias drawQuad quad
+
     # Draws a Catmull-Rom spline curve.
     #
     # @param cx1 [Numeric] horizontal position of beginning control point
@@ -888,6 +906,8 @@ module Processing
       nil
     end
 
+    alias drawCurve curve
+
     # Draws a Bezier spline curve.
     #
     # @param x1  [Numeric] horizontal position of first point
@@ -906,6 +926,8 @@ module Processing
       @painter__.bezier x1, y1, cx1, cy1, cx2, cy2, x2, y2
       nil
     end
+
+    alias drawBezier bezier
 
     # Draws a text.
     #
@@ -946,6 +968,8 @@ module Processing
       nil
     end
 
+    alias drawText text
+
     # Draws an image.
     #
     # The parameters a, b, c, and d are determined by imageMode().
@@ -968,6 +992,8 @@ module Processing
       img.drawImage__ @painter__, x, y, w, h, fill: tint, stroke: :none
       nil
     end
+
+    alias drawImage image
 
     # Copies image.
     #
