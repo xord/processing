@@ -5,6 +5,8 @@ module Processing
   #
   class Shader
 
+    include Xot::Inspectable
+
     # Initialize shader object.
     #
     # @param vertSrc [String] vertex shader source

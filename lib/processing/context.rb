@@ -5,6 +5,7 @@ module Processing
   #
   class Context
 
+    include Xot::Inspectable
     include GraphicsContext
 
     Capture    = Processing::Capture

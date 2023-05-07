@@ -5,6 +5,8 @@ module Processing
   #
   class Capture
 
+    include Xot::Inspectable
+
     # Returns a list of available camera device names
     #
     # @return [Array] device name list

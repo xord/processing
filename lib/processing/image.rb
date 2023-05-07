@@ -5,6 +5,8 @@ module Processing
   #
   class Image
 
+    include Xot::Inspectable
+
     # @private
     def initialize(image)
       @image = image

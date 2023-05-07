@@ -18,4 +18,8 @@ class TestGraphics < Test::Unit::TestCase
     assert_raise {g.beginDraw}
   end
 
+  def test_inspect()
+    assert_match %r|#<Processing::Graphics:0x\w{16}>|, graphics.inspect
+  end
+
 end# TestGraphics

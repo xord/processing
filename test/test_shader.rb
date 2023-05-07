@@ -44,4 +44,8 @@ class TestShader < Test::Unit::TestCase
     end
   end
 
+  def test_inspect()
+    assert_match %r|#<Processing::Shader:0x\w{16}>|, shader.inspect
+  end
+
 end# TestShader

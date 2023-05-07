@@ -3,6 +3,7 @@ require 'digest/sha1'
 require 'pathname'
 require 'tmpdir'
 require 'open-uri'
+require 'xot/inspectable'
 require 'reflex'
 
 require 'processing/extension'

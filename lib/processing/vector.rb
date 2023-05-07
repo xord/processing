@@ -535,9 +535,12 @@ module Processing
       v
     end
 
-    # @private
+    # Returns a string containing a human-readable representation of object.
+    #
+    # @return [String] inspected text
+    #
     def inspect()
-      "<##{self.class.name} #{x}, #{y}, #{z}>"
+      "#<#{self.class.name}: #{x}, #{y}, #{z}>"
     end
 
     # @private

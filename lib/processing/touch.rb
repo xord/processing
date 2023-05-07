@@ -26,6 +26,14 @@ module Processing
       @id, @x, @y = id, x, y
     end
 
+    # Returns a string containing a human-readable representation of object.
+    #
+    # @return [String] inspected text
+    #
+    def inspect()
+      "#<Processing::Touch: id:#{id} x:#{x} y:#{y}>"
+    end
+
   end# Touch
 
 

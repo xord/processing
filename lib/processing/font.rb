@@ -28,6 +28,14 @@ module Processing
       TextBounds.new x, y, x + f.width(str), y + f.height
     end
 
+    # Returns a string containing a human-readable representation of object.
+    #
+    # @return [String] inspected text
+    #
+    def inspect()
+      "#<Processing::Font: name:'#{@font.name}' size:#{@font.size}>"
+    end
+
   end# Font
 
 
@@ -54,6 +62,14 @@ module Processing
     # @private
     def initialize(x, y, w, h)
       @x, @y, @w, @h = x, y, w, h
+    end
+
+    # Returns a string containing a human-readable representation of object.
+    #
+    # @return [String] inspected text
+    #
+    def inspect()
+      "#<Processing::TextBounds: x:#{x} y:#{y} w:#{w} h:#{h}>"
     end
 
   end# TextBounds

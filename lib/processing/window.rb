@@ -4,6 +4,8 @@ module Processing
   # @private
   class Window < Reflex::Window
 
+    include Xot::Inspectable
+
     attr_accessor :setup, :update, :draw, :resize,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,

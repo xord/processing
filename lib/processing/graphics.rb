@@ -5,6 +5,7 @@ module Processing
   #
   class Graphics
 
+    include Xot::Inspectable
     include GraphicsContext
 
     # Initialize graphics object.

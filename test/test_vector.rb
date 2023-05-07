@@ -395,4 +395,8 @@ class TestVector < Test::Unit::TestCase
     assert_in_delta 1, v2.mag, 0.000001
   end
 
+  def test_inspect()
+    assert_equal '#<Processing::Vector: 1.0, 2.0, 3.0>', vec(1, 2, 3).inspect
+  end
+
 end# TestVector
