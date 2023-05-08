@@ -1,6 +1,14 @@
 # processing ChangeLog
 
 
+## [v0.5.6] - 2023-05-08
+
+- Add inspect() to classes
+- Alias draw methods
+- colorMode(), angleMode(), and blendMode() returns current mode value
+- fix that mouseButton returns 0 on mouseReleased
+
+
 ## [v0.5.5] - 2023-04-30
 
 - Update documents
