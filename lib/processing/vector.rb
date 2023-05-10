@@ -513,7 +513,8 @@ module Processing
     # @return [Vector] a random vector
     #
     def self.random2D(target = nil)
-      v = self.fromAngle rand 0.0...(Math::PI * 2)
+      v = self.new(1, 0, 0)
+      v.getInternal__.rotate! rand 0.0...360.0
       target.set v if target
       v
     end
