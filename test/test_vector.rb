@@ -338,6 +338,25 @@ class TestVector < Test::Unit::TestCase
     assert_equal_vector vec(M.cos(angle * 2), M.sin(angle * 2), 0), v.rotate(angle)
   end
 
+  def test_compare()
+    v = vec 1, 2, 3
+    assert     v == vec(1, 2, 3)
+    assert_not v != vec(1, 2, 3)
+
+    assert v < vec(2, 2, 3)
+    assert v < vec(1, 3, 3)
+    assert v < vec(1, 2, 4)
+
+    assert v > vec(0, 2, 3)
+    assert v > vec(1, 1, 3)
+    assert v > vec(1, 2, 2)
+
+    assert_not v == nil
+    assert     v != nil
+    assert_raise {v < nil}
+    assert_raise {v > nil}
+  end
+
   def test_fromAngle()
     angle  = PI * 2 * 0.1
     result = vec

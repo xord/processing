@@ -545,7 +545,7 @@ module Processing
 
     # @private
     def <=>(o)
-      @point <=> o.getInternal__
+      @point <=> o&.getInternal__
     end
 
     # @private
