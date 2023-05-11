@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v0.5.7] - 2023-05-11
+
+- Add examples/shake.rb
+- Fix Vector.random2D() not working correctly when angleMode is set to DEGREES
+
+
 ## [v0.5.6] - 2023-05-08
 
 - Add inspect() to classes
