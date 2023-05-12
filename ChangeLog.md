@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.8] - 2023-05-13
+
+- Update dependencies
+
+
 ## [v0.5.7] - 2023-05-11
 
 - Add examples/shake.rb
