@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.9] - 2023-05-18
+
+- Update dependencies
+
+
 ## [v0.5.8] - 2023-05-13
 
 - Update dependencies
