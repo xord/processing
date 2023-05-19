@@ -149,10 +149,12 @@ module Processing
 
     # Returns x, y, z as an array
     #
+    # @param n [Numeric] number of dimensions
+    #
     # @return [Array] array of x, y, z
     #
-    def array()
-      @point.to_a 3
+    def array(n = 3)
+      @point.to_a n
     end
 
     alias to_a array
