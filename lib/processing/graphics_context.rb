@@ -1036,8 +1036,11 @@ module Processing
     #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       assertDrawing__
+      tint  = @tint__ ? toRGBA__(*@tint__) : 1
       img ||= self
-      img.drawImage__ @painter__, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
+      img.drawImage__(
+        @painter__, sx, sy, sw, sh, dx, dy, dw, dh,
+        fill: tint, stroke: :none, blend_mode: mode)
     end
 
     # Saves screen image to file.
