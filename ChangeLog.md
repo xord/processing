@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.11] - 2023-05-21
+
+- copy() and blend() now work with tint color
+
+
 ## [v0.5.10] - 2023-05-19
 
 - Vector#array takes parameter for number of dimensions
