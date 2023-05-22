@@ -1156,7 +1156,6 @@ module Processing
         @textAlignH__,
         @textAlignV__,
         @tint__,
-        @filter__,
       ]
       block.call if block
       nil
@@ -1188,8 +1187,7 @@ module Processing
       @imageMode__,
       @textAlignH__,
       @textAlignV__,
-      @tint__,
-      @filter__ = @styleStack__.pop
+      @tint__ = @styleStack__.pop
       nil
     end
 
