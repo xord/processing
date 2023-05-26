@@ -17,13 +17,13 @@ Gem::Specification.new do |s|
   rdocs = glob.call *%w[README]
 
   s.name        = name
+  s.version     = ext.version
+  s.license     = 'MIT'
   s.summary     = 'Processing compatible Creative Coding Framework.'
   s.description = 'Creative Coding Framework has API compatible to Processing or p5.js.'
-  s.version     = ext.version
-
-  s.authors  = %w[xordog]
-  s.email    = 'xordog@gmail.com'
-  s.homepage = "https://github.com/xord/processing"
+  s.authors     = %w[xordog]
+  s.email       = 'xordog@gmail.com'
+  s.homepage    = "https://github.com/xord/processing"
 
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.7.0'
