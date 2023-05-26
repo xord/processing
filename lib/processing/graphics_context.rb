@@ -1099,13 +1099,12 @@ module Processing
 
     # Pushes the current transformation matrix to stack.
     #
-    # @return [nil] nil
+    # @return [Object] result of the expression at the end of the block
     #
     def pushMatrix(&block)
       assertDrawing__
       @matrixStack__.push @painter__.matrix
       block.call if block
-      nil
     ensure
       popMatrix if block
     end
@@ -1133,7 +1132,7 @@ module Processing
 
     # Save current style values to the style stack.
     #
-    # @return [nil] nil
+    # @return [Object] result of the expression at the end of the block
     #
     def pushStyle(&block)
       assertDrawing__
@@ -1158,7 +1157,6 @@ module Processing
         @tint__,
       ]
       block.call if block
-      nil
     ensure
       popStyle if block
     end
@@ -1193,7 +1191,7 @@ module Processing
 
     # Save current styles and transformations to stack.
     #
-    # @return [nil] nil
+    # @return [Object] result of the expression at the end of the block
     #
     def push(&block)
       pushMatrix
