@@ -1,6 +1,13 @@
 # processing ChangeLog
 
 
+## [v0.5.13] - 2023-05-27
+
+- pushMatrix(), pushStyle(), and push() return the result of the expression at the end of the block when a block given
+- required_ruby_version >= 3.0.0
+- Add spec.license
+
+
 ## [v0.5.12] - 2023-05-26
 
 - pushStyle/popStyle do not manage filter state
