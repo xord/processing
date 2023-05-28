@@ -260,6 +260,30 @@ module Processing
       @image__.height
     end
 
+    # Returns the width of the graphics object in pixels.
+    #
+    # @return [Numeric] width
+    #
+    def pixelWidth()
+      width * pixelDensity
+    end
+
+    # Returns the height of the graphics object in pixels.
+    #
+    # @return [Numeric] height
+    #
+    def pixelHeight()
+      height * pixelDensity
+    end
+
+    # Returns the pixel density of the graphics object.
+    #
+    # @return [Numeric] pixel density
+    #
+    def pixelDensity()
+      @painter__.pixel_density
+    end
+
     # Sets color mode and max color values.
     #
     # @overload colorMode(mode)
