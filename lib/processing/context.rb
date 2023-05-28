@@ -373,11 +373,8 @@ module Processing
     def resizeCanvas__(name, width, height, pixelDensity)
       raise '#{name}() must be called on startup or setup block' if @started__
 
-      @painter__.__send__ :end_paint
       @window__.resize_canvas width, height, pixelDensity
       @window__.auto_resize = false
-    ensure
-      @painter__.__send__ :begin_paint
     end
 
     # Returns the width of the display.

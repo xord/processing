@@ -119,8 +119,19 @@ module Processing
     end
 
     def resize_canvas(width, height, pixel_density = nil, window_pixel_density: nil)
+      painting = canvas_painter.painting?
+      canvas_painter.__send__ :end_paint if painting
+
       @pixel_density = pixel_density if pixel_density
-      if @canvas.resize width, height, pixel_density || @pixel_density || window_pixel_density
+
+      resized =
+        begin
+          @canvas.resize width, height, @pixel_density || window_pixel_density
+        ensure
+          canvas_painter.__send__ :begin_paint if painting
+        end
+
+      if resized
         @update_canvas.call canvas_image, canvas_painter if @update_canvas
         size width, height
       end
