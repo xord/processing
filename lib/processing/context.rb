@@ -380,7 +380,23 @@ module Processing
       @painter__.__send__ :begin_paint
     end
 
-    # Returns pixel density of display.
+    # Returns the width of the display.
+    #
+    # @return [Numeric] width
+    #
+    def displayWidth()
+      @window__.screen.width
+    end
+
+    # Returns the height of the display.
+    #
+    # @return [Numeric] height
+    #
+    def displayHeight()
+      @window__.screen.height
+    end
+
+    # Returns the pixel density of the display.
     #
     # @return [Numeric] pixel density
     #
