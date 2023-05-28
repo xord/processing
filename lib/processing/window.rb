@@ -9,7 +9,7 @@ module Processing
     attr_accessor :setup, :update, :draw, :resize,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
-      :motion,
+      :move, :resize, :motion,
       :before_draw, :after_draw, :update_canvas
 
     attr_accessor :auto_resize
@@ -80,6 +80,14 @@ module Processing
         when :up   then @key_up
       end
       draw_canvas {call_block block, e} if block
+    end
+
+    def on_move(e)
+      draw_canvas {call_block @move, e} if @move
+    end
+
+    def on_resize(e)
+      draw_canvas {call_block @resize, e} if @resize
     end
 
     def on_motion(e)

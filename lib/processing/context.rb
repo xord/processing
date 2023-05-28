@@ -144,6 +144,14 @@ module Processing
         (@touchMovedBlock__ || @mouseDraggedBlock__)&.call
       end
 
+      @window__.move = proc do |e|
+        @windowMovedBlock__&.call
+      end
+
+      @window__.resize = proc do |e|
+        @windowResizedBlock__&.call
+      end
+
       @window__.motion = proc do |e|
         @motionGravity__ = createVector(*e.gravity.to_a(3))
         @motionBlock__&.call
@@ -173,6 +181,8 @@ module Processing
       @touchStartedBlock__  ||
       @touchEndedBlock__    ||
       @touchMovedBlock__    ||
+      @windowMovedBlock__   ||
+      @windowResizedBlock__ ||
       @motionBlock__
     end
 
@@ -281,6 +291,24 @@ module Processing
     #
     def touchMoved(&block)
       @touchMovedBlock__ = block if block
+      nil
+    end
+
+    # Defines windowMoved block.
+    #
+    # @return [nil] nil
+    #
+    def windowMoved(&block)
+      @windowMovedBlock__ = block if block
+      nil
+    end
+
+    # Defines windowResized block.
+    #
+    # @return [nil] nil
+    #
+    def windowResized(&block)
+      @windowResizedBlock__ = block if block
       nil
     end
 
