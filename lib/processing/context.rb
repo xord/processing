@@ -404,6 +404,30 @@ module Processing
       @window__.painter.pixel_density
     end
 
+    # Move the position of the window.
+    #
+    # @param [Numeric] x x position of the window
+    # @param [Numeric] y y position of the window
+    #
+    # @return [nil] nil
+    #
+    def windowMove(x, y)
+      @window__.pos = [x, y]
+      nil
+    end
+
+    # Sets the size of the window.
+    #
+    # @param [Numeric] width  width of the window
+    # @param [Numeric] height height of the window
+    #
+    # @return [nil] nil
+    #
+    def windowResize(width, height)
+      @window__.size = [width, height]
+      nil
+    end
+
     # Returns the x position of the window.
     #
     # @return [Numeric] horizontal position of the window

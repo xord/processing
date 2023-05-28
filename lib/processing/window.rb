@@ -151,10 +151,11 @@ module Processing
     end
 
     def draw_canvas(&block)
-      begin_draw
+      drawing = self.drawing?
+      begin_draw unless drawing
       block.call
     ensure
-      end_draw
+      end_draw unless drawing
     end
 
     def begin_draw()
@@ -165,6 +166,10 @@ module Processing
     def end_draw()
       @after_draw&.call
       canvas_painter.__send__ :end_paint
+    end
+
+    def drawing?()
+      canvas_painter.painting?
     end
 
     def draw_screen(painter)
