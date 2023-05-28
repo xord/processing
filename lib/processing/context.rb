@@ -388,7 +388,23 @@ module Processing
       @window__.painter.pixel_density
     end
 
-    # Returns window width.
+    # Returns the x position of the window.
+    #
+    # @return [Numeric] horizontal position of the window
+    #
+    def windowX()
+      @window__.x
+    end
+
+    # Returns the y position of the window.
+    #
+    # @return [Numeric] vertical position of the window
+    #
+    def windowY()
+      @window__.y
+    end
+
+    # Returns the width of the window.
     #
     # @return [Numeric] window width
     #
@@ -396,7 +412,7 @@ module Processing
       @window__.width
     end
 
-    # Returns window height.
+    # Returns the height of the window.
     #
     # @return [Numeric] window height
     #
