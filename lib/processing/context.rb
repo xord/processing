@@ -460,7 +460,7 @@ module Processing
       @window__.height
     end
 
-    # Returns number of frames since program started.
+    # Returns the number of frames since the program started.
     #
     # @return [Integer] total number of frames
     #
@@ -468,7 +468,7 @@ module Processing
       @frameCount__
     end
 
-    # Returns number of frames per second.
+    # Returns the number of frames per second.
     #
     # @return [Float] frames per second
     #

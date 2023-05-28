@@ -252,10 +252,18 @@ module Processing
       @drawing__ = false
     end
 
+    # Returns the width of the graphics object.
+    #
+    # @return [Numeric] width
+    #
     def width()
       @image__.width
     end
 
+    # Returns the height of the graphics object.
+    #
+    # @return [Numeric] height
+    #
     def height()
       @image__.height
     end
