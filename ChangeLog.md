@@ -1,6 +1,16 @@
 # processing ChangeLog
 
 
+## [v0.5.14] - 2023-05-29
+
+- Add windowMove() and windowResize()
+- Add windowMoved(), windowResized(), and windowResizable()
+- Add windowX() and windowY()
+- Add displayWidth(), displayHeight(), pixelWidth(), pixelHeight(), and pixelDensity()
+- Add doc for width() and height()
+- Fix crash on calling size()
+
+
 ## [v0.5.13] - 2023-05-27
 
 - pushMatrix(), pushStyle(), and push() return the result of the expression at the end of the block when a block given
