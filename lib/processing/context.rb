@@ -425,6 +425,17 @@ module Processing
       nil
     end
 
+    # Makes the window resizable or not.
+    #
+    # @param [Boolean] resizable resizable or not
+    #
+    # @return [nil] nil
+    #
+    def windowResizable(resizable)
+      @window__.resizable = resizable
+      nil
+    end
+
     # Returns the x position of the window.
     #
     # @return [Numeric] horizontal position of the window
