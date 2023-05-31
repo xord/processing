@@ -2,7 +2,9 @@ require 'processing/all'
 
 
 module Processing
-  WINDOW  = Processing::Window.new {start}
+  w = (ENV['WIDTH']  || 500).to_i
+  h = (ENV['HEIGHT'] || 500).to_i
+  WINDOW  = Processing::Window.new(w, h) {start}
   CONTEXT = Processing::Context.new WINDOW
 
   refine Object do
