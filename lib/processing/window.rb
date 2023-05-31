@@ -20,7 +20,7 @@ module Processing
       @events       = []
       @error        = nil
       @auto_resize  = true
-      @canvas       = Canvas.new self
+      @canvas       = Canvas.new self, width, height
       @canvas_view  =              add   CanvasView.new name: :canvas
       @overlay_view = @canvas_view.add Reflex::View.new name: :overlay
 
@@ -204,11 +204,11 @@ module Processing
 
     attr_reader :image, :painter
 
-    def initialize(window)
+    def initialize(window, width, height)
       @image   = nil
       @painter = window.painter
 
-      resize 1, 1
+      resize width, height
       painter.miter_limit = 10
     end
 
