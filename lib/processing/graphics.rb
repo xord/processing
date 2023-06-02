@@ -10,8 +10,8 @@ module Processing
 
     # Initialize graphics object.
     #
-    def initialize(width, height)
-      image = Rays::Image.new width, height
+    def initialize(width, height, pixelDensity = 1)
+      image = Rays::Image.new width, height, Rays::RGBA, pixelDensity
       init__ image, image.painter
     end
 

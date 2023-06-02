@@ -1648,13 +1648,14 @@ module Processing
 
     # Creates a new off-screen graphics context object.
     #
-    # @param width  [Numeric] width of graphics image
-    # @param height [Numeric] height of graphics image
+    # @param width        [Numeric] width of graphics image
+    # @param height       [Numeric] height of graphics image
+    # @param pixelDensity [Numeric] pixel density of graphics image
     #
     # @return [Graphics] graphics object
     #
-    def createGraphics(width, height)
-      Graphics.new width, height
+    def createGraphics(width, height, pixelDensity = 1)
+      Graphics.new width, height, pixelDensity
     end
 
     # Creates a shader object.
