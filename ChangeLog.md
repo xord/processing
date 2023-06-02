@@ -1,6 +1,15 @@
 # processing ChangeLog
 
 
+## [v0.5.15] - 2023-06-02
+
+- Set initial canvas size to same as the window size
+- Use WIDTH and HEIGHT env vars for initial canvas size
+- Shader class can take shadertoy frament shader source
+- createGraphics() can take pixelDensity parameter
+- Pass self to the block call of beginDraw(), and ensure endDraw
+
+
 ## [v0.5.14] - 2023-05-29
 
 - Add windowMove() and windowResize()
