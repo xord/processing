@@ -164,12 +164,14 @@ module Processing
     END
 
     def modifyFragSource(source)
-      source += <<~END if hasShadertoyMainImage? source
-        varying vec4 vertTexCoord;
-        void main() {
-          mainImage(gl_FragColor, vertTexCoord.xy);
-        }
-      END
+      if hasShadertoyMainImage?(source) && source !~ /void\s+main\s*\(/
+        source += <<~END
+          varying vec4 vertTexCoord;
+          void main() {
+            mainImage(gl_FragColor, vertTexCoord.xy);
+          }
+        END
+      end
       {
         iTime:       :float,
         iResolution: :vec2,
