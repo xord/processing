@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.16] - 2023-06-02
+
+- Fix failed tests and add tests
+
+
 ## [v0.5.15] - 2023-06-02
 
 - Set initial canvas size to same as the window size
