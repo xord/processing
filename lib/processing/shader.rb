@@ -13,7 +13,7 @@ module Processing
     # @param fragSrc [String] fragment shader source
     #
     def initialize(vertSrc, fragSrc)
-      @shader = Rays::Shader.new fragSrc, vertSrc, ENV__
+      @shader = Rays::Shader.new modifyFragSource(fragSrc), vertSrc, ENV__
     end
 
     # Sets uniform variables.
@@ -162,6 +162,36 @@ module Processing
         gl_FragColor = vec4(color / total_weight, 1.0) * vertColor;
       }
     END
+
+    def modifyFragSource(source)
+      source += <<~END if hasShadertoyMainImage? source
+        varying vec4 vertTexCoord;
+        void main() {
+          mainImage(gl_FragColor, vertTexCoord.xy);
+        }
+      END
+      {
+        iTime:       :float,
+        iResolution: :vec2,
+        iMouse:      :vec2
+      }.each do |uniformName, type|
+        if needsUniformDeclaration type, uniformName, source
+          source = <<~END + source
+            uniform #{type} #{uniformName};
+          END
+        end
+      end
+      source
+    end
+
+    def hasShadertoyMainImage?(source)
+      source =~ /void\s+mainImage\s*\(\s*out\s+vec4\s+\w+\s*,\s*in\s+vec2\s+\w+\s*\)/
+    end
+
+    def needsUniformDeclaration(type, uniformName, source)
+      source.include?(uniformName.to_s) &&
+        source !~ /uniform\s+#{type}\s+#{uniformName}/
+    end
 
   end# Shader
 
