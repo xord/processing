@@ -22,8 +22,11 @@ module Processing
       @painter__.__send__ :begin_paint
       push
       if block
-        block.call
-        endDraw
+        begin
+          block.call self
+        ensure
+          endDraw
+        end
       end
     end
 
