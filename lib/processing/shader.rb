@@ -83,75 +83,85 @@ module Processing
       when Shader
         arg
       when :threshold
-        self.new(nil, <<~END).tap {|sh| sh.set :threshold, (args.shift || 0.5)}
-          uniform float threshold;
-          uniform sampler2D texMap;
-          varying vec4 vertTexCoord;
-          varying vec4 vertColor;
-          void main() {
-            vec4 col     = texture2D(texMap, vertTexCoord.xy) * vertColor;
-            float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
-            gl_FragColor = vec4(vec3(gray > threshold ? 1.0 : 0.0), 1.0);
-          }
-        END
+        self.new(nil, THRESHOLD_SOURCE).tap {|sh| sh.set :threshold, (args.shift || 0.5)}
       when :gray
-        self.new nil, <<~END
-          uniform sampler2D texMap;
-          varying vec4 vertTexCoord;
-          varying vec4 vertColor;
-          void main() {
-            vec4 col     = texture2D(texMap, vertTexCoord.xy);
-            float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
-            gl_FragColor = vec4(vec3(gray), 1.0) * vertColor;
-          }
-        END
+        self.new nil, GRAY_SOURCE
       when :invert
-        self.new nil, <<~END
-          uniform sampler2D texMap;
-          varying vec4 vertTexCoord;
-          varying vec4 vertColor;
-          void main() {
-            vec4 col     = texture2D(texMap, vertTexCoord.xy);
-            gl_FragColor = vec4(vec3(1.0 - col.rgb), 1.0) * vertColor;
-          }
-        END
+        self.new nil, INVERT_SOURCE
       when :blur
-        self.new(nil, <<~END).tap {|sh| sh.set :radius, (args.shift || 1).to_f}
-          #define PI 3.1415926538
-          uniform float radius;
-          uniform sampler2D texMap;
-          uniform vec3 texMin;
-          uniform vec3 texMax;
-          uniform vec3 texOffset;
-          varying vec4 vertTexCoord;
-          varying vec4 vertColor;
-          float gaussian(vec2 pos, float sigma) {
-            float s2 = sigma * sigma;
-            return 1.0 / (2.0 * PI * s2) * exp(-(dot(pos, pos) / (2.0 * s2)));
-          }
-          void main() {
-            float sigma        = radius * 0.5;
-            vec3 color         = vec3(0.0);
-            float total_weight = 0.0;
-            for (float y = -radius; y < radius; y += 1.0)
-            for (float x = -radius; x < radius; x += 1.0) {
-              vec2 offset   = vec2(x, y);
-              float weight  = gaussian(offset, sigma);
-              vec2 texcoord = vertTexCoord.xy + offset * texOffset.xy;
-              if (
-                texcoord.x < texMin.x || texMax.x < texcoord.x ||
-                texcoord.y < texMin.y || texMax.y < texcoord.y
-              ) continue;
-              color += texture2D(texMap, texcoord).rgb * weight;
-              total_weight += weight;
-            }
-            gl_FragColor = vec4(color / total_weight, 1.0) * vertColor;
-          }
-        END
+        self.new(nil, BLUR_SOURCE).tap {|sh| sh.set :radius, (args.shift || 1).to_f}
       else
         nil
       end
     end
+
+    private
+
+    THRESHOLD_SOURCE = <<~END
+      uniform float threshold;
+      uniform sampler2D texMap;
+      varying vec4 vertTexCoord;
+      varying vec4 vertColor;
+      void main() {
+        vec4 col     = texture2D(texMap, vertTexCoord.xy) * vertColor;
+        float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
+        gl_FragColor = vec4(vec3(gray > threshold ? 1.0 : 0.0), 1.0);
+      }
+    END
+
+    GRAY_SOURCE = <<~END
+      uniform sampler2D texMap;
+      varying vec4 vertTexCoord;
+      varying vec4 vertColor;
+      void main() {
+        vec4 col     = texture2D(texMap, vertTexCoord.xy);
+        float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
+        gl_FragColor = vec4(vec3(gray), 1.0) * vertColor;
+      }
+    END
+
+    INVERT_SOURCE = <<~END
+      uniform sampler2D texMap;
+      varying vec4 vertTexCoord;
+      varying vec4 vertColor;
+      void main() {
+        vec4 col     = texture2D(texMap, vertTexCoord.xy);
+        gl_FragColor = vec4(vec3(1.0 - col.rgb), 1.0) * vertColor;
+      }
+    END
+
+    BLUR_SOURCE = <<~END
+      #define PI 3.1415926538
+      uniform float radius;
+      uniform sampler2D texMap;
+      uniform vec3 texMin;
+      uniform vec3 texMax;
+      uniform vec3 texOffset;
+      varying vec4 vertTexCoord;
+      varying vec4 vertColor;
+      float gaussian(vec2 pos, float sigma) {
+        float s2 = sigma * sigma;
+        return 1.0 / (2.0 * PI * s2) * exp(-(dot(pos, pos) / (2.0 * s2)));
+      }
+      void main() {
+        float sigma        = radius * 0.5;
+        vec3 color         = vec3(0.0);
+        float total_weight = 0.0;
+        for (float y = -radius; y < radius; y += 1.0)
+        for (float x = -radius; x < radius; x += 1.0) {
+          vec2 offset   = vec2(x, y);
+          float weight  = gaussian(offset, sigma);
+          vec2 texcoord = vertTexCoord.xy + offset * texOffset.xy;
+          if (
+            texcoord.x < texMin.x || texMax.x < texcoord.x ||
+            texcoord.y < texMin.y || texMax.y < texcoord.y
+          ) continue;
+          color += texture2D(texMap, texcoord).rgb * weight;
+          total_weight += weight;
+        }
+        gl_FragColor = vec4(color / total_weight, 1.0) * vertColor;
+      }
+    END
 
   end# Shader
 
