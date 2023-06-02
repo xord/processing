@@ -164,6 +164,7 @@ module Processing
     END
 
     def modifyFragSource(source)
+      return nil unless source
       if hasShadertoyMainImage?(source) && source !~ /void\s+main\s*\(/
         source += <<~END
           varying vec4 vertTexCoord;

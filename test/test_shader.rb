@@ -41,6 +41,20 @@ class TestShader < Test::Unit::TestCase
     end
   end
 
+  def test_shadertoy_shader()
+    assert_equal <<~EXPECTED, shader(nil, <<~ACTUAL).instance_variable_get(:@shader).fragment_shader_source
+      void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+      }
+      varying vec4 vertTexCoord;
+      void main() {
+        mainImage(gl_FragColor, vertTexCoord.xy);
+      }
+    EXPECTED
+      void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+      }
+    ACTUAL
+  end
+
   def test_inspect()
     assert_match %r|#<Processing::Shader:0x\w{16}>|, shader.inspect
   end
