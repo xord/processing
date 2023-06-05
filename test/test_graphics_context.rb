@@ -57,4 +57,15 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_in_delta 0.4, g.alpha(c), 1 / 256.0
   end
 
+  def test_lerp()
+    g = graphics
+
+    assert_equal 1.0, g.lerp(1.0, 2.0, 0.0)
+    assert_equal 1.5, g.lerp(1.0, 2.0, 0.5)
+    assert_equal 2.0, g.lerp(1.0, 2.0, 1.0)
+
+    assert_equal 0.9, g.lerp(1.0, 2.0, -0.1)
+    assert_equal 2.1, g.lerp(1.0, 2.0,  1.1)
+  end
+
 end# TestGraphics
