@@ -324,6 +324,58 @@ module Processing
       @colorMode__
     end
 
+    # Creates color value.
+    #
+    # @overload color(gray)
+    # @overload color(gray, alpha)
+    # @overload color(v1, v2, v3)
+    # @overload color(v1, v2, v3, alpha)
+    #
+    # @param gray  [Numeric] the value for gray
+    # @param alpha [Numeric] the value for alpha
+    # @param v1    [Numeric] the value for red or hue
+    # @param v2    [Numeric] the value for green or saturation
+    # @param v3    [Numeric] the value for blue or brightness
+    #
+    # @return [Integer] the rgba color value
+    #
+    def color(*args)
+      rgba = toRGBA__(*args).map {|n| (n * 255).to_i.clamp 0, 255}
+      (rgba[3] << 24) | (rgba[0] << 16) | (rgba[1] << 8) | rgba[2]
+    end
+
+    # Returns the red value of the color.
+    #
+    # @return [Numeric] the red value
+    #
+    def red(color)
+      ((color >> 16) & 0xff) / 255.0 * @colorMaxes__[0]
+    end
+
+    # Returns the green value of the color.
+    #
+    # @return [Numeric] the green value
+    #
+    def green(color)
+      ((color >> 8) & 0xff) / 255.0 * @colorMaxes__[1]
+    end
+
+    # Returns the blue value of the color.
+    #
+    # @return [Numeric] the blue value
+    #
+    def blue(color)
+      (color & 0xff) / 255.0 * @colorMaxes__[2]
+    end
+
+    # Returns the red value of the color.
+    #
+    # @return [Numeric] the red value
+    #
+    def alpha(color)
+      ((color >> 24) & 0xff) / 255.0 * @colorMaxes__[3]
+    end
+
     # @private
     private def toRGBA__(*args)
       a, b, c, d = args
