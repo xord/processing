@@ -340,8 +340,9 @@ module Processing
     # @return [Integer] the rgba color value
     #
     def color(*args)
-      rgba = toRGBA__(*args).map {|n| (n * 255).to_i.clamp 0, 255}
-      (rgba[3] << 24) | (rgba[0] << 16) | (rgba[1] << 8) | rgba[2]
+      toRGBA__(*args)
+        .map {|n| (n * 255).to_i.clamp 0, 255}
+        .then {|r, g, b, a| Image.toColor__ r, g, b, a}
     end
 
     # Returns the red value of the color.

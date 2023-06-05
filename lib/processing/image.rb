@@ -39,6 +39,30 @@ module Processing
       @image.size
     end
 
+    # Sets the color of the pixel.
+    #
+    # @param x [Integer] x position of the pixel
+    # @param y [Integer] y position of the pixel
+    # @param c [Integer] color value
+    #
+    # @return [nil] nil
+    #
+    def set(x, y, c)
+      @image.bitmap[x, y] = self.class.fromColor__ c
+      nil
+    end
+
+
+    # Returns the color of the pixel.
+    #
+    # @return [Integer] color value (0xAARRGGBB)
+    #
+    def get(x, y)
+      @image.bitmap[x, y]
+        .map {|n| (n * 255).to_i.clamp 0, 255}
+        .then {|r, g, b, a| self.class.toColor__ r, g, b, a}
+    end
+
     # Applies an image filter.
     #
     # overload filter(shader)
@@ -133,6 +157,24 @@ module Processing
       painter.push shader: shader, **states do |_|
         painter.image getInternal__, *args
       end
+    end
+
+    # @private
+    def self.fromColor__(color)
+      [
+        color >> 16 & 0xff,
+        color >> 8  & 0xff,
+        color       & 0xff,
+        color >> 24 & 0xff
+      ]
+    end
+
+    # @private
+    def self.toColor__(r, g, b, a)
+      (r & 0xff) << 16 |
+      (g & 0xff) << 8  |
+      (b & 0xff)       |
+      (a & 0xff) << 24
     end
 
   end# Image
