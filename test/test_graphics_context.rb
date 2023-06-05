@@ -68,4 +68,16 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal 2.1, g.lerp(1.0, 2.0,  1.1)
   end
 
+  def test_lerpColor()
+    g = graphics
+    c = -> red, green, blue {g.color red, green, blue}
+
+    assert_equal c[10, 20, 30], g.lerpColor(c[10, 20, 30], c[50, 60, 70], 0.0)
+    assert_equal c[30, 40, 50], g.lerpColor(c[10, 20, 30], c[50, 60, 70], 0.5)
+    assert_equal c[50, 60, 70], g.lerpColor(c[10, 20, 30], c[50, 60, 70], 1.0)
+
+    assert_equal c[-10, 0,  10], g.lerpColor(c[10, 20, 30], c[50, 60, 70], -0.5)
+    assert_equal c[ 70, 80, 90], g.lerpColor(c[10, 20, 30], c[50, 60, 70],  1.5)
+  end
+
 end# TestGraphics

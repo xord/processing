@@ -1479,6 +1479,22 @@ module Processing
       start + (stop - start) * amount
     end
 
+    # Returns the interpolated color between color1 and color2.
+    #
+    # @param color1 [Integer] the 1st color for interpolation
+    # @param color2 [Integer] the 2nd color for interpolation
+    # @param amount [Numeric] amount to interpolate
+    #
+    # @return [Integer] interporated color
+    #
+    def lerpColor(color1, color2, amount)
+      color(
+        lerp(red(  color1), red(  color2), amount),
+        lerp(green(color1), green(color2), amount),
+        lerp(blue( color1), blue( color2), amount),
+        lerp(alpha(color1), alpha(color2), amount))
+    end
+
     # Maps a number from range start1..stop1 to range start2..stop2.
     #
     # @param value  [Numeric] number to be mapped
