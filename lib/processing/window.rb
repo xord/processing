@@ -6,7 +6,7 @@ module Processing
 
     include Xot::Inspectable
 
-    attr_accessor :setup, :update, :draw, :resize,
+    attr_accessor :setup, :update, :draw,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
       :move, :resize, :motion,
@@ -56,10 +56,6 @@ module Processing
 
     def on_setup()
       call_block @setup, nil
-    end
-
-    def on_resize(e)
-      on_canvas_resize e
     end
 
     def on_change_pixel_density(pixel_density)
