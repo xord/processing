@@ -468,6 +468,14 @@ module Processing
       @window__.height
     end
 
+    # Returns weather the window is active or not.
+    #
+    # @return [Boolean] active or not
+    #
+    def focused()
+      @window__.active?
+    end
+
     # Returns the number of frames since the program started.
     #
     # @return [Integer] total number of frames

@@ -18,6 +18,7 @@ module Processing
       Processing.instance_variable_set :@window, self
 
       @events       = []
+      @active       = false
       @error        = nil
       @auto_resize  = true
       @canvas       = Canvas.new self, width, height
@@ -43,6 +44,10 @@ module Processing
       @events.last
     end
 
+    def active?()
+      @active
+    end
+
     def add_overlay(view)
       @overlay_view.add view
     end
@@ -60,6 +65,14 @@ module Processing
 
     def on_change_pixel_density(pixel_density)
       resize_canvas width, height, window_pixel_density: pixel_density
+    end
+
+    def on_activate(e)
+      @active = true
+    end
+
+    def on_deactivate(e)
+      @active = false
     end
 
     def on_draw(e)
