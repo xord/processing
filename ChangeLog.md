@@ -1,6 +1,14 @@
 # processing ChangeLog
 
 
+## [v0.5.17] - 2023-06-07
+
+- Add Image#set() and Image#get()
+- Add color(), red(), green(), blue(), and alpha()
+- Add lerpColor()
+- Add focused()
+
+
 ## [v0.5.16] - 2023-06-02
 
 - Fix failed tests and add tests
