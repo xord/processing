@@ -42,8 +42,8 @@ module Processing
       @key__              = nil
       @keyCode__          = nil
       @keysPressed__      = Set.new
-      @pointerPos__       =
-      @pointerPrevPos__   = Rays::Point.new 0
+      @pointer__          = nil
+      @pointerPrev__      = nil
       @pointersPressed__  = []
       @pointersReleased__ = []
       @touches__          = []
@@ -93,9 +93,11 @@ module Processing
       }
 
       updatePointerStates = -> event, pressed = nil {
-        @pointerPrevPos__ = @pointerPos__
-        @pointerPos__ = event.pos.dup
-        @touches__    = event.pointers.map {|p| Touch.new(p.id, *p.pos.to_a)}
+        pointer = event.find {|p| p.id == @pointer__&.id} || event.first
+        if !mousePressed || pointer.id == @pointer__&.id
+          @pointerPrev__, @pointer__ = @pointer__, pointer.dup
+        end
+        @touches__ = event.map {|p| Touch.new(p.id, *p.pos.to_a)}
         if pressed != nil
           event.types
             .tap {|types| types.delete :mouse}
@@ -120,28 +122,30 @@ module Processing
 
       @window__.pointer_down = proc do |e|
         updatePointerStates.call e, true
-        @pointerDownStartPos__ = @pointerPos__.dup
-        (@touchStartedBlock__ || @mousePressedBlock__)&.call
+        @mousePressedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        @touchStartedBlock__&.call
       end
 
       @window__.pointer_up = proc do |e|
         updatePointerStates.call e, false
-        (@touchEndedBlock__ || @mouseReleasedBlock__)&.call
-        if startPos = @pointerDownStartPos__
-          @mouseClickedBlock__&.call if (@pointerPos__ - startPos).length < 3
-          @pointerDownStartPos__ = nil
+        @mouseReleasedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        @touchEndedBlock__&.call
+        if (@pointer__.pos - @pointer__.down.pos).length < 3
+          @mouseClickedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
         end
         @pointersReleased__.clear
       end
 
       @window__.pointer_move = proc do |e|
         updatePointerStates.call e
-        (@touchMovedBlock__ || @mouseMovedBlock__)&.call
+        @mouseMovedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        @touchMovedBlock__&.call
       end
 
       @window__.pointer_drag = proc do |e|
         updatePointerStates.call e
-        (@touchMovedBlock__ || @mouseDraggedBlock__)&.call
+        @mouseDraggedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        @touchMovedBlock__&.call
       end
 
       @window__.move = proc do |e|
@@ -513,7 +517,7 @@ module Processing
     # @return [Numeric] horizontal position of mouse
     #
     def mouseX()
-      @pointerPos__.x
+      @pointer__&.x || 0
     end
 
     # Returns mouse y position
@@ -521,7 +525,7 @@ module Processing
     # @return [Numeric] vertical position of mouse
     #
     def mouseY()
-      @pointerPos__.y
+      @pointer__&.y || 0
     end
 
     # Returns mouse x position in previous frame
@@ -529,7 +533,7 @@ module Processing
     # @return [Numeric] horizontal position of mouse
     #
     def pmouseX()
-      @pointerPrevPos__.x
+      @pointerPrev__&.x || 0
     end
 
     # Returns mouse y position in previous frame
@@ -537,7 +541,7 @@ module Processing
     # @return [Numeric] vertical position of mouse
     #
     def pmouseY()
-      @pointerPrevPos__.y
+      @pointerPrev__&.y || 0
     end
 
     # Returns which mouse button was pressed
