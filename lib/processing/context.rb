@@ -99,12 +99,12 @@ module Processing
         end
         @touches__ = event.map {|p| Touch.new(p.id, *p.pos.to_a)}
         if pressed != nil
-          event.types
+          event.map(&:types).flatten
             .tap {|types| types.delete :mouse}
             .map {|type| mouseButtonMap[type] || type}
             .each do |type|
               (pressed ? @pointersPressed__ : @pointersReleased__).push type
-              @pointersPressed__.delete type unless pressed
+              @pointersPressed__.tap {|a| a.delete_at a.index(type)} unless pressed
             end
         end
       }
