@@ -92,21 +92,24 @@ module Processing
         mouse_middle: CENTER
       }
 
-      updatePointerStates = -> event, pressed = nil {
+      updatePointerStates = -> event {
         pointer = event.find {|p| p.id == @pointer__&.id} || event.first
         if !mousePressed || pointer.id == @pointer__&.id
           @pointerPrev__, @pointer__ = @pointer__, pointer.dup
         end
         @touches__ = event.map {|p| Touch.new(p.id, *p.pos.to_a)}
-        if pressed != nil
-          event.map(&:types).flatten
-            .tap {|types| types.delete :mouse}
-            .map {|type| mouseButtonMap[type] || type}
-            .each do |type|
-              (pressed ? @pointersPressed__ : @pointersReleased__).push type
-              @pointersPressed__.tap {|a| a.delete_at a.index(type)} unless pressed
+      }
+
+      updatePointersPressedAndReleased = -> event, pressed {
+        event.map(&:types).flatten
+          .tap {|types| types.delete :mouse}
+          .map {|type| mouseButtonMap[type] || type}
+          .each do |type|
+            (pressed ? @pointersPressed__ : @pointersReleased__).push type
+            if !pressed && index = @pointersPressed__.index(type)
+              @pointersPressed__.delete_at index
             end
-        end
+          end
       }
 
       @window__.key_down = proc do |e|
@@ -121,13 +124,15 @@ module Processing
       end
 
       @window__.pointer_down = proc do |e|
-        updatePointerStates.call e, true
+        updatePointerStates.call e
+        updatePointersPressedAndReleased.call e, true
         @mousePressedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
         @touchStartedBlock__&.call
       end
 
       @window__.pointer_up = proc do |e|
-        updatePointerStates.call e, false
+        updatePointerStates.call e
+        updatePointersPressedAndReleased.call e, false
         if e.any? {|p| p.id == @pointer__.id}
           @mouseReleasedBlock__&.call
           @mouseClickedBlock__&.call if
