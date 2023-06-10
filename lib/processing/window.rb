@@ -8,7 +8,7 @@ module Processing
 
     attr_accessor :setup, :update, :draw,
       :key_down, :key_up,
-      :pointer_down, :pointer_up, :pointer_move, :pointer_drag,
+      :pointer_down, :pointer_up, :pointer_move,
       :move, :resize, :motion,
       :before_draw, :after_draw, :update_canvas
 
@@ -117,7 +117,7 @@ module Processing
       block = case e.action
         when :down        then @pointer_down
         when :up, :cancel then @pointer_up
-        when :move        then e.drag? ? @pointer_drag : @pointer_move
+        when :move        then @pointer_move
       end
       draw_canvas {call_block block, e} if block
     end

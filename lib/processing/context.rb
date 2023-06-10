@@ -138,13 +138,8 @@ module Processing
 
       @window__.pointer_move = proc do |e|
         updatePointerStates.call e
-        @mouseMovedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
-        @touchMovedBlock__&.call
-      end
-
-      @window__.pointer_drag = proc do |e|
-        updatePointerStates.call e
-        @mouseDraggedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        mouseMoved = e.drag? ? @mouseDraggedBlock__ : @mouseMovedBlock__
+        mouseMoved&.call if e.any? {|p| p.id == @pointer__.id}
         @touchMovedBlock__&.call
       end
 
