@@ -128,11 +128,12 @@ module Processing
 
       @window__.pointer_up = proc do |e|
         updatePointerStates.call e, false
-        @mouseReleasedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
-        @touchEndedBlock__&.call
-        if (@pointer__.pos - @pointer__.down.pos).length < 3
-          @mouseClickedBlock__&.call if e.any? {|p| p.id == @pointer__.id}
+        if e.any? {|p| p.id == @pointer__.id}
+          @mouseReleasedBlock__&.call
+          @mouseClickedBlock__&.call if
+            (@pointer__.pos - @pointer__.down.pos).length < 3
         end
+        @touchEndedBlock__&.call
         @pointersReleased__.clear
       end
 
