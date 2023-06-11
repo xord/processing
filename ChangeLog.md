@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v0.5.18] - 2023-06-11
+
+- mousePressed, mouseReleased, mouseMoved, mouseDragged, mouseClicked ignore multiple touches
+- Fix that pointer event handles only the first pointer’s type and ignoring rest pointer's types
+
+
 ## [v0.5.17] - 2023-06-07
 
 - Add Image#set() and Image#get()
