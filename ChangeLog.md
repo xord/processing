@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.19] - 2023-06-22
+
+- Update dependencies
+
+
 ## [v0.5.18] - 2023-06-11
 
 - mousePressed, mouseReleased, mouseMoved, mouseDragged, mouseClicked ignore multiple touches
