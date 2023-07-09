@@ -168,7 +168,7 @@ module Processing
     # @return [nil] nil
     #
     def setup(&block)
-      @window__.setup = block
+      @window__.setup = block if block
       nil
     end
 
