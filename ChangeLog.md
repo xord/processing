@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.23] - 2023-07-11
+
+- Update dependencies
+
+
 ## [v0.5.22] - 2023-07-10
 
 - Update dependencies
