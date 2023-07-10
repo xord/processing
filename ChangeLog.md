@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.22] - 2023-07-10
+
+- Update dependencies
+
+
 ## [v0.5.21] - 2023-07-09
 
 - calling setup() without block does nothing
