@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.24] - 2023-07-11
+
+- Resize the canvas when the window is resized
+
+
 ## [v0.5.23] - 2023-07-11
 
 - Update dependencies
