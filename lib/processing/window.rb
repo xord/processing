@@ -96,6 +96,7 @@ module Processing
     end
 
     def on_resize(e)
+      resize_canvas e.width, e.height if @auto_resize
       draw_canvas {call_block @resize, e} if @resize
     end
 
