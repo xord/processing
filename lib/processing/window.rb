@@ -10,7 +10,7 @@ module Processing
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move,
       :move, :resize, :motion,
-      :before_draw, :after_draw, :update_canvas
+      :before_draw, :after_draw, :update_window, :update_canvas
 
     attr_accessor :auto_resize
 
@@ -73,6 +73,10 @@ module Processing
 
     def on_deactivate(e)
       @active = false
+    end
+
+    def on_update(e)
+      @update_window.call if @update_window
     end
 
     def on_draw(e)
