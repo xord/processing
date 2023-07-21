@@ -76,7 +76,7 @@ module Processing
     end
 
     def on_update(e)
-      @update_window.call if @update_window
+      draw_canvas {call_block @update_window, e} if @update_window
     end
 
     def on_draw(e)
