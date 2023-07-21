@@ -347,6 +347,8 @@ module Processing
 
     # Returns the red value of the color.
     #
+    # @param color [Numeric] color value
+    #
     # @return [Numeric] the red value
     #
     def red(color)
@@ -354,6 +356,8 @@ module Processing
     end
 
     # Returns the green value of the color.
+    #
+    # @param color [Numeric] color value
     #
     # @return [Numeric] the green value
     #
@@ -363,6 +367,8 @@ module Processing
 
     # Returns the blue value of the color.
     #
+    # @param color [Numeric] color value
+    #
     # @return [Numeric] the blue value
     #
     def blue(color)
@@ -370,6 +376,8 @@ module Processing
     end
 
     # Returns the red value of the color.
+    #
+    # @param color [Numeric] color value
     #
     # @return [Numeric] the red value
     #
