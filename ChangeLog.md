@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v0.5.25] - 2023-07-21
+
+- Timer block can call drawing methods
+- Add Processing::Window#update_window, and delete RubySketch::Window class
+
+
 ## [v0.5.24] - 2023-07-11
 
 - Resize the canvas when the window is resized
