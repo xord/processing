@@ -53,11 +53,11 @@ module Processing
       @window__.after_draw    = proc {endDraw__}
       @window__.update_canvas = proc {|i, p| updateCanvas__ i, p}
 
-      @window__.instance_variable_set :@context, self
+      @window__.instance_variable_set :@context__, self
 
       # @private
       def @window__.draw_screen(painter)
-        @context.drawImage__ painter
+        @context__.drawImage__ painter
       end
 
       drawFrame = -> {
