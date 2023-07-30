@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.26] - 2023-07-30
+
+- add windowOrientation()
+
+
 ## [v0.5.25] - 2023-07-21
 
 - Timer block can call drawing methods
