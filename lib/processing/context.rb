@@ -17,6 +17,14 @@ module Processing
     Touch      = Processing::Touch
     Vector     = Processing::Vector
 
+    # Portrait for windowOrientation
+    #
+    PORTRAIT  = :portrait
+
+    # Landscape for windowOrientation
+    #
+    LANDSCAPE = :landscape
+
     # @private
     @@context__ = nil
 
@@ -439,6 +447,16 @@ module Processing
     def windowResizable(resizable)
       @window__.resizable = resizable
       nil
+    end
+
+    # Sets window orientation mask
+    #
+    # @param [PORTRAIT, LANDSCAPE] orientations orientations that window can rotate to
+    #
+    # @return [nil] nil
+    #
+    def windowOrientation (*orientations)
+      @window__.orientations = orientations.flatten.uniq
     end
 
     # Returns the x position of the window.
