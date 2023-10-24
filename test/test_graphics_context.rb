@@ -57,6 +57,19 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_raise {g.blendMode LEFT}
   end
 
+  def test_clear()
+    colors = -> g {get_pixels(g).map(&:to_a).flatten.uniq}
+
+    g = graphics
+    assert_equal     [0], colors[g]
+
+    g.beginDraw {g.ellipse 0, 0, g.width, g.height}
+    assert_not_equal [0], colors[g]
+
+    g.beginDraw {g.clear}
+    assert_equal     [0], colors[g]
+  end
+
   def test_lerp()
     g = graphics
 

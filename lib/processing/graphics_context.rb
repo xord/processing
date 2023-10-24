@@ -802,6 +802,12 @@ module Processing
       nil
     end
 
+    def clear()
+      assertDrawing__
+      @painter__.background 0, 0
+      nil
+    end
+
     # Draws a point.
     #
     # @param x [Numeric] horizontal position
