@@ -38,6 +38,14 @@ module Processing
       endDraw__
     end
 
+    # Saves image to file.
+    #
+    # @param filename [String] file name to save image
+    #
+    def save(filename)
+      @image__.save filename
+    end
+
   end# Graphics
 
 
