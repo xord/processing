@@ -142,8 +142,11 @@ module Processing
     #
     # @param filename [String] file name to save image
     #
+    # @return [nil] nil
+    #
     def save(filename)
       @image.save filename
+      nil
     end
 
     # @private

@@ -1140,8 +1140,11 @@ module Processing
     #
     # @param filename [String] file name to save image
     #
+    # @return [nil] nil
+    #
     def save(filename)
       @window__.canvas_image.save filename
+      nil
     end
 
     # Applies translation matrix to current transformation matrix.
