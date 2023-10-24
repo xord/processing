@@ -1,6 +1,13 @@
 # processing ChangeLog
 
 
+## [v0.5.28] - 2023-10-25
+
+- Add GraphicsContext#clear
+- Add Graphics#save
+- save() returns nil
+
+
 ## [v0.5.27] - 2023-07-30
 
 - Update dependencies
