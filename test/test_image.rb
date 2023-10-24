@@ -7,7 +7,7 @@ class TestImage < Test::Unit::TestCase
 
   def image(w = 10, h = 10, &block)
     img = Rays::Image.new w, h
-    img.paint &block if block
+    img.paint(&block) if block
     P::Image.new img
   end
 
