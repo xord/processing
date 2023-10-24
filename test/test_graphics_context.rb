@@ -10,6 +10,23 @@ class TestGraphicsContext < Test::Unit::TestCase
     G.new w, h
   end
 
+  def test_color()
+    g = graphics
+
+    g.colorMode G::RGB, 255
+    c = g.color 10, 20, 30, 40
+    assert_equal 0x280a141e, c
+    assert_equal [10, 20, 30, 40], [g.red(c), g.green(c), g.blue(c), g.alpha(c)]
+
+    g.colorMode G::RGB, 1.0
+    c = g.color 0.1, 0.2, 0.3, 0.4
+    assert_equal 0x6619334c, c
+    assert_in_delta 0.1, g.red(c),   1 / 256.0
+    assert_in_delta 0.2, g.green(c), 1 / 256.0
+    assert_in_delta 0.3, g.blue(c),  1 / 256.0
+    assert_in_delta 0.4, g.alpha(c), 1 / 256.0
+  end
+
   def test_colorMode()
     g = graphics
     assert_equal G::RGB, g.colorMode
@@ -38,23 +55,6 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal G::ADD, g.blendMode
 
     assert_raise {g.blendMode LEFT}
-  end
-
-  def test_color()
-    g = graphics
-
-    g.colorMode G::RGB, 255
-    c = g.color 10, 20, 30, 40
-    assert_equal 0x280a141e, c
-    assert_equal [10, 20, 30, 40], [g.red(c), g.green(c), g.blue(c), g.alpha(c)]
-
-    g.colorMode G::RGB, 1.0
-    c = g.color 0.1, 0.2, 0.3, 0.4
-    assert_equal 0x6619334c, c
-    assert_in_delta 0.1, g.red(c),   1 / 256.0
-    assert_in_delta 0.2, g.green(c), 1 / 256.0
-    assert_in_delta 0.3, g.blue(c),  1 / 256.0
-    assert_in_delta 0.4, g.alpha(c), 1 / 256.0
   end
 
   def test_lerp()
