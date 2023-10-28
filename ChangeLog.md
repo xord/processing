@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v0.5.29] - 2023-10-29
+
+- Update dependencies
+
+
 ## [v0.5.28] - 2023-10-25
 
 - Add GraphicsContext#clear
