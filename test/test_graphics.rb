@@ -26,7 +26,7 @@ class TestGraphics < Test::Unit::TestCase
     end
     temppath(ext: 'png') do |path|
       assert_nothing_raised {g.save path}
-      assert_equal get_pixels(g), get_pixels(g.loadImage path)
+      assert_equal_pixels g, g.loadImage(path)
     end
   end
 

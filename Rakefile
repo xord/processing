@@ -22,3 +22,11 @@ default_tasks
 test_ruby_extension
 generate_documents
 build_ruby_gem
+
+task :test => 'test:clean'
+
+namespace :test do
+  task :clean do
+    sh %( rm -rf test/p5rb )
+  end
+end
