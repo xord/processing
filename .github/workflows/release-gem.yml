@@ -17,19 +17,19 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: setup gems
+        run: bundle install
+
       - name: setup dependencies
         run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
 
-      - name: install gems
-        run: gem install yard
-
       - name: test
-        run: rake quiet test
+        run: bundle exec rake quiet test
 
       - name: create gem
         id: gem
         run: |
-          rake gem
+          bundle exec rake gem
           echo path=$(ruby -e 'print Dir.glob("*.gem").first') >> $GITHUB_OUTPUT
 
       - name: create github release
@@ -59,4 +59,4 @@ jobs:
           touch $HOME/.gem/credentials
           chmod 0600 $HOME/.gem/credentials
           printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
-          rake upload
+          bundle exec rake upload
