@@ -15,7 +15,8 @@ require 'processing/extension'
 
 
 EXTENSIONS    = [Xot, Rucy, Rays, Reflex, Processing]
-TESTS_EXCLUDE = ['test/test_draw.rb']
+DRAW_TESTS    = Dir.glob('test/draw/test_*.rb')
+TESTS_EXCLUDE = DRAW_TESTS
 
 ENV['RDOC'] = 'yardoc --no-private'
 
@@ -33,6 +34,6 @@ namespace :test do
   end
 
   task :draw do
-    sh %( ruby test/test_draw.rb )
+    sh %( ruby #{DRAW_TESTS.join ' '} )
   end
 end
