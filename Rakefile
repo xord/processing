@@ -14,7 +14,8 @@ require 'reflex/extension'
 require 'processing/extension'
 
 
-EXTENSIONS = [Xot, Rucy, Rays, Reflex, Processing]
+EXTENSIONS    = [Xot, Rucy, Rays, Reflex, Processing]
+TESTS_EXCLUDE = ['test/test_draw.rb']
 
 ENV['RDOC'] = 'yardoc --no-private'
 
@@ -24,10 +25,14 @@ test_ruby_extension
 generate_documents
 build_ruby_gem
 
-task :test => 'test:clean'
+task :clean => 'test:clean'
 
 namespace :test do
   task :clean do
     sh %( rm -rf test/p5rb )
+  end
+
+  task :draw do
+    sh %( ruby test/test_draw.rb )
   end
 end
