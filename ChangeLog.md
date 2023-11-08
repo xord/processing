@@ -1,6 +1,13 @@
 # processing ChangeLog
 
 
+## [v0.5.30] - 2023-11-09
+
+- Test drawing methods with p5.rb
+- Add .github/workflows/test-draw.yml
+- Use Gemfile to install gems for development instead of add_development_dependency in gemspec
+
+
 ## [v0.5.29] - 2023-10-29
 
 - Update dependencies
