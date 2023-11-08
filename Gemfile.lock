@@ -1,0 +1,34 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.5)
+      public_suffix (>= 2.0.2, < 6.0)
+    concurrent-ruby (1.2.2)
+    ferrum (0.14)
+      addressable (~> 2.5)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (>= 0.6, < 0.8)
+    power_assert (2.0.3)
+    public_suffix (5.0.3)
+    rake (13.1.0)
+    test-unit (3.6.1)
+      power_assert
+    webrick (1.7.0)
+    websocket-driver (0.7.6)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.5)
+    yard (0.9.34)
+
+PLATFORMS
+  arm64-darwin-20
+  arm64-darwin-21
+
+DEPENDENCIES
+  ferrum
+  rake
+  test-unit
+  yard
+
+BUNDLED WITH
+   2.3.3
