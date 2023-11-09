@@ -37,9 +37,6 @@ def get_p5rb_html(width, height, draw_src)
             createCanvas #{width}, #{height}
           end
           def draw()
-            background 0
-            fill 255, 0, 0
-            noStroke
             #{draw_src}
             JS.global.completed
           end
