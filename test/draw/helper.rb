@@ -22,7 +22,7 @@ end
 
 def assert_draw(
   *draw_sources, draw_header: nil,
-  width: 100, height: 100, threshold: 0.98)
+  width: 1000, height: 1000, threshold: 0.99)
 
   source  = ([draw_header || DRAW_HEADER] + draw_sources).join("\n")
   path    = File.join __dir__, "p5rb", "#{md5(source)}.png"

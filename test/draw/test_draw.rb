@@ -13,7 +13,7 @@ class TestDraw < Test::Unit::TestCase
     assert_draw <<~END, draw_header: ''
       background 100
       noStroke
-      rect 10, 10, 50, 50
+      rect 100, 100, 500, 500
     END
   end
 
@@ -21,25 +21,43 @@ class TestDraw < Test::Unit::TestCase
     assert_draw <<~END, draw_header: ''
       background 100
       noFill
-      strokeWeight 10
-      line 10, 10, 50, 50
+      strokeWeight 50
+      line 100, 100, 500, 500
     END
   end
 
-  def test_rect()
-    assert_draw                   'rect 10, 20, 30, 40'
-    assert_draw 'rectMode CORNER;  rect 10, 20, 30, 40'
-    assert_draw 'rectMode CORNERS; rect 10, 20, 30, 50'
-    assert_draw 'rectMode CENTER;  rect 40, 50, 30, 40'
-    assert_draw 'rectMode RADIUS;  rect 40, 50, 30, 40'
+  def test_rect_fill()
+    assert_draw                   'rect 100, 200, 300, 400'
+    assert_draw 'rectMode CORNER;  rect 100, 200, 300, 400'
+    assert_draw 'rectMode CORNERS; rect 100, 200, 300, 500'
+    assert_draw 'rectMode CENTER;  rect 400, 500, 300, 400'
+    assert_draw 'rectMode RADIUS;  rect 400, 500, 300, 400'
   end
 
-  def test_ellipse()
-    assert_draw                      'ellipse 40, 50, 30, 40'
-    assert_draw 'ellipseMode CORNER;  ellipse 10, 20, 30, 40'
-    assert_draw 'ellipseMode CORNERS; ellipse 10, 20, 30, 50'
-    assert_draw 'ellipseMode CENTER;  ellipse 40, 50, 30, 40'
-    assert_draw 'ellipseMode RADIUS;  ellipse 40, 50, 30, 40'
+  def test_rect_stroke()
+    header = 'noFill; stroke 0, 255, 0; strokeWeight 50'
+    assert_draw header,                   'rect 100, 200, 300, 400'
+    assert_draw header, 'rectMode CORNER;  rect 100, 200, 300, 400'
+    assert_draw header, 'rectMode CORNERS; rect 100, 200, 300, 500'
+    assert_draw header, 'rectMode CENTER;  rect 400, 500, 300, 400'
+    assert_draw header, 'rectMode RADIUS;  rect 400, 500, 300, 400'
+  end
+
+  def test_ellipse_fill()
+    assert_draw                      'ellipse 400, 500, 300, 400'
+    assert_draw 'ellipseMode CORNER;  ellipse 100, 200, 300, 400'
+    assert_draw 'ellipseMode CORNERS; ellipse 100, 200, 300, 500'
+    assert_draw 'ellipseMode CENTER;  ellipse 400, 500, 300, 400'
+    assert_draw 'ellipseMode RADIUS;  ellipse 400, 500, 300, 400'
+  end
+
+  def test_ellipse_stroke()
+    header = 'noFill; stroke 0, 255, 0; strokeWeight 50'
+    assert_draw header,                      'ellipse 400, 500, 300, 400'
+    assert_draw header, 'ellipseMode CORNER;  ellipse 100, 200, 300, 400'
+    assert_draw header, 'ellipseMode CORNERS; ellipse 100, 200, 300, 500'
+    assert_draw header, 'ellipseMode CENTER;  ellipse 400, 500, 300, 400'
+    assert_draw header, 'ellipseMode RADIUS;  ellipse 400, 500, 300, 400'
   end
 
 end# TestDraw
