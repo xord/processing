@@ -15,7 +15,7 @@ require 'processing/extension'
 
 
 EXTENSIONS    = [Xot, Rucy, Rays, Reflex, Processing]
-DRAW_TESTS    = Dir.glob('test/draw/test_*.rb')
+DRAW_TESTS    = FileList['test/draw/test_*.rb']
 TESTS_EXCLUDE = DRAW_TESTS
 
 ENV['RDOC'] = 'yardoc --no-private'
@@ -33,7 +33,7 @@ namespace :test do
     sh %( rm -rf test/draw/p5rb/*.png )
   end
 
-  task :draw do
-    sh %( ruby #{DRAW_TESTS.join ' '} )
+  ::Rake::TestTask.new :draw do |t|
+    t.test_files = DRAW_TESTS
   end
 end
