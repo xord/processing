@@ -140,6 +140,36 @@ module Processing
     # Filter type for filter()
     BLUR      = :blur
 
+    # Shape mode for beginShape()
+    POINTS         = :points
+
+    # Shape mode for beginShape()
+    LINES          = :lines
+
+    # Shape mode for beginShape()
+    TRIANGLES      = :triangles
+
+    # Shape mode for beginShape()
+    TRIANGLE_FAN   = :triangle_fan
+
+    # Shape mode for beginShape()
+    TRIANGLE_STRIP = :triangle_strip
+
+    # Shape mode for beginShape()
+    QUADS          = :quads
+
+    # Shape mode for beginShape()
+    QUAD_STRIP     = :quad_strip
+
+    # Shape mode for beginShape()
+    TESS           = :tess
+
+    # OPEN flag for endShape()
+    OPEN           = :open
+
+    # CLOSE flag for endShape()
+    CLOSE          = :close
+
     # Key codes.
     ENTER     = :enter
     SPACE     = :space
@@ -1094,6 +1124,79 @@ module Processing
     end
 
     alias drawImage image
+
+    # Begins drawing complex shapes.
+    #
+    # @param mode [POINTS, LINES, TRIANGLES, TRIANGLE_FAN, TRIANGLE_STRIP, QUADS, QUAD_STRIP, TESS]
+    #
+    # @return [nil] nil
+    #
+    # @example
+    #  # Draws polygon
+    #  beginShape
+    #  vertex 10, 10
+    #  vertex 10, 50
+    #  vertex 50, 50
+    #  vertex 90, 10
+    #  endShape CLOSE
+    #
+    #  # Draws triangles
+    #  beginShape TRIANGLES
+    #  vertex 10, 10
+    #  vertex 10, 50
+    #  vertex 50, 50
+    #  endShape
+    #
+    # @see https://processing.org/reference/beginShape_.html
+    #
+    def beginShape(mode = nil, &block)
+      @shapeMode__, @shapePoints__ = mode, []
+      nil
+    end
+
+    # Ends drawing complex shapes.
+    #
+    # @overload endShape()
+    # @overload endShape(CLOSE)
+    #
+    # @param mode [CLOSE] Use CLOSE to create looped polygon
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/endShape_.html
+    #
+    def endShape(mode = OPEN)
+      raise "endShape() must be called after beginShape()" unless @shapePoints__
+      polygon =
+        case @shapeMode__
+        when POINTS         then Rays::Polygon.points(        *@shapePoints__)
+        when LINES          then Rays::Polygon.lines(         *@shapePoints__)
+        when TRIANGLES      then Rays::Polygon.triangles(     *@shapePoints__)
+        when TRIANGLE_FAN   then Rays::Polygon.triangle_fan(  *@shapePoints__)
+        when TRIANGLE_STRIP then Rays::Polygon.triangle_strip(*@shapePoints__)
+        when QUADS          then Rays::Polygon.quads(         *@shapePoints__)
+        when QUAD_STRIP     then Rays::Polygon.quad_strip(    *@shapePoints__)
+        when TESS           then Rays::Polygon.new(*@shapePoints__, loop: mode == CLOSE)
+        else                     Rays::Polygon.new(*@shapePoints__, loop: mode == CLOSE)
+        end
+      @painter__.polygon polygon if polygon
+      @shapePoints__ = nil
+      nil
+    end
+
+    # Append vertex for shape polygon.
+    #
+    # @param x [Numeric] x position of vertex
+    # @param y [Numeric] y position of vertex
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/vertex_.html
+    #
+    def vertex(x, y)
+      raise "vertex() must be called after beginShape()" unless @shapePoints__
+      @shapePoints__ << x << y
+    end
 
     # Copies image.
     #
