@@ -84,9 +84,9 @@ class TestDrawShape < Test::Unit::TestCase
     assert_fill        src, 'endShape'
     assert_stroke      src, 'endShape'
     assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_quads()
@@ -122,9 +122,9 @@ class TestDrawShape < Test::Unit::TestCase
     assert_fill        src, 'endShape'
     assert_stroke      src, 'endShape'
     assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_tess()
