@@ -266,6 +266,7 @@ module Processing
     # @private
     def updateCanvas__(image, painter)
       @image__, @painter__     = image, painter
+      @painter__.miter_limit   = 10
       @painter__.stroke_outset = 0.5
     end
 
