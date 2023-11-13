@@ -8,7 +8,7 @@ require_relative 'p5'
 DRAW_HEADER = <<~END
   background 100
   fill 255, 0, 0
-  noStroke
+  stroke 0, 255, 0
   strokeWeight 50
 END
 
