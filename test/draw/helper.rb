@@ -21,13 +21,13 @@ def mkdir(dir: nil, filename: nil)
   FileUtils.mkdir_p path unless File.exist? path
 end
 
-def assert_label(index = 1)
+def test_label(index = 1)
   caller_locations[index].then {|loc| "#{loc.label}_#{loc.lineno}"}
 end
 
 def assert_draw(
   *draw_sources, draw_header: nil,
-  width: 1000, height: 1000, threshold: 0.99, label: assert_label)
+  width: 1000, height: 1000, threshold: 0.99, label: test_label)
 
   source  = ([draw_header || DRAW_HEADER] + draw_sources).join("\n")
   path    = File.join __dir__, "p5rb", "#{label}_#{md5(source)}.png"
@@ -41,13 +41,13 @@ def assert_draw(
 end
 
 def assert_fill(src, *args, **kwargs)
-  assert_draw 'noStroke', src, *args, label: assert_label, **kwargs
+  assert_draw 'noStroke', src, *args, label: test_label, **kwargs
 end
 
 def assert_stroke(src, *args, **kwargs)
-  assert_draw 'noFill; stroke 0, 255, 0', src, *args, label: assert_label, **kwargs
+  assert_draw 'noFill; stroke 0, 255, 0', src, *args, label: test_label, **kwargs
 end
 
 def assert_fill_stroke(src, *args, **kwargs)
-  assert_draw 'stroke 0, 255, 0', src, *args, label: assert_label, **kwargs
+  assert_draw 'stroke 0, 255, 0', src, *args, label: test_label, **kwargs
 end
