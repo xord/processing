@@ -5,13 +5,31 @@ module Processing
   #
   class Shape
 
-    def initialize()
+    def initialize(polygon = nil)
+      @polygon = polygon
+      @visible = true
     end
 
-    def width = nil
-    def height = nil
-    def isVisible = nil
-    def setVisible = nil
+    def width()
+      return 0 unless @polygon
+      (@bounds ||= @polygon.bounds).width
+    end
+
+    def height()
+      return 0 unless @polygon
+      (@bounds ||= @polygon.bounds).height
+    end
+
+    def isVisible()
+      @visible
+    end
+
+    alias visible? isVisible
+
+    def setVisible(visible)
+      @visible = !!visible
+    end
+
     def beginShape = nil
     def endShape = nil
     def getChildCount = nil
@@ -27,6 +45,11 @@ module Processing
     def rotate = nil
     def scale = nil
     def resetMatrix = nil
+
+    # @private
+    def getInternal__()
+      @polygon
+    end
 
   end# Shape
 
