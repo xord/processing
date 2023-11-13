@@ -12,9 +12,9 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 200, 300
       vertex 500, 600
     END
-    assert_fill        src, threshold: THRESHOLD_TO_BE_FIXED
-    assert_stroke      src
-    assert_fill_stroke src, threshold: THRESHOLD_TO_BE_FIXED
+    assert_fill        src, 'endShape'
+    assert_stroke      src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
+    assert_fill_stroke src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_lines()
