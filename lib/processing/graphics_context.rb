@@ -491,8 +491,8 @@ module Processing
     #
     # CORNER  -> rect(left, top, width, height)
     # CORNERS -> rect(left, top, right, bottom)
-    # CENTER  -> rect(center_x, center_y, width, height)
-    # RADIUS  -> rect(center_x, center_y, radius_h, radius_v)
+    # CENTER  -> rect(centerX, centerY, width, height)
+    # RADIUS  -> rect(centerX, centerY, radiusH, radiusV)
     #
     # @param mode [CORNER, CORNERS, CENTER, RADIUS]
     #
@@ -506,8 +506,8 @@ module Processing
     #
     # CORNER  -> ellipse(left, top, width, height)
     # CORNERS -> ellipse(left, top, right, bottom)
-    # CENTER  -> ellipse(center_x, center_y, width, height)
-    # RADIUS  -> ellipse(center_x, center_y, radius_h, radius_v)
+    # CENTER  -> ellipse(centerX, centerY, width, height)
+    # RADIUS  -> ellipse(centerX, centerY, radiusH, radiusV)
     #
     # @param mode [CORNER, CORNERS, CENTER, RADIUS]
     #
@@ -521,7 +521,7 @@ module Processing
     #
     # CORNER  -> image(img, left, top, width, height)
     # CORNERS -> image(img, left, top, right, bottom)
-    # CENTER  -> image(img, center_x, center_y, width, height)
+    # CENTER  -> image(img, centerX, centerY, width, height)
     #
     # @param mode [CORNER, CORNERS, CENTER]
     #
@@ -955,9 +955,8 @@ module Processing
     def arc(a, b, c, d, start, stop)
       assertDrawing__
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-      start      = toAngle__(-start)
-      stop       = toAngle__(-stop)
-      @painter__.ellipse x, y, w, h, from: start, to: stop
+      from, to   = toAngle__(-start), toAngle__(-stop)
+      @painter__.ellipse x, y, w, h, from: from, to: to
       nil
     end
 
