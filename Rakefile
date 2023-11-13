@@ -30,7 +30,7 @@ task :clean => 'test:clean'
 
 namespace :test do
   task :clean do
-    sh %( rm -rf test/draw/p5rb/*.png )
+    sh %( rm -rf test/draw/.png/*.png )
   end
 
   ::Rake::TestTask.new :draw do |t|

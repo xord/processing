@@ -25,19 +25,42 @@ def test_label(index = 1)
   caller_locations[index].then {|loc| "#{loc.label}_#{loc.lineno}"}
 end
 
+def test_output_path(label, source = nil, ext: '.png', dir: ext)
+  path = File.join __dir__, dir, label + (source ? "_#{md5 source}" : '') + ext
+  mkdir filename: path
+  path
+end
+
+def test_draw(*sources, width: 1000, height: 1000, pixelDensity: 1, label: nil)
+  graphics(width, height, pixelDensity).tap do |g|
+    src = sources.compact.join "\n"
+    g.beginDraw {g.instance_eval src}
+    g.save test_output_path(label, src) if label
+  end
+end
+
+def assert_draw_equal(
+  expected, actual, source_header: DRAW_HEADER,
+  width: 1000, height: 1000, threshold: 1.0, label: test_label)
+
+  e = test_draw source_header, expected, label: "#{label}_expected"
+  a = test_draw source_header, actual,   label: "#{label}_actual"
+
+  assert_equal_pixels e, a, threshold: threshold
+end
+
 def assert_draw(
-  *draw_sources, draw_header: nil,
+  *sources, source_header: DRAW_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label)
 
-  source  = ([draw_header || DRAW_HEADER] + draw_sources).join("\n")
-  path    = File.join __dir__, "p5rb", "#{label}_#{md5(source)}.png"
-  mkdir filename: path
-  density = draw_p5rb width, height, source, path, headless: true
-  gfx     = graphics(width, height, density).tap do |g|
-    g.beginDraw {g.instance_eval source}
-  end
-  gfx.save path.sub(/\.png$/, '.actual.png')
-  assert_equal_pixels gfx.loadImage(path), gfx, threshold: threshold
+  source = [source_header, *sources].compact.join("\n")
+  path   = test_output_path "#{label}_expected", source
+
+  pd     = draw_p5rb width, height, source, path, headless: true
+  actual = test_draw source, width: width, height: height, pixelDensity: pd
+  actual.save path.sub('_expected', '_actual')
+
+  assert_equal_pixels actual.loadImage(path), actual, threshold: threshold
 end
 
 def assert_fill(src, *args, **kwargs)
