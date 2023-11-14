@@ -6,11 +6,11 @@ class TestDraw < Test::Unit::TestCase
   THRESHOLD_TO_BE_FIXED = 0.0
 
   def test_default_background_color()
-    assert_draw '', source_header: '', threshold: THRESHOLD_TO_BE_FIXED
+    assert_draw '', default_header: '', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_default_fill_color()
-    assert_draw <<~END, source_header: nil
+    assert_draw <<~END, default_header: nil
       background 100
       noStroke
       rect 100, 100, 500, 500
@@ -18,7 +18,7 @@ class TestDraw < Test::Unit::TestCase
   end
 
   def test_default_stroke_color()
-    assert_draw <<~END, source_header: nil
+    assert_draw <<~END, default_header: nil
       background 100
       noFill
       strokeWeight 50
