@@ -45,15 +45,16 @@ module Processing
     #
     DEGREES = :degrees
 
-    # Mode for rectMode(), ellipseMode() and imageMode().
+    # Mode for rectMode(), ellipseMode(), imageMode(), and shapeMode().
     #
     CORNER  = :corner
 
-    # Mode for rectMode(), ellipseMode() and imageMode().
+    # Mode for rectMode(), ellipseMode(), imageMode(), and shapeMode().
     #
     CORNERS = :corners
 
-    # Mode for rectMode(), ellipseMode(), imageMode() and textAlign().
+    # Mode for rectMode(), ellipseMode(), imageMode(), shapeMode(),
+    # and textAlign().
     #
     CENTER  = :center
 
@@ -236,6 +237,7 @@ module Processing
       @rectMode__    = nil
       @ellipseMode__ = nil
       @imageMode__   = nil
+      @shapeMode__   = nil
       @blendMode__   = nil
       @textAlignH__  = nil
       @textAlignV__  = nil
@@ -252,6 +254,7 @@ module Processing
       rectMode    CORNER
       ellipseMode CENTER
       imageMode   CORNER
+      shapeMode   CORNER
       blendMode   BLEND
       strokeCap   ROUND
       strokeJoin  MITER
@@ -530,6 +533,20 @@ module Processing
     #
     def imageMode(mode)
       @imageMode__ = mode
+    end
+
+    # Sets shape mode. Default is CORNER.
+    #
+    # CORNER  -> shape(shp, left, top, width, height)
+    # CORNERS -> shape(shp, left, top, right, bottom)
+    # CENTER  -> shape(shp, centerX, centerY, width, height)
+    #
+    # @param mode [CORNER, CORNERS, CENTER]
+    #
+    # @return [nil] nil
+    #
+    def shapeMode(mode)
+      @shapeMode__ = mode
     end
 
     # @private
@@ -1358,6 +1375,7 @@ module Processing
         @rectMode__,
         @ellipseMode__,
         @imageMode__,
+        @shapeMode__,
         @textAlignH__,
         @textAlignV__,
         @tint__,
@@ -1389,6 +1407,7 @@ module Processing
       @rectMode__,
       @ellipseMode__,
       @imageMode__,
+      @shapeMode__,
       @textAlignH__,
       @textAlignV__,
       @tint__ = @styleStack__.pop
