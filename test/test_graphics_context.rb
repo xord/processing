@@ -89,4 +89,4 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal c[ 70, 80, 90], g.lerpColor(c[10, 20, 30], c[50, 60, 70],  1.5)
   end
 
-end# TestGraphics
+end# TestGraphicsContext
