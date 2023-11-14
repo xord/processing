@@ -6,10 +6,6 @@ class TestGraphicsContext < Test::Unit::TestCase
   P = Processing
   G = P::Graphics
 
-  def graphics(w = 10, h = 10)
-    G.new w, h
-  end
-
   def test_color()
     g = graphics
 
