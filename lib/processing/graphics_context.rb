@@ -1160,6 +1160,38 @@ module Processing
 
     alias drawImage image
 
+    # Draws a shape.
+    #
+    # The parameters a, b, c, and d are determined by shapeMode().
+    #
+    # @overload shape(img, a, b)
+    # @overload shape(img, a, b, c, d)
+    #
+    # @param shp [Shape] shape to draw
+    # @param a   [Numeric] horizontal position of the shape, by default
+    # @param b   [Numeric] vertical position of the shape, by default
+    # @param c   [Numeric] width of the shape, by default
+    # @param d   [Numeric] height of the shape, by default
+    #
+    # @return [nil] nil
+    #
+    def shape(shp, a = 0, b = 0, c = nil, d = nil)
+      assertDrawing__
+
+      shp.isVisible               or return nil
+      polygon = shp.getInternal__ or return nil
+
+      if c || d || @shapeMode__ != CORNER
+        x, y, w, h = toXYWH__ @shapeMode__, a, b, c || shp.width, d || shp.height
+        @painter__.polygon polygon, x, y, w, h
+      else
+        @painter__.polygon polygon, a, b
+      end
+      nil
+    end
+
+    alias drawShape shape
+
     # Begins drawing complex shapes.
     #
     # @param mode [POINTS, LINES, TRIANGLES, TRIANGLE_FAN, TRIANGLE_STRIP, QUADS, QUAD_STRIP, TESS]
