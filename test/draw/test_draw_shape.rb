@@ -167,4 +167,52 @@ class TestDrawShape < Test::Unit::TestCase
     assert_fill_stroke src, 'endShape CLOSE'
   end
 
+  def test_createShape_line()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      line 100, 200, 800, 900
+    EXPECTED
+      shape createShape(LINE, 100, 200, 800, 900)
+    ACTUAL
+  end
+
+  def test_createShape_rect()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      rect 100, 200, 500, 600
+    EXPECTED
+      shape createShape(RECT, 100, 200, 500, 600)
+    ACTUAL
+  end
+
+  def test_createShape_ellipse()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      ellipse 500, 600, 300, 400
+    EXPECTED
+      shape createShape(ELLIPSE, 500, 600, 300, 400)
+    ACTUAL
+  end
+
+  def test_createShape_arc()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      arc 500, 600, 300, 400, 0, PI / 2
+    EXPECTED
+      shape createShape(ARC, 500, 600, 300, 400, 0, PI / 2)
+    ACTUAL
+  end
+
+  def test_createShape_triangle()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      triangle 100,100, 100,500, 400,200
+    EXPECTED
+      shape createShape(TRIANGLE, 100,100, 100,500, 400,200)
+    ACTUAL
+  end
+
+  def test_createShape_quad()
+    assert_draw_equal <<~EXPECTED, <<~ACTUAL
+      quad 100,100, 100,500, 500,500, 600,100
+    EXPECTED
+      shape createShape(QUAD, 100,100, 100,500, 500,500, 600,100)
+    ACTUAL
+  end
+
 end# TestDrawShape
