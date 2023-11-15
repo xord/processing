@@ -65,7 +65,7 @@ def assert_draw(
 end
 
 def assert_fill(*sources, **kwargs)
-  assert_draw 'noStroke', *src, label: test_label, **kwargs
+  assert_draw 'noStroke', *sources, label: test_label, **kwargs
 end
 
 def assert_stroke(*sources, **kwargs)
