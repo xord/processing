@@ -93,7 +93,7 @@ def assert_equal_pixels(expected, actual, threshold: 1.0)
   EOS
 end
 
-def assert_draw_equal(
+def assert_equal_draw(
   *shared_header, expected, actual, default_header: DEFAULT_HEADER,
   width: 1000, height: 1000, threshold: 1.0, label: test_label)
 

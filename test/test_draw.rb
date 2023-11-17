@@ -138,21 +138,21 @@ class TestDraw < Test::Unit::TestCase
   def test_shapeMode_corner()
     header = 'noStroke'
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 300, 400
     EXPECTED
       shapeMode CORNER
       shape createShape(RECT, 100, 200, 300, 400)
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 300, 400
     EXPECTED
       shapeMode CORNER
       shape createShape(RECT, 0, 0, 300, 400), 100, 200
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 300, 400
     EXPECTED
       shapeMode CORNER
@@ -163,21 +163,21 @@ class TestDraw < Test::Unit::TestCase
   def test_shapeMode_corners()
     header = 'noStroke'
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 300, 400
     EXPECTED
       shapeMode CORNERS
       shape createShape(RECT, 100, 200, 300, 400)
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 200, 200
     EXPECTED
       shapeMode CORNERS
       shape createShape(RECT, 0, 0, 300, 400), 100, 200
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 100, 200, 200, 200
     EXPECTED
       shapeMode CORNERS
@@ -188,21 +188,21 @@ class TestDraw < Test::Unit::TestCase
   def test_shapeMode_center()
     header = 'noStroke'
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 400, 400, 200, 400
     EXPECTED
       shapeMode CENTER
       shape createShape(RECT, 500, 600, 200, 400)
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 400, 400, 200, 400
     EXPECTED
       shapeMode CENTER
       shape createShape(RECT, 0, 0, 200, 400), 500, 600
     ACTUAL
 
-    assert_draw_equal header, <<~EXPECTED, <<~ACTUAL
+    assert_equal_draw header, <<~EXPECTED, <<~ACTUAL
       rect 400, 400, 200, 400
     EXPECTED
       shapeMode CENTER
