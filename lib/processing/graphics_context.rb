@@ -1932,36 +1932,36 @@ module Processing
     end
 
     # @private
-    def createLineShape__(x1, y1, x2, y2)
+    private def createLineShape__(x1, y1, x2, y2)
       Shape.new Rays::Polygon.lines x1, y1, x2, y2
     end
 
     # @private
-    def createRectShape__(a, b, c, d)
+    private def createRectShape__(a, b, c, d)
       x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
       Shape.new Rays::Polygon.rect x, y, w, h
     end
 
     # @private
-    def createEllipseShape__(a, b, c, d)
+    private def createEllipseShape__(a, b, c, d)
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
       Shape.new Rays::Polygon.ellipse x, y, w, h
     end
 
     # @private
-    def createArcShape__(a, b, c, d, start, stop)
+    private def createArcShape__(a, b, c, d, start, stop)
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
       from, to   = toAngle__(-start), toAngle__(-stop)
       Shape.new Rays::Polygon.ellipse x, y, w, h, from: from, to: to
     end
 
     # @private
-    def createTriangleShape__(x1, y1, x2, y2, x3, y3)
+    private def createTriangleShape__(x1, y1, x2, y2, x3, y3)
       Shape.new Rays::Polygon.new x1, y1, x2, y2, x3, y3, loop: true
     end
 
     # @private
-    def createQuadShape__(x1, y1, x2, y2, x3, y3, x4, y4)
+    private def createQuadShape__(x1, y1, x2, y2, x3, y3, x4, y4)
       Shape.new Rays::Polygon.quads x1, y1, x2, y2, x3, y3, x4, y4
     end
 
