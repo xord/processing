@@ -1216,7 +1216,7 @@ module Processing
     #
     # @see https://processing.org/reference/beginShape_.html
     #
-    def beginShape(mode = nil, &block)
+    def beginShape(mode = nil)
       @shapeMode__, @shapePoints__ = mode, []
       nil
     end
