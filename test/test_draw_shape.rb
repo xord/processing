@@ -12,9 +12,9 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 200, 300
       vertex 500, 600
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
-    assert_fill_stroke src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill_stroke src, 'endShape', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_lines()
@@ -26,12 +26,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 500, 600
       vertex 700, 800
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
   def test_beginShape_triangles()
@@ -44,12 +44,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 500, 500
       vertex 900, 200
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
   def test_beginShape_triangle_fan()
@@ -63,12 +63,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 500, 200
       vertex 400, 100
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape', threshold: 0.98
-    assert_fill_stroke src, 'endShape', threshold: 0.98
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE', threshold: 0.98
-    assert_fill_stroke src, 'endShape CLOSE', threshold: 0.98
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape', threshold: 0.98
+    assert_p5_fill_stroke src, 'endShape', threshold: 0.98
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE', threshold: 0.98
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: 0.98
   end
 
   def test_beginShape_triangle_strip()
@@ -81,12 +81,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 900, 100
       vertex 900, 900
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
-    assert_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
-    assert_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_quads()
@@ -101,12 +101,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 700, 400
       vertex 800, 200
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
   def test_beginShape_quad_strip()
@@ -119,12 +119,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 900, 100
       vertex 900, 500
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
-    assert_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
-    assert_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_beginShape_tess()
@@ -139,12 +139,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 500, 300
       vertex 500, 100
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
   def test_beginShape_polygon()
@@ -159,12 +159,12 @@ class TestDrawShape < Test::Unit::TestCase
       vertex 500, 300
       vertex 500, 100
     END
-    assert_fill        src, 'endShape'
-    assert_stroke      src, 'endShape'
-    assert_fill_stroke src, 'endShape'
-    assert_fill        src, 'endShape CLOSE'
-    assert_stroke      src, 'endShape CLOSE'
-    assert_fill_stroke src, 'endShape CLOSE'
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
   def test_createShape_line()

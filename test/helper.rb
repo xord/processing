@@ -103,7 +103,7 @@ def assert_equal_draw(
   assert_equal_pixels e, a, threshold: threshold
 end
 
-def assert_draw(
+def assert_p5_draw(
   *sources, default_header: DEFAULT_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label)
 
@@ -117,14 +117,14 @@ def assert_draw(
   assert_equal_pixels actual.loadImage(path), actual, threshold: threshold
 end
 
-def assert_fill(*sources, **kwargs)
-  assert_draw 'noStroke', *sources, label: test_label, **kwargs
+def assert_p5_fill(*sources, **kwargs)
+  assert_p5_draw 'noStroke', *sources, label: test_label, **kwargs
 end
 
-def assert_stroke(*sources, **kwargs)
-  assert_draw 'noFill; stroke 0, 255, 0', *sources, label: test_label, **kwargs
+def assert_p5_stroke(*sources, **kwargs)
+  assert_p5_draw 'noFill; stroke 0, 255, 0', *sources, label: test_label, **kwargs
 end
 
-def assert_fill_stroke(*sources, **kwargs)
-  assert_draw 'stroke 0, 255, 0', *sources, label: test_label, **kwargs
+def assert_p5_fill_stroke(*sources, **kwargs)
+  assert_p5_draw 'stroke 0, 255, 0', *sources, label: test_label, **kwargs
 end
