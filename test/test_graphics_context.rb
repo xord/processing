@@ -54,7 +54,7 @@ class TestGraphicsContext < Test::Unit::TestCase
   end
 
   def test_clear()
-    colors = -> g {get_pixels(g).map(&:to_a).flatten.uniq}
+    colors = -> g {get_pixels(g).uniq}
 
     g = graphics
     assert_equal     [0], colors[g]

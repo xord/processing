@@ -58,7 +58,7 @@ def get_pixels(image)
     .compact
     .first
     .bitmap
-    .to_a
+    .pixels
 end
 
 def graphics(width = 10, height = 10, *args, &block)
