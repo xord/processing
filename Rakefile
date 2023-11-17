@@ -31,6 +31,10 @@ namespace :test do
     sh %( rm -rf test/.png/*.png )
   end
 
+  task :with_p5 do
+    ENV['TEST_WITH_P5'] = '1'
+  end
+
   ::Rake::TestTask.new :draw do |t|
     t.test_files = FileList['test/test_*.rb']
   end

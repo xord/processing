@@ -23,6 +23,10 @@ DEFAULT_DRAW_HEADER = <<~END
 END
 
 
+def test_with_p5?()
+  ENV['TEST_WITH_P5'] == '1'
+end
+
 def md5(s)
   Digest::MD5.hexdigest s
 end
@@ -106,6 +110,8 @@ end
 def assert_p5_draw(
   *sources, default_header: DEFAULT_DRAW_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label)
+
+  return unless test_with_p5?
 
   source = [default_header, *sources].compact.join("\n")
   path   = draw_output_path "#{label}_expected", source
