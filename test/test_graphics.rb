@@ -18,7 +18,7 @@ class TestGraphics < Test::Unit::TestCase
       g.ellipseMode :corner
       g.ellipse 0, 0, g.width, g.height
     end
-    temppath(ext: 'png') do |path|
+    temp_path(ext: '.png') do |path|
       assert_nothing_raised {g.save path}
       assert_equal_pixels g, g.loadImage(path)
     end

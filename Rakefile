@@ -14,9 +14,7 @@ require 'reflex/extension'
 require 'processing/extension'
 
 
-EXTENSIONS    = [Xot, Rucy, Rays, Reflex, Processing]
-DRAW_TESTS    = FileList['test/draw/test_*.rb']
-TESTS_EXCLUDE = DRAW_TESTS
+EXTENSIONS = [Xot, Rucy, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
@@ -30,10 +28,10 @@ task :clean => 'test:clean'
 
 namespace :test do
   task :clean do
-    sh %( rm -rf test/draw/.png/*.png )
+    sh %( rm -rf test/.png/*.png )
   end
 
   ::Rake::TestTask.new :draw do |t|
-    t.test_files = DRAW_TESTS
+    t.test_files = FileList['test/test_*.rb']
   end
 end

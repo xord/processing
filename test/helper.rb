@@ -15,7 +15,7 @@ require_relative 'p5'
 include Xot::Test
 
 
-DEFAULT_HEADER = <<~END
+DEFAULT_DRAW_HEADER = <<~END
   background 100
   fill 255, 0, 0
   stroke 0, 255, 0
@@ -32,23 +32,24 @@ def mkdir(dir: nil, filename: nil)
   FileUtils.mkdir_p path unless File.exist? path
 end
 
-def temppath(ext: nil, &block)
+def test_label(index = 1)
+  caller_locations[index].then {|loc| "#{loc.label}_#{loc.lineno}"}
+end
+
+def temp_path(ext: nil, &block)
   f     = Tempfile.new
   path  = f.path
-  path += ".#{ext}" if ext
+  path += ext if ext
   f.close!
   block.call path
   File.delete path
 end
 
-def test_output_path(label, source = nil, ext: '.png', dir: ext)
-  path = File.join __dir__, dir, label + (source ? "_#{md5 source}" : '') + ext
+def draw_output_path(label, *sources, ext: '.png', dir: ext)
+  src  = sources.compact.then {|ary| ary.empty? ? '' : "_#{md5 ary.join("\n")}"}
+  path = File.join __dir__, dir, label + src + ext
   mkdir filename: path
   path
-end
-
-def test_label(index = 1)
-  caller_locations[index].then {|loc| "#{loc.label}_#{loc.lineno}"}
 end
 
 def get_pixels(image)
@@ -68,9 +69,8 @@ end
 
 def test_draw(*sources, width: 1000, height: 1000, pixelDensity: 1, label: nil)
   graphics(width, height, pixelDensity).tap do |g|
-    src = sources.compact.join "\n"
-    g.beginDraw {g.instance_eval src}
-    g.save test_output_path(label, src) if label
+    g.beginDraw {g.instance_eval sources.compact.join("\n")}
+    g.save draw_output_path(label, *sources) if label
   end
 end
 
@@ -94,7 +94,7 @@ def assert_equal_pixels(expected, actual, threshold: 1.0)
 end
 
 def assert_equal_draw(
-  *shared_header, expected, actual, default_header: DEFAULT_HEADER,
+  *shared_header, expected, actual, default_header: DEFAULT_DRAW_HEADER,
   width: 1000, height: 1000, threshold: 1.0, label: test_label)
 
   e = test_draw default_header, *shared_header, expected, label: "#{label}_expected"
@@ -104,11 +104,11 @@ def assert_equal_draw(
 end
 
 def assert_p5_draw(
-  *sources, default_header: DEFAULT_HEADER,
+  *sources, default_header: DEFAULT_DRAW_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label)
 
   source = [default_header, *sources].compact.join("\n")
-  path   = test_output_path "#{label}_expected", source
+  path   = draw_output_path "#{label}_expected", source
 
   pd     = draw_p5rb width, height, source, path, headless: true
   actual = test_draw source, width: width, height: height, pixelDensity: pd
