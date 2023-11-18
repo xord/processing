@@ -183,9 +183,6 @@ module Processing
     # Shape mode for beginShape()
     TESS           = :tess
 
-    # OPEN flag for endShape()
-    OPEN           = :open
-
     # CLOSE flag for endShape()
     CLOSE          = :close
 
@@ -1232,7 +1229,7 @@ module Processing
     #
     # @see https://processing.org/reference/endShape_.html
     #
-    def endShape(mode = OPEN)
+    def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
       polygon =
         case @shapeMode__
