@@ -1234,20 +1234,9 @@ module Processing
     #
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
-      polygon =
-        case @shapeMode__
-        when POINTS         then Rays::Polygon.points(        *@shapePoints__)
-        when LINES          then Rays::Polygon.lines(         *@shapePoints__)
-        when TRIANGLES      then Rays::Polygon.triangles(     *@shapePoints__)
-        when TRIANGLE_FAN   then Rays::Polygon.triangle_fan(  *@shapePoints__)
-        when TRIANGLE_STRIP then Rays::Polygon.triangle_strip(*@shapePoints__)
-        when QUADS          then Rays::Polygon.quads(         *@shapePoints__)
-        when QUAD_STRIP     then Rays::Polygon.quad_strip(    *@shapePoints__)
-        when TESS           then Rays::Polygon.new(*@shapePoints__, loop: mode == CLOSE)
-        else                     Rays::Polygon.new(*@shapePoints__, loop: mode == CLOSE)
-        end
+      polygon = Shape.createPolygon__ @shapeMode__, @shapePoints__, mode == CLOSE
       @painter__.polygon polygon if polygon
-      @shapePoints__ = nil
+      @shapeMode__ = @shapePoints__ = nil
       nil
     end
 

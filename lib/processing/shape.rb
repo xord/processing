@@ -7,8 +7,8 @@ module Processing
 
     # @private
     def initialize(polygon = nil)
-      @polygon = polygon
-      @visible = true
+      @polygon, @visible = polygon, true
+      @mode, @points     = nil, nil
     end
 
     # Gets width of shape.
@@ -48,8 +48,24 @@ module Processing
       nil
     end
 
-    def beginShape = nil
-    def endShape = nil
+    def beginShape(mode = nil)
+      @mode, @points = mode, []
+      nil
+    end
+
+    def endShape(mode = nil)
+      raise "endShape() must be called after beginShape()" unless @points
+      close    = mode == GraphicsContext::CLOSE
+      @polygon = self.class.createPolygon__ @mode, @points, close
+      @mode = @points = nil
+      nil
+    end
+
+    def vertex(x, y)
+      raise "vertex() must be called after beginShape()" unless @points
+      @points << x << y
+    end
+
     def getChildCount = nil
     def getChild = nil
     def addChild = nil
@@ -67,6 +83,22 @@ module Processing
     # @private
     def getInternal__()
       @polygon
+    end
+
+    # @private
+    def self.createPolygon__(mode, points, close = false)
+      g = GraphicsContext
+      case mode
+      when g::POINTS         then Rays::Polygon.points(        *points)
+      when g::LINES          then Rays::Polygon.lines(         *points)
+      when g::TRIANGLES      then Rays::Polygon.triangles(     *points)
+      when g::TRIANGLE_FAN   then Rays::Polygon.triangle_fan(  *points)
+      when g::TRIANGLE_STRIP then Rays::Polygon.triangle_strip(*points)
+      when g::QUADS          then Rays::Polygon.quads(         *points)
+      when g::QUAD_STRIP     then Rays::Polygon.quad_strip(    *points)
+      when g::TESS           then Rays::Polygon.new(*points, loop: close)
+      else                        Rays::Polygon.new(*points, loop: close)
+      end
     end
 
   end# Shape
