@@ -10,6 +10,10 @@ class TestShape < Test::Unit::TestCase
     g.createShape kind, *args
   end
 
+  def vec(*args)
+    P::Vector.new(*args)
+  end
+
   def test_size()
     assert_equal [0,  0],  shape                         .then {|s| [s.w, s.h]}
     assert_equal [30, 50], shape(G::RECT, 10, 20, 30, 50).then {|s| [s.w, s.h]}
@@ -322,6 +326,59 @@ class TestShape < Test::Unit::TestCase
       s.endShape CLOSE
       shape s
     ACTUAL
+  end
+
+  def test_getVertex()
+    s = shape
+    s.beginShape
+    s.vertex 1, 2
+    s.vertex 3, 4
+    s.vertex 5, 6
+    s.endShape
+
+    assert_equal vec(1, 2), s.getVertex(0)
+    assert_equal vec(3, 4), s.getVertex(1)
+    assert_equal vec(5, 6), s.getVertex(-1)
+    assert_equal vec(3, 4), s.getVertex(-2)
+  end
+
+  def test_setVertex()
+    s = shape
+    s.beginShape
+    s.vertex 1, 2
+    s.vertex 3, 4
+    s.vertex 5, 6
+    s.endShape
+
+    points = -> do
+      s.getVertexCount.times.map {|i|
+        s.getVertex(i).then {|v| [v.x, v.y]}
+      }.flatten
+    end
+
+    s.setVertex(0, vec(7, 8))
+    assert_equal [7, 8, 3, 4, 5, 6],  points.call
+
+    s.setVertex(-1, vec(9, 10))
+    assert_equal [7, 8, 3, 4, 9, 10], points.call
+  end
+
+  def test_getVertexCount()
+    s = shape
+    s.beginShape G::TRIANGLES
+    assert_equal 0, s.getVertexCount
+
+    s.vertex 1, 2
+    assert_equal 1, s.getVertexCount
+
+    s.vertex 3, 4
+    assert_equal 2, s.getVertexCount
+
+    s.vertex 5, 6
+    assert_equal 3, s.getVertexCount
+
+    s.endShape
+    assert_equal 3, s.getVertexCount
   end
 
 end# TestShape

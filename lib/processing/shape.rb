@@ -69,12 +69,26 @@ module Processing
       @points << x << y
     end
 
+    def setVertex(index, point)
+      return nil unless @points && @points[index * 2, 2]&.size == 2
+      @points[index * 2, 2] = [point.x, point.y]
+    end
+
+    def getVertex(index)
+      return nil unless @points
+      point = @points[index * 2, 2]
+      return nil unless point&.size == 2
+      Vector.new(*point)
+    end
+
+    def getVertexCount()
+      return 0 unless @points
+      @points.size / 2
+    end
+
     def getChildCount = nil
     def getChild = nil
     def addChild = nil
-    def getVertexCount = nil
-    def getVertex = nil
-    def setVertex = nil
     def translate = nil
     def rotateX = nil
     def rotateY = nil
