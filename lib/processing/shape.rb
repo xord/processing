@@ -8,7 +8,7 @@ module Processing
     # @private
     def initialize(polygon = nil)
       @polygon, @visible = polygon, true
-      @mode, @points     = nil, nil
+      @mode = @points = @closed = nil
     end
 
     # Gets width of shape.
@@ -16,8 +16,8 @@ module Processing
     # @return [Numeric] width of shape
     #
     def width()
-      return 0 unless @polygon
-      (@bounds ||= @polygon.bounds).width
+      polygon = getInternal__ or return 0
+      (@bounds ||= polygon.bounds).width
     end
 
     # Gets height of shape.
@@ -25,9 +25,12 @@ module Processing
     # @return [Numeric] height of shape
     #
     def height()
-      return 0 unless @polygon
-      (@bounds ||= @polygon.bounds).height
+      polygon = getInternal__ or return 0
+      (@bounds ||= polygon.bounds).height
     end
+
+    alias w width
+    alias h height
 
     # Returns whether the shape is visible or not.
     #
@@ -49,15 +52,15 @@ module Processing
     end
 
     def beginShape(mode = nil)
-      @mode, @points = mode, []
+      @mode     = mode
+      @points ||= []
+      @polygon  = nil# clear cache
       nil
     end
 
-    def endShape(mode = nil)
+    def endShape(close = nil)
       raise "endShape() must be called after beginShape()" unless @points
-      close    = mode == GraphicsContext::CLOSE
-      @polygon = self.class.createPolygon__ @mode, @points, close
-      @mode = @points = nil
+      @closed = close == GraphicsContext::CLOSE
       nil
     end
 
@@ -82,6 +85,10 @@ module Processing
 
     # @private
     def getInternal__()
+      unless @polygon
+        return nil unless @points && @closed != nil
+        @polygon = self.class.createPolygon__ @mode, @points, @closed
+      end
       @polygon
     end
 
@@ -96,8 +103,8 @@ module Processing
       when g::TRIANGLE_STRIP then Rays::Polygon.triangle_strip(*points)
       when g::QUADS          then Rays::Polygon.quads(         *points)
       when g::QUAD_STRIP     then Rays::Polygon.quad_strip(    *points)
-      when g::TESS           then Rays::Polygon.new(*points, loop: close)
-      else                        Rays::Polygon.new(*points, loop: close)
+      when g::TESS, nil      then Rays::Polygon.new(*points, loop: close)
+      else raise ArgumentError, "invalid polygon mode '#{mode}'"
       end
     end
 

@@ -6,14 +6,14 @@ class TestShape < Test::Unit::TestCase
   P = Processing
   G = P::GraphicsContext
 
-  def shape(kind, *args, g: graphics)
+  def shape(kind = nil, *args, g: graphics)
     g.createShape kind, *args
   end
 
   def test_size()
-    s = shape G::RECT, 100, 200, 300, 400
-    assert_equal 300, s.width
-    assert_equal 400, s.height
+    assert_equal [0,  0],  shape                         .then {|s| [s.w, s.h]}
+    assert_equal [30, 50], shape(G::RECT, 10, 20, 30, 50).then {|s| [s.w, s.h]}
+    assert_equal [20, 30], shape(G::LINE, 10, 20, 30, 50).then {|s| [s.w, s.h]}
   end
 
   def test_visibility()
@@ -262,6 +262,64 @@ class TestShape < Test::Unit::TestCase
       s.vertex 500, 300
       s.vertex 500, 100
       s.endShape
+      shape s
+    ACTUAL
+  end
+
+  def test_beginShape_twice()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      beginShape
+      vertex 100, 100
+      vertex 100, 500
+      vertex 400, 500
+      vertex 400, 300
+      vertex 500, 300
+      vertex 500, 500
+      vertex 800, 500
+      vertex 800, 100
+      endShape
+    EXPECTED
+      s = createShape
+      s.beginShape TRIANGLES
+      s.vertex 100, 100
+      s.vertex 100, 500
+      s.vertex 400, 500
+      s.vertex 400, 300
+      s.endShape
+      s.beginShape
+      s.vertex 500, 300
+      s.vertex 500, 500
+      s.vertex 800, 500
+      s.vertex 800, 100
+      s.endShape
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      beginShape
+      vertex 100, 100
+      vertex 100, 500
+      vertex 400, 500
+      vertex 400, 300
+      vertex 500, 300
+      vertex 500, 500
+      vertex 800, 500
+      vertex 800, 100
+      endShape CLOSE
+    EXPECTED
+      s = createShape
+      s.beginShape TRIANGLES
+      s.vertex 100, 100
+      s.vertex 100, 500
+      s.vertex 400, 500
+      s.vertex 400, 300
+      s.endShape
+      s.beginShape
+      s.vertex 500, 300
+      s.vertex 500, 500
+      s.vertex 800, 500
+      s.vertex 800, 100
+      s.endShape CLOSE
       shape s
     ACTUAL
   end
