@@ -183,6 +183,9 @@ module Processing
     # Shape mode for beginShape()
     TESS           = :tess
 
+    # OPEN flag for endShape()
+    OPEN           = :open
+
     # CLOSE flag for endShape()
     CLOSE          = :close
 
