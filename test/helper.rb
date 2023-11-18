@@ -10,8 +10,6 @@ require 'fileutils'
 require 'tempfile'
 require 'test/unit'
 
-require_relative 'p5'
-
 include Xot::Test
 
 
@@ -134,3 +132,6 @@ end
 def assert_p5_fill_stroke(*sources, **kwargs)
   assert_p5_draw 'stroke 0, 255, 0', *sources, label: test_label, **kwargs
 end
+
+
+require_relative 'p5' if test_with_p5?
