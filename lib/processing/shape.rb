@@ -6,8 +6,8 @@ module Processing
   class Shape
 
     # @private
-    def initialize(polygon = nil)
-      @polygon, @visible = polygon, true
+    def initialize(polygon = nil, children = nil)
+      @polygon, @children, @visible = polygon, children, true
       @mode = @points = @closed = nil
     end
 
@@ -86,9 +86,19 @@ module Processing
       @points.size / 2
     end
 
-    def getChildCount = nil
-    def getChild = nil
-    def addChild = nil
+    def addChild(child)
+      return unless @children
+      @children.push child
+    end
+
+    def getChild(index)
+      @children&.[](index)
+    end
+
+    def getChildCount()
+      @children&.size || 0
+    end
+
     def translate = nil
     def rotateX = nil
     def rotateY = nil
@@ -115,6 +125,7 @@ module Processing
           painter.polygon poly, x, y
         end
       end
+      @children&.each {|o| o.draw__ painter, x, y, w, h}
     end
 
     # @private

@@ -159,6 +159,9 @@ module Processing
     # Shape mode for createShape()
     QUAD     = :quad
 
+    # Shape mode for createShape()
+    GROUP    = :group
+
     # Shape mode for beginShape()
     POINTS         = :points
 
@@ -1913,6 +1916,7 @@ module Processing
       when ARC      then createArcShape__(     *args)
       when TRIANGLE then createTriangleShape__(*args)
       when QUAD     then createQuadShape__(    *args)
+      when GROUP    then Shape.new nil, []
       when nil      then Shape.new
       else raise ArgumentError, "Unknown shape kind '#{kind}'"
       end

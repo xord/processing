@@ -273,6 +273,39 @@ class TestGraphicsContext < Test::Unit::TestCase
     ACTUAL
   end
 
+  def test_shape_with_groups()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      rect 100, 100, 300, 200
+      rect 200, 200, 300, 200
+    EXPECTED
+      group = createShape GROUP
+      group.addChild createShape(RECT, 100, 100, 300, 200)
+      group.addChild createShape(RECT, 200, 200, 300, 200)
+      shape group
+    ACTUAL
+
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      rect 100, 100, 300, 200
+      rect 200, 200, 300, 200
+    EXPECTED
+      group1 = createShape GROUP
+      group2 = createShape GROUP
+      group1.addChild createShape(RECT, 100, 100, 300, 200)
+      group1.addChild group2
+      group2.addChild createShape(RECT, 200, 200, 300, 200)
+      shape group1
+    ACTUAL
+  end
+
+  def test_shape_with_non_groups()
+    assert_equal_draw '', <<~ACTUAL
+      s = createShape
+      s.addChild createShape(RECT, 100, 100, 300, 200)
+      s.addChild createShape(RECT, 200, 200, 300, 200)
+      shape s
+    ACTUAL
+  end
+
   def test_beginShape_points()
     src = <<~END
       strokeWeight 200

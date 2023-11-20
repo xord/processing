@@ -288,6 +288,37 @@ class TestShape < Test::Unit::TestCase
     assert_equal 3, s.getVertexCount
   end
 
+  def test_addChild()
+    group = createShape G::GROUP
+    assert_nil group.getChild(0)
+
+    rect = createShape G::RECT, 100, 100, 200, 300
+    group.addChild rect
+    assert_equal 1,    group.getChildCount
+    assert_equal rect, group.getChild(0)
+  end
+
+  def test_addChild_to_non_group_shape()
+    s = createShape
+    assert_equal 0, s.getChildCount
+
+    assert_nothing_raised {
+      s.addChild createShape(G::RECT, 100, 100, 200, 300)
+    }
+    assert_equal 0, s.getChildCount
+  end
+
+  def test_getChildCount()
+    s = createShape G::GROUP
+    assert_equal 0, s.getChildCount
+
+    s.addChild createShape
+    assert_equal 1, s.getChildCount
+
+    s.addChild createShape
+    assert_equal 2, s.getChildCount
+  end
+
   def assert_equal_draw_vertices(*shared_header, source)
     assert_equal_draw *shared_header, <<~EXPECTED, <<~ACTUAL, label: test_label
       s = self
