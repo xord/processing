@@ -107,6 +107,17 @@ module Processing
     end
 
     # @private
+    def draw__(painter, x, y, w = nil, h = nil)
+      if poly = getInternal__
+        if w || h
+          painter.polygon poly, x, y, w,h
+        else
+          painter.polygon poly, x, y
+        end
+      end
+    end
+
+    # @private
     def self.createPolygon__(mode, points, close = false)
       g = GraphicsContext
       case mode

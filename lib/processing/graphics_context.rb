@@ -1177,15 +1177,13 @@ module Processing
     #
     def shape(shp, a = 0, b = 0, c = nil, d = nil)
       assertDrawing__
-
-      shp.isVisible               or return nil
-      polygon = shp.getInternal__ or return nil
+      return nil unless shp.isVisible
 
       if c || d || @shapeMode__ != CORNER
         x, y, w, h = toXYWH__ @shapeMode__, a, b, c || shp.width, d || shp.height
-        @painter__.polygon polygon, x, y, w, h
+        shp.draw__ @painter__, x, y, w, h
       else
-        @painter__.polygon polygon, a, b
+        shp.draw__ @painter__, a, b
       end
       nil
     end
