@@ -171,59 +171,66 @@ class TestShape < Test::Unit::TestCase
   end
 
   def test_beginShape_twice()
-    assert_equal_draw <<~EXPECTED, <<~ACTUAL
-      beginShape
-      vertex 100, 100
-      vertex 100, 500
-      vertex 400, 500
-      vertex 400, 300
-      vertex 500, 300
-      vertex 500, 500
-      vertex 800, 500
-      vertex 800, 100
-      endShape
-    EXPECTED
-      s = createShape
-      s.beginShape TRIANGLES
+    first, second = <<~FIRST, <<~SECOND
       s.vertex 100, 100
       s.vertex 100, 500
       s.vertex 400, 500
       s.vertex 400, 300
-      s.endShape
-      s.beginShape
+    FIRST
       s.vertex 500, 300
       s.vertex 500, 500
       s.vertex 800, 500
       s.vertex 800, 100
+    SECOND
+
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      s = self
+      s.beginShape
+      #{first}
+      #{second}
+      s.endShape
+    EXPECTED
+      s = createShape
+      s.beginShape
+      #{first}
+      s.endShape
+      s.beginShape
+      #{second}
       s.endShape
       shape s
     ACTUAL
 
     assert_equal_draw <<~EXPECTED, <<~ACTUAL
-      beginShape
-      vertex 100, 100
-      vertex 100, 500
-      vertex 400, 500
-      vertex 400, 300
-      vertex 500, 300
-      vertex 500, 500
-      vertex 800, 500
-      vertex 800, 100
-      endShape CLOSE
+      s = self
+      s.beginShape
+      #{first}
+      #{second}
+      s.endShape CLOSE
+    EXPECTED
+      s = createShape
+      s.beginShape
+      #{first}
+      s.endShape
+      s.beginShape
+      #{second}
+      s.endShape CLOSE
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      s = self
+      s.beginShape
+      #{first}
+      #{second}
+      s.endShape
     EXPECTED
       s = createShape
       s.beginShape TRIANGLES
-      s.vertex 100, 100
-      s.vertex 100, 500
-      s.vertex 400, 500
-      s.vertex 400, 300
+      #{first}
       s.endShape
       s.beginShape
-      s.vertex 500, 300
-      s.vertex 500, 500
-      s.vertex 800, 500
-      s.vertex 800, 100
-      s.endShape CLOSE
+      #{second}
+      s.endShape
       shape s
     ACTUAL
   end
