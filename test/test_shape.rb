@@ -6,7 +6,7 @@ class TestShape < Test::Unit::TestCase
   P = Processing
   G = P::GraphicsContext
 
-  def shape(kind = nil, *args, g: graphics)
+  def createShape(kind = nil, *args, g: graphics)
     g.createShape kind, *args
   end
 
@@ -15,9 +15,9 @@ class TestShape < Test::Unit::TestCase
   end
 
   def test_size()
-    assert_equal [0,  0],  shape                         .then {|s| [s.w, s.h]}
-    assert_equal [30, 50], shape(G::RECT, 10, 20, 30, 50).then {|s| [s.w, s.h]}
-    assert_equal [20, 30], shape(G::LINE, 10, 20, 30, 50).then {|s| [s.w, s.h]}
+    assert_equal [0,  0],  createShape                         .then {|s| [s.w, s.h]}
+    assert_equal [30, 50], createShape(G::RECT, 10, 20, 30, 50).then {|s| [s.w, s.h]}
+    assert_equal [20, 30], createShape(G::LINE, 10, 20, 30, 50).then {|s| [s.w, s.h]}
   end
 
   def test_visibility()
@@ -27,7 +27,7 @@ class TestShape < Test::Unit::TestCase
     assert_equal 1, get_pixels(gfx).uniq.size
 
     gfx = graphics 100, 100 do |g|
-      s = shape G::RECT, 10, 20, 30, 40, g: g
+      s = createShape G::RECT, 10, 20, 30, 40, g: g
       assert_true s.isVisible
       assert_true s.visible?
 
@@ -39,7 +39,7 @@ class TestShape < Test::Unit::TestCase
     assert_equal 2, get_pixels(gfx).uniq.size
 
     gfx = graphics 100, 100 do |g|
-      s = shape G::RECT, 10, 20, 30, 40, g: g
+      s = createShape G::RECT, 10, 20, 30, 40, g: g
       s.setVisible false
       assert_false s.isVisible
       assert_false s.visible?
@@ -329,7 +329,7 @@ class TestShape < Test::Unit::TestCase
   end
 
   def test_getVertex()
-    s = shape
+    s = createShape
     s.beginShape
     s.vertex 1, 2
     s.vertex 3, 4
@@ -343,7 +343,7 @@ class TestShape < Test::Unit::TestCase
   end
 
   def test_setVertex()
-    s = shape
+    s = createShape
     s.beginShape
     s.vertex 1, 2
     s.vertex 3, 4
@@ -364,7 +364,7 @@ class TestShape < Test::Unit::TestCase
   end
 
   def test_getVertexCount()
-    s = shape
+    s = createShape
     s.beginShape G::TRIANGLES
     assert_equal 0, s.getVertexCount
 
