@@ -319,6 +319,60 @@ class TestShape < Test::Unit::TestCase
     assert_equal 2, s.getChildCount
   end
 
+  def test_translate()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      translate 100, 200
+      rect 0, 0, 300, 400
+    EXPECTED
+      s = createShape RECT, 0, 0, 300, 400
+      s.translate 100, 200
+      shape s
+    ACTUAL
+  end
+
+  def test_rotate()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      rotate PI / 10
+      rect 100, 200, 300, 400
+    EXPECTED
+      s = createShape RECT, 100, 200, 300, 400
+      s.rotate PI / 10
+      shape s
+    ACTUAL
+  end
+
+  def test_scale()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      scale 0.5, 0.6
+      rect 100, 200, 300, 400
+    EXPECTED
+      s = createShape RECT, 100, 200, 300, 400
+      s.scale 0.5, 0.6
+      shape s
+    ACTUAL
+  end
+
+  def test_sequential_transformation()
+    assert_equal_draw <<~EXPECTED, <<~ACTUAL
+      translate 100, 200
+      rotate PI / 4
+      scale 0.5, 0.6
+      translate 100, 200
+      rotate(-PI / 4)
+      scale 2, 3
+      rect 0, 0, 300, 400
+    EXPECTED
+      s = createShape RECT, 0, 0, 300, 400
+      s.translate 100, 200
+      s.rotate PI / 4
+      s.scale 0.5, 0.6
+      s.translate 100, 200
+      s.rotate(-PI / 4)
+      s.scale 2, 3
+      shape s
+    ACTUAL
+  end
+
   def assert_equal_draw_vertices(*shared_header, source)
     assert_equal_draw(*shared_header, <<~EXPECTED, <<~ACTUAL, label: test_label)
       s = self

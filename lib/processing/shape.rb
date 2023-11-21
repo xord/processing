@@ -7,8 +7,9 @@ module Processing
 
     # @private
     def initialize(polygon = nil, children = nil, context: nil)
-      @polygon, @children, @visible = polygon, children, true
-      @context                      = context || Context.context__
+      @polygon, @children = polygon, children
+      @context            = context || Context.context__
+      @visible, @matrix   = true, nil
       @mode = @points = @closed = nil
     end
 
@@ -101,13 +102,33 @@ module Processing
       @children&.size || 0
     end
 
-    def translate = nil
+    def translate(x, y, z = 0)
+      matrix__.translate x, y, z
+      nil
+    end
+
+    def rotate(angle)
+      matrix__.rotate @context.toDegrees__(angle)
+      nil
+    end
+
+    def scale(x, y, z = 1)
+      matrix__.scale x, y, z
+      nil
+    end
+
+    def resetMatrix()
+      @matrix = nil
+    end
+
     def rotateX = nil
     def rotateY = nil
     def rotateZ = nil
-    def rotate = nil
-    def scale = nil
-    def resetMatrix = nil
+
+    # @private
+    def matrix__()
+      @matrix ||= Rays::Matrix.new
+    end
 
     # @private
     def getInternal__()
@@ -120,7 +141,15 @@ module Processing
 
     # @private
     def draw__(painter, x, y, w = nil, h = nil)
-      if poly = getInternal__
+      poly = getInternal__
+
+      backup = nil
+      if @matrix && (poly || @children)
+        backup = painter.matrix
+        painter.matrix = backup * @matrix
+      end
+
+      if poly
         if w || h
           painter.polygon poly, x, y, w,h
         else
@@ -128,6 +157,8 @@ module Processing
         end
       end
       @children&.each {|o| o.draw__ painter, x, y, w, h}
+
+      painter.matrix = backup if backup
     end
 
     # @private
