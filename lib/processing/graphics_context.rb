@@ -1342,9 +1342,9 @@ module Processing
     #
     # @return [nil] nil
     #
-    def scale(x, y)
+    def scale(x, y = nil, z = 1)
       assertDrawing__
-      @painter__.scale x, y
+      @painter__.scale x, (y || x), z
       nil
     end
 
