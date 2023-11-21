@@ -90,6 +90,7 @@ module Processing
     def addChild(child)
       return unless @children
       @children.push child
+      nil
     end
 
     def getChild(index)
