@@ -320,7 +320,7 @@ class TestShape < Test::Unit::TestCase
   end
 
   def assert_equal_draw_vertices(*shared_header, source)
-    assert_equal_draw *shared_header, <<~EXPECTED, <<~ACTUAL, label: test_label
+    assert_equal_draw(*shared_header, <<~EXPECTED, <<~ACTUAL, label: test_label)
       s = self
       #{source}
     EXPECTED
