@@ -325,7 +325,7 @@ class TestVector < Test::Unit::TestCase
   def test_rotate()
     angle   = PI * 2 * 0.1
     context = Object.new.tap {|o|
-      def o.toAngle__(a)
+      def o.toDegrees__(a)
         a * 2 * P::GraphicsContext::RAD2DEG__
       end
     }

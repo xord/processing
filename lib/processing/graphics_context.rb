@@ -490,7 +490,7 @@ module Processing
     end
 
     # @private
-    def toAngle__(angle)
+    def toDegrees__(angle)
       angle * @angleScale__
     end
 
@@ -994,7 +994,7 @@ module Processing
     def arc(a, b, c, d, start, stop)
       assertDrawing__
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-      from, to   = toAngle__(-start), toAngle__(-stop)
+      from, to   = toDegrees__(-start), toDegrees__(-stop)
       @painter__.ellipse x, y, w, h, from: from, to: to
       nil
     end
@@ -1356,7 +1356,7 @@ module Processing
     #
     def rotate(angle)
       assertDrawing__
-      @painter__.rotate toAngle__ angle
+      @painter__.rotate toDegrees__ angle
       nil
     end
 
@@ -1942,7 +1942,7 @@ module Processing
     # @private
     private def createArcShape__(a, b, c, d, start, stop)
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-      from, to   = toAngle__(-start), toAngle__(-stop)
+      from, to   = toDegrees__(-start), toDegrees__(-stop)
       Shape.new Rays::Polygon.ellipse x, y, w, h, from: from, to: to
     end
 

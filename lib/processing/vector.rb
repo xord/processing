@@ -464,7 +464,7 @@ module Processing
     #
     def rotate(angle)
       angle = @context ?
-        @context.toAngle__(angle) : angle * GraphicsContext::RAD2DEG__
+        @context.toDegrees__(angle) : angle * GraphicsContext::RAD2DEG__
       @point.rotate! angle
       self
     end
