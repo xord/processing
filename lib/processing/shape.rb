@@ -6,8 +6,9 @@ module Processing
   class Shape
 
     # @private
-    def initialize(polygon = nil, children = nil)
+    def initialize(polygon = nil, children = nil, context: nil)
       @polygon, @children, @visible = polygon, children, true
+      @context                      = context || Context.context__
       @mode = @points = @closed = nil
     end
 
@@ -78,7 +79,7 @@ module Processing
       return nil unless @points
       point = @points[index * 2, 2]
       return nil unless point&.size == 2
-      Vector.new(*point)
+      @context.createVector(*point)
     end
 
     def getVertexCount()

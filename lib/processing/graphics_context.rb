@@ -1916,44 +1916,44 @@ module Processing
       when ARC      then createArcShape__(     *args)
       when TRIANGLE then createTriangleShape__(*args)
       when QUAD     then createQuadShape__(    *args)
-      when GROUP    then Shape.new nil, []
-      when nil      then Shape.new
+      when GROUP    then Shape.new nil, [], context: self
+      when nil      then Shape.new context: self
       else raise ArgumentError, "Unknown shape kind '#{kind}'"
       end
     end
 
     # @private
     private def createLineShape__(x1, y1, x2, y2)
-      Shape.new Rays::Polygon.lines x1, y1, x2, y2
+      Shape.new Rays::Polygon.lines(x1, y1, x2, y2), context: self
     end
 
     # @private
     private def createRectShape__(a, b, c, d)
       x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
-      Shape.new Rays::Polygon.rect x, y, w, h
+      Shape.new Rays::Polygon.rect(x, y, w, h), context: self
     end
 
     # @private
     private def createEllipseShape__(a, b, c, d)
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
-      Shape.new Rays::Polygon.ellipse x, y, w, h
+      Shape.new Rays::Polygon.ellipse(x, y, w, h), context: self
     end
 
     # @private
     private def createArcShape__(a, b, c, d, start, stop)
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
       from, to   = toDegrees__(-start), toDegrees__(-stop)
-      Shape.new Rays::Polygon.ellipse x, y, w, h, from: from, to: to
+      Shape.new Rays::Polygon.ellipse(x, y, w, h, from: from, to: to), context: self
     end
 
     # @private
     private def createTriangleShape__(x1, y1, x2, y2, x3, y3)
-      Shape.new Rays::Polygon.new x1, y1, x2, y2, x3, y3, loop: true
+      Shape.new Rays::Polygon.new(x1, y1, x2, y2, x3, y3, loop: true), context: self
     end
 
     # @private
     private def createQuadShape__(x1, y1, x2, y2, x3, y3, x4, y4)
-      Shape.new Rays::Polygon.quads x1, y1, x2, y2, x3, y3, x4, y4
+      Shape.new Rays::Polygon.quads(x1, y1, x2, y2, x3, y3, x4, y4), context: self
     end
 
     # Creates a new off-screen graphics context object.
