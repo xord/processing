@@ -463,7 +463,9 @@ module Processing
     # @return [Vector] rotated this object
     #
     def rotate(angle)
-      @point.rotate! @context.toDegrees__(angle)
+      deg = @context ?
+        @context.toDegrees__(angle) : angle * GraphicsContext::RAD2DEG__
+      @point.rotate! deg
       self
     end
 
