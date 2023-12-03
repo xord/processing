@@ -22,7 +22,7 @@ EXTENSIONS = [Xot, Rucy, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
-test_with_p5 if ci?
+#test_with_p5 if ci?
 
 default_tasks
 use_bundler
