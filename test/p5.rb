@@ -48,12 +48,28 @@ def get_p5rb_html(width, height, draw_src)
   END
 end
 
+def sleep_until (try: 3, timeout: 10, &block)
+  now = -> offset = 0 {Time.now.to_f + offset}
+  limit = now[timeout]
+  until block.call
+    if now[] > limit
+      limit = now[timeout]
+      try -= 1
+      next if try > 0
+      raise 'Drawing timed out in p5.rb'
+    end
+    sleep 0.1
+  end
+end
+
 def draw_p5rb(width, height, draw_src, path, headless: true)
   b = browser width, height, headless: headless
   unless File.exist? path
     b.reset
     b.main_frame.content = get_p5rb_html width, height, draw_src
-    sleep 0.1 until b.evaluate 'document.querySelector("#completed") != null'
+    sleep_until do
+      b.evaluate 'document.querySelector("#completed") != null'
+    end
     b.screenshot path: path
   end
   b.device_pixel_ratio
