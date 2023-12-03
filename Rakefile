@@ -14,9 +14,15 @@ require 'reflex/extension'
 require 'processing/extension'
 
 
+def test_with_p5()
+  ENV['TEST_WITH_P5'] = '1'
+end
+
 EXTENSIONS = [Xot, Rucy, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
+
+test_with_p5 if ci?
 
 default_tasks
 use_bundler
@@ -32,7 +38,7 @@ namespace :test do
   end
 
   task :with_p5 do
-    ENV['TEST_WITH_P5'] = '1'
+    test_with_p5
   end
 
   ::Rake::TestTask.new :draw do |t|
