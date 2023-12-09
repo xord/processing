@@ -1,6 +1,17 @@
 # processing ChangeLog
 
 
+## [v0.5.31] - 2023-12-09
+
+- Add Shape class
+- Add createShape(), shape(), shapeMode()
+- Add beginShape(), endShape(), and vertex(x, y)
+- Test with p5.rb
+- GraphicsContext#rotate() can take z parameter
+- Set default miter_limit to 10
+- Trigger github actions on all pull_request
+
+
 ## [v0.5.30] - 2023-11-09
 
 - Test drawing methods with p5.rb
