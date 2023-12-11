@@ -807,6 +807,11 @@ module Processing
       @painter__.font = font
     end
 
+    def texture(image)
+      @painter__.texture image&.getInternal__
+      nil
+    end
+
     # Sets shader.
     #
     # @param shader [Shader] a shader to apply
@@ -1416,6 +1421,7 @@ module Processing
         @painter__.clip,
         @painter__.blend_mode,
         @painter__.font,
+        @painter__.texture,
         @painter__.shader,
         @hsbColor__,
         @colorMaxes__,
@@ -1448,6 +1454,7 @@ module Processing
       @painter__.clip,
       @painter__.blend_mode,
       @painter__.font,
+      @painter__.texture,
       @painter__.shader,
       @hsbColor__,
       @colorMaxes__,
