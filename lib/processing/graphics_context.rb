@@ -1218,7 +1218,7 @@ module Processing
     # @see https://processing.org/reference/beginShape_.html
     #
     def beginShape(mode = nil)
-      @shapeMode__, @shapePoints__ = mode, []
+      @shapeMode__, @shapePoints__, @shapeTexCoords__ = mode, [], []
       nil
     end
 
@@ -1235,24 +1235,32 @@ module Processing
     #
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
-      polygon = Shape.createPolygon__ @shapeMode__, @shapePoints__, mode == CLOSE
+      polygon = Shape.createPolygon__(
+        @shapeMode__, @shapePoints__, @shapeTexCoords__, mode == CLOSE)
       @painter__.polygon polygon if polygon
-      @shapeMode__ = @shapePoints__ = nil
+      @shapeMode__ = @shapePoints__ = @shapeTexCoords = nil
       nil
     end
 
     # Append vertex for shape polygon.
     #
+    # @overload vertex(x, y)
+    # @overload vertex(x, y, u, v)
+    #
     # @param x [Numeric] x position of vertex
     # @param y [Numeric] y position of vertex
+    # @param u [Numeric] u texture coordinate of vertex
+    # @param v [Numeric] v texture coordinate of vertex
     #
     # @return [nil] nil
     #
     # @see https://processing.org/reference/vertex_.html
     #
-    def vertex(x, y)
+    def vertex(x, y, u = nil, v = nil)
       raise "vertex() must be called after beginShape()" unless @shapePoints__
-      @shapePoints__ << x << y
+      raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
+      @shapePoints__    << x        << y
+      @shapeTexCoords__ << (u || x) << (v || y)
     end
 
     # Copies image.
