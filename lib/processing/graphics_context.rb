@@ -1241,7 +1241,7 @@ module Processing
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
       polygon = Shape.createPolygon__(
-        @shapeMode__, @shapePoints__, @shapeTexCoords__, mode == CLOSE)
+        @shapeMode__, @shapePoints__, mode == CLOSE, @shapeTexCoords__)
       @painter__.polygon polygon if polygon
       @shapeMode__ = @shapePoints__ = @shapeTexCoords = nil
       nil

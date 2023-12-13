@@ -54,8 +54,10 @@ module Processing
     end
 
     def beginShape(mode = nil)
-      @mode, @points, @texcoords = mode, [], []
-      @polygon = nil# clear cache
+      @mode        = mode
+      @points    ||= []
+      @texcoords ||= []
+      @polygon     = nil# clear cache
       nil
     end
 
@@ -168,12 +170,12 @@ module Processing
       case mode
       when g::POINTS         then p.points(        *points)
       when g::LINES          then p.lines(         *points)
-      when g::TRIANGLES      then p.triangles(     *points, loop: close, texcoords: texcoords)
-      when g::TRIANGLE_FAN   then p.triangle_fan(  *points,              texcoords: texcoords)
-      when g::TRIANGLE_STRIP then p.triangle_strip(*points,              texcoords: texcoords)
-      when g::QUADS          then p.quads(         *points, loop: close, texcoords: texcoords)
-      when g::QUAD_STRIP     then p.quad_strip(    *points,              texcoords: texcoords)
-      when g::TESS, nil      then p.new(           *points, loop: close, texcoords: texcoords)
+      when g::TRIANGLES      then p.triangles(     *points, texcoords: texcoords)
+      when g::TRIANGLE_FAN   then p.triangle_fan(  *points, texcoords: texcoords)
+      when g::TRIANGLE_STRIP then p.triangle_strip(*points, texcoords: texcoords)
+      when g::QUADS          then p.quads(         *points, texcoords: texcoords)
+      when g::QUAD_STRIP     then p.quad_strip(    *points, texcoords: texcoords)
+      when g::TESS, nil      then p.new(           *points, texcoords: texcoords, loop: close)
       else raise ArgumentError, "invalid polygon mode '#{mode}'"
       end
     end
