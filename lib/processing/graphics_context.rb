@@ -1939,7 +1939,7 @@ module Processing
 
     # @private
     private def createLineShape__(x1, y1, x2, y2)
-      Shape.new Rays::Polygon.lines(x1, y1, x2, y2), context: self
+      Shape.new Rays::Polygon.line(x1, y1, x2, y2), context: self
     end
 
     # @private
