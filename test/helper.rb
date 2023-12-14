@@ -107,14 +107,14 @@ end
 
 def assert_p5_draw(
   *sources, default_header: DEFAULT_DRAW_HEADER,
-  width: 1000, height: 1000, threshold: 0.99, label: test_label)
+  width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)
 
   return unless test_with_p5?
 
   source = [default_header, *sources].compact.join("\n")
   path   = draw_output_path "#{label}_expected", source
 
-  pd     = draw_p5rb width, height, source, path, headless: true
+  pd     = draw_p5rb width, height, source, path, **kwargs
   actual = test_draw source, width: width, height: height, pixelDensity: pd
   actual.save path.sub('_expected', '_actual')
 
