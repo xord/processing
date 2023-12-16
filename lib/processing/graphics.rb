@@ -16,7 +16,8 @@ module Processing
     # @see https://p5js.org/reference/p5/p5.Graphics/
     #
     def initialize(width, height, pixelDensity = 1)
-      image = Rays::Image.new width, height, Rays::RGBA, pixelDensity
+      image = Rays::Image.new(
+        width, height, Rays::RGBA, pixel_density: pixelDensity)
       init__ image, image.painter
     end
 

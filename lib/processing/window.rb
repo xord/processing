@@ -244,7 +244,8 @@ module Processing
       old_paintable, old_painter = @paintable, @painter
 
       @framebuffer = Rays::Image.new width, height, cs, pd
-      @paintable   = aa ? Rays::Image.new(width, height, cs, pd * 2) : @framebuffer
+      @paintable   = aa ?
+        Rays::Image.new(width, height, cs, pixel_density: pd * 2) : @framebuffer
       @painter     = @paintable.painter
 
       @painter.paint {image old_paintable} if old_paintable
