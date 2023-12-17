@@ -129,6 +129,18 @@ module Processing
     # Mode for textAlign().
     BASELINE = :baseline
 
+    # Mode for textureMode().
+    IMAGE  = :image
+
+    # Mode for textureMode().
+    NORMAL = :normal
+
+    # Mode for textureWrap().
+    CLAMP  = :clamp
+
+    # Mode for textureWrap().
+    REPEAT = :repeat
+
     # Filter type for filter()
     THRESHOLD = :threshold
 
@@ -280,6 +292,8 @@ module Processing
       strokeCap   ROUND
       strokeJoin  MITER
       textAlign   LEFT
+      textureMode IMAGE
+      textureWrap CLAMP
 
       fill 255
       stroke 0
@@ -824,6 +838,34 @@ module Processing
       else
         block.call
       end
+    end
+
+    # Sets the coordinate space for texture mapping.
+    #
+    # @param mode [IMAGE, NORMAL] image coordinate, or normalized coordinate
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/textureMode_.html
+    # @see https://p5js.org/reference/#/p5/textureMode
+    #
+    def textureMode(mode)
+      @painter__.texcoord_mode = mode
+      nil
+    end
+
+    # Sets the texture wrapping mode.
+    #
+    # @param wrap [CLAMP, REPEAT] how texutres behave when go outside of the range
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/textureWrap_.html
+    # @see https://p5js.org/reference/#/p5/textureWrap
+    #
+    def textureWrap(wrap)
+      @painter__.texcoord_wrap = wrap
+      nil
     end
 
     # Sets shader.
@@ -1435,6 +1477,8 @@ module Processing
         @painter__.blend_mode,
         @painter__.font,
         @painter__.texture,
+        @painter__.texcoord_mode,
+        @painter__.texcoord_wrap,
         @painter__.shader,
         @hsbColor__,
         @colorMaxes__,
@@ -1468,6 +1512,8 @@ module Processing
       @painter__.blend_mode,
       @painter__.font,
       @painter__.texture,
+      @painter__.texcoord_mode,
+      @painter__.texcoord_wrap,
       @painter__.shader,
       @hsbColor__,
       @colorMaxes__,
