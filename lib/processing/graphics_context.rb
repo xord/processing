@@ -723,6 +723,11 @@ module Processing
       @tint__ = nil
     end
 
+    # @private
+    def getTint__()
+      @tint__ ? toRGBA__(*@tint__) : 1
+    end
+
     # Limits the drawable rectangle.
     #
     # The parameters a, b, c, and d are determined by rectMode().
@@ -1161,8 +1166,7 @@ module Processing
     def image(img, a, b, c = nil, d = nil)
       assertDrawing__
       x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
-      tint       = @tint__ ? toRGBA__(*@tint__) : 1
-      img.drawImage__ @painter__, x, y, w, h, fill: tint, stroke: :none
+      img.drawImage__ @painter__, x, y, w, h, fill: getTint__, stroke: :none
       nil
     end
 
@@ -1309,11 +1313,9 @@ module Processing
     #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       assertDrawing__
-      tint  = @tint__ ? toRGBA__(*@tint__) : 1
-      img ||= self
-      img.drawImage__(
+      (img || self).drawImage__(
         @painter__, sx, sy, sw, sh, dx, dy, dw, dh,
-        fill: tint, stroke: :none, blend_mode: mode)
+        fill: getTint__, stroke: :none, blend_mode: mode)
     end
 
     # Saves screen image to file.
