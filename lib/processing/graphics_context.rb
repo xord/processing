@@ -457,17 +457,21 @@ module Processing
 
     # @private
     private def toRGBA__(*args)
-      a, b, c, d = args
+      a, b = args
       return parseColor__(a, b || alphaMax__) if a.kind_of?(String)
+      toRaysColor__(*args).to_a
+    end
 
+    # @private
+    def toRaysColor__(*args)
+      a, b, c, d = args
       rgba = case args.size
         when 1, 2 then [a, a, a, b || alphaMax__]
         when 3, 4 then [a, b, c, d || alphaMax__]
         else raise ArgumentError
         end
-      rgba  = rgba.map.with_index {|value, i| value / @colorMaxes__[i]}
-      color = @hsbColor__ ? Rays::Color.hsv(*rgba) : Rays::Color.new(*rgba)
-      color.to_a
+      rgba = rgba.map.with_index {|value, i| value / @colorMaxes__[i]}
+      @hsbColor__ ? Rays::Color.hsv(*rgba) : Rays::Color.new(*rgba)
     end
 
     # @private
@@ -630,6 +634,11 @@ module Processing
     def fill(*args)
       @painter__.fill(*toRGBA__(*args))
       nil
+    end
+
+    # @private
+    def getFill__()
+      @painter__.fill
     end
 
     # Disables filling.
@@ -1280,7 +1289,8 @@ module Processing
     # @see https://processing.org/reference/beginShape_.html
     #
     def beginShape(mode = nil)
-      @shapeMode__, @shapePoints__, @shapeTexCoords__ = mode, [], []
+      @shapeMode__                                      = mode
+      @shapePoints__, @shapeColors__, @shapeTexCoords__ = [], [], []
       nil
     end
 
@@ -1298,9 +1308,10 @@ module Processing
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
       polygon = Shape.createPolygon__(
-        @shapeMode__, @shapePoints__, mode == CLOSE, @shapeTexCoords__)
+        @shapeMode__, @shapePoints__, mode == CLOSE,
+        @shapeColors__, @shapeTexCoords__)
       drawWithTexture__ {|_| @painter__.polygon polygon} if polygon
-      @shapeMode__ = @shapePoints__ = @shapeTexCoords = nil
+      @shapeMode__ = @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
       nil
     end
 
@@ -1322,6 +1333,7 @@ module Processing
       raise "vertex() must be called after beginShape()" unless @shapePoints__
       raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
       @shapePoints__    << x        << y
+      @shapeColors__    << @painter__.fill
       @shapeTexCoords__ << (u || x) << (v || y)
     end
 

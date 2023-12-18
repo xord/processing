@@ -10,7 +10,8 @@ module Processing
       @polygon, @children = polygon, children
       @context            = context || Context.context__
       @visible, @matrix   = true, nil
-      @mode = @points = @texcoords = @close = nil
+      @mode = @points = @close = @colors = @texcoords = nil
+      @fill = nil
     end
 
     # Gets width of shape.
@@ -56,6 +57,8 @@ module Processing
     def beginShape(mode = nil)
       @mode        = mode
       @points    ||= []
+      @close       = nil
+      @colors    ||= []
       @texcoords ||= []
       @polygon     = nil# clear cache
       nil
@@ -71,7 +74,12 @@ module Processing
       raise "vertex() must be called after beginShape()" unless @points
       raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
       @points    << x        << y
+      @colors    << (@fill || @context.getFill__)
       @texcoords << (u || x) << (v || y)
+    end
+
+    def fill(*args)
+      @fill = @context.toRaysColor__(*args)
     end
 
     def setVertex(index, point)
@@ -137,7 +145,8 @@ module Processing
     def getInternal__()
       unless @polygon
         return nil unless @points && @close != nil
-        @polygon = self.class.createPolygon__ @mode, @points, @close, @texcoords
+        @polygon = self.class.createPolygon__(
+          @mode, @points, @close, @colors, @texcoords)
       end
       @polygon
     end
@@ -165,17 +174,20 @@ module Processing
     end
 
     # @private
-    def self.createPolygon__(mode, points, close = false, texcoords = nil)
-      g, p = GraphicsContext, Rays::Polygon
+    def self.createPolygon__(
+      mode, points, close = false, colors = nil, texcoords = nil)
+
+      kwargs = {colors: colors, texcoords: texcoords}
+      g, p   = GraphicsContext, Rays::Polygon
       case mode
       when g::POINTS         then p.points(        *points)
       when g::LINES          then p.lines(         *points)
-      when g::TRIANGLES      then p.triangles(     *points, texcoords: texcoords)
-      when g::TRIANGLE_FAN   then p.triangle_fan(  *points, texcoords: texcoords)
-      when g::TRIANGLE_STRIP then p.triangle_strip(*points, texcoords: texcoords)
-      when g::QUADS          then p.quads(         *points, texcoords: texcoords)
-      when g::QUAD_STRIP     then p.quad_strip(    *points, texcoords: texcoords)
-      when g::TESS, nil      then p.new(           *points, texcoords: texcoords, loop: close)
+      when g::TRIANGLES      then p.triangles(     *points, **kwargs)
+      when g::TRIANGLE_FAN   then p.triangle_fan(  *points, **kwargs)
+      when g::TRIANGLE_STRIP then p.triangle_strip(*points, **kwargs)
+      when g::QUADS          then p.quads(         *points, **kwargs)
+      when g::QUAD_STRIP     then p.quad_strip(    *points, **kwargs)
+      when g::TESS, nil      then p.new(           *points, **kwargs, loop: close)
       else raise ArgumentError, "invalid polygon mode '#{mode}'"
       end
     end
