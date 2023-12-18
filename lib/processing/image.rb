@@ -49,7 +49,7 @@ module Processing
     # @return [nil] nil
     #
     def set(x, y, c)
-      getInternal__.bitmap[x, y] = self.class.fromColor__ c
+      getInternal__.bitmap(true)[x, y] = self.class.fromColor__(c).map {|n| n / 255.0}
       nil
     end
 
