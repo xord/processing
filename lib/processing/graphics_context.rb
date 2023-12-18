@@ -1200,7 +1200,7 @@ module Processing
       assertDrawing__
       return nil unless shp.isVisible
 
-      drawWithTexture__ do |p|
+      drawWithTexture__ do |_|
         if c || d || @shapeMode__ != CORNER
           x, y, w, h = toXYWH__ @shapeMode__, a, b, c || shp.width, d || shp.height
           shp.draw__ @painter__, x, y, w, h
@@ -1257,7 +1257,7 @@ module Processing
       raise "endShape() must be called after beginShape()" unless @shapePoints__
       polygon = Shape.createPolygon__(
         @shapeMode__, @shapePoints__, mode == CLOSE, @shapeTexCoords__)
-      drawWithTexture__ {|p| p.polygon polygon} if polygon
+      drawWithTexture__ {|_| @painter__.polygon polygon} if polygon
       @shapeMode__ = @shapePoints__ = @shapeTexCoords = nil
       nil
     end
