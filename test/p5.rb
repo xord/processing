@@ -13,7 +13,7 @@ def browser(width, height, headless: true)
   hash[key] ||= Ferrum::Browser.new headless: headless, window_size: [width, height]
 end
 
-def get_p5rb_html(width, height, draw_src)
+def get_p5rb_html(width, height, draw_src, webgl: false)
   <<~END
     <html>
       <head>
@@ -34,9 +34,10 @@ def get_p5rb_html(width, height, draw_src)
         </script>
         <script type="text/ruby">
           def setup()
-            createCanvas #{width}, #{height}
+            createCanvas #{width}, #{height}#{webgl ? ', WEBGL' : ''}
           end
           def draw()
+            #{webgl ? 'translate -width / 2, -height / 2' : ''}
             #{draw_src}
             JS.global.completed
           end
@@ -62,11 +63,11 @@ def sleep_until (try: 3, timeout: 10, &block)
   end
 end
 
-def draw_p5rb(width, height, draw_src, path, headless: true)
+def draw_p5rb(width, height, draw_src, path, headless: true, webgl: false)
   b = browser width, height, headless: headless
   unless File.exist? path
     b.reset
-    b.main_frame.content = get_p5rb_html width, height, draw_src
+    b.main_frame.content = get_p5rb_html width, height, draw_src, webgl: webgl
     sleep_until do
       b.evaluate 'document.querySelector("#completed") != null'
     end
