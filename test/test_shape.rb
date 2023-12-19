@@ -307,6 +307,25 @@ class TestShape < Test::Unit::TestCase
     ACTUAL
   end
 
+  def test_setFill()
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noStroke
+    HEADER
+      fill 0, 255, 0
+      rect 100, 100, 500, 400
+    EXPECTED
+      s = createShape
+      s.beginShape
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape
+      s.setFill 0, 255, 0
+      shape s
+    ACTUAL
+  end
+
   def test_addChild()
     group = createShape G::GROUP
     assert_nil group.getChild(0)

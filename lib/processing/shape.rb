@@ -99,6 +99,10 @@ module Processing
       @points.size / 2
     end
 
+    def setFill(*args)
+      @colors&.fill @context.toRaysColor__(*args)
+    end
+
     def addChild(child)
       return unless @children
       @children.push child
