@@ -468,6 +468,23 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
+  def test_beginShape_with_fill()
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noStroke
+    HEADER
+      fill 0, 255, 0
+      rect 100, 100, 500, 400
+    EXPECTED
+      beginShape
+      fill 0, 255, 0
+      vertex 100, 100
+      vertex 600, 100
+      vertex 600, 500
+      vertex 100, 500
+      endShape
+    ACTUAL
+  end
+
   def test_lerp()
     g = graphics
 
