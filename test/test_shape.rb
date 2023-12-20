@@ -324,6 +324,17 @@ class TestShape < Test::Unit::TestCase
       s.setFill 0, 255, 0
       shape s
     ACTUAL
+
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noStroke
+    HEADER
+      fill 0, 255, 0
+      ellipse 300, 400, 500, 400
+    EXPECTED
+      s = createShape ELLIPSE, 300, 400, 500, 400
+      s.setFill 0, 255, 0
+      shape s
+    ACTUAL
   end
 
   def test_addChild()

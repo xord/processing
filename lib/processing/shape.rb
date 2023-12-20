@@ -60,7 +60,7 @@ module Processing
       @close       = nil
       @colors    ||= []
       @texcoords ||= []
-      @polygon     = nil# clear cache
+      clearCache__
       nil
     end
 
@@ -100,7 +100,20 @@ module Processing
     end
 
     def setFill(*args)
-      @colors&.fill @context.toRaysColor__(*args)
+      color = @context.toRaysColor__(*args)
+      count = getVertexCount
+      if count > 0
+        if @colors
+          @colors.fill color
+        else
+          @colors = [color] * count
+        end
+        clearCache__
+      elsif @polygon
+        @polygon = @polygon.transform do |polylines|
+          polylines.map {|pl| pl.dup colors: pl.points.map {color}}
+        end
+      end
     end
 
     def addChild(child)
@@ -139,6 +152,11 @@ module Processing
     def rotateX = nil
     def rotateY = nil
     def rotateZ = nil
+
+    # @private
+    def clearCache__()
+      @polygon = nil# clear cache
+    end
 
     # @private
     def matrix__()
