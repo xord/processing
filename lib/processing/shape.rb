@@ -10,7 +10,7 @@ module Processing
       @polygon, @children = polygon, children
       @context            = context || Context.context__
       @visible, @matrix   = true, nil
-      @mode = @points = @close = @colors = @texcoords = nil
+      @type = @points = @close = @colors = @texcoords = nil
       @fill = nil
     end
 
@@ -54,8 +54,8 @@ module Processing
       nil
     end
 
-    def beginShape(mode = nil)
-      @mode        = mode
+    def beginShape(type = nil)
+      @type        = type
       @points    ||= []
       @close       = nil
       @colors    ||= []
@@ -168,7 +168,7 @@ module Processing
       unless @polygon
         return nil unless @points && @close != nil
         @polygon = self.class.createPolygon__(
-          @mode, @points, @close, @colors, @texcoords)
+          @type, @points, @close, @colors, @texcoords)
       end
       @polygon
     end
@@ -197,11 +197,11 @@ module Processing
 
     # @private
     def self.createPolygon__(
-      mode, points, close = false, colors = nil, texcoords = nil)
+      type, points, close = false, colors = nil, texcoords = nil)
 
       kwargs = {colors: colors, texcoords: texcoords}
       g, p   = GraphicsContext, Rays::Polygon
-      case mode
+      case type
       when g::POINTS         then p.points(        *points)
       when g::LINES          then p.lines(         *points)
       when g::TRIANGLES      then p.triangles(     *points, **kwargs)
@@ -210,7 +210,7 @@ module Processing
       when g::QUADS          then p.quads(         *points, **kwargs)
       when g::QUAD_STRIP     then p.quad_strip(    *points, **kwargs)
       when g::TESS, nil      then p.new(           *points, **kwargs, loop: close)
-      else raise ArgumentError, "invalid polygon mode '#{mode}'"
+      else raise ArgumentError, "invalid polygon type '#{type}'"
       end
     end
 

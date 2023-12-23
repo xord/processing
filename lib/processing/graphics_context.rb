@@ -1266,7 +1266,7 @@ module Processing
 
     # Begins drawing complex shapes.
     #
-    # @param mode [POINTS, LINES, TRIANGLES, TRIANGLE_FAN, TRIANGLE_STRIP, QUADS, QUAD_STRIP, TESS]
+    # @param type [POINTS, LINES, TRIANGLES, TRIANGLE_FAN, TRIANGLE_STRIP, QUADS, QUAD_STRIP, TESS]
     #
     # @return [nil] nil
     #
@@ -1288,8 +1288,8 @@ module Processing
     #
     # @see https://processing.org/reference/beginShape_.html
     #
-    def beginShape(mode = nil)
-      @shapeMode__                                      = mode
+    def beginShape(type = nil)
+      @shapeType__                                      = type
       @shapePoints__, @shapeColors__, @shapeTexCoords__ = [], [], []
       nil
     end
@@ -1308,10 +1308,10 @@ module Processing
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless @shapePoints__
       polygon = Shape.createPolygon__(
-        @shapeMode__, @shapePoints__, mode == CLOSE,
+        @shapeType__, @shapePoints__, mode == CLOSE,
         @shapeColors__, @shapeTexCoords__)
       drawWithTexture__ {|_| @painter__.polygon polygon} if polygon
-      @shapeMode__ = @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
+      @shapeType__ = @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
       nil
     end
 
