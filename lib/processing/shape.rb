@@ -7,11 +7,11 @@ module Processing
 
     # @private
     def initialize(polygon = nil, children = nil, context: nil)
-      @polygon, @children = polygon, children
-      @context            = context || Context.context__
-      @visible, @matrix   = true, nil
-      @type = @points = @close = @colors = @texcoords = nil
-      @fill = nil
+      @polygon, @children      = polygon, children
+      @context                 = context || Context.context__
+      @visible, @fill, @matrix = true, nil, nil
+      @type = @points = @colors = @texcoords = @close = @contours = nil
+      @contourPoints = @contourColors = @contourTexCoords = nil
     end
 
     # Gets width of shape.
@@ -55,27 +55,63 @@ module Processing
     end
 
     def beginShape(type = nil)
+      raise "beginShape() cannot be called twice" if drawingShape__
       @type        = type
       @points    ||= []
-      @close       = nil
       @colors    ||= []
       @texcoords ||= []
+      @close       = nil
+      @contours  ||= []
       clearCache__
       nil
     end
 
     def endShape(close = nil)
-      raise "endShape() must be called after beginShape()" unless @points
-      @close = close == GraphicsContext::CLOSE
+      raise "endShape() must be called after beginShape()" unless drawingShape__
+      @close = close == GraphicsContext::CLOSE || @contours.size > 0
+      nil
+    end
+
+    def beginContour()
+      raise "beginContour() must be called after beginShape()" unless drawingShape__
+      @contourPoints, @contourColors, @contourTexCoords = [], [], []
+      nil
+    end
+
+    def endContour()
+      raise "endContour() must be called after beginContour()" unless drawingContour__
+      @contours << Rays::Polyline.new(
+        *@contourPoints, colors: @contourColors, texcoords: @contourTexCoords,
+        loop: true, hole: true)
+      @contoursPoints = @contoursColors = @contoursTexCoords = nil
       nil
     end
 
     def vertex(x, y, u = nil, v = nil)
-      raise "vertex() must be called after beginShape()" unless @points
+      raise "vertex() must be called after beginShape()" unless drawingShape__
       raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
-      @points    << x        << y
-      @colors    << (@fill || @context.getFill__)
-      @texcoords << (u || x) << (v || y)
+      u   ||= x
+      v   ||= y
+      color = @fill || @context.getFill__
+      if drawingContour__
+        @contourPoints    << x << y
+        @contourColors    << color
+        @contourTexCoords << u << v
+      else
+        @points    << x << y
+        @colors    << color
+        @texcoords << u << v
+      end
+    end
+
+    # @private
+    def drawingShape__()
+      @points && @close == nil
+    end
+
+    # @private
+    def drawingContour__()
+      @contourPoints
     end
 
     def fill(*args)
@@ -169,6 +205,7 @@ module Processing
         return nil unless @points && @close != nil
         @polygon = self.class.createPolygon__(
           @type, @points, @close, @colors, @texcoords)
+        @polygon += @contours if @polygon
       end
       @polygon
     end
