@@ -1289,7 +1289,8 @@ module Processing
     # @see https://processing.org/reference/beginShape_.html
     #
     def beginShape(type = nil)
-      @shapeType__                                      = type
+      raise "beginShape() cannot be called twice" if drawingShape__
+      @shapeType__, @shapeContours__                    = type, []
       @shapePoints__, @shapeColors__, @shapeTexCoords__ = [], [], []
       nil
     end
@@ -1306,12 +1307,56 @@ module Processing
     # @see https://processing.org/reference/endShape_.html
     #
     def endShape(mode = nil)
-      raise "endShape() must be called after beginShape()" unless @shapePoints__
+      raise "endShape() must be called after beginShape()" unless drawingShape__
+      loop    = mode == CLOSE || @shapeContours__.size > 0
       polygon = Shape.createPolygon__(
-        @shapeType__, @shapePoints__, mode == CLOSE,
-        @shapeColors__, @shapeTexCoords__)
-      drawWithTexture__ {|_| @painter__.polygon polygon} if polygon
-      @shapeType__ = @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
+        @shapeType__, @shapePoints__, loop, @shapeColors__, @shapeTexCoords__)
+      drawWithTexture__ {|_| @painter__.polygon polygon + @shapeContours__} if polygon
+      @shapeType__ = @shapeContours__                   = nil
+      @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
+      nil
+    end
+
+    # Begins drawing a hole inside shape.
+    #
+    # @return [nil] nil
+    #
+    # @example
+    #  beginShape
+    #  vertex 10, 10
+    #  vertex 10, 50
+    #  vertex 50, 50
+    #  vertex 90, 10
+    #  beginContour
+    #  vertex 20, 20
+    #  vertex 30, 20
+    #  vertex 30, 30
+    #  vertex 20, 30
+    #  endContour
+    #  endShape CLOSE
+    #
+    # @see https://processing.org/reference/beginContour_.html
+    # @see https://p5js.org/reference/#/p5/beginContour
+    #
+    def beginContour()
+      raise "beginContour() must be called after beginShape()" unless drawingShape__
+      @contourPoints__, @contourColors__, @contourTexCoords__ = [], [], []
+      nil
+    end
+
+    # Ends drawing a hole.
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/endContour_.html
+    # @see https://p5js.org/reference/#/p5/endContour
+    #
+    def endContour()
+      raise "endContour() must be called after beginContour()" unless drawingContour__
+      @shapeContours__ << Rays::Polyline.new(
+        *@contourPoints__, colors: @contourColors__, texcoords: @contourTexCoords__,
+        loop: true, hole: true)
+      @contoursPoints__ = @contoursColors__ = @contoursTexCoords = nil
       nil
     end
 
@@ -1330,11 +1375,30 @@ module Processing
     # @see https://processing.org/reference/vertex_.html
     #
     def vertex(x, y, u = nil, v = nil)
-      raise "vertex() must be called after beginShape()" unless @shapePoints__
+      raise "vertex() must be called after beginShape()" unless drawingShape__
       raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
-      @shapePoints__    << x        << y
-      @shapeColors__    << @painter__.fill
-      @shapeTexCoords__ << (u || x) << (v || y)
+      u   ||= x
+      v   ||= y
+      color = @painter__.fill
+      if drawingContour__
+        @contourPoints__    << x << y
+        @contourColors__    << color
+        @contourTexCoords__ << u << v
+      else
+        @shapePoints__    << x << y
+        @shapeColors__    << color
+        @shapeTexCoords__ << u << v
+      end
+    end
+
+    # @private
+    def drawingShape__()
+      @shapePoints__
+    end
+
+    # @private
+    def drawingContour__()
+      @contourPoints__
     end
 
     # Copies image.
