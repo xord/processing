@@ -1391,6 +1391,16 @@ module Processing
       end
     end
 
+    def bezierVertex(x2, y2, x3, y3, x4, y4)
+      raise "bezierVertex() must be called after beginShape()" unless drawingShape__
+      x1, y1 = @shapePoints__[-2, 2]
+      raise "vertex() is required before calling bezierVertex()" unless x1 && y1
+      Rays::Polygon.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
+        .first.to_a.tap {|a| a.shift}
+        .each {|p| vertex p.x, p.y}
+      nil
+    end
+
     # @private
     def drawingShape__()
       @shapePoints__
