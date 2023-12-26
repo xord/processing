@@ -530,6 +530,37 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_stroke src
   end
 
+  def test_curveVertex()
+    src = <<~END
+      beginShape
+      curveVertex 100, 100
+      curveVertex 800, 100
+      curveVertex 800, 800
+      curveVertex 100, 800
+    END
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
+
+    src = <<~END
+      beginShape
+      curveVertex 200, 200
+      curveVertex 200, 200
+      curveVertex 800, 200
+      curveVertex 800, 400
+      curveVertex 200, 400
+      curveVertex 200, 800
+      curveVertex 800, 800
+      curveVertex 800, 700
+      curveVertex 800, 700
+      endShape
+    END
+    assert_p5_stroke src
+  end
+
   def test_lerp()
     g = graphics
 

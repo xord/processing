@@ -1290,8 +1290,9 @@ module Processing
     #
     def beginShape(type = nil)
       raise "beginShape() cannot be called twice" if drawingShape__
-      @shapeType__, @shapeContours__                    = type, []
+      @shapeType__                                      = type
       @shapePoints__, @shapeColors__, @shapeTexCoords__ = [], [], []
+      @shapeCurvePoints__, @shapeContours__             = [], []
       nil
     end
 
@@ -1308,12 +1309,18 @@ module Processing
     #
     def endShape(mode = nil)
       raise "endShape() must be called after beginShape()" unless drawingShape__
-      loop    = mode == CLOSE || @shapeContours__.size > 0
+      loop = mode == CLOSE || @shapeContours__.size > 0
+      if loop && @shapeCurvePoints__.size >= 8
+        x, y = @shapeCurvePoints__[0, 2]
+        curveVertex x, y
+        curveVertex x, y
+      end
       polygon = Shape.createPolygon__(
         @shapeType__, @shapePoints__, loop, @shapeColors__, @shapeTexCoords__)
       drawWithTexture__ {|_| @painter__.polygon polygon + @shapeContours__} if polygon
-      @shapeType__ = @shapeContours__                   = nil
+      @shapeType__                                      = nil
       @shapePoints__ = @shapeColors__ = @shapeTexCoords = nil
+      @shapeCurvePoints__ = @shapeContours__            = nil
       nil
     end
 
@@ -1389,6 +1396,17 @@ module Processing
         @shapeColors__    << color
         @shapeTexCoords__ << u << v
       end
+    end
+
+    def curveVertex(x, y)
+      raise "curveVertex() must be called after beginShape()" unless drawingShape__
+      @shapeCurvePoints__ << x << y
+      if @shapeCurvePoints__.size >= 8
+        Rays::Polygon.curve(*@shapeCurvePoints__[-8, 8])
+          .first.to_a.tap {|a| a.shift if @shapeCurvePoints__.size > 8}
+          .each {|p| vertex p.x, p.y}
+      end
+      nil
     end
 
     def bezierVertex(x2, y2, x3, y3, x4, y4)
