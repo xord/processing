@@ -235,23 +235,6 @@ class TestShape < Test::Unit::TestCase
     ACTUAL
   end
 
-  def test_contour()
-    assert_equal_draw_vertices <<~END
-      s.beginShape
-      s.vertex 100, 100
-      s.vertex 100, 900
-      s.vertex 900, 900
-      s.vertex 900, 100
-      s.beginContour
-      s.vertex 200, 200
-      s.vertex 800, 200
-      s.vertex 700, 700
-      s.vertex 200, 800
-      s.endContour
-      s.endShape
-    END
-  end
-
   def test_curveVertex()
     assert_equal_draw_vertices <<~END
       s.beginShape
@@ -307,6 +290,23 @@ class TestShape < Test::Unit::TestCase
       s.vertex 100, 100
       s.quadraticVertex 800, 100, 500, 500
       s.quadraticVertex 100, 800, 800, 800
+      s.endShape
+    END
+  end
+
+  def test_contour()
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.vertex 100, 100
+      s.vertex 100, 900
+      s.vertex 900, 900
+      s.vertex 900, 100
+      s.beginContour
+      s.vertex 200, 200
+      s.vertex 800, 200
+      s.vertex 700, 700
+      s.vertex 200, 800
+      s.endContour
       s.endShape
     END
   end
