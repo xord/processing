@@ -525,9 +525,13 @@ class TestGraphicsContext < Test::Unit::TestCase
       vertex 100, 100
       bezierVertex 900, 100, 900, 500, 300, 500
       bezierVertex 100, 900, 900, 900, 900, 600
-      endShape
     END
-    assert_p5_stroke src
+    assert_p5_fill        src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_curveVertex()
@@ -556,9 +560,13 @@ class TestGraphicsContext < Test::Unit::TestCase
       curveVertex 800, 800
       curveVertex 800, 700
       curveVertex 800, 700
-      endShape
     END
-    assert_p5_stroke src
+    assert_p5_fill        src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
   end
 
   def test_quadraticVertex()
