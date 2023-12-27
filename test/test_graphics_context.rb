@@ -561,6 +561,33 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_stroke src
   end
 
+  def test_quadraticVertex()
+    src = <<~END
+      beginShape
+      vertex 100, 100
+      quadraticVertex 800, 500, 200, 800
+    END
+    assert_p5_fill        src, 'endShape'
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape'
+    assert_p5_fill        src, 'endShape CLOSE'
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE'
+
+    src = <<~END
+      beginShape
+      vertex 100, 100
+      quadraticVertex 800, 100, 500, 500
+      quadraticVertex 100, 800, 800, 800
+    END
+    assert_p5_fill        src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape'
+    assert_p5_fill_stroke src, 'endShape',       threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_fill        src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src, 'endShape CLOSE'
+    assert_p5_fill_stroke src, 'endShape CLOSE', threshold: THRESHOLD_TO_BE_FIXED
+  end
+
   def test_lerp()
     g = graphics
 

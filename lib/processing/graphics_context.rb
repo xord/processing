@@ -1419,6 +1419,16 @@ module Processing
       nil
     end
 
+    def quadraticVertex(cx, cy, x3, y3)
+      x1, y1 = @shapePoints__[-2, 2]
+      raise "vertex() is required before calling quadraticVertex()" unless x1 && y1
+      bezierVertex(
+        x1 + (cx - x1) * 2.0 / 3.0, y1 + (cy - y1) * 2.0 / 3.0,
+        x3 + (cx - x3) * 2.0 / 3.0, y3 + (cy - y3) * 2.0 / 3.0,
+        x3,                         y3)
+      nil
+    end
+
     # @private
     def drawingShape__()
       @shapePoints__
