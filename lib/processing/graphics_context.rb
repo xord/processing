@@ -1380,6 +1380,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/vertex_.html
+    # @see https://p5js.org/reference/#/p5/vertex
     #
     def vertex(x, y, u = nil, v = nil)
       raise "vertex() must be called after beginShape()" unless drawingShape__
@@ -1398,6 +1399,16 @@ module Processing
       end
     end
 
+    # Append curve vertex for shape polygon.
+    #
+    # @param x [Numeric] x position of vertex
+    # @param y [Numeric] y position of vertex
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/curveVertex_.html
+    # @see https://p5js.org/reference/#/p5/curveVertex
+    #
     def curveVertex(x, y)
       raise "curveVertex() must be called after beginShape()" unless drawingShape__
       @shapeCurvePoints__ << x << y
@@ -1409,6 +1420,16 @@ module Processing
       nil
     end
 
+    # Append bezier vertex for shape polygon.
+    #
+    # @param x [Numeric] x position of vertex
+    # @param y [Numeric] y position of vertex
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/bezierVertex_.html
+    # @see https://p5js.org/reference/#/p5/bezierVertex
+    #
     def bezierVertex(x2, y2, x3, y3, x4, y4)
       raise "bezierVertex() must be called after beginShape()" unless drawingShape__
       x1, y1 = @shapePoints__[-2, 2]
@@ -1419,6 +1440,16 @@ module Processing
       nil
     end
 
+    # Append quadratic vertex for shape polygon.
+    #
+    # @param x [Numeric] x position of vertex
+    # @param y [Numeric] y position of vertex
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/quadraticVertex_.html
+    # @see https://p5js.org/reference/#/p5/quadraticVertex
+    #
     def quadraticVertex(cx, cy, x3, y3)
       x1, y1 = @shapePoints__[-2, 2]
       raise "vertex() is required before calling quadraticVertex()" unless x1 && y1
