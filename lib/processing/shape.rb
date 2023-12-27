@@ -56,13 +56,13 @@ module Processing
 
     def beginShape(type = nil)
       raise "beginShape() cannot be called twice" if drawingShape__
-      @type          = type
-      @points      ||= []
-      @curvePoints   = []
-      @colors      ||= []
-      @texcoords   ||= []
-      @close         = nil
-      @contours    ||= []
+      @type        = type
+      @points    ||= []
+      @curvePoints = []
+      @colors    ||= []
+      @texcoords ||= []
+      @close       = nil
+      @contours  ||= []
       clearCache__
       nil
     end
@@ -143,7 +143,7 @@ module Processing
 
     # @private
     def drawingShape__()
-      @points && @close == nil
+      @curvePoints
     end
 
     # @private
