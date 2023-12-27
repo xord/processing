@@ -2706,16 +2706,8 @@ module Processing
       path   = path.sub_ext ext
 
       unless path.file?
-        URI.open uri do |input|
-          input.set_encoding nil# disable default_internal
-          tmpdir.mkdir unless tmpdir.directory?
-          path.open('w') do |output|
-            output.set_encoding Encoding::ASCII_8BIT
-            while buf = input.read(2 ** 16)
-              output.write buf
-            end
-          end
-        end
+        tmpdir.mkdir unless tmpdir.directory?
+        File.binwrite path, Net::HTTP.get(URI.parse uri)
       end
       path.to_s
     end
