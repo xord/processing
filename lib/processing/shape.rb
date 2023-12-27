@@ -10,8 +10,8 @@ module Processing
       @polygon, @children      = polygon, children
       @context                 = context || Context.context__
       @visible, @fill, @matrix = true, nil, nil
-      @type = @points = @colors = @texcoords = @close = @contours = nil
-      @contourPoints = @contourColors = @contourTexCoords = nil
+      @type = @points = @curvePoints = @colors = @texcoords = @close = nil
+      @contours = @contourPoints = @contourColors = @contourTexCoords = nil
     end
 
     # Gets width of shape.
@@ -56,12 +56,13 @@ module Processing
 
     def beginShape(type = nil)
       raise "beginShape() cannot be called twice" if drawingShape__
-      @type        = type
-      @points    ||= []
-      @colors    ||= []
-      @texcoords ||= []
-      @close       = nil
-      @contours  ||= []
+      @type          = type
+      @points      ||= []
+      @curvePoints   = []
+      @colors      ||= []
+      @texcoords   ||= []
+      @close         = nil
+      @contours    ||= []
       clearCache__
       nil
     end
@@ -69,6 +70,11 @@ module Processing
     def endShape(close = nil)
       raise "endShape() must be called after beginShape()" unless drawingShape__
       @close = close == GraphicsContext::CLOSE || @contours.size > 0
+      if @close && @curvePoints.size >= 8
+        x, y = @curvePoints[0, 2]
+        2.times {curveVertex x, y}
+      end
+      @curvePoints = nil
       nil
     end
 
@@ -102,6 +108,37 @@ module Processing
         @colors    << color
         @texcoords << u << v
       end
+    end
+
+    def curveVertex(x, y)
+      raise "curveVertex() must be called after beginShape()" unless drawingShape__
+      @curvePoints << x << y
+      if @curvePoints.size >= 8
+        Rays::Polygon.curve(*@curvePoints[-8, 8])
+          .first.to_a.tap {|a| a.shift if @curvePoints.size > 8}
+          .each {|p| vertex p.x, p.y}
+      end
+      nil
+    end
+
+    def bezierVertex(x2, y2, x3, y3, x4, y4)
+      raise "bezierVertex() must be called after beginShape()" unless drawingShape__
+      x1, y1 = @points[-2, 2]
+      raise "vertex() is required before calling bezierVertex()" unless x1 && y1
+      Rays::Polygon.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
+        .first.to_a.tap {|a| a.shift}
+        .each {|p| vertex p.x, p.y}
+      nil
+    end
+
+    def quadraticVertex(cx, cy, x3, y3)
+      x1, y1 = @points[-2, 2]
+      raise "vertex() is required before calling quadraticVertex()" unless x1 && y1
+      bezierVertex(
+        x1 + (cx - x1) * 2.0 / 3.0, y1 + (cy - y1) * 2.0 / 3.0,
+        x3 + (cx - x3) * 2.0 / 3.0, y3 + (cy - y3) * 2.0 / 3.0,
+        x3,                         y3)
+      nil
     end
 
     # @private

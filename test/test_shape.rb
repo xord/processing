@@ -252,6 +252,65 @@ class TestShape < Test::Unit::TestCase
     END
   end
 
+  def test_curveVertex()
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.curveVertex 100, 100
+      s.curveVertex 800, 100
+      s.curveVertex 800, 800
+      s.curveVertex 100, 800
+      s.endShape
+    END
+
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.curveVertex 200, 200
+      s.curveVertex 200, 200
+      s.curveVertex 800, 200
+      s.curveVertex 800, 400
+      s.curveVertex 200, 400
+      s.curveVertex 200, 800
+      s.curveVertex 800, 800
+      s.curveVertex 800, 700
+      s.curveVertex 800, 700
+      s.endShape
+    END
+  end
+
+  def test_bezierVertex()
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.vertex 100, 100
+      s.bezierVertex 900, 100, 900, 900, 200, 500
+      s.endShape
+    END
+
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.vertex 100, 100
+      s.bezierVertex 900, 100, 900, 500, 300, 500
+      s.bezierVertex 100, 900, 900, 900, 900, 600
+      s.endShape
+    END
+  end
+
+  def test_quadraticVertex()
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.vertex 100, 100
+      s.quadraticVertex 800, 500, 200, 800
+      s.endShape
+    END
+
+    assert_equal_draw_vertices <<~END
+      s.beginShape
+      s.vertex 100, 100
+      s.quadraticVertex 800, 100, 500, 500
+      s.quadraticVertex 100, 800, 800, 800
+      s.endShape
+    END
+  end
+
   def test_getVertex()
     s = createShape
     s.beginShape
