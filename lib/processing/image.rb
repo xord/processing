@@ -10,6 +10,7 @@ module Processing
     # @private
     def initialize(image)
       @image = image
+      @error = false
     end
 
     # Gets width of image.
@@ -17,7 +18,7 @@ module Processing
     # @return [Numeric] width of image
     #
     def width()
-      @image.width
+      @image&.width || (@error ? -1 : 0)
     end
 
     # Gets height of image.
@@ -25,7 +26,7 @@ module Processing
     # @return [Numeric] height of image
     #
     def height()
-      @image.height
+      @image&.height || (@error ? -1 : 0)
     end
 
     alias w width
@@ -36,7 +37,7 @@ module Processing
     # @return [Array<Numeric>] [width, height]
     #
     def size()
-      @image.size
+      [width, height]
     end
 
     # Sets the color of the pixel.
@@ -48,17 +49,16 @@ module Processing
     # @return [nil] nil
     #
     def set(x, y, c)
-      @image.bitmap[x, y] = self.class.fromColor__ c
+      getInternal__.bitmap[x, y] = self.class.fromColor__ c
       nil
     end
-
 
     # Returns the color of the pixel.
     #
     # @return [Integer] color value (0xAARRGGBB)
     #
     def get(x, y)
-      @image.bitmap[x, y]
+      getInternal__.bitmap[x, y]
         .map {|n| (n * 255).to_i.clamp 0, 255}
         .then {|r, g, b, a| self.class.toColor__ r, g, b, a}
     end
@@ -86,7 +86,7 @@ module Processing
     #
     def resize(width, height)
       @image = Rays::Image.new(width, height).paint do |painter|
-        painter.image @image, 0, 0, width, height
+        painter.image getInternal__, 0, 0, width, height
       end
       nil
     end
@@ -132,7 +132,7 @@ module Processing
     #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       img ||= self
-      @image.paint do |painter|
+      getInternal__.paint do |painter|
         img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
       end
       nil
@@ -145,13 +145,18 @@ module Processing
     # @return [nil] nil
     #
     def save(filename)
-      @image.save filename
+      getInternal__.save filename
       nil
     end
 
     # @private
     def getInternal__()
-      @image
+      @image or raise 'Invalid image object'
+    end
+
+    # @private
+    def setInternal__(image, error = false)
+      @image, @error = image, error
     end
 
     # @private
