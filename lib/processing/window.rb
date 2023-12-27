@@ -301,6 +301,7 @@ module Processing
 
     def on_update(e)
       window.on_canvas_update e
+      Thread.pass
     end
 
     def on_draw(e)
