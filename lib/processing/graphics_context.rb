@@ -2027,7 +2027,7 @@ module Processing
       rand (low || 0).to_f...(high || 1).to_f
     end
 
-    # Creates a new vector.
+    # Creates a new vector object.
     #
     # @overload createVector()
     # @overload createVector(x, y)
@@ -2043,7 +2043,7 @@ module Processing
       Vector.new(*args, context: self)
     end
 
-    # Creates a new image.
+    # Creates a new image object.
     #
     # @overload createImage(w, h)
     # @overload createImage(w, h, format)
@@ -2060,7 +2060,7 @@ module Processing
       Image.new Rays::Image.new(w, h, colorspace).paint {background 0, 0}
     end
 
-    # Creates a new shape.
+    # Creates a new shape object.
     #
     # @overload createShape()
     # @overload createShape(LINE, x1, y1, x2, y2)
