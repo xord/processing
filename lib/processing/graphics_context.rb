@@ -280,11 +280,11 @@ module Processing
       @blendMode__   = nil
       @textAlignH__  = nil
       @textAlignV__  = nil
+      @textFont__    = nil
       @tint__        = nil
       @filter__      = nil
       @matrixStack__ = []
       @styleStack__  = []
-      @fontCache__   = {}
 
       updateCanvas__ image, painter
 
@@ -298,6 +298,7 @@ module Processing
       strokeCap   ROUND
       strokeJoin  MITER
       textAlign   LEFT
+      textFont    createFont(nil, nil)
       textureMode IMAGE
       textureWrap CLAMP
 
@@ -783,7 +784,9 @@ module Processing
       nil
     end
 
-    # Sets font.
+    # Sets text font.
+    #
+    # (Passing a font name as the first parameter is deprecated)
     #
     # @overload textFont(font)
     # @overload textFont(name)
@@ -794,11 +797,18 @@ module Processing
     # @param name [String]  font name
     # @param size [Numeric] font size (max 256)
     #
-    # @return [Font] current font
+    # @return [nil] nil
     #
-    def textFont(font = nil, size = nil)
-      setFont__ font, size if font || size
-      Font.new @painter__.font
+    def textFont(font, size = nil)
+      size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
+      if font.nil? || font.kind_of?(String)
+        font = createFont font, size
+      elsif size
+        font.setSize__ size
+      end
+      @textFont__     = font
+      @painter__.font = font.getInternal__
+      nil
     end
 
     # Sets text size.
@@ -808,8 +818,7 @@ module Processing
     # @return [nil] nil
     #
     def textSize(size)
-      setFont__ nil, size
-      nil
+      textFont @textFont__, size
     end
 
     def textWidth(str)
@@ -827,18 +836,6 @@ module Processing
     def textAlign(horizontal, vertical = BASELINE)
       @textAlignH__ = horizontal
       @textAlignV__ = vertical
-    end
-
-    # @private
-    def setFont__(fontOrName, size)
-      name = case fontOrName
-        when Font then fontOrName.name
-        else fontOrName || @painter__.font.name
-        end
-      size ||= @painter__.font.size
-      size = 256 if size > 256
-      font = @fontCache__[[name, size]] ||= Rays::Font.new name, size
-      @painter__.font = font
     end
 
     def texture(image)
@@ -1586,6 +1583,7 @@ module Processing
         @shapeMode__,
         @textAlignH__,
         @textAlignV__,
+        @textFont__,
         @tint__,
       ]
       block.call if block
@@ -1621,7 +1619,9 @@ module Processing
       @shapeMode__,
       @textAlignH__,
       @textAlignV__,
+      @textFont__,
       @tint__ = @styleStack__.pop
+      @textFont__.setSize__ @painter__.font.size
       nil
     end
 

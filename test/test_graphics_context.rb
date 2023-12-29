@@ -76,6 +76,67 @@ class TestGraphicsContext < Test::Unit::TestCase
     END
   end
 
+  def test_textFont()
+    graphics do |g|
+      arial10     = g.createFont 'Arial',     10
+      helvetica11 = g.createFont 'Helvetica', 11
+
+      font        = -> {g.instance_variable_get(:@textFont__).getInternal__}
+      painterFont = -> {g.instance_variable_get(:@painter__).font}
+
+      assert_not_nil            font[]       .name
+      assert_not_equal 'Arial', font[]       .name
+      assert_equal     12,      font[]       .size
+      assert_equal     12,      painterFont[].size
+
+      g.textFont arial10
+      assert_equal 'Arial', font[]       .name
+      assert_equal 10,      font[]       .size
+      assert_equal 10,      painterFont[].size
+
+      g.push do
+        g.textFont helvetica11
+        assert_equal 'Helvetica', font[]       .name
+        assert_equal 11,          font[]       .size
+        assert_equal 11,          painterFont[].size
+      end
+
+      assert_equal 'Arial', font[]       .name
+      assert_equal 10,      font[]       .size
+      assert_equal 10,      painterFont[].size
+
+      g.push do
+        g.textFont arial10, 13
+        assert_equal 'Arial', font[]       .name
+        assert_equal 13,      font[]       .size
+        assert_equal 13,      painterFont[].size
+      end
+
+      assert_equal 'Arial', font[]       .name
+      assert_equal 10,      font[]       .size
+      assert_equal 10,      painterFont[].size
+    end
+  end
+
+  def test_textSize()
+    graphics do |g|
+      font        = -> {g.instance_variable_get(:@textFont__).getInternal__}
+      painterFont = -> {g.instance_variable_get(:@painter__).font}
+
+      assert_equal 12, font[]       .size
+      assert_equal 12, painterFont[].size
+
+      g.push do
+        g.textSize 10
+        assert_equal 10, font[]       .size
+        assert_equal 10, painterFont[].size
+      end
+
+      assert_equal 12, font[]       .size
+      assert_equal 12, painterFont[].size
+    end
+  end
+
   def test_clear()
     colors = -> g {get_pixels(g).uniq}
 

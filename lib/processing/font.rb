@@ -7,7 +7,8 @@ module Processing
 
     # @private
     def initialize(font)
-      @font = font
+      @font        = font or raise ArgumentError
+      @cachedSizes = {}
     end
 
     # Returns bounding box.
@@ -24,8 +25,8 @@ module Processing
     # @return [TextBounds] bounding box for text
     #
     def textBounds(str, x = 0, y = 0, fontSize = nil)
-      f = fontSize ? Rays::Font.new(@font.name, fontSize) : @font
-      TextBounds.new x, y, x + f.width(str), y + f.height
+      font = getInternal__ fontSize
+      TextBounds.new x, y, x + font.width(str), y + font.height
     end
 
     # Returns a string containing a human-readable representation of object.
@@ -37,8 +38,19 @@ module Processing
     end
 
     # @private
-    def getInternal__()
-      @font
+    def getInternal__(size = nil)
+      if size
+        @cachedSizes[size.to_f] ||= @font.dup.tap {|font| font.size = size}
+      else
+        @font
+      end
+    end
+
+    # @private
+    def setSize__(size)
+      return if size == @font.size
+      @cachedSizes[@font.size] = @font
+      @font = getInternal__ size
     end
 
   end# Font
