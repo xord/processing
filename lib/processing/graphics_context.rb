@@ -260,6 +260,12 @@ module Processing
     RAD2DEG__ = 180.0 / Math::PI
 
     # @private
+    FONT_SIZE_DEFAULT__ = 12
+
+    # @private
+    FONT_SIZE_MAX__     = 256
+
+    # @private
     def init__(image, painter)
       @drawing__     = false
       @colorMode__   = nil
@@ -2041,6 +2047,16 @@ module Processing
     #
     def createVector(*args)
       Vector.new(*args, context: self)
+    end
+
+    # Creates a new font object.
+    #
+    # @param name [String]  font name
+    # @param size [Numeric] font size (max 256)
+    #
+    def createFont(name, size)
+      size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
+      Font.new Rays::Font.new(name, size || FONT_SIZE_DEFAULT__)
     end
 
     # Creates a new image object.

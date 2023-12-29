@@ -619,6 +619,16 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal c[ 70, 80, 90], g.lerpColor(c[10, 20, 30], c[50, 60, 70],  1.5)
   end
 
+  def test_createFont()
+    g = graphics
+
+    assert_not_nil        g.createFont(nil,     nil).getInternal__.name
+    assert_equal 'Arial', g.createFont('Arial', nil).getInternal__.name
+
+    assert_equal 12, g.createFont(nil, nil).getInternal__.size
+    assert_equal 10, g.createFont(nil, 10) .getInternal__.size
+  end
+
   def test_createShape_line()
     assert_equal_draw <<~EXPECTED, <<~ACTUAL
       line 100, 200, 800, 900

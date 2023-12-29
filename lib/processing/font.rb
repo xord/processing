@@ -36,6 +36,11 @@ module Processing
       "#<Processing::Font: name:'#{@font.name}' size:#{@font.size}>"
     end
 
+    # @private
+    def getInternal__()
+      @font
+    end
+
   end# Font
 
 
