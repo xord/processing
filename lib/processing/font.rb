@@ -37,6 +37,16 @@ module Processing
       "#<Processing::Font: name:'#{@font.name}' size:#{@font.size}>"
     end
 
+    # Returns available font names
+    #
+    # @return [String] font names
+    #
+    # @see https://processing.org/reference/PFont_list_.html
+    #
+    def self.list()
+      Rays::Font.families.values.flatten
+    end
+
     # @private
     def getInternal__(size = nil)
       if size

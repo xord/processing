@@ -40,4 +40,8 @@ class TestFont < Test::Unit::TestCase
     assert_match %r|#<Processing::Font: name:'[\w\s]+' size:[\d\.]+>|, font.inspect
   end
 
+  def test_list()
+    assert_not P::Font.list.empty?
+  end
+
 end# TestFont
