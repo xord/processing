@@ -2202,9 +2202,34 @@ module Processing
     #
     # @return [Image] loaded image object
     #
+    # @see https://processing.org/reference/loadImage_.html
+    # @see https://p5js.org/reference/#/p5/loadImage
+    #
     def loadImage(filename, extension = nil)
       filename = getImage__ filename, extension if filename =~ %r|^https?://|
       Image.new Rays::Image.load filename
+    end
+
+    # Loads image on a new thread.
+    # When the image is loading, its width and height will be 0.
+    # If an error occurs while loading the image, its width and height wil be -1.
+    #
+    # @param filename  [String] file name to load image
+    # @param extension [String] type of image to load (ex. 'png')
+    #
+    # @return [Image] loading image object
+    #
+    # @see https://processing.org/reference/requestImage_.html
+    #
+    def requestImage(filename, extension = nil)
+      img = Image.new nil
+      Thread.new filename, extension do |fn, ext|
+        loaded = loadImage(fn, ext) or raise
+        img.setInternal__ loaded.getInternal__
+      rescue
+        img.setInternal__ nil, true
+      end
+      img
     end
 
     # Loads shader file.
