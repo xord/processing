@@ -37,6 +37,27 @@ class TestImage < Test::Unit::TestCase
     assert_equal g.color(0, 0, 255), i.get(0, 1)
   end
 
+  def test_pixels()
+    i = image 2, 2
+
+    i.loadPixels
+    assert_equal [0] * 4, i.pixels
+    assert_equal [0] * 4, i.getInternal__.pixels
+
+    i.pixels.replace [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000]
+    assert_equal [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000], i.pixels
+    assert_equal [0] * 4,                                          i.getInternal__.pixels
+
+    i.updatePixels
+    assert_nil                                                     i.pixels
+    assert_equal [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000], i.getInternal__.pixels
+    assert_nothing_raised {i.updatePixels}
+
+    i.loadPixels
+    i.pixels.replace [0xff000000]
+    assert_raise(ArgumentError) {i.updatePixels}
+  end
+
   def test_inspect()
     assert_match %r|#<Processing::Image:0x\w{16}>|, image.inspect
   end

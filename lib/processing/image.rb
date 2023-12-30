@@ -10,7 +10,7 @@ module Processing
     # @private
     def initialize(image)
       @image = image
-      @error = false
+      @pixels, @error = nil, false
     end
 
     # Gets width of image.
@@ -62,6 +62,29 @@ module Processing
         .map {|n| (n * 255).to_i.clamp 0, 255}
         .then {|r, g, b, a| self.class.toColor__ r, g, b, a}
     end
+
+    # Loads all pixels to the 'pixels' array.
+    #
+    # @return [nil] nil
+    #
+    def loadPixels()
+      @pixels = getInternal__.pixels
+    end
+
+    # Update the image pixels with the 'pixels' array.
+    #
+    # @return [nil] nil
+    #
+    def updatePixels()
+      return unless @pixels
+      getInternal__.pixels = @pixels
+      @pixels = nil
+    end
+
+    # An array of all pixels.
+    # Call loadPixels() before accessing the array.
+    #
+    attr_reader :pixels
 
     # Applies an image filter.
     #
