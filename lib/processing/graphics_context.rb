@@ -283,6 +283,7 @@ module Processing
       @textFont__    = nil
       @tint__        = nil
       @filter__      = nil
+      @pixels__      = nil
       @matrixStack__ = []
       @styleStack__  = []
 
@@ -1463,6 +1464,31 @@ module Processing
       (img || self).drawImage__(
         @painter__, sx, sy, sw, sh, dx, dy, dw, dh,
         fill: getTint__, stroke: :none, blend_mode: mode)
+    end
+
+    # Loads all pixels to the 'pixels' array.
+    #
+    # @return [nil] nil
+    #
+    def loadPixels()
+      @pixels__ = getInternal__.pixels
+    end
+
+    # Update the image pixels with the 'pixels' array.
+    #
+    # @return [nil] nil
+    #
+    def updatePixels()
+      return unless @pixels__
+      getInternal__.pixels = @pixels__
+      @pixels__ = nil
+    end
+
+    # An array of all pixels.
+    # Call loadPixels() before accessing the array.
+    #
+    def pixels()
+      @pixels__
     end
 
     # Saves screen image to file.

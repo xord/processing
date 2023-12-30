@@ -657,6 +657,27 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
+  def test_pixels()
+    g = graphics 2, 2
+
+    g.loadPixels
+    assert_equal [0] * 4, g.pixels
+    assert_equal [0] * 4, g.getInternal__.pixels
+
+    g.pixels.replace [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000]
+    assert_equal [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000], g.pixels
+    assert_equal [0] * 4,                                          g.getInternal__.pixels
+
+    g.updatePixels
+    assert_nil                                                     g.pixels
+    assert_equal [0xffff0000, 0xff00ff00, 0xff0000ff, 0xff000000], g.getInternal__.pixels
+    assert_nothing_raised {g.updatePixels}
+
+    g.loadPixels
+    g.pixels.replace [0xff000000]
+    assert_raise(ArgumentError) {g.updatePixels}
+  end
+
   def test_lerp()
     g = graphics
 
