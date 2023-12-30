@@ -334,7 +334,7 @@ module Processing
     # @return [Numeric] width
     #
     def width()
-      @image__.width
+      getInternal__.width
     end
 
     # Returns the height of the graphics object.
@@ -342,7 +342,7 @@ module Processing
     # @return [Numeric] height
     #
     def height()
-      @image__.height
+      getInternal__.height
     end
 
     # Returns the width of the graphics object in pixels.
@@ -1472,7 +1472,7 @@ module Processing
     # @return [nil] nil
     #
     def save(filename)
-      @window__.canvas_image.save filename
+      getInternal__.save filename
       nil
     end
 

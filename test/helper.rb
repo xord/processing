@@ -59,7 +59,6 @@ def get_pixels(image)
     .map {image.instance_variable_get _1}
     .compact
     .first
-    .bitmap
     .pixels
 end
 
