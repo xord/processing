@@ -78,9 +78,9 @@ draw do
   endShape()
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/57184fabd863-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/57184fabd863-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/3a79b2d5def4-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/3a79b2d5def4-20240104.png)
 *Java 版 Processing の描画結果*
 
 [createShape()](https://processing.org/reference/createShape_.html) と [shape()](https://processing.org/reference/shape_.html) を使うと、予め形状データを作成することができ、グルーピングしたり任意のタイミングで描画することができます。
@@ -106,9 +106,9 @@ draw do
   shape(group, 100, 100)
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/9aceeb9123d6-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/9aceeb9123d6-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/a8a3b2f6b5eb-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/a8a3b2f6b5eb-20240104.png)
 *Java 版 Processing の描画結果*
 
 実装は以下の順に進めました。
@@ -157,9 +157,9 @@ draw do
   shape(s, 100, 100)
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/a399a4399a8e-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/a399a4399a8e-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/777550cb356d-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/777550cb356d-20240104.png)
 *Java 版 Processing の描画結果*
 
 実装は以下の順に進めました。
@@ -211,9 +211,9 @@ draw do
   endShape()
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/0ec9ae73600b-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/0ec9ae73600b-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/62328f1f48ef-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/62328f1f48ef-20240104.png)
 *Java 版 Processing の描画結果*
 
 実装は以下の順に進めました。
@@ -259,9 +259,9 @@ draw do
   endShape()
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/f264c90642b6-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/f264c90642b6-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/382c66366ee8-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/382c66366ee8-20240104.png)
 *Java 版 Processing の描画結果*
 
 実装は以下の順に進めました。
@@ -320,9 +320,9 @@ draw do
   endShape(CLOSE)
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/99c99f850f77-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/99c99f850f77-20240104.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/04f34b69aceb-20240104.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/04f34b69aceb-20240104.png)
 *Java 版 Processing の描画結果*
 
 [curveVertex()](https://processing.org/reference/curveVertex_.html)、[bezierVertex()](https://processing.org/reference/bezierVertex_.html)、[quadraticVertex()](https://processing.org/reference/quadraticVertex_.html)
@@ -360,9 +360,9 @@ draw do
   endShape()
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/9852c123c315-20240105.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/9852c123c315-20240105.png)
 *Ruby 版 Processing gem の描画結果*
-![](https://storage.googleapis.com/zenn-user-upload/d5270ba340c3-20240105.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/d5270ba340c3-20240105.png)
 *Java 版 Processing の描画結果*
 
 実装は以下の順に進めました。
@@ -439,7 +439,7 @@ draw do
   end
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/373b82a84bfc-20240105.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/373b82a84bfc-20240105.png)
 *利用可能なフォント一覧を表示*
 
 [loadFont()](https://processing.org/reference/loadFont_.html) を利用すると、システムに無いフォントでも TrueType や OpenType のフォントファイルからフォントを読み込んでテキストを描画することができます。
@@ -454,7 +454,7 @@ draw do
   text("はろーるびー", 10, 100)
 end
 ```
-![](https://storage.googleapis.com/zenn-user-upload/c30276d7c130-20240105.png =300x)
+![](https://storage.googleapis.com/zenn-user-upload/c30276d7c130-20240105.png)
 *衡山毛筆フォント草書でのテキスト描画*
 
 実装は以下の順に進めました。
