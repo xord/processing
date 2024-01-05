@@ -2232,7 +2232,10 @@ module Processing
     # @see https://p5js.org/reference/#/p5/loadImage
     #
     def loadImage(filename, extension = nil)
-      filename = getImage__ filename, extension if filename =~ %r|^https?://|
+      ext = extension || File.extname(filename)
+      raise "unsupported image type -- '#{ext}'" unless ext =~ /^\.?(png|jpg|gif)$/i
+
+      filename = httpGet__ filename, ext if filename =~ %r|^https?://|
       Image.new Rays::Image.load filename
     end
 
@@ -2273,10 +2276,7 @@ module Processing
     end
 
     # @private
-    private def getImage__(uri, ext)
-      ext ||= File.extname uri
-      raise "unsupported image type -- #{ext}" unless ext =~ /^\.?(png|jpg|gif)$/i
-
+    private def httpGet__(uri, ext)
       tmpdir = tmpdir__
       path   = tmpdir + Digest::SHA1.hexdigest(uri)
       path   = path.sub_ext ext
