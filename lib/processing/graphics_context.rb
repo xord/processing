@@ -2221,6 +2221,23 @@ module Processing
       Capture.new(*args)
     end
 
+    # Loads font from file.
+    #
+    # @param filename  [String] file name to load font file
+    #
+    # @return [Font] loaded font object
+    #
+    # @see https://processing.org/reference/loadFont_.html
+    # @see https://p5js.org/reference/#/p5/loadFont
+    #
+    def loadFont(filename)
+      ext = File.extname filename
+      raise "unsupported font type -- '#{ext}'" unless ext =~ /^\.?(ttf|otf)$/i
+
+      filename = httpGet__ filename, ext if filename =~ %r|^https?://|
+      Font.new Rays::Font.load p filename
+    end
+
     # Loads image.
     #
     # @param filename  [String] file name to load image
