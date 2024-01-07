@@ -26,9 +26,9 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.0.0'
 
   s.add_runtime_dependency 'xot',       '~> 0.1.41'
-  s.add_runtime_dependency 'rucy',      '~> 0.1.42'
-  s.add_runtime_dependency 'rays',      '~> 0.1.47'
-  s.add_runtime_dependency 'reflexion', '~> 0.1.55'
+  s.add_runtime_dependency 'rucy',      '~> 0.1.43'
+  s.add_runtime_dependency 'rays',      '~> 0.1.48'
+  s.add_runtime_dependency 'reflexion', '~> 0.1.56'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}

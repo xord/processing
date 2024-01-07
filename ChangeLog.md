@@ -1,6 +1,21 @@
 # processing ChangeLog
 
 
+## [v0.5.32] - 2024-01-08
+
+- Add requestImage()
+- Add texture(), textureMode(), and textureWrap()
+- Add loadPixels(), updatePixels(), and pixels()
+- Add curveVertex(), bezierVertex(), and quadraticVertex()
+- Add beginContour() and endContour()
+- Add createFont(), loadFont(), and Font.list()
+- Add Shape#setFill
+
+- vertex() can teke UV parameters
+- vertex() records the fill color
+- Drawing shapes with texture is affected by tin() instead of the fill()
+
+
 ## [v0.5.31] - 2023-12-09
 
 - Add Shape class
