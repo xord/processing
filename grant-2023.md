@@ -278,11 +278,11 @@ end
 1. [vertex() records each color](https://github.com/xord/all/pull/17)<br>
 vertex() が fill() の色を頂点色として保存するようになりました。
 
-2. [Add Polyline#dup()](https://github.com/xord/all/pull/19)<br>
+2. [Add Polyline#dup](https://github.com/xord/all/pull/19)<br>
 Shape クラスが内部で使っている Polygon クラスに賢い dup() を追加し、dup(colors: [rgb, rgb, rgb, ...]) で色だけ差し替えられるように修正しました。
 
 3. [Add setFill() to Shape class](https://github.com/xord/all/pull/18)<br>
-Shape#setFill() を追加し、あとから Shape の色を変更できるようにしました。
+Shape#setFill を追加し、あとから Shape の色を変更できるようにしました。
 
 `fill()` と同様 `stroke()` の頂点色指定にも対応する予定でしたが、C++ レイヤーの内部構造的に現時点で実装が難しいことが判明したため一旦ここでは実装しないこととしました。
 
@@ -481,7 +481,7 @@ end
 1. [Add Font.load()](https://github.com/xord/all/pull/26)<br>
 C++ レイヤーのフォントクラスにフォントファイル読み込み機能を実装しました。
 
-2. [Add Font#size=()](https://github.com/xord/all/pull/27)<br>
+2. [Add Font#size=](https://github.com/xord/all/pull/27)<br>
 次の textFont() と textSize() の再実装で必要になり、内部のフォントクラスのサイズを変更するメソッドを追加しました。
 
 3. [Reimplement textFont() and textSize()](https://github.com/xord/all/pull/29)<br>
