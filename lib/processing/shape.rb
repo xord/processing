@@ -184,7 +184,7 @@ module Processing
         clearCache__
       elsif @polygon
         @polygon = @polygon.transform do |polylines|
-          polylines.map {|pl| pl.dup colors: pl.points.map {color}}
+          polylines.map {|pl| pl.with colors: pl.points.map {color}}
         end
       end
     end
