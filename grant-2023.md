@@ -16,7 +16,7 @@ Processing との互換性を向上させるために、本取り組みで実装
 
 - Milestone: [ProcessingAPI 実装 高難度グループ Shape 関連](https://github.com/xord/processing/milestone/3?closed=1) （✅ クローズ済）
   - Issue: [shape() と基本的な関数群](https://github.com/xord/processing/issues/19) （✅ クローズ済）
-  - Issue: [PShape クラス](https://github.com/xord/processing/issues/20) （✅ クローズ済）
+  - Issue: [Shape クラス](https://github.com/xord/processing/issues/20) （✅ クローズ済）
   - Issue: [texture() 関連と vertex(x, y, u, v)](https://github.com/xord/processing/issues/21) （✅ クローズ済）
   - Issue: [Shape に fill と stroke を含める](https://github.com/xord/processing/issues/22) （✅ クローズ済）
 
@@ -128,7 +128,7 @@ shape()、shapeMode()、createShape() を実装しました。
 
 以上の機能追加をもって[イシュー](https://github.com/xord/processing/issues/19)をクローズしております。
 
-### 4.1.2 [PShape クラス](https://github.com/xord/processing/issues/20)
+### 4.1.2 [Shape クラス](https://github.com/xord/processing/issues/20)
 
 このイシューでは [PShape](https://processing.org/reference/PShape.html) クラスを実装しています。
 [PShape](https://processing.org/reference/PShape.html) クラスの [beginShape()](https://processing.org/reference/beginShape_.html)、[endShape()](https://processing.org/reference/endShape_.html)、[vertex()](https://processing.org/reference/vertex_.html) を使うことで任意の形状を [PShape](https://processing.org/reference/PShape.html) クラスのインスタンスとして使い回す事ができるようになりました。
