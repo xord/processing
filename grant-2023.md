@@ -130,8 +130,8 @@ shape()、shapeMode()、createShape() を実装しました。
 
 ### 4.1.2 [PShape クラス](https://github.com/xord/processing/issues/20)
 
-このイシューでは [Shape](https://processing.org/reference/PShape.html) クラスを実装しています。
-[Shape](https://processing.org/reference/PShape.html) クラスの [beginShape()](https://processing.org/reference/beginShape_.html)、[endShape()](https://processing.org/reference/endShape_.html)、[vertex()](https://processing.org/reference/vertex_.html) を使うことで任意の形状を [Shape](https://processing.org/reference/PShape.html) クラスのインスタンスとして使い回す事ができるようになりました。
+このイシューでは [PShape](https://processing.org/reference/PShape.html) クラスを実装しています。
+[PShape](https://processing.org/reference/PShape.html) クラスの [beginShape()](https://processing.org/reference/beginShape_.html)、[endShape()](https://processing.org/reference/endShape_.html)、[vertex()](https://processing.org/reference/vertex_.html) を使うことで任意の形状を [PShape](https://processing.org/reference/PShape.html) クラスのインスタンスとして使い回す事ができるようになりました。
 
 ```ruby
 setup do
