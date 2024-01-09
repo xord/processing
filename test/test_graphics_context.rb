@@ -678,6 +678,40 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_raise(ArgumentError) {g.updatePixels}
   end
 
+  def test_pixels_and_modified_flags()
+    drawRect     = -> g, x, *rgb do
+      g.beginDraw do
+        g.fill *rgb
+        g.rect x, 0, 2, 2
+      end
+    end
+    updatePixels = -> g, i, *rgb do
+      g.loadPixels
+      g.pixels[i] = g.color *rgb
+      g.updatePixels
+    end
+    getPixels    = -> g do
+      g.getInternal__.pixels
+        .select.with_index {|_, i| i.even?}
+        .map {|n| n.to_s 16}
+    end
+
+    g = graphics 6, 1
+    drawRect    .call g, 0, 255,0,0
+    assert_equal %w[ffff0000 0        0],        getPixels.call(g)
+
+    g = graphics 6, 1
+    drawRect    .call g, 0, 255,0,0
+    updatePixels.call g, 2, 0,255,0
+    assert_equal %w[ffff0000 ff00ff00 0],        getPixels.call(g)
+
+    g = graphics 6, 1
+    drawRect    .call g, 0, 255,0,0
+    updatePixels.call g, 2, 0,255,0
+    drawRect    .call g, 4, 0,0,255
+    assert_equal %w[ffff0000 ff00ff00 ff0000ff], getPixels.call(g)
+  end
+
   def test_lerp()
     g = graphics
 
