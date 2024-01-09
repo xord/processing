@@ -1480,7 +1480,10 @@ module Processing
     #
     def updatePixels()
       return unless @pixels__
-      getInternal__.pixels = @pixels__
+      getInternal__.tap do |img|
+        img.pixels = @pixels__
+        img.painter.paint {} # update texture and set modifiied
+      end
       @pixels__ = nil
     end
 
