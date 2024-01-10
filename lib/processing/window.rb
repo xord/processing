@@ -258,7 +258,13 @@ module Processing
       to.stroke_cap   = from.stroke_cap
       to.stroke_join  = from.stroke_join
       to.miter_limit  = from.miter_limit
+      to.clip         = from.clip
+      to.blend_mode   = from.blend_mode
       to.font         = from.font
+      to.texture      = from.texture
+      to.texture_mode = from.texture_mode
+      to.texture_wrap = from.texture_wrap
+      to.shader       = from.shader
     end
 
   end# Window::Canvas
