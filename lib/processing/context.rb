@@ -44,6 +44,7 @@ module Processing
         @window__.canvas_image,
         @window__.canvas_painter.paint {background 0.8})
 
+      @smooth__           = true
       @loop__             = true
       @redraw__           = false
       @frameCount__       = 0
@@ -65,7 +66,7 @@ module Processing
 
       # @private
       def @window__.draw_screen(painter)
-        @context__.drawImage__ painter
+        @context__.drawImage__ painter, image__: canvas.render
       end
 
       drawFrame = -> {
@@ -379,14 +380,34 @@ module Processing
     #
     def pixelDensity(density = nil)
       resizeCanvas__ :pixelDensity, width, height, density if density
-      @painter__.pixel_density
+      @window__.canvas.pixel_density
+    end
+
+    # Enables anti-aliasing.
+    # (Anti-aliasing is disabled on high DPI screen)
+    #
+    # @return [nil] nil
+    #
+    def smooth()
+      @smooth__ = true
+      resizeCanvas__ :smooth, width, height, pixelDensity
+      nil
+    end
+
+    # Disables anti-aliasing.
+    #
+    # @return [nil] nil
+    #
+    def noSmooth()
+      @smooth__ = false
+      resizeCanvas__ :noSmooth, width, height, pixelDensity
     end
 
     # @private
     def resizeCanvas__(name, width, height, pixelDensity)
       raise '#{name}() must be called on startup or setup block' if @started__
 
-      @window__.resize_canvas width, height, pixelDensity
+      @window__.resize_canvas width, height, pixelDensity, antialiasing: @smooth__
       @window__.auto_resize = false
     end
 

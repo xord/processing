@@ -6,6 +6,8 @@ module Processing
 
     include Xot::Inspectable
 
+    attr_reader :canvas
+
     attr_accessor :setup, :update, :draw,
       :key_down, :key_up,
       :pointer_down, :pointer_up, :pointer_move,
@@ -132,7 +134,12 @@ module Processing
       draw_canvas {call_block @resize, e} if @resize
     end
 
-    def resize_canvas(width, height, pixel_density = nil, window_pixel_density: nil)
+    def resize_canvas(
+      width, height,
+      pixel_density       = nil,
+      window_pixel_density: nil,
+      antialiasing:         nil)
+
       painting = canvas_painter.painting?
       canvas_painter.__send__ :end_paint if painting
 
@@ -140,7 +147,8 @@ module Processing
 
       resized =
         begin
-          @canvas.resize width, height, @pixel_density || window_pixel_density
+          pd = @pixel_density || window_pixel_density
+          @canvas.resize width, height, pd, antialiasing
         ensure
           canvas_painter.__send__ :begin_paint if painting
         end
@@ -198,7 +206,7 @@ module Processing
     end
 
     def draw_screen(painter)
-      window_painter.image canvas_image
+      painter.image @canvas.render
     end
 
     def call_block(block, event, *args)
@@ -216,37 +224,57 @@ module Processing
 
   class Window::Canvas
 
-    attr_reader :image, :painter
+    attr_reader :painter
 
     def initialize(window, width, height)
-      @image   = nil
-      @painter = window.painter
+      @framebuffer = nil
+      @paintable   = nil
+      @painter     = window.painter
 
       resize width, height
       painter.miter_limit = 10
     end
 
-    def resize(width, height, pixel_density = nil)
+    def resize(width, height, pixel_density = nil, antialiasing = nil)
       return false if width <= 0 || height <= 0
 
+      cs = @framebuffer&.color_space || Rays::RGBA
+      pd = pixel_density || (@framebuffer || @painter).pixel_density
+      aa = antialiasing == nil ? antialiasing? : (antialiasing && pd < 2)
       return false if
-        width         == @image&.width  &&
-        height        == @image&.height &&
-        pixel_density == @painter.pixel_density
+        width  == @framebuffer&.width  &&
+        height == @framebuffer&.height &&
+        pd     == @framebuffer&.pixel_density &&
+        aa     == antialiasing?
 
-      old_image   = @image
-      old_painter = @painter
-      cs          = old_image&.color_space || Rays::RGBA
-      pd          = pixel_density || old_painter.pixel_density
+      old_paintable, old_painter = @paintable, @painter
 
-      @image   = Rays::Image.new width, height, cs, pd
-      @painter = @image.painter
+      @framebuffer = Rays::Image.new width, height, cs, pd
+      @paintable   = aa ? Rays::Image.new(width, height, cs, pd * 2) : @framebuffer
+      @painter     = @paintable.painter
 
-      @painter.paint {image old_image} if old_image
+      @painter.paint {image old_paintable} if old_paintable
       copy_painter old_painter, @painter
 
       GC.start
       return true
+    end
+
+    def render()
+      @framebuffer.paint {|p| p.image @paintable} if antialiasing?
+      @framebuffer
+    end
+
+    def image()
+      @paintable
+    end
+
+    def pixel_density()
+      @framebuffer.pixel_density
+    end
+
+    def antialiasing?()
+      !!@framebuffer && !!@paintable && @framebuffer != @paintable
     end
 
     private

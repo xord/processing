@@ -1687,10 +1687,10 @@ module Processing
     end
 
     # @private
-    def drawImage__(painter, *args, **states)
+    def drawImage__(painter, *args, image__: getInternal__, **states)
       shader = painter.shader || @filter__&.getInternal__
       painter.push shader: shader, **states do |_|
-        painter.image getInternal__, *args
+        painter.image image__, *args
       end
     end
 
