@@ -6,16 +6,6 @@ module Processing
 
     include Xot::Inspectable
 
-    attr_reader :canvas
-
-    attr_accessor :setup, :update, :draw,
-      :key_down, :key_up,
-      :pointer_down, :pointer_up, :pointer_move,
-      :move, :resize, :motion,
-      :before_draw, :after_draw, :update_window, :update_canvas
-
-    attr_accessor :auto_resize
-
     def initialize(width = 500, height = 500, *args, **kwargs, &block)
       Processing.instance_variable_set :@window, self
 
@@ -29,6 +19,14 @@ module Processing
 
       super(*args, size: [width, height], **kwargs, &block)
     end
+
+    attr_accessor :setup, :update, :draw, :move, :resize, :motion,
+      :key_down, :key_up, :pointer_down, :pointer_up, :pointer_move,
+      :before_draw, :after_draw, :update_window, :update_canvas
+
+    attr_accessor :auto_resize
+
+    attr_reader :canvas
 
     def event()
       @events.last
@@ -212,8 +210,6 @@ module Processing
 
   class Window::Canvas
 
-    attr_reader :painter
-
     def initialize(window, width, height)
       @framebuffer = nil
       @paintable   = nil
@@ -222,6 +218,8 @@ module Processing
       resize width, height
       painter.miter_limit = 10
     end
+
+    attr_reader :painter
 
     def resize(width, height, pixel_density = nil, antialiasing = nil)
       return false if width <= 0 || height <= 0
