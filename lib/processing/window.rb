@@ -52,7 +52,9 @@ module Processing
     end
 
     def on_change_pixel_density(pixel_density)
-      resize_canvas width, height, window_pixel_density: pixel_density
+      resize_canvas(
+        @canvas.width, @canvas.height,
+        window_pixel_density: pixel_density)
     end
 
     def on_activate(e)
