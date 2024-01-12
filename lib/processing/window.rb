@@ -30,18 +30,6 @@ module Processing
       super(*args, size: [width, height], **kwargs, &block)
     end
 
-    def canvas_image()
-      @canvas.image
-    end
-
-    def canvas_painter()
-      @canvas.painter
-    end
-
-    def window_painter()
-      self.painter
-    end
-
     def event()
       @events.last
     end
@@ -82,7 +70,7 @@ module Processing
     end
 
     def on_draw(e)
-      window_painter.pixel_density.tap do |pd|
+      painter.pixel_density.tap do |pd|
         prev, @prev_pixel_density = @prev_pixel_density, pd
         on_change_pixel_density pd if prev && pd != prev
       end
@@ -140,8 +128,8 @@ module Processing
       window_pixel_density: nil,
       antialiasing:         nil)
 
-      painting = canvas_painter.painting?
-      canvas_painter.__send__ :end_paint if painting
+      painting = @canvas.painter.painting?
+      @canvas.painter.__send__ :end_paint if painting
 
       @pixel_density = pixel_density if pixel_density
 
@@ -150,11 +138,11 @@ module Processing
           pd = @pixel_density || window_pixel_density
           @canvas.resize width, height, pd, antialiasing
         ensure
-          canvas_painter.__send__ :begin_paint if painting
+          @canvas.painter.__send__ :begin_paint if painting
         end
 
       if resized
-        @update_canvas.call canvas_image, canvas_painter if @update_canvas
+        @update_canvas.call @canvas.image, @canvas.painter if @update_canvas
         size width, height
       end
     end
@@ -165,12 +153,12 @@ module Processing
       scrollx, scrolly, zoom = get_scroll_and_zoom
       @canvas_view.scroll_to scrollx, scrolly
       @canvas_view.zoom  = zoom
-      @overlay_view.size = canvas_image.size
+      @overlay_view.size = @canvas.image.size
     end
 
     def get_scroll_and_zoom()
-      ww, wh =              width.to_f,              height.to_f
-      cw, ch = canvas_image.width.to_f, canvas_image.height.to_f
+      ww, wh =               width.to_f,               height.to_f
+      cw, ch = @canvas.image.width.to_f, @canvas.image.height.to_f
       return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
@@ -192,17 +180,17 @@ module Processing
     end
 
     def begin_draw()
-      canvas_painter.__send__ :begin_paint
+      @canvas.painter.__send__ :begin_paint
       @before_draw&.call
     end
 
     def end_draw()
       @after_draw&.call
-      canvas_painter.__send__ :end_paint
+      @canvas.painter.__send__ :end_paint
     end
 
     def drawing?()
-      canvas_painter.painting?
+      @canvas.painter.painting?
     end
 
     def draw_screen(painter)

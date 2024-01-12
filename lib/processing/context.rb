@@ -41,8 +41,8 @@ module Processing
 
       @window__ = window
       init__(
-        @window__.canvas_image,
-        @window__.canvas_painter.paint {background 0.8})
+        @window__.canvas.image,
+        @window__.canvas.painter.paint {background 0.8})
 
       @smooth__           = true
       @loop__             = true
