@@ -1486,7 +1486,7 @@ module Processing
       end
       getInternal__.tap do |img|
         img.pixels = @pixels__
-        img.painter.paint {} # update texture and set modifiied
+        img.paint {} # update texture and set modifiied
       end
       @pixels__ = nil
     end

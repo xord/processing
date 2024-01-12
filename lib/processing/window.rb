@@ -215,8 +215,9 @@ module Processing
       @paintable   = nil
       @painter     = window.painter
 
+      @painter.miter_limit = 10
+
       resize width, height
-      painter.miter_limit = 10
     end
 
     attr_reader :painter
