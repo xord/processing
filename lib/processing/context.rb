@@ -344,7 +344,7 @@ module Processing
     # @return [nil] nil
     #
     def size(width, height, pixelDensity: self.pixelDensity)
-      resizeCanvas__ :size, width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity
       nil
     end
 
@@ -357,7 +357,7 @@ module Processing
     # @return [nil] nil
     #
     def createCanvas(width, height, pixelDensity: self.pixelDensity)
-      resizeCanvas__ :createCanvas, width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity
       nil
     end
 
@@ -379,7 +379,7 @@ module Processing
     # @return [Numeric] current pixel density
     #
     def pixelDensity(density = nil)
-      resizeCanvas__ :pixelDensity, width, height, density if density
+      resizeCanvas__ width, height, density if density
       @window__.canvas.pixel_density
     end
 
@@ -390,7 +390,7 @@ module Processing
     #
     def smooth()
       @smooth__ = true
-      resizeCanvas__ :smooth, width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity
       nil
     end
 
@@ -400,13 +400,11 @@ module Processing
     #
     def noSmooth()
       @smooth__ = false
-      resizeCanvas__ :noSmooth, width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity
     end
 
     # @private
-    def resizeCanvas__(name, width, height, pixelDensity)
-      raise '#{name}() must be called on startup or setup block' if @started__
-
+    def resizeCanvas__(width, height, pixelDensity)
       @window__.resize_canvas width, height, pixelDensity, antialiasing: @smooth__
       @window__.auto_resize = false
     end
