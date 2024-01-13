@@ -141,10 +141,7 @@ module Processing
           @canvas.painter.__send__ :begin_paint if painting
         end
 
-      if resized
-        @update_canvas.call @canvas.image, @canvas.painter if @update_canvas
-        size width, height
-      end
+      @update_canvas&.call @canvas.image, @canvas.painter if resized
     end
 
     private

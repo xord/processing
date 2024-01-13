@@ -344,6 +344,7 @@ module Processing
     # @return [nil] nil
     #
     def size(width, height, pixelDensity: self.pixelDensity)
+      windowResize width, height
       resizeCanvas__ width, height, pixelDensity
       nil
     end
@@ -357,6 +358,7 @@ module Processing
     # @return [nil] nil
     #
     def createCanvas(width, height, pixelDensity: self.pixelDensity)
+      windowResize width, height
       resizeCanvas__ width, height, pixelDensity
       nil
     end
