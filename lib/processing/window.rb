@@ -255,6 +255,14 @@ module Processing
       @paintable
     end
 
+    def width()
+      @framebuffer.width
+    end
+
+    def height()
+      @framebuffer.height
+    end
+
     def pixel_density()
       @framebuffer.pixel_density
     end
