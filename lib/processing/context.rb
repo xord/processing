@@ -385,6 +385,22 @@ module Processing
       @window__.canvas.pixel_density
     end
 
+    # Toggles full-screen state or returns the current state.
+    #
+    # @param state [Boolean] Whether to display full-screen or not
+    #
+    # @return [Boolean] current state
+    #
+    # @see https://processing.org/reference/fullScreen_.html
+    # @see https://p5js.org/reference/#/p5/fullscreen
+    #
+    def fullscreen(state = nil)
+      @window__.fullscreen = state if state != nil
+      @window__.fullscreen?
+    end
+
+    alias fullScreen fullscreen
+
     # Enables anti-aliasing.
     # (Anti-aliasing is disabled on high DPI screen)
     #
