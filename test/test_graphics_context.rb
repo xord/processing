@@ -253,7 +253,7 @@ class TestGraphicsContext < Test::Unit::TestCase
   end
 
   def test_bezier()
-    src = 'curve 100,100, 100,500, 500,500, 600,100'
+    src = 'bezier 100,100, 100,500, 500,500, 600,100'
     assert_p5_fill        src, threshold: 0
     assert_p5_stroke      src, threshold: 0
     assert_p5_fill_stroke src, threshold: 0
