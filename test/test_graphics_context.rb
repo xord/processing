@@ -247,16 +247,16 @@ class TestGraphicsContext < Test::Unit::TestCase
 
   def test_curve()
     src = 'curve 100,100, 100,500, 500,500, 600,100'
-    assert_p5_fill        src, threshold: 0
-    assert_p5_stroke      src, threshold: 0
-    assert_p5_fill_stroke src, threshold: 0
+    assert_p5_fill        src, threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_stroke      src
+    assert_p5_fill_stroke src
   end
 
   def test_bezier()
     src = 'bezier 100,100, 100,500, 500,500, 600,100'
-    assert_p5_fill        src, threshold: 0
-    assert_p5_stroke      src, threshold: 0
-    assert_p5_fill_stroke src, threshold: 0
+    assert_p5_fill        src
+    assert_p5_stroke      src
+    assert_p5_fill_stroke src
   end
 
   def test_shape_with_shapeMode_corner()
