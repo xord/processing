@@ -34,8 +34,14 @@ def mkdir(dir: nil, filename: nil)
   FileUtils.mkdir_p path unless File.exist? path
 end
 
-def test_label(index = 1)
-  caller_locations[index].then {|loc| "#{loc.label}_#{loc.lineno}"}
+def test_label(suffix: nil, frame_offset: 0)
+  suffix = suffix ? "_#{suffix}" : ''
+  caller_locations[frame_offset]
+    .then {|loc| "#{loc.label}_#{loc.lineno}#{suffix}"}
+end
+
+def test_label_1()
+  test_label frame_offset: 1
 end
 
 def temp_path(ext: nil, &block)
@@ -96,7 +102,7 @@ end
 
 def assert_equal_draw(
   *shared_header, expected, actual, default_header: DEFAULT_DRAW_HEADER,
-  width: 1000, height: 1000, threshold: 1.0, label: test_label)
+  width: 1000, height: 1000, threshold: 1.0, label: test_label_1)
 
   e = test_draw default_header, *shared_header, expected, label: "#{label}_expected"
   a = test_draw default_header, *shared_header, actual,   label: "#{label}_actual"
@@ -106,7 +112,7 @@ end
 
 def assert_p5_draw(
   *sources, default_header: DEFAULT_DRAW_HEADER,
-  width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)
+  width: 1000, height: 1000, threshold: 0.99, label: test_label_1, **kwargs)
 
   return unless test_with_p5?
 
@@ -121,15 +127,15 @@ def assert_p5_draw(
 end
 
 def assert_p5_fill(*sources, **kwargs)
-  assert_p5_draw 'noStroke', *sources, label: test_label, **kwargs
+  assert_p5_draw 'noStroke', *sources, label: test_label_1, **kwargs
 end
 
 def assert_p5_stroke(*sources, **kwargs)
-  assert_p5_draw 'noFill; stroke 0, 255, 0', *sources, label: test_label, **kwargs
+  assert_p5_draw 'noFill; stroke 0, 255, 0', *sources, label: test_label_1, **kwargs
 end
 
 def assert_p5_fill_stroke(*sources, **kwargs)
-  assert_p5_draw 'stroke 0, 255, 0', *sources, label: test_label, **kwargs
+  assert_p5_draw 'stroke 0, 255, 0', *sources, label: test_label_1, **kwargs
 end
 
 
