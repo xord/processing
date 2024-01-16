@@ -259,6 +259,32 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_fill_stroke src
   end
 
+  def test_curveDetail()
+    opts = {
+      webgl: true,
+      # tests in headless mode will time out...
+      headless: false,
+      # Something is wrong with the behavior of `p5.js + WEBGL + curve()`
+      threshold: THRESHOLD_TO_BE_FIXED
+    }
+    [1, 2, 3, 5, 10, 100].each do |detail|
+      assert_p5_stroke <<~END, label: test_label(2, suffix: detail), **opts
+        curveDetail #{detail}
+        curve 100,100, 100,500, 500,500, 600,100
+       END
+    end
+  end
+
+  def test_bezierDetail()
+    opts = {webgl: true, headless: false} # tests in headless mode will time out...
+    [1, 2, 3, 5, 10, 100].each do |detail|
+      assert_p5_stroke <<~END, label: test_label(2, suffix: detail), **opts
+        bezierDetail #{detail}
+        bezier 100,100, 100,500, 500,500, 600,100
+      END
+    end
+  end
+
   def test_shape_with_shapeMode_corner()
     header = 'noStroke'
 

@@ -267,25 +267,27 @@ module Processing
 
     # @private
     def init__(image, painter)
-      @drawing__     = false
-      @colorMode__   = nil
-      @hsbColor__    = false
-      @colorMaxes__  = [1.0] * 4
-      @angleMode__   = nil
-      @angleScale__  = 1.0
-      @rectMode__    = nil
-      @ellipseMode__ = nil
-      @imageMode__   = nil
-      @shapeMode__   = nil
-      @blendMode__   = nil
-      @textAlignH__  = nil
-      @textAlignV__  = nil
-      @textFont__    = nil
-      @tint__        = nil
-      @filter__      = nil
-      @pixels__      = nil
-      @matrixStack__ = []
-      @styleStack__  = []
+      @drawing__      = false
+      @colorMode__    = nil
+      @hsbColor__     = false
+      @colorMaxes__   = [1.0] * 4
+      @angleMode__    = nil
+      @angleScale__   = 1.0
+      @rectMode__     = nil
+      @ellipseMode__  = nil
+      @imageMode__    = nil
+      @shapeMode__    = nil
+      @blendMode__    = nil
+      @curveDetail__  = nil
+      @bezierDetail__ = nil
+      @textAlignH__   = nil
+      @textAlignV__   = nil
+      @textFont__     = nil
+      @tint__         = nil
+      @filter__       = nil
+      @pixels__       = nil
+      @matrixStack__  = []
+      @styleStack__   = []
 
       updateCanvas__ image, painter
 
@@ -306,6 +308,8 @@ module Processing
       fill 255
       stroke 0
       strokeWeight 1
+      curveDetail  20
+      bezierDetail 20
       noTint
     end
 
@@ -720,6 +724,38 @@ module Processing
     #
     def strokeJoin(join)
       @painter__.stroke_join join
+      nil
+    end
+
+    # Sets the resolution at which curves display.
+    # The default value is 20 while the minimum value is 3.
+    #
+    # @param detail [Numeric] resolution of the curves
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/curveDetail_.html
+    # @see https://p5js.org/reference/#/p5/curveDetail
+    #
+    def curveDetail(detail)
+      detail = 3 if detail < 3
+      @curveDetail__ = detail
+      nil
+    end
+
+    # Sets the resolution at which Bezier's curve is displayed.
+    # The default value is 20.
+    #
+    # @param detail [Numeric] resolution of the curves
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/bezierDetail_.html
+    # @see https://p5js.org/reference/#/p5/bezierDetail
+    #
+    def bezierDetail(detail)
+      detail = 1 if detail < 1
+      @bezierDetail__ = detail
       nil
     end
 
@@ -1144,7 +1180,9 @@ module Processing
     #
     def curve(cx1, cy1, x1, y1, x2, y2, cx2, cy2)
       assertDrawing__
+      @painter__.nsegment = @curveDetail__
       @painter__.curve cx1, cy1, x1, y1, x2, y2, cx2, cy2
+      @painter__.nsegment = 0
       nil
     end
 
@@ -1165,7 +1203,9 @@ module Processing
     #
     def bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
       assertDrawing__
+      @painter__.nsegment = @bezierDetail__
       @painter__.bezier x1, y1, cx1, cy1, cx2, cy2, x2, y2
+      @painter__.nsegment = 0
       nil
     end
 
@@ -1618,6 +1658,8 @@ module Processing
         @imageMode__,
         @shapeMode__,
         @blendMode__,
+        @curveDetail__,
+        @bezierDetail__,
         @textAlignH__,
         @textAlignV__,
         @textFont__,
@@ -1658,6 +1700,8 @@ module Processing
       @imageMode__,
       @shapeMode__,
       @blendMode__,
+      @curveDetail__,
+      @bezierDetail__,
       @textAlignH__,
       @textAlignV__,
       @textFont__,
