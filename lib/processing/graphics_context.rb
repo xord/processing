@@ -997,7 +997,7 @@ module Processing
     #
     def point(x, y)
       assertDrawing__
-      @painter__.line x, y, x, y
+      @painter__.point x, y
       nil
     end
 
