@@ -267,27 +267,28 @@ module Processing
 
     # @private
     def init__(image, painter)
-      @drawing__      = false
-      @colorMode__    = nil
-      @hsbColor__     = false
-      @colorMaxes__   = [1.0] * 4
-      @angleMode__    = nil
-      @angleScale__   = 1.0
-      @rectMode__     = nil
-      @ellipseMode__  = nil
-      @imageMode__    = nil
-      @shapeMode__    = nil
-      @blendMode__    = nil
-      @curveDetail__  = nil
-      @bezierDetail__ = nil
-      @textAlignH__   = nil
-      @textAlignV__   = nil
-      @textFont__     = nil
-      @tint__         = nil
-      @filter__       = nil
-      @pixels__       = nil
-      @matrixStack__  = []
-      @styleStack__   = []
+      @drawing__        = false
+      @colorMode__      = nil
+      @hsbColor__       = false
+      @colorMaxes__     = [1.0] * 4
+      @angleMode__      = nil
+      @angleScale__     = 1.0
+      @rectMode__       = nil
+      @ellipseMode__    = nil
+      @imageMode__      = nil
+      @shapeMode__      = nil
+      @blendMode__      = nil
+      @curveDetail__    = nil
+      @curveTightness__ = nil
+      @bezierDetail__   = nil
+      @textAlignH__     = nil
+      @textAlignV__     = nil
+      @textFont__       = nil
+      @tint__           = nil
+      @filter__         = nil
+      @pixels__         = nil
+      @matrixStack__    = []
+      @styleStack__     = []
 
       updateCanvas__ image, painter
 
@@ -305,11 +306,12 @@ module Processing
       textureMode IMAGE
       textureWrap CLAMP
 
-      fill 255
-      stroke 0
-      strokeWeight 1
-      curveDetail  20
-      bezierDetail 20
+      fill           255
+      stroke         0
+      strokeWeight   1
+      curveDetail    20
+      curveTightness 0
+      bezierDetail   20
       noTint
     end
 
@@ -740,6 +742,20 @@ module Processing
     def curveDetail(detail)
       detail = 3 if detail < 3
       @curveDetail__ = detail
+      nil
+    end
+
+    # Sets the quality of curve forms.
+    #
+    # @param tightness [Numeric] determines how the curve fits to the vertex points
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/curveTightness_.html
+    # @see https://p5js.org/reference/#/p5/curveTightness
+    #
+    def curveTightness(tightness)
+      @curveTightness__ = tightness
       nil
     end
 
@@ -1659,6 +1675,7 @@ module Processing
         @shapeMode__,
         @blendMode__,
         @curveDetail__,
+        @curveTightness__,
         @bezierDetail__,
         @textAlignH__,
         @textAlignV__,
@@ -1701,6 +1718,7 @@ module Processing
       @shapeMode__,
       @blendMode__,
       @curveDetail__,
+      @curveTightness__,
       @bezierDetail__,
       @textAlignH__,
       @textAlignV__,
@@ -2081,6 +2099,98 @@ module Processing
     #
     def atan2(y, x)
       Math.atan2 y, x
+    end
+
+    # Evaluates the curve at point t for points a, b, c, d.
+    #
+    # @param a [Numeric] coordinate of first control point
+    # @param b [Numeric] coordinate of first point on the curve
+    # @param c [Numeric] coordinate of second point on the curve
+    # @param d [Numeric] coordinate of second control point
+    # @param t [Numeric] value between 0.0 and 1.0
+    #
+    # @return [Numeric] interpolated value
+    #
+    # @see https://processing.org/reference/curvePoint_.html
+    # @see https://p5js.org/reference/#/p5/curvePoint
+    #
+    def curvePoint(a, b, c, d, t)
+      s  = @curveTightness__
+      t3 = t * t * t
+      t2 = t * t
+      f1 = ( s - 1.0) / 2.0 * t3 + ( 1.0 - s)       * t2 + (s - 1.0) / 2.0 * t
+      f2 = ( s + 3.0) / 2.0 * t3 + (-5.0 - s) / 2.0 * t2 +  1.0
+      f3 = (-3.0 - s) / 2.0 * t3 + ( s + 2.0)       * t2 + (1.0 - s) / 2.0 * t
+      f4 = ( 1.0 - s) / 2.0 * t3 + ( s - 1.0) / 2.0 * t2
+      a * f1 + b * f2 + c * f3 + d * f4
+    end
+
+    # Calculates the tangent of a point on a curve.
+    #
+    # @param a [Numeric] coordinate of first control point
+    # @param b [Numeric] coordinate of first point on the curve
+    # @param c [Numeric] coordinate of second point on the curve
+    # @param d [Numeric] coordinate of second control point
+    # @param t [Numeric] value between 0.0 and 1.0
+    #
+    # @return [Numeric] tangent value
+    #
+    # @see https://processing.org/reference/curveTangent_.html
+    # @see https://p5js.org/reference/#/p5/curveTangent
+    #
+    def curveTangent(a, b, c, d, t)
+      s = @curveTightness__
+      tt3 = t * t * 3.0
+      t2  = t * 2.0
+      f1  = ( s - 1.0) / 2.0 * tt3 + ( 1.0 - s)       * t2 + (s - 1.0) / 2.0
+      f2  = ( s + 3.0) / 2.0 * tt3 + (-5.0 - s) / 2.0 * t2
+      f3  = (-3.0 - s) / 2.0 * tt3 + ( s + 2.0)       * t2 + (1.0 - s) / 2.0
+      f4  = ( 1.0 - s) / 2.0 * tt3 + ( s - 1.0) / 2.0 * t2
+      a * f1 + b * f2 + c * f3 + d * f4
+    end
+
+    # Evaluates the Bezier at point t for points a, b, c, d.
+    #
+    # @param a [Numeric] coordinate of first point on the curve
+    # @param b [Numeric] coordinate of first control point
+    # @param c [Numeric] coordinate of second control point
+    # @param d [Numeric] coordinate of second point on the curve
+    # @param t [Numeric] value between 0.0 and 1.0
+    #
+    # @return [Numeric] interpolated value
+    #
+    # @see https://processing.org/reference/bezierPoint_.html
+    # @see https://p5js.org/reference/#/p5/bezierPoint
+    #
+    def bezierPoint(a, b, c, d, t)
+      tt = 1.0 - t
+      tt ** 3.0 * a +
+      tt ** 2.0 * b * 3.0 * t +
+      t  ** 2.0 * c * 3.0 * tt +
+      t  ** 3.0 * d
+    end
+
+    # Calculates the tangent of a point on a Bezier curve.
+    #
+    # @param a [Numeric] coordinate of first point on the curve
+    # @param b [Numeric] coordinate of first control point
+    # @param c [Numeric] coordinate of second control point
+    # @param d [Numeric] coordinate of second point on the curve
+    # @param t [Numeric] value between 0.0 and 1.0
+    #
+    # @return [Numeric] tangent value
+    #
+    # @see https://processing.org/reference/bezierTangent_.html
+    # @see https://p5js.org/reference/#/p5/bezierTangent
+    #
+    def bezierTangent(a, b, c, d, t)
+      tt = 1.0 - t
+      3.0 * d * t  ** 2.0 -
+      3.0 * c * t  ** 2.0 +
+      6.0 * c * tt *  t   -
+      6.0 * b * tt *  t   +
+      3.0 * b * tt ** 2.0 -
+      3.0 * a * tt ** 2.0
     end
 
     # Returns the perlin noise value.

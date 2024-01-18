@@ -819,4 +819,95 @@ class TestGraphicsContext < Test::Unit::TestCase
     ACTUAL
   end
 
+  def test_curvePoint()
+    assert_p5_draw <<~END
+      steps = 8
+      (0..steps).each do |i|
+        t = i.to_f / steps.to_f;
+        x = curvePoint(*[20,  20,  292, 292].map {|n| n * 3}, t)
+        y = curvePoint(*[104, 104, 96,  244].map {|n| n * 3}, t)
+        point x, y
+        x = curvePoint(*[20,  292, 292, 60] .map {|n| n * 3}, t)
+        y = curvePoint(*[104, 96,  244, 260].map {|n| n * 3}, t)
+        point x, y
+      end
+    END
+  end
+
+  def test_bezierPoint()
+    assert_p5_draw <<~END
+      steps = 10
+      (0..steps).each do |i|
+        t = i.to_f / steps.to_f
+        x = bezierPoint(*[85, 10, 90, 15].map {|n| n * 10}, t)
+        y = bezierPoint(*[20, 10, 90, 80].map {|n| n * 10}, t)
+        point x, y
+      end
+    END
+  end
+
+  def test_curveTangent()
+    assert_p5_draw <<~END
+      drawTangent = -> x, y, tx, ty do
+        tv = createVector tx, ty
+        tv.normalize
+        tv.rotate radians(-90)
+        point x, y
+        push
+        stroke 0, 0, 255
+        strokeWeight 20
+        line x, y, x + tv.x * 100, y + tv.y * 100
+        pop
+      end
+      steps = 8
+      (0..steps).each do |i|
+        t = i.to_f / steps.to_f;
+
+        xx = [20,  20,  292, 292].map {|n| n * 2}
+        yy = [104, 104, 96,  244].map {|n| n * 3}
+        x  = curvePoint(  *xx, t)
+        y  = curvePoint(  *yy, t)
+        tx = curveTangent(*xx, t)
+        ty = curveTangent(*yy, t)
+        drawTangent.call x, y, tx, ty
+
+        xx = [20,  292, 292, 60] .map {|n| n * 2}
+        yy = [104, 96,  244, 260].map {|n| n * 3}
+        x  = curvePoint(  *xx, t)
+        y  = curvePoint(  *yy, t)
+        tx = curveTangent(*xx, t)
+        ty = curveTangent(*yy, t)
+        drawTangent.call x, y, tx, ty
+      end
+    END
+  end
+
+  def test_bezierTangent()
+    assert_p5_draw <<~END
+      drawTangent = -> x, y, tx, ty do
+        tv = createVector tx, ty
+        tv.normalize
+        tv.rotate radians(-90)
+        point x, y
+        push
+        stroke 0, 0, 255
+        strokeWeight 20
+        line x, y, x + tv.x * 100, y + tv.y * 100
+        pop
+      end
+      steps = 10
+      (0..steps).each do |i|
+        t = i.to_f / steps.to_f
+
+        xx = *[85, 10, 90, 15].map {|n| n * 10}
+        yy = *[20, 10, 90, 80].map {|n| n * 10}
+        x  = bezierPoint(  *xx, t)
+        y  = bezierPoint(  *yy, t)
+        tx = bezierTangent(*xx, t)
+        ty = bezierTangent(*yy, t)
+        drawTangent.call x, y, tx, ty
+      end
+    END
+  end
+
 end# TestGraphicsContext
