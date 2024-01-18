@@ -6,7 +6,7 @@ class TestFont < Test::Unit::TestCase
   P = Processing
 
   def font(*args)
-    P::Font.new(Rays::Font.new *args).tap {|font|
+    P::Font.new(Rays::Font.new(*args)).tap {|font|
       def font.intern()
         getInternal__
       end

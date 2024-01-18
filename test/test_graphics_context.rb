@@ -707,13 +707,13 @@ class TestGraphicsContext < Test::Unit::TestCase
   def test_pixels_and_modified_flags()
     drawRect     = -> g, x, *rgb do
       g.beginDraw do
-        g.fill *rgb
+        g.fill(*rgb)
         g.rect x, 0, 2, 2
       end
     end
     updatePixels = -> g, i, *rgb do
       g.loadPixels
-      g.pixels[i] = g.color *rgb
+      g.pixels[i] = g.color(*rgb)
       g.updatePixels
     end
     getPixels    = -> g do
