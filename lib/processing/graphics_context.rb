@@ -287,6 +287,7 @@ module Processing
       @tint__           = nil
       @filter__         = nil
       @pixels__         = nil
+      @random__         = nil
       @noiseSeed__      = nil
       @noiseOctaves__   = nil
       @noiseFallOff__   = nil
@@ -316,6 +317,7 @@ module Processing
       curveDetail    20
       curveTightness 0
       bezierDetail   20
+      randomSeed     Random.new_seed
       noiseSeed      Random.new_seed
       noiseDetail    4, 0.5
     end
@@ -2256,7 +2258,6 @@ module Processing
 
     # Returns a random number in range low...high
     #
-    # @overload random()
     # @overload random(high)
     # @overload random(low, high)
     # @overload random(choices)
@@ -2267,10 +2268,30 @@ module Processing
     #
     # @return [Float] random number
     #
+    # @see https://processing.org/reference/random_.html
+    # @see https://p5js.org/reference/#/p5/random
+    #
     def random(*args)
-      return args.first.sample if args.first.kind_of? Array
-      high, low = args.reverse
-      rand (low || 0).to_f...(high || 1).to_f
+      if args.first.kind_of? Array
+        a = args.first
+        a.empty? ? nil : a[@random__.rand a.size]
+      else
+        high, low = args.reverse
+        @random__.rand (low || 0).to_f...(high || 1).to_f
+      end
+    end
+
+    # Sets the seed value for random()
+    #
+    # @param seed [Numeric] seed value
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/randomSeed_.html
+    # @see https://p5js.org/reference/#/p5/randomSeed
+    #
+    def randomSeed(seed)
+      @random__ = Random.new seed
     end
 
     # Creates a new vector object.

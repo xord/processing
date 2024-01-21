@@ -910,6 +910,62 @@ class TestGraphicsContext < Test::Unit::TestCase
     END
   end
 
+  def test_random()
+    g = graphics
+
+    assert_equal Float, g.random()        .class
+    assert_equal Float, g.random(1)       .class
+    assert_equal Float, g.random(1.0)     .class
+    assert_equal Float, g.random(1,   2)  .class
+    assert_equal Float, g.random(1.0, 2.0).class
+
+    assert_not_equal g.random(1.0), g.random(1.0)
+
+    assert_raise(ArgumentError) {g.random 0}
+    assert_raise(ArgumentError) {g.random 1, 1}
+
+    array = 10000.times.map {g.random 1, 2}
+    assert array.all? {|n| (1.0...2.0).include? n}
+    assert_in_delta 1.5, array.sum.to_f / array.size, 0.01
+  end
+
+  def test_random_choice()
+    g = graphics
+
+    assert_equal :a,  g.random([:a])
+    assert_equal :a,  g.random([:a, :a])
+    assert_equal nil, g.random([])
+    assert_equal nil, g.random([nil])
+
+    array = 10000.times.map {g.random([1, 2])}
+    assert array.all? {|n| (1..10).include? n}
+    assert_in_delta 1.5, array.sum.to_f / array.size, 0.02
+  end
+
+  def test_randomSeed()
+    g = graphics
+                    r0 = g.random 1
+    g.randomSeed 1; r1 = g.random 1
+    g.randomSeed 2; r2 = g.random 1
+
+    assert_equal 3, [r0, r1, r2].uniq.size
+
+    g.randomSeed 1
+    assert_equal r1, g.random(1)
+  end
+
+  def test_randomSeed_choice()
+    g = graphics
+                    r0 = g.random((0...10000).to_a)
+    g.randomSeed 1; r1 = g.random((0...10000).to_a)
+    g.randomSeed 2; r2 = g.random((0...10000).to_a)
+
+    assert_equal 3, [r0, r1, r2].uniq.size
+
+    g.randomSeed 1
+    assert_equal r1, g.random((0...10000).to_a)
+  end
+
   def test_noise()
     g = graphics
     assert_equal     g.noise(0.1, 0.2, 0.3), g.noise(0.1, 0.2, 0.3)
