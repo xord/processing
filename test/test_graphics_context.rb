@@ -966,6 +966,16 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal r1, g.random((0...10000).to_a)
   end
 
+  def test_randomGaussian()
+    g = graphics
+
+    assert_equal Float, g.randomGaussian.class
+
+    array = 10000.times.map {g.randomGaussian}
+    assert array.select {|n| (0...3).include? n.abs}.size > 9800
+    assert_in_delta 0, array.sum.to_f / array.size, 0.05
+  end
+
   def test_noise()
     g = graphics
     assert_equal     g.noise(0.1, 0.2, 0.3), g.noise(0.1, 0.2, 0.3)

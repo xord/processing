@@ -288,6 +288,7 @@ module Processing
       @filter__         = nil
       @pixels__         = nil
       @random__         = nil
+      @nextGaussian__   = nil
       @noiseSeed__      = nil
       @noiseOctaves__   = nil
       @noiseFallOff__   = nil
@@ -2291,7 +2292,37 @@ module Processing
     # @see https://p5js.org/reference/#/p5/randomSeed
     #
     def randomSeed(seed)
-      @random__ = Random.new seed
+      @random__       = Random.new seed
+      @nextGaussian__ = nil
+    end
+
+    # Returns a random number fitting a Gaussian, or normal, distribution.
+    #
+    # @param mean [Numeric] mean
+    # @param sd   [Numeric] standard deviation
+    #
+    # @return [Float] random number
+    #
+    # @see https://processing.org/reference/randomGaussian_.html
+    # @see https://p5js.org/reference/#/p5/randomGaussian
+    #
+    def randomGaussian(mean = 0, sd = 1)
+      value =
+        if @nextGaussian__
+          x, @nextGaussian__ = @nextGaussian__, nil
+          x
+        else
+          a, b, w = 0, 0, 1
+          until w < 1
+            a = random(2) - 1
+            b = random(2) - 1
+            w = a ** 2 + b ** 2
+          end
+          w = Math.sqrt(-2 * Math.log(w) / w)
+          @randomGaussian__ = a * w
+          b * w
+        end
+      value * sd + mean
     end
 
     # Creates a new vector object.
