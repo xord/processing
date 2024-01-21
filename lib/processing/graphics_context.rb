@@ -287,6 +287,9 @@ module Processing
       @tint__           = nil
       @filter__         = nil
       @pixels__         = nil
+      @noiseSeed__      = nil
+      @noiseOctaves__   = nil
+      @noiseFallOff__   = nil
       @matrixStack__    = []
       @styleStack__     = []
 
@@ -309,10 +312,12 @@ module Processing
       fill           255
       stroke         0
       strokeWeight   1
+      noTint
       curveDetail    20
       curveTightness 0
       bezierDetail   20
-      noTint
+      noiseSeed      Random.new_seed
+      noiseDetail    4, 0.5
     end
 
     # @private
@@ -2205,8 +2210,48 @@ module Processing
     #
     # @return [Numeric] noise value (0.0..1.0)
     #
+    # @see https://processing.org/reference/noise_.html
+    # @see https://p5js.org/reference/#/p5/noise
+    #
     def noise(x, y = 0, z = 0)
-      Rays.perlin(x, y, z) / 2.0 + 0.5
+      seed, falloff = @noiseSeed__, @noiseFallOff__
+      amp           = 0.5
+      @noiseOctaves__.times.reduce(0) do |sum|
+        value = (Rays.perlin(x, y, z, seed) / 2.0 + 0.5) * amp
+        x    *= 2
+        y    *= 2
+        z    *= 2
+        amp  *= falloff
+        sum + value
+      end
+    end
+
+    # Sets the seed value for noise()
+    #
+    # @param seed [Numeric] seed value
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noiseSeed_.html
+    # @see https://p5js.org/reference/#/p5/noiseSeed
+    #
+    def noiseSeed(seed)
+      @noiseSeed__ = Random.new(seed).rand 0.0..1.0
+    end
+
+    # Adjusts the character and level of detail produced by the Perlin noise function.
+    #
+    # @param lod     [Numeric] number of octaves to be used by the noise
+    # @param falloff [Numeric] falloff factor for each octave
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noiseDetail_.html
+    # @see https://p5js.org/reference/#/p5/noiseDetail
+    #
+    def noiseDetail(lod, falloff = nil)
+      @noiseOctaves__ = lod     if lod     && lod > 0
+      @noiseFallOff__ = falloff if falloff && falloff > 0
     end
 
     # Returns a random number in range low...high

@@ -910,4 +910,36 @@ class TestGraphicsContext < Test::Unit::TestCase
     END
   end
 
+  def test_noise()
+    g = graphics
+    assert_equal     g.noise(0.1, 0.2, 0.3), g.noise(0.1, 0.2, 0.3)
+    assert_not_equal g.noise(0.1, 0.2, 0.3), g.noise(0.2, 0.2, 0.3)
+    assert_not_equal g.noise(0.1, 0.2, 0.3), g.noise(0.1, 0.3, 0.3)
+    assert_not_equal g.noise(0.1, 0.2, 0.3), g.noise(0.1, 0.2, 0.4)
+  end
+
+  def test_noiseSeed()
+    g = graphics
+                   n0 = g.noise 0.1, 0.2, 0.3
+    g.noiseSeed 1; n1 = g.noise 0.1, 0.2, 0.3
+    g.noiseSeed 2; n2 = g.noise 0.1, 0.2, 0.3
+
+    assert_equal 3, [n0, n1, n2].uniq.size
+
+    g.noiseSeed 1
+    assert_equal n1, g.noise(0.1, 0.2, 0.3)
+  end
+
+  def test_noiseDetail()
+    g = graphics
+                     n0 = g.noise 0.1, 0.2, 0.3
+    g.noiseDetail 1; n1 = g.noise 0.1, 0.2, 0.3
+    g.noiseDetail 2; n2 = g.noise 0.1, 0.2, 0.3
+    g.noiseDetail 3; n3 = g.noise 0.1, 0.2, 0.3
+    g.noiseDetail 4; n4 = g.noise 0.1, 0.2, 0.3
+
+    assert_equal 4,  [n1, n2, n3, n4].uniq.size
+    assert_equal n4, n0
+  end
+
 end# TestGraphicsContext
