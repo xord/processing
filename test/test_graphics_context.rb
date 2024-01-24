@@ -137,6 +137,24 @@ class TestGraphicsContext < Test::Unit::TestCase
     end
   end
 
+  def test_textLeading()
+    assert_p5_draw <<~END, threshold: 0.97
+      noStroke
+      textSize 200
+      push
+      text "X\nX", 100, 200
+      textLeading 300
+      text "X\nX", 250, 200
+      textLeading 400
+      text "X\nX", 400, 200
+      textLeading 100
+      text "X\nX", 550, 200
+      textLeading 0
+      text "X\nX", 700, 200
+      pop
+    END
+  end
+
   def test_clear()
     colors = -> g {get_pixels(g).uniq}
 

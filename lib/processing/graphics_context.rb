@@ -899,6 +899,20 @@ module Processing
       @textAlignV__ = vertical
     end
 
+    # Sets the spacing between lines of text in units of pixels.
+    #
+    # @overload textLeading()
+    # @overload textLeading(leading)
+    #
+    # @param leading [Numeric] the size in pixels for spacing between lines
+    #
+    # @return [Numeric] current spacing
+    #
+    def textLeading(leading = nil)
+      @painter__.line_height = leading if leading
+      @painter__.line_height
+    end
+
     def texture(image)
       @painter__.texture image&.getInternal__
       nil
@@ -1665,6 +1679,7 @@ module Processing
         @painter__.stroke_cap,
         @painter__.stroke_join,
         @painter__.miter_limit,
+        @painter__.line_height!,
         @painter__.clip,
         @painter__.blend_mode,
         @painter__.font,
@@ -1708,6 +1723,7 @@ module Processing
       @painter__.stroke_cap,
       @painter__.stroke_join,
       @painter__.miter_limit,
+      @painter__.line_height,
       @painter__.clip,
       @painter__.blend_mode,
       @painter__.font,
