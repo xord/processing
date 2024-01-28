@@ -846,30 +846,32 @@ module Processing
     end
 
     # Sets text font.
-    #
     # (Passing a font name as the first parameter is deprecated)
     #
+    # @overload textFont()
     # @overload textFont(font)
-    # @overload textFont(name)
+    # @overload textFont(name) [DEPRECATED]
     # @overload textFont(font, size)
-    # @overload textFont(name, size)
+    # @overload textFont(name, size) [DEPRECATED]
     #
     # @param font [Font]    font
     # @param name [String]  font name
     # @param size [Numeric] font size (max 256)
     #
-    # @return [nil] nil
+    # @return [Font] current font
     #
-    def textFont(font, size = nil)
-      size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
-      if font.nil? || font.kind_of?(String)
-        font = createFont font, size
-      elsif size
-        font.setSize__ size
+    def textFont(font = nil, size = nil)
+      if font != nil || size != nil
+        size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
+        if font.nil? || font.kind_of?(String)
+          font = createFont font, size
+        elsif size
+          font.setSize__ size
+        end
+        @painter__.font = font.getInternal__
+        @textFont__     = font
       end
-      @textFont__     = font
-      @painter__.font = font.getInternal__
-      nil
+      @textFont__
     end
 
     # Sets text size.
