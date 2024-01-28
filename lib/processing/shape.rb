@@ -152,7 +152,7 @@ module Processing
     end
 
     def fill(*args)
-      @fill = @context.toRaysColor__(*args)
+      @fill = @context.rawColor__(*args)
     end
 
     def setVertex(index, point)
@@ -173,7 +173,7 @@ module Processing
     end
 
     def setFill(*args)
-      color = @context.toRaysColor__(*args)
+      color = @context.rawColor__(*args)
       count = getVertexCount
       if count > 0
         if @colors

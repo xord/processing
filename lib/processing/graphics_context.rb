@@ -481,11 +481,11 @@ module Processing
     private def toRGBA__(*args)
       a, b = args
       return parseColor__(a, b || alphaMax__) if a.kind_of?(String)
-      toRaysColor__(*args).to_a
+      rawColor__(*args).to_a
     end
 
     # @private
-    def toRaysColor__(*args)
+    def rawColor__(*args)
       a, b, c, d = args
       rgba = case args.size
         when 1, 2 then [a, a, a, b || alphaMax__]
