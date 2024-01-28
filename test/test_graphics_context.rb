@@ -8,7 +8,7 @@ class TestGraphicsContext < Test::Unit::TestCase
 
   THRESHOLD_TO_BE_FIXED = 0.0
 
-  def test_color()
+  def test_rgb_color()
     g = graphics
 
     g.colorMode G::RGB, 255
@@ -23,6 +23,25 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_in_delta 0.2, g.green(c), 1 / 256.0
     assert_in_delta 0.3, g.blue(c),  1 / 256.0
     assert_in_delta 0.4, g.alpha(c), 1 / 256.0
+
+    g.colorMode G::RGB, 0.5
+    c = g.color 0.1, 0.2, 0.3, 0.4
+    assert_equal 0xcc336699, c
+    assert_in_delta 0.1, g.red(c),   1 / 256.0
+    assert_in_delta 0.2, g.green(c), 1 / 256.0
+    assert_in_delta 0.3, g.blue(c),  1 / 256.0
+    assert_in_delta 0.4, g.alpha(c), 1 / 256.0
+  end
+
+  def test_hsb_color()
+    g = graphics
+
+    g.colorMode G::HSB, 1.0
+    c = g.color 0.1, 0.2, 0.3, 0.4
+    assert_in_delta 0.1, g.hue(c),        1 / 256.0
+    assert_in_delta 0.2, g.saturation(c), 1 / 256.0
+    assert_in_delta 0.3, g.brightness(c), 1 / 256.0
+    assert_in_delta 0.4, g.alpha(c),      1 / 256.0
 
     g.colorMode G::HSB, 0.5
     c = g.color 0.1, 0.2, 0.3, 0.4
