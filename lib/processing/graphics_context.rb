@@ -477,6 +477,39 @@ module Processing
       ((color >> 24) & 0xff) / 255.0 * @colorMaxes__[3]
     end
 
+    # Returns the hue value of the color.
+    #
+    # @param color [Numeric] color value
+    #
+    # @return [Numeric] the hue value
+    #
+    def hue(color)
+      h, = toRawColor__(color).to_hsv
+      h * (@hsbColor__ ? @colorMaxes__[0] : 1)
+    end
+
+    # Returns the saturation value of the color.
+    #
+    # @param color [Numeric] color value
+    #
+    # @return [Numeric] the saturation value
+    #
+    def saturation(color)
+      _, s, = toRawColor__(color).to_hsv
+      s * (@hsbColor__ ? @colorMaxes__[1] : 1)
+    end
+
+    # Returns the brightness value of the color.
+    #
+    # @param color [Numeric] color value
+    #
+    # @return [Numeric] the brightness value
+    #
+    def brightness(color)
+      _, _, b = toRawColor__(color).to_hsv
+      b * (@hsbColor__ ? @colorMaxes__[2] : 1)
+    end
+
     # @private
     private def toRGBA__(*args)
       a, b = args
@@ -508,6 +541,15 @@ module Processing
     # @private
     private def alphaMax__()
       @colorMaxes__[3]
+    end
+
+    # @private
+    private def toRawColor__(color)
+      Rays::Color.new(
+        ((color >> 16) & 0xff) / 255.0,
+        ((color >> 8)  & 0xff) / 255.0,
+        ( color        & 0xff) / 255.0,
+        ((color >> 24) & 0xff) / 255.0)
     end
 
     # Sets angle mode.

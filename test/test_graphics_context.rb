@@ -23,6 +23,13 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_in_delta 0.2, g.green(c), 1 / 256.0
     assert_in_delta 0.3, g.blue(c),  1 / 256.0
     assert_in_delta 0.4, g.alpha(c), 1 / 256.0
+
+    g.colorMode G::HSB, 0.5
+    c = g.color 0.1, 0.2, 0.3, 0.4
+    assert_in_delta 0.1, g.hue(c),        1 / 256.0
+    assert_in_delta 0.2, g.saturation(c), 1 / 256.0
+    assert_in_delta 0.3, g.brightness(c), 1 / 256.0
+    assert_in_delta 0.4, g.alpha(c),      1 / 256.0
   end
 
   def test_colorMode()
