@@ -552,6 +552,14 @@ module Processing
       @window__.event.fps
     end
 
+    # Returns the elapsed time after previous drawing event
+    #
+    # @return [Float] elapsed time in milliseconds
+    #
+    def deltaTime()
+      @window__.event.dt * 1000
+    end
+
     # Returns the last key that was pressed or released.
     #
     # @return [String] last key
