@@ -782,6 +782,107 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal %w[ffff0000 ff00ff00 ff0000ff], getPixels.call(g)
   end
 
+  def test_applyMatrix()
+    g = graphics
+
+    painterMatrix = -> {g.instance_variable_get(:@painter__).matrix.to_a}
+
+    g.beginDraw do
+      g.resetMatrix
+      g.applyMatrix 1, 2, 3, 4, 5, 6
+      assert_equal [1,2,0,0, 3,4,0,0, 0,0,1,0, 5,6,0,1], painterMatrix.call
+
+      g.resetMatrix
+      g.applyMatrix 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+      assert_equal [1,5,9,13, 2,6,10,14, 3,7,11,15, 4,8,12,16], painterMatrix.call
+
+      g.resetMatrix
+      g.applyMatrix [1, 2, 3, 4, 5, 6]
+      assert_equal [1,2,0,0, 3,4,0,0, 0,0,1,0, 5,6,0,1], painterMatrix.call
+
+      g.resetMatrix
+      g.applyMatrix [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      assert_equal [1,5,9,13, 2,6,10,14, 3,7,11,15, 4,8,12,16], painterMatrix.call
+
+      ((0..17).to_a - [6, 16]).each do |n|
+        assert_raise(ArgumentError) {g.applyMatrix   [0] * n}
+        assert_raise(ArgumentError) {g.applyMatrix *([0] * n)}
+      end
+    end
+  end
+
+  def test_applyMatrix_translate()
+    assert_p5_draw <<~END
+      applyMatrix  1, 0, 0, 1, 100, 200
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END
+      applyMatrix [1, 0, 0, 1, 100, 200]
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false
+      applyMatrix  1,0,0,0, 0,1,0,0, 0,0,1,0, 100,200,0,1
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false
+      applyMatrix [1,0,0,0, 0,1,0,0, 0,0,1,0, 100,200,0,1]
+      rect 100, 100, 500, 600
+    END
+  end
+
+  def test_applyMatrix_scale()
+    assert_p5_draw <<~END
+      applyMatrix  2, 0, 0, 3, 0, 0
+      rect 100, 100, 200, 200
+    END
+    assert_p5_draw <<~END
+      applyMatrix [2, 0, 0, 3, 0, 0]
+      rect 100, 100, 200, 200
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false, threshold: THRESHOLD_TO_BE_FIXED
+      applyMatrix  2,0,0,0, 0,3,0,0, 0,0,1,0, 0,0,0,1
+      rect 100, 100, 200, 200
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false, threshold: THRESHOLD_TO_BE_FIXED
+      applyMatrix [2,0,0,0, 0,3,0,0, 0,0,1,0, 0,0,0,1]
+      rect 100, 100, 200, 200
+    END
+  end
+
+  def test_applyMatrix_rotate()
+    assert_p5_draw <<~END
+      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+      applyMatrix  c, s, -s, c, 0, 0
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END
+      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+      applyMatrix [c, s, -s, c, 0, 0]
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false
+      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+      applyMatrix  c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1
+      rect 100, 100, 500, 600
+    END
+    assert_p5_draw <<~END, webgl: true, headless: false
+      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+      applyMatrix [c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1]
+      rect 100, 100, 500, 600
+    END
+  end
+
+  def test_applyMatrix_multiple_times()
+    assert_p5_draw <<~END
+      applyMatrix 1, 0, 0, 1, 100, 200
+      s = Math.sin(Math::PI / 10)
+      c = Math.cos(Math::PI / 10)
+      applyMatrix c, s, -s, c, 0, 0
+      applyMatrix 2, 0, 0, 3, 0, 0
+      rect 100, 100, 100, 100
+    END
+  end
+
   def test_lerp()
     g = graphics
 

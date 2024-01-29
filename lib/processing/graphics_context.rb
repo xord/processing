@@ -1700,6 +1700,52 @@ module Processing
       nil
     end
 
+    # Reset current transformation matrix with 2x3, or 4x4 matrix.
+    #
+    # @overload applyMatrix(array)
+    # @overload applyMatrix(a, b, c, d, e, f)
+    # @overload applyMatrix(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
+    #
+    # @param array [Array]   6 or 16 numbers which define the matrix
+    # @param a     [Numeric] number which defines the matrix
+    # @param b     [Numeric] number which defines the matrix
+    # @param c     [Numeric] number which defines the matrix
+    # @param d     [Numeric] number which defines the matrix
+    # @param e     [Numeric] number which defines the matrix
+    # @param f     [Numeric] number which defines the matrix
+    # @param g     [Numeric] number which defines the matrix
+    # @param h     [Numeric] number which defines the matrix
+    # @param i     [Numeric] number which defines the matrix
+    # @param j     [Numeric] number which defines the matrix
+    # @param k     [Numeric] number which defines the matrix
+    # @param l     [Numeric] number which defines the matrix
+    # @param m     [Numeric] number which defines the matrix
+    # @param n     [Numeric] number which defines the matrix
+    # @param o     [Numeric] number which defines the matrix
+    # @param p     [Numeric] number which defines the matrix
+    #
+    # @return [nil] nil
+    #
+    def applyMatrix(*args)
+      assertDrawing__
+      args = args.first if args.first.kind_of?(Array)
+      @painter__.matrix *=
+        case args.size
+        when 6
+          a, b, c, d, e, f = args
+          Rays::Matrix.new(
+            a, c, 0, e,
+            b, d, 0, f,
+            0, 0, 1, 0,
+            0, 0, 0, 1)
+        when 16
+          Rays::Matrix.new(*args).transpose # transpose for p5.js mode
+        else
+          raise ArgumentError
+        end
+      nil
+    end
+
     # Reset current transformation matrix with identity matrix.
     #
     # @return [nil] nil
