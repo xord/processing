@@ -204,17 +204,17 @@ module Processing
     end
 
     def translate(x, y, z = 0)
-      matrix__.translate x, y, z
+      matrix__.translate! x, y, z
       nil
     end
 
     def rotate(angle)
-      matrix__.rotate @context.toDegrees__(angle)
+      matrix__.rotate! @context.toDegrees__(angle)
       nil
     end
 
     def scale(x, y, z = 1)
-      matrix__.scale x, y, z
+      matrix__.scale! x, y, z
       nil
     end
 

@@ -1765,7 +1765,7 @@ module Processing
       end
       raise ArgumentError unless args.size == 16
       m = Rays::Matrix.new(*args)
-      m.transpose if @p5jsMode__
+      m.transpose! if @p5jsMode__
       @painter__.matrix *= m
       nil
     end
