@@ -806,7 +806,7 @@ class TestGraphicsContext < Test::Unit::TestCase
 
       ((0..17).to_a - [6, 16]).each do |n|
         assert_raise(ArgumentError) {g.applyMatrix   [0] * n}
-        assert_raise(ArgumentError) {g.applyMatrix *([0] * n)}
+        assert_raise(ArgumentError) {g.applyMatrix(*([0] * n))}
       end
     end
   end

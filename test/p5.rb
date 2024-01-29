@@ -49,7 +49,7 @@ def get_p5rb_html(width, height, draw_src, webgl: false)
   END
 end
 
-def sleep_until (try: 3, timeout: 10, &block)
+def sleep_until(try: 3, timeout: 10, &block)
   now = -> offset = 0 {Time.now.to_f + offset}
   limit = now[timeout]
   until block.call
