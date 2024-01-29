@@ -215,7 +215,7 @@ module Processing
     #
     def keyPressed(&block)
       @keyPressedBlock__ = block if block
-      not @keysPressed__.empty?
+      keyIsPressed
     end
 
     # Defines keyReleased block.
@@ -574,6 +574,14 @@ module Processing
     #
     def keyCode()
       @keyCode__
+    end
+
+    # Returns whether or not any key is pressed.
+    #
+    # @return [Boolean] is any key pressed or not
+    #
+    def keyIsPressed()
+      not @keysPressed__.empty?
     end
 
     # Returns mouse x position
