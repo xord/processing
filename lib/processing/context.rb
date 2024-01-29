@@ -144,8 +144,8 @@ module Processing
         updatePointersPressedAndReleased.call e, false
         if e.any? {|p| p.id == @pointer__.id}
           @mouseReleasedBlock__&.call
-          @mouseClickedBlock__&.call if
-            (@pointer__.pos - @pointer__.down.pos).length < 3
+          @mouseClickedBlock__&.call  if e.click_count > 0
+          @doubleClickedBlock__&.call if e.click_count == 2
         end
         @touchEndedBlock__&.call
         @pointersReleased__.clear
@@ -196,6 +196,7 @@ module Processing
       @mouseMovedBlock__    ||
       @mouseDraggedBlock__  ||
       @mouseClickedBlock__  ||
+      @doubleClickedBlock__ ||
       @mouseWheelBlock__    ||
       @touchStartedBlock__  ||
       @touchEndedBlock__    ||
@@ -283,6 +284,15 @@ module Processing
     #
     def mouseClicked(&block)
       @mouseClickedBlock__ = block if block
+      nil
+    end
+
+    # Defines doubleClicked block.
+    #
+    # @return [nil] nil
+    #
+    def doubleClicked(&block)
+      @doubleClickedBlock__ = block if block
       nil
     end
 
