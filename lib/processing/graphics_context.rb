@@ -45,6 +45,14 @@ module Processing
     #
     DEGREES = :degrees
 
+    # Processing mode for matrixMode().
+    #
+    PROCESSING = :processing
+
+    # p5.js mode for matrixMode().
+    #
+    P5JS       = :p5js
+
     # Mode for rectMode(), ellipseMode(), imageMode(), and shapeMode().
     #
     CORNER  = :corner
@@ -273,6 +281,8 @@ module Processing
       @colorMaxes__     = [1.0] * 4
       @angleMode__      = nil
       @angleScale__     = 1.0
+      @matrixMode__     = nil
+      @p5jsMode__       = false
       @rectMode__       = nil
       @ellipseMode__    = nil
       @imageMode__      = nil
@@ -299,6 +309,7 @@ module Processing
 
       colorMode   RGB, 255
       angleMode   RADIANS
+      matrixMode  P5JS
       rectMode    CORNER
       ellipseMode CENTER
       imageMode   CORNER
@@ -592,6 +603,20 @@ module Processing
       when DEGREES then degrees
       else raise "invalid angle mode: #{mode}"
       end
+    end
+
+    # Sets matrix mode.
+    #
+    # @param mode [PROCESSING, P5JS] compatible to Processing or p5.js
+    #
+    # @return [PROCESSING, P5JS] current mode
+    #
+    def matrixMode(mode = nil)
+      if mode
+        @matrixMode__ = mode
+        @p5jsMode__   = mode == P5JS
+      end
+      @matrixMode__
     end
 
     # Sets rect mode. Default is CORNER.
@@ -1729,20 +1754,19 @@ module Processing
     def applyMatrix(*args)
       assertDrawing__
       args = args.first if args.first.kind_of?(Array)
-      @painter__.matrix *=
-        case args.size
-        when 6
-          a, b, c, d, e, f = args
-          Rays::Matrix.new(
-            a, c, 0, e,
-            b, d, 0, f,
-            0, 0, 1, 0,
-            0, 0, 0, 1)
-        when 16
-          Rays::Matrix.new(*args).transpose # transpose for p5.js mode
-        else
-          raise ArgumentError
-        end
+      if args.size == 6
+        a, b, c, d, e, f = args
+        args = [
+          a, b, 0, 0,
+          c, d, 0, 0,
+          0, 0, 1, 0,
+          e, f, 0, 1
+        ]
+      end
+      raise ArgumentError unless args.size == 16
+      m = Rays::Matrix.new(*args)
+      m.transpose if @p5jsMode__
+      @painter__.matrix *= m
       nil
     end
 
