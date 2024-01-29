@@ -90,8 +90,8 @@ module Processing
         @key__     = event.chars
         @keyCode__ = event.key
         if pressed != nil
-          set, key = @keysPressed__, event.key
-          pressed ? set.add(key) : set.delete(key)
+          set = @keysPressed__
+          pressed ? set.add(@keyCode__) : set.delete(@keyCode__)
         end
       }
 
@@ -582,6 +582,16 @@ module Processing
     #
     def keyIsPressed()
       not @keysPressed__.empty?
+    end
+
+    # Returns weather or not the key is currently pressed.
+    #
+    # @param keyCode [Numeric] code for the key
+    #
+    # @return [Boolean] is the key pressed or not
+    #
+    def keyIsDown(keyCode)
+      @keysPressed__.include? keyCode
     end
 
     # Returns mouse x position
