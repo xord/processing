@@ -158,6 +158,10 @@ module Processing
         @touchMovedBlock__&.call
       end
 
+      @window__.wheel = proc do |e|
+        @mouseWheelBlock__&.call WheelEvent.new(e)
+      end
+
       @window__.move = proc do |e|
         @windowMovedBlock__&.call
       end
@@ -192,6 +196,7 @@ module Processing
       @mouseMovedBlock__    ||
       @mouseDraggedBlock__  ||
       @mouseClickedBlock__  ||
+      @mouseWheelBlock__    ||
       @touchStartedBlock__  ||
       @touchEndedBlock__    ||
       @touchMovedBlock__    ||
@@ -278,6 +283,15 @@ module Processing
     #
     def mouseClicked(&block)
       @mouseClickedBlock__ = block if block
+      nil
+    end
+
+    # Defines mouseWheel block.
+    #
+    # @return [nil] nil
+    #
+    def mouseWheel(&block)
+      @mouseWheelBlock__ = block if block
       nil
     end
 

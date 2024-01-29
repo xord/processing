@@ -21,7 +21,7 @@ module Processing
     end
 
     attr_accessor :setup, :update, :draw, :move, :resize, :motion,
-      :key_down, :key_up, :pointer_down, :pointer_up, :pointer_move,
+      :key_down, :key_up, :pointer_down, :pointer_up, :pointer_move, :wheel,
       :before_draw, :after_draw, :update_window, :update_canvas
 
     attr_accessor :auto_resize
@@ -115,6 +115,10 @@ module Processing
         when :move        then @pointer_move
       end
       draw_canvas {call_block block, e} if block
+    end
+
+    def on_canvas_wheel(e)
+      draw_canvas {call_block @wheel, e} if @wheel
     end
 
     def on_canvas_resize(e)
@@ -304,6 +308,10 @@ module Processing
 
     def on_pointer(e)
       window.on_canvas_pointer e
+    end
+
+    def on_wheel(e)
+      window.on_canvas_wheel e
     end
 
     def on_resize(e)
