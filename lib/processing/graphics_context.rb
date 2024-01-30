@@ -2706,8 +2706,11 @@ module Processing
       path   = path.sub_ext ext
 
       unless path.file?
-        tmpdir.mkdir unless tmpdir.directory?
-        File.binwrite path, Net::HTTP.get(URI.parse uri)
+        Net::HTTP.get_response URI.parse(uri) do |res|
+          res.value # raise an error unless successful
+          tmpdir.mkdir unless tmpdir.directory?
+          path.open('wb') {|file| res.read_body {|body| file.write body}}
+        end
       end
       path.to_s
     end
