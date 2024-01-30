@@ -2642,7 +2642,7 @@ module Processing
       raise "unsupported font type -- '#{ext}'" unless ext =~ /^\.?(ttf|otf)$/i
 
       filename = httpGet__ filename, ext if filename =~ %r|^https?://|
-      Font.new Rays::Font.load p filename
+      Font.new Rays::Font.load filename
     end
 
     # Loads image.
