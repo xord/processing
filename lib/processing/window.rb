@@ -18,6 +18,7 @@ module Processing
       @overlay_view = @canvas_view.add Reflex::View.new name: :overlay
 
       super(*args, size: [width, height], **kwargs, &block)
+      self.center = screen.center
     end
 
     attr_accessor :setup, :update, :draw, :move, :resize, :motion,
