@@ -72,6 +72,7 @@ end
 
 def test_draw(*sources, width: 1000, height: 1000, pixelDensity: 1, label: nil)
   graphics(width, height, pixelDensity).tap do |g|
+    g.renderMode :p5js
     g.beginDraw {g.instance_eval sources.compact.join("\n")}
     g.save draw_output_path(label, *sources) if label
   end

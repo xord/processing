@@ -25,6 +25,14 @@ module Processing
     #
     TAU        = PI * 2
 
+    # Processing mode for renderMode().
+    #
+    PROCESSING = :processing
+
+    # p5.js mode for renderMode().
+    #
+    P5JS       = :p5js
+
     # RGBA format for createImage().
     #
     RGBA = :rgba
@@ -44,14 +52,6 @@ module Processing
     # Degree mode for angleMode().
     #
     DEGREES = :degrees
-
-    # Processing mode for matrixMode().
-    #
-    PROCESSING = :processing
-
-    # p5.js mode for matrixMode().
-    #
-    P5JS       = :p5js
 
     # Mode for rectMode(), ellipseMode(), imageMode(), and shapeMode().
     #
@@ -276,13 +276,13 @@ module Processing
     # @private
     def init__(image, painter)
       @drawing__        = false
+      @renderMode__     = nil
+      @p5jsMode__       = false
       @colorMode__      = nil
       @hsbColor__       = false
       @colorMaxes__     = [1.0] * 4
       @angleMode__      = nil
       @angleScale__     = 1.0
-      @matrixMode__     = nil
-      @p5jsMode__       = false
       @rectMode__       = nil
       @ellipseMode__    = nil
       @imageMode__      = nil
@@ -307,9 +307,9 @@ module Processing
 
       updateCanvas__ image, painter
 
+      renderMode  PROCESSING
       colorMode   RGB, 255
       angleMode   RADIANS
-      matrixMode  P5JS
       rectMode    CORNER
       ellipseMode CENTER
       imageMode   CORNER
@@ -393,6 +393,20 @@ module Processing
     #
     def pixelDensity()
       @painter__.pixel_density
+    end
+
+    # Sets render mode.
+    #
+    # @param mode [PROCESSING, P5JS] compatible to Processing or p5.js
+    #
+    # @return [PROCESSING, P5JS] current mode
+    #
+    def renderMode(mode = nil)
+      if mode
+        @renderMode__ = mode
+        @p5jsMode__   = mode == P5JS
+      end
+      @renderMode__
     end
 
     # Sets color mode and max color values.
@@ -603,20 +617,6 @@ module Processing
       when DEGREES then degrees
       else raise "invalid angle mode: #{mode}"
       end
-    end
-
-    # Sets matrix mode.
-    #
-    # @param mode [PROCESSING, P5JS] compatible to Processing or p5.js
-    #
-    # @return [PROCESSING, P5JS] current mode
-    #
-    def matrixMode(mode = nil)
-      if mode
-        @matrixMode__ = mode
-        @p5jsMode__   = mode == P5JS
-      end
-      @matrixMode__
     end
 
     # Sets rect mode. Default is CORNER.
