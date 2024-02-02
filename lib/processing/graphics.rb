@@ -18,8 +18,8 @@ module Processing
     # Start drawing.
     #
     def beginDraw(&block)
-      beginDraw__
       @painter__.__send__ :begin_paint
+      beginDraw__
       push
       if block
         begin
@@ -34,8 +34,8 @@ module Processing
     #
     def endDraw()
       pop
-      @painter__.__send__ :end_paint
       endDraw__
+      @painter__.__send__ :end_paint
     end
 
   end# Graphics

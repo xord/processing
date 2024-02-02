@@ -350,6 +350,26 @@ module Processing
       @matrixStack__.clear
       @styleStack__.clear
       @drawing__ = true
+      setupMatrix__
+    end
+
+    # @private
+    def setupMatrix__()
+      w, h = width.to_f, height.to_f
+      x, y = w / 2.0, h / 2.0
+
+      fov, z = nil
+      if @p5jsMode__
+        z   = 800
+        fov = degrees Math.atan(y / z) * 2.0
+      else
+        fov = 60
+        z   = y / Math.tan(radians(fov) / 2.0)
+      end
+
+      @painter__.matrix =
+        Rays::Matrix.perspective(fov, w / h, z / 10.0, z * 10.0) *
+        Rays::Matrix.look_at(x, y, z, x, y, 0)
     end
 
     # @private
