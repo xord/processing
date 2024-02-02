@@ -1722,6 +1722,24 @@ module Processing
       nil
     end
 
+    def rotateX(angle)
+      assertDrawing__
+      @painter__.rotate toDegrees__(angle), 1, 0, 0
+      nil
+    end
+
+    def rotateY(angle)
+      assertDrawing__
+      @painter__.rotate toDegrees__(angle), 0, 1, 0
+      nil
+    end
+
+    def rotateZ(angle)
+      assertDrawing__
+      @painter__.rotate toDegrees__(angle), 0, 0, 1
+      nil
+    end
+
     # Pushes the current transformation matrix to stack.
     #
     # @return [Object] result of the expression at the end of the block

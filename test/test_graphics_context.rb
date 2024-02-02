@@ -782,6 +782,33 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal %w[ffff0000 ff00ff00 ff0000ff], getPixels.call(g)
   end
 
+  def test_rotateX()
+    assert_p5_draw <<~END, webgl: true, headless: false
+      noStroke
+      translate 100, 100
+      rotateX PI * 0.1
+      rect 0, 0, 500, 500
+    END
+  end
+
+  def test_rotateY()
+    assert_p5_draw <<~END, webgl: true, headless: false
+      noStroke
+      translate 100, 100
+      rotateY PI * 0.1
+      rect 0, 0, 500, 500
+    END
+  end
+
+  def test_rotateZ()
+    assert_p5_draw <<~END, webgl: true, headless: false
+      noStroke
+      translate 100, 100
+      rotateZ PI * 0.1
+      rect 0, 0, 500, 500
+    END
+  end
+
   def test_applyMatrix()
     g = graphics
 
