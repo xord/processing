@@ -1786,7 +1786,7 @@ module Processing
     #
     def printMatrix()
       m = @painter__.matrix
-      m.transpose if @p5jsMode__
+      m.transpose! if @p5jsMode__
       print "%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n%f %f %f %f\n" % m.to_a
       nil
     end
