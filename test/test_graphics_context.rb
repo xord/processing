@@ -850,23 +850,20 @@ class TestGraphicsContext < Test::Unit::TestCase
   end
 
   def test_applyMatrix_rotate()
-    assert_p5_draw <<~END
-      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+    header = 's, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)'
+    assert_p5_draw header, <<~END
       applyMatrix  c, s, -s, c, 0, 0
       rect 100, 100, 500, 600
     END
-    assert_p5_draw <<~END
-      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+    assert_p5_draw header, <<~END
       applyMatrix [c, s, -s, c, 0, 0]
       rect 100, 100, 500, 600
     END
-    assert_p5_draw <<~END, webgl: true, headless: false
-      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+    assert_p5_draw header, <<~END, webgl: true, headless: false
       applyMatrix  c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1
       rect 100, 100, 500, 600
     END
-    assert_p5_draw <<~END, webgl: true, headless: false
-      s, c = Math.sin(Math::PI / 10), Math.cos(Math::PI / 10)
+    assert_p5_draw header, <<~END, webgl: true, headless: false
       applyMatrix [c,s,0,0, -s,c,0,0, 0,0,1,0, 0,0,0,1]
       rect 100, 100, 500, 600
     END
