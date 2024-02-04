@@ -282,7 +282,10 @@ module Processing
       @hsbColor__       = false
       @colorMaxes__     = [1.0] * 4
       @angleMode__      = nil
-      @angleScale__     = 1.0
+      @toRad__          = 1.0
+      @toDeg__          = 1.0
+      @fromRad__        = 1.0
+      @fromDeg__        = 1.0
       @rectMode__       = nil
       @ellipseMode__    = nil
       @imageMode__      = nil
@@ -586,10 +589,10 @@ module Processing
     def angleMode(mode = nil)
       if mode != nil
         @angleMode__  = mode
-        @angleScale__ =
+        @toRad__, @toDeg__, @fromRad__, @fromDeg__ =
           case mode.downcase.to_sym
-          when RADIANS then RAD2DEG__
-          when DEGREES then 1.0
+          when RADIANS then [1.0,      RAD2DEG__, 1.0,       DEG2RAD__]
+          when DEGREES then [DEG2RAD__, 1.0,      RAD2DEG__, 1.0]
           else raise ArgumentError, "invalid angle mode: #{mode}"
           end
       end
@@ -597,26 +600,23 @@ module Processing
     end
 
     # @private
+    def toRadians__(angle)
+      angle * @toRad__
+    end
+
+    # @private
     def toDegrees__(angle)
-      angle * @angleScale__
+      angle * @toDeg__
     end
 
     # @private
     def fromRadians__(radians)
-      case @angleMode__
-      when RADIANS then radians
-      when DEGREES then radians * RAD2DEG__
-      else raise "invalid angle mode: #{mode}"
-      end
+      radians * @fromRad__
     end
 
     # @private
     def fromDegrees__(degrees)
-      case @angleMode__
-      when RADIANS then degrees * DEG2RAD__
-      when DEGREES then degrees
-      else raise "invalid angle mode: #{mode}"
-      end
+      degrees * @fromDeg__
     end
 
     # Sets rect mode. Default is CORNER.
@@ -1816,7 +1816,10 @@ module Processing
         @hsbColor__,
         @colorMaxes__,
         @angleMode__,
-        @angleScale__,
+        @toRad__,
+        @toDeg__,
+        @fromRad__,
+        @fromDeg__,
         @rectMode__,
         @ellipseMode__,
         @imageMode__,
@@ -1860,7 +1863,10 @@ module Processing
       @hsbColor__,
       @colorMaxes__,
       @angleMode__,
-      @angleScale__,
+      @toRad__,
+      @toDeg__,
+      @fromRad__,
+      @fromDeg__,
       @rectMode__,
       @ellipseMode__,
       @imageMode__,
