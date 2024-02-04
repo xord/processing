@@ -809,6 +809,22 @@ class TestGraphicsContext < Test::Unit::TestCase
     END
   end
 
+  def test_shearX()
+    assert_p5_draw <<~END
+      translate 100, 100
+      shearX PI * 0.2
+      rect 0, 0, 500, 500
+    END
+  end
+
+  def test_shearY()
+    assert_p5_draw <<~END
+      translate 100, 100
+      shearY PI * 0.2
+      rect 0, 0, 500, 500
+    END
+  end
+
   def test_applyMatrix()
     g = graphics
 

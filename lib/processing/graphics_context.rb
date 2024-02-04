@@ -1740,6 +1740,24 @@ module Processing
       nil
     end
 
+    def shearX(angle)
+      t = Math.tan toRadians__(angle)
+      @painter__.matrix *= Rays::Matrix.new(
+        1, t, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1)
+    end
+
+    def shearY(angle)
+      t = Math.tan toRadians__(angle)
+      @painter__.matrix *= Rays::Matrix.new(
+        1, 0, 0, 0,
+        t, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1)
+    end
+
     # Pushes the current transformation matrix to stack.
     #
     # @return [Object] result of the expression at the end of the block
