@@ -222,9 +222,17 @@ module Processing
       @matrix = nil
     end
 
-    def rotateX = nil
-    def rotateY = nil
-    def rotateZ = nil
+    def rotateX(angle)
+      matrix__.rotate! @context.toDegrees__(angle), 1, 0, 0
+    end
+
+    def rotateY(angle)
+      matrix__.rotate! @context.toDegrees__(angle), 0, 1, 0
+    end
+
+    def rotateZ(angle)
+      matrix__.rotate! @context.toDegrees__(angle), 0, 0, 1
+    end
 
     # @private
     def clearCache__()
