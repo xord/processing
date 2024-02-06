@@ -1,6 +1,48 @@
 # processing ChangeLog
 
 
+## [v0.5.33] - 2024-02-07
+
+- Add curveDetail() and bezierDetail()
+- Add curvePoint(), curveTangent(), curveTightness(), bezierPoint(), and bezierTangent()
+- Add textLeading()
+- Add deltaTime
+- Add hue(), saturation(), and brightness()
+- Add noiseSeed() and noiseDetail()
+- Add randomGaussian()
+- Add randomSeed()
+- Add rotateX(), rotateY(), and rotateZ()
+- Add rotateX(), rotateY(), and rotateZ() to Shape class
+- Add shearX() and shearY()
+- Add applyMatrix()
+- Add printMatrix()
+- Add fullscreen() (fullScreen()) function
+- Add smooth() and noSmooth()
+- Add keyIsDown()
+- Add keyIsPressed()
+- Add mouseWheel()
+- Add doubleClicked()
+- Add renderMode()
+
+- Setup view projection matrix by using perspective() instead of ortho()
+- Display window in the center of the screen by default
+- loadImage() uses Net::HTTP.get() instead of URI.open() to retrieve images via http(s)
+- loadImage() writes a file in streaming mode
+- loadImage() raises Net::HTTPClientException instead of OpenURI::HTTPError
+- Reimplement the noise() for better compatibility
+- push/popStyle() manage colorMode, angleMode, blendMode, and miter_limit states
+- size() and createCanvas() resize the window by themselves
+- texture_mode/wrap -> texcoord_mode/wrap
+- updatePixels() can take block
+
+- Fix that textFont() did not return current font
+- Fix that updatePixels() did not update the texture
+- Fix the performance of requestImage() by calling Thread.pass
+- Fix an issue with unintended canvas resizing when the screen pixel density changes
+- Fix some missing attribute copies on the canvas
+- Fix Matrix::to_a order
+
+
 ## [v0.5.32] - 2024-01-08
 
 - Add requestImage()
