@@ -170,6 +170,11 @@ module Processing
       blend img, sx, sy, sw, sh, dx, dy, dw, dh, :normal
     end
 
+    # @private
+    def mask__()
+      raise NotImplementedError
+    end
+
     # Blends image.
     #
     # @overload blend(sx, sy, sw, sh, dx, dy, dw, dh, mode)
@@ -197,6 +202,51 @@ module Processing
         img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
       end
       nil
+    end
+
+    # @private
+    def blendColor__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def reset__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def setFrame__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def getCurrentFrame__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def setFrame__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def numFrames__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def play__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def pause__()
+      raise NotImplementedError
+    end
+
+    # @private
+    def delay__()
+      raise NotImplementedError
     end
 
     # Saves image to file.

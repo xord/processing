@@ -335,6 +335,11 @@ module Processing
       nil
     end
 
+    # @private
+    def setStroke__()
+      raise NotImplementedError
+    end
+
     # Adds a new child shape.
     #
     # @param child [Shape]   child shape
