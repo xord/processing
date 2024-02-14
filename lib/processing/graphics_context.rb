@@ -382,6 +382,9 @@ module Processing
     #
     # @return [Numeric] width
     #
+    # @see https://processing.org/reference/width.html
+    # @see https://p5js.org/reference/#/p5/width
+    #
     def width()
       getInternal__.width
     end
@@ -389,6 +392,9 @@ module Processing
     # Returns the height of the graphics object.
     #
     # @return [Numeric] height
+    #
+    # @see https://processing.org/reference/height.html
+    # @see https://p5js.org/reference/#/p5/height
     #
     def height()
       getInternal__.height
@@ -398,6 +404,8 @@ module Processing
     #
     # @return [Numeric] width
     #
+    # @see https://processing.org/reference/pixelWidth.html
+    #
     def pixelWidth()
       width * pixelDensity
     end
@@ -406,6 +414,8 @@ module Processing
     #
     # @return [Numeric] height
     #
+    # @see https://processing.org/reference/pixelHeight.html
+    #
     def pixelHeight()
       height * pixelDensity
     end
@@ -413,6 +423,9 @@ module Processing
     # Returns the pixel density of the graphics object.
     #
     # @return [Numeric] pixel density
+    #
+    # @see https://processing.org/reference/pixelDensity_.html
+    # @see https://p5js.org/reference/#/p5/pixelDensity
     #
     def pixelDensity()
       @painter__.pixel_density
@@ -448,6 +461,9 @@ module Processing
     #
     # @return [RGB, HSB] current mode
     #
+    # @see https://processing.org/reference/colorMode_.html
+    # @see https://p5js.org/reference/#/p5/colorMode
+    #
     def colorMode(mode = nil, *maxes)
       if mode != nil
         mode = mode.downcase.to_sym
@@ -479,6 +495,9 @@ module Processing
     #
     # @return [Integer] the rgba color value
     #
+    # @see https://processing.org/reference/color_.html
+    # @see https://p5js.org/reference/#/p5/color
+    #
     def color(*args)
       toRGBA__(*args)
         .map {|n| (n * 255).to_i.clamp 0, 255}
@@ -491,6 +510,9 @@ module Processing
     #
     # @return [Numeric] the red value
     #
+    # @see https://processing.org/reference/red_.html
+    # @see https://p5js.org/reference/#/p5/red
+    #
     def red(color)
       ((color >> 16) & 0xff) / 255.0 * @colorMaxes__[0]
     end
@@ -500,6 +522,9 @@ module Processing
     # @param color [Numeric] color value
     #
     # @return [Numeric] the green value
+    #
+    # @see https://processing.org/reference/green_.html
+    # @see https://p5js.org/reference/#/p5/green
     #
     def green(color)
       ((color >> 8) & 0xff) / 255.0 * @colorMaxes__[1]
@@ -511,6 +536,9 @@ module Processing
     #
     # @return [Numeric] the blue value
     #
+    # @see https://processing.org/reference/blue_.html
+    # @see https://p5js.org/reference/#/p5/blue
+    #
     def blue(color)
       (color & 0xff) / 255.0 * @colorMaxes__[2]
     end
@@ -521,6 +549,9 @@ module Processing
     #
     # @return [Numeric] the red value
     #
+    # @see https://processing.org/reference/alpha_.html
+    # @see https://p5js.org/reference/#/p5/alpha
+    #
     def alpha(color)
       ((color >> 24) & 0xff) / 255.0 * @colorMaxes__[3]
     end
@@ -530,6 +561,9 @@ module Processing
     # @param color [Numeric] color value
     #
     # @return [Numeric] the hue value
+    #
+    # @see https://processing.org/reference/hue_.html
+    # @see https://p5js.org/reference/#/p5/hue
     #
     def hue(color)
       h, = toRawColor__(color).to_hsv
@@ -542,6 +576,9 @@ module Processing
     #
     # @return [Numeric] the saturation value
     #
+    # @see https://processing.org/reference/saturation_.html
+    # @see https://p5js.org/reference/#/p5/saturation
+    #
     def saturation(color)
       _, s, = toRawColor__(color).to_hsv
       s * (@hsbColor__ ? @colorMaxes__[1] : 1)
@@ -552,6 +589,9 @@ module Processing
     # @param color [Numeric] color value
     #
     # @return [Numeric] the brightness value
+    #
+    # @see https://processing.org/reference/brightness_.html
+    # @see https://p5js.org/reference/#/p5/brightness
     #
     def brightness(color)
       _, _, b = toRawColor__(color).to_hsv
@@ -606,6 +646,8 @@ module Processing
     #
     # @return [RADIANS, DEGREES] current mode
     #
+    # @see https://p5js.org/reference/#/p5/angleMode
+    #
     def angleMode(mode = nil)
       if mode != nil
         @angleMode__  = mode
@@ -650,6 +692,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/rectMode_.html
+    # @see https://p5js.org/reference/#/p5/rectMode
+    #
     def rectMode(mode)
       @rectMode__ = mode
     end
@@ -665,6 +710,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/ellipseMode_.html
+    # @see https://p5js.org/reference/#/p5/ellipseMode
+    #
     def ellipseMode(mode)
       @ellipseMode__ = mode
     end
@@ -679,6 +727,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/imageMode_.html
+    # @see https://p5js.org/reference/#/p5/imageMode
+    #
     def imageMode(mode)
       @imageMode__ = mode
     end
@@ -692,6 +743,8 @@ module Processing
     # @param mode [CORNER, CORNERS, CENTER]
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/shapeMode_.html
     #
     def shapeMode(mode)
       @shapeMode__ = mode
@@ -713,6 +766,9 @@ module Processing
     # @param mode [BLEND, ADD, SUBTRACT, LIGHTEST, DARKEST, EXCLUSION, MULTIPLY, SCREEN, REPLACE]
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/blendMode_.html
+    # @see https://p5js.org/reference/#/p5/blendMode
     #
     def blendMode(mode = nil)
       if mode != nil
@@ -740,6 +796,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/fill_.html
+    # @see https://p5js.org/reference/#/p5/fill
+    #
     def fill(*args)
       @painter__.fill(*toRGBA__(*args))
       nil
@@ -753,6 +812,9 @@ module Processing
     # Disables filling.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noFill_.html
+    # @see https://p5js.org/reference/#/p5/noFill
     #
     def noFill()
       @painter__.fill nil
@@ -777,6 +839,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/stroke_.html
+    # @see https://p5js.org/reference/#/p5/stroke
+    #
     def stroke(*args)
       @painter__.stroke(*toRGBA__(*args))
       nil
@@ -785,6 +850,9 @@ module Processing
     # Disables drawing stroke.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noStroke_.html
+    # @see https://p5js.org/reference/#/p5/noStroke
     #
     def noStroke()
       @painter__.stroke nil
@@ -797,6 +865,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/strokeWeight_.html
+    # @see https://p5js.org/reference/#/p5/strokeWeight
+    #
     def strokeWeight(weight)
       @painter__.stroke_width weight
       nil
@@ -808,6 +879,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/strokeCap_.html
+    # @see https://p5js.org/reference/#/p5/strokeCap
+    #
     def strokeCap(cap)
       @painter__.stroke_cap cap
       nil
@@ -818,6 +892,9 @@ module Processing
     # @param join [MITER, ROUND, SQUARE]
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/strokeJoin_.html
+    # @see https://p5js.org/reference/#/p5/strokeJoin
     #
     def strokeJoin(join)
       @painter__.stroke_join join
@@ -888,6 +965,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/tint_.html
+    # @see https://p5js.org/reference/#/p5/tint
+    #
     def tint(*args)
       @tint__ = args
       nil
@@ -896,6 +976,9 @@ module Processing
     # Resets tint color.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noTint_.html
+    # @see https://p5js.org/reference/#/p5/noTint
     #
     def noTint()
       @tint__ = nil
@@ -917,6 +1000,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/clip_.html
+    # @see https://p5js.org/reference/#/p5/clip
+    #
     def clip(a, b, c, d)
       x, y, w, h = toXYWH__ @imageMode__, a, b, c, d
       @painter__.clip x, y, w, h
@@ -926,6 +1012,8 @@ module Processing
     # Disables clipping.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noClip_.html
     #
     def noClip()
       @painter__.no_clip
@@ -947,6 +1035,9 @@ module Processing
     #
     # @return [Font] current font
     #
+    # @see https://processing.org/reference/textFont_.html
+    # @see https://p5js.org/reference/#/p5/textFont
+    #
     def textFont(font = nil, size = nil)
       if font != nil || size != nil
         size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
@@ -967,22 +1058,58 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/textSize_.html
+    # @see https://p5js.org/reference/#/p5/textSize
+    #
     def textSize(size)
       textFont @textFont__, size
     end
 
+    # Returns the width of the text.
+    #
+    # @param str [String] text string
+    #
+    # @return [Numeric] width of the text
+    #
+    # @see https://processing.org/reference/textWidth_.html
+    # @see https://p5js.org/reference/#/p5/textWidth
+    #
     def textWidth(str)
       @painter__.font.width str
     end
 
+    # Returns ascent of the current font at its current size.
+    #
+    # @return [Numeric] ascent
+    #
+    # @see https://processing.org/reference/textAscent_.html
+    # @see https://p5js.org/reference/#/p5/textAscent
+    #
     def textAscent()
       @painter__.font.ascent
     end
 
+    # Returns descent of the current font at its current size.
+    #
+    # @return [Numeric] descent
+    #
+    # @see https://processing.org/reference/textDescent_.html
+    # @see https://p5js.org/reference/#/p5/textDescent
+    #
     def textDescent()
       @painter__.font.descent
     end
 
+    # Sets the alignment for drawing text.
+    #
+    # @param horizontal [LEFT, CENTER, RIGHT]           horizontal alignment
+    # @param vertical   [TOP, BOTTOM, CENTER, BASELINE] vertical alignment
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/textAlign_.html
+    # @see https://p5js.org/reference/#/p5/textAlign
+    #
     def textAlign(horizontal, vertical = BASELINE)
       @textAlignH__ = horizontal
       @textAlignV__ = vertical
@@ -997,11 +1124,23 @@ module Processing
     #
     # @return [Numeric] current spacing
     #
+    # @see https://processing.org/reference/textLeading_.html
+    # @see https://p5js.org/reference/#/p5/textLeading
+    #
     def textLeading(leading = nil)
       @painter__.line_height = leading if leading
       @painter__.line_height
     end
 
+    # Sets texture.
+    #
+    # @param image [Image] texture image
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/texture_.html
+    # @see https://p5js.org/reference/#/p5/texture
+    #
     def texture(image)
       @painter__.texture image&.getInternal__
       nil
@@ -1050,6 +1189,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/shader_.html
+    # @see https://p5js.org/reference/#/p5/shader
+    #
     def shader(shader)
       @painter__.shader shader&.getInternal__
       nil
@@ -1058,6 +1200,9 @@ module Processing
     # Resets shader.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/resetShader_.html
+    # @see https://p5js.org/reference/#/p5/resetShader
     #
     def resetShader()
       @painter__.no_shader
@@ -1073,6 +1218,11 @@ module Processing
     # @param shader [Shader]  a shader to apply
     # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
     # @param param  [Numeric] a parameter for each filter
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/filter_.html
+    # @see https://p5js.org/reference/#/p5/filter
     #
     def filter(*args)
       @filter__ = Shader.createFilter__(*args)
@@ -1095,6 +1245,9 @@ module Processing
     # @param alpha [Integer] alpha value (0..255)
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/background_.html
+    # @see https://p5js.org/reference/#/p5/background
     #
     def background(*args)
       assertDrawing__
@@ -1122,6 +1275,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/point_.html
+    # @see https://p5js.org/reference/#/p5/point
+    #
     def point(x, y)
       assertDrawing__
       @painter__.point x, y
@@ -1138,6 +1294,9 @@ module Processing
     # @param y2 [Numeric] vertical position of second point
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/line_.html
+    # @see https://p5js.org/reference/#/p5/line
     #
     def line(x1, y1, x2, y2)
       assertDrawing__
@@ -1167,6 +1326,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/rect_.html
+    # @see https://p5js.org/reference/#/p5/rect
+    #
     def rect(a, b, c, d, *args)
       assertDrawing__
       x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
@@ -1192,6 +1354,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/ellipse_.html
+    # @see https://p5js.org/reference/#/p5/ellipse
+    #
     def ellipse(a, b, c, d)
       assertDrawing__
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
@@ -1208,6 +1373,9 @@ module Processing
     # @param extent [Numeric] width and height of the shape
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/circle_.html
+    # @see https://p5js.org/reference/#/p5/circle
     #
     def circle(x, y, extent)
       ellipse x, y, extent, extent
@@ -1228,6 +1396,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/arc_.html
+    # @see https://p5js.org/reference/#/p5/arc
+    #
     def arc(a, b, c, d, start, stop)
       assertDrawing__
       x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
@@ -1246,6 +1417,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/square_.html
+    # @see https://p5js.org/reference/#/p5/square
+    #
     def square(x, y, extent)
       rect x, y, extent, extent
     end
@@ -1262,6 +1436,9 @@ module Processing
     # @param y3 [Numeric] vertical position of third point
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/triangle_.html
+    # @see https://p5js.org/reference/#/p5/triangle
     #
     def triangle(x1, y1, x2, y2, x3, y3)
       assertDrawing__
@@ -1284,6 +1461,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/quad_.html
+    # @see https://p5js.org/reference/#/p5/quad
+    #
     def quad(x1, y1, x2, y2, x3, y3, x4, y4)
       assertDrawing__
       @painter__.line x1, y1, x2, y2, x3, y3, x4, y4, loop: true
@@ -1304,6 +1484,9 @@ module Processing
     # @param cy2 [Numeric] vertical position of ending control point
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/curve_.html
+    # @see https://p5js.org/reference/#/p5/curve
     #
     def curve(cx1, cy1, x1, y1, x2, y2, cx2, cy2)
       assertDrawing__
@@ -1327,6 +1510,9 @@ module Processing
     # @param y2  [Numeric] vertical position of second point
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/bezier_.html
+    # @see https://p5js.org/reference/#/p5/bezier
     #
     def bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
       assertDrawing__
@@ -1355,6 +1541,9 @@ module Processing
     # @param d   [Numeric] height of the text, by default
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/text_.html
+    # @see https://p5js.org/reference/#/p5/text
     #
     def text(str, x, y, x2 = nil, y2 = nil)
       assertDrawing__
@@ -1394,6 +1583,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/image_.html
+    # @see https://p5js.org/reference/#/p5/image
+    #
     def image(img, a, b, c = nil, d = nil)
       assertDrawing__
       x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
@@ -1417,6 +1609,8 @@ module Processing
     # @param d   [Numeric] height of the shape, by default
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/shape_.html
     #
     def shape(shp, a = 0, b = 0, c = nil, d = nil)
       assertDrawing__
@@ -1604,6 +1798,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/copy_.html
+    # @see https://p5js.org/reference/#/p5/copy
+    #
     def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
       blend img, sx, sy, sw, sh, dx, dy, dw, dh, BLEND
     end
@@ -1626,6 +1823,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/blend_.html
+    # @see https://p5js.org/reference/#/p5/blend
+    #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       assertDrawing__
       (img || self).drawImage__(
@@ -1637,6 +1837,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/loadPixels_.html
+    # @see https://p5js.org/reference/#/p5/loadPixels
+    #
     def loadPixels()
       @pixels__ = getInternal__.pixels
     end
@@ -1644,6 +1847,9 @@ module Processing
     # Update the image pixels with the 'pixels' array.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/updatePixels_.html
+    # @see https://p5js.org/reference/#/p5/updatePixels
     #
     def updatePixels(&block)
       return if !block && !@pixels__
@@ -1661,6 +1867,11 @@ module Processing
     # An array of all pixels.
     # Call loadPixels() before accessing the array.
     #
+    # @return [Array] color array
+    #
+    # @see https://processing.org/reference/pixels.html
+    # @see https://p5js.org/reference/#/p5/pixels
+    #
     def pixels()
       @pixels__
     end
@@ -1670,6 +1881,9 @@ module Processing
     # @param filename [String] file name to save image
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/save_.html
+    # @see https://p5js.org/reference/#/p5/save
     #
     def save(filename)
       getInternal__.save filename
@@ -1687,6 +1901,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/translate_.html
+    # @see https://p5js.org/reference/#/p5/translate
+    #
     def translate(x, y, z = 0)
       assertDrawing__
       @painter__.translate x, y, z
@@ -1697,12 +1914,17 @@ module Processing
     #
     # @overload scale(s)
     # @overload scale(x, y)
+    # @overload scale(x, y, z)
     #
     # @param s [Numeric] horizontal and vertical scale
     # @param x [Numeric] horizontal scale
     # @param y [Numeric] vertical scale
+    # @param z [Numeric] depth scale
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/scale_.html
+    # @see https://p5js.org/reference/#/p5/scale
     #
     def scale(x, y = nil, z = 1)
       assertDrawing__
@@ -1716,30 +1938,69 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/rotate_.html
+    # @see https://p5js.org/reference/#/p5/rotate
+    #
     def rotate(angle)
       assertDrawing__
       @painter__.rotate toDegrees__ angle
       nil
     end
 
+    # Applies rotation around the x-axis.
+    #
+    # @param angle [Numeric] angle for rotation
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/rotateX_.html
+    # @see https://p5js.org/reference/#/p5/rotateX
+    #
     def rotateX(angle)
       assertDrawing__
       @painter__.rotate toDegrees__(angle), 1, 0, 0
       nil
     end
 
+    # Applies rotation around the y-axis.
+    #
+    # @param angle [Numeric] angle for rotation
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/rotateY_.html
+    # @see https://p5js.org/reference/#/p5/rotateY
+    #
     def rotateY(angle)
       assertDrawing__
       @painter__.rotate toDegrees__(angle), 0, 1, 0
       nil
     end
 
+    # Applies rotation around the z-axis.
+    #
+    # @param angle [Numeric] angle for rotation
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/rotateZ_.html
+    # @see https://p5js.org/reference/#/p5/rotateZ
+    #
     def rotateZ(angle)
       assertDrawing__
       @painter__.rotate toDegrees__(angle), 0, 0, 1
       nil
     end
 
+    # Applies shear around the x-axis.
+    #
+    # @param angle [Numeric] angle for shearing
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/shearX_.html
+    # @see https://p5js.org/reference/#/p5/shearX
+    #
     def shearX(angle)
       t = Math.tan toRadians__(angle)
       @painter__.matrix *= Rays::Matrix.new(
@@ -1747,8 +2008,18 @@ module Processing
         0, 1, 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1)
+      nil
     end
 
+    # Applies shear around the y-axis.
+    #
+    # @param angle [Numeric] angle for shearing
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/shearY_.html
+    # @see https://p5js.org/reference/#/p5/shearY
+    #
     def shearY(angle)
       t = Math.tan toRadians__(angle)
       @painter__.matrix *= Rays::Matrix.new(
@@ -1762,6 +2033,8 @@ module Processing
     #
     # @return [Object] result of the expression at the end of the block
     #
+    # @see https://processing.org/reference/pushMatrix_.html
+    #
     def pushMatrix(&block)
       assertDrawing__
       @matrixStack__.push @painter__.matrix
@@ -1773,6 +2046,8 @@ module Processing
     # Pops the current transformation matrix from stack.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/popMatrix_.html
     #
     def popMatrix()
       assertDrawing__
@@ -1807,6 +2082,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/applyMatrix_.html
+    # @see https://p5js.org/reference/#/p5/applyMatrix
+    #
     def applyMatrix(*args)
       assertDrawing__
       args = args.first if args.first.kind_of?(Array)
@@ -1830,6 +2108,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/resetMatrix_.html
+    # @see https://p5js.org/reference/#/p5/resetMatrix
+    #
     def resetMatrix()
       assertDrawing__
       @painter__.matrix = 1
@@ -1839,6 +2120,8 @@ module Processing
     # Prints matrix elements to console.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/printMatrix_.html
     #
     def printMatrix()
       m = @painter__.matrix
@@ -1850,6 +2133,8 @@ module Processing
     # Save current style values to the style stack.
     #
     # @return [Object] result of the expression at the end of the block
+    #
+    # @see https://processing.org/reference/pushStyle_.html
     #
     def pushStyle(&block)
       assertDrawing__
@@ -1898,6 +2183,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/popStyle_.html
+    #
     def popStyle()
       assertDrawing__
       raise "style stack underflow" if @styleStack__.empty?
@@ -1943,6 +2230,9 @@ module Processing
     #
     # @return [Object] result of the expression at the end of the block
     #
+    # @see https://processing.org/reference/push_.html
+    # @see https://p5js.org/reference/#/p5/push
+    #
     def push(&block)
       pushMatrix
       pushStyle
@@ -1954,6 +2244,9 @@ module Processing
     # Restore styles and transformations from stack.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/pop_.html
+    # @see https://p5js.org/reference/#/p5/pop
     #
     def pop()
       popMatrix
@@ -1988,6 +2281,9 @@ module Processing
     #
     # @return [Numeric] absolute number
     #
+    # @see https://processing.org/reference/abs_.html
+    # @see https://p5js.org/reference/#/p5/abs
+    #
     def abs(value)
       value.abs
     end
@@ -1997,6 +2293,9 @@ module Processing
     # @param value [Numeric] number
     #
     # @return [Numeric] rounded up number
+    #
+    # @see https://processing.org/reference/ceil_.html
+    # @see https://p5js.org/reference/#/p5/ceil
     #
     def ceil(value)
       value.ceil
@@ -2008,6 +2307,9 @@ module Processing
     #
     # @return [Numeric] rounded down number
     #
+    # @see https://processing.org/reference/floor_.html
+    # @see https://p5js.org/reference/#/p5/floor
+    #
     def floor(value)
       value.floor
     end
@@ -2017,6 +2319,9 @@ module Processing
     # @param value [Numeric] number
     #
     # @return [Numeric] rounded number
+    #
+    # @see https://processing.org/reference/round_.html
+    # @see https://p5js.org/reference/#/p5/round
     #
     def round(value)
       value.round
@@ -2028,6 +2333,9 @@ module Processing
     #
     # @return [Numeric] result number
     #
+    # @see https://processing.org/reference/log_.html
+    # @see https://p5js.org/reference/#/p5/log
+    #
     def log(n)
       Math.log n
     end
@@ -2037,6 +2345,9 @@ module Processing
     # @param value [Numeric] number
     #
     # @return [Numeric] result number
+    #
+    # @see https://processing.org/reference/exp_.html
+    # @see https://p5js.org/reference/#/p5/exp
     #
     def exp(n)
       Math.exp n
@@ -2049,6 +2360,9 @@ module Processing
     #
     # @return [Numeric] value ** exponent
     #
+    # @see https://processing.org/reference/pow_.html
+    # @see https://p5js.org/reference/#/p5/pow
+    #
     def pow(value, exponent)
       value ** exponent
     end
@@ -2059,6 +2373,9 @@ module Processing
     #
     # @return [Numeric] squared value
     #
+    # @see https://processing.org/reference/sq_.html
+    # @see https://p5js.org/reference/#/p5/sq
+    #
     def sq(value)
       value * value
     end
@@ -2068,6 +2385,9 @@ module Processing
     # @param value [Numeric] number
     #
     # @return [Numeric] squared value
+    #
+    # @see https://processing.org/reference/sqrt_.html
+    # @see https://p5js.org/reference/#/p5/sqrt
     #
     def sqrt(value)
       Math.sqrt value
@@ -2083,6 +2403,9 @@ module Processing
     # @param z [Numeric] z of point
     #
     # @return [Numeric] magnitude
+    #
+    # @see https://processing.org/reference/mag_.html
+    # @see https://p5js.org/reference/#/p5/mag
     #
     def mag(*args)
       x, y, z = *args
@@ -2107,6 +2430,9 @@ module Processing
     #
     # @return [Numeric] distance between 2 points
     #
+    # @see https://processing.org/reference/dist_.html
+    # @see https://p5js.org/reference/#/p5/dist
+    #
     def dist(*args)
       case args.size
       when 4
@@ -2129,6 +2455,9 @@ module Processing
     #
     # @return [Numeric] normalized value between 0..1
     #
+    # @see https://processing.org/reference/norm_.html
+    # @see https://p5js.org/reference/#/p5/norm
+    #
     def norm(value, start, stop)
       (value.to_f - start.to_f) / (stop.to_f - start.to_f)
     end
@@ -2141,6 +2470,9 @@ module Processing
     #
     # @return [Numeric] interporated number
     #
+    # @see https://processing.org/reference/lerp_.html
+    # @see https://p5js.org/reference/#/p5/lerp
+    #
     def lerp(start, stop, amount)
       start + (stop - start) * amount
     end
@@ -2152,6 +2484,9 @@ module Processing
     # @param amount [Numeric] amount to interpolate
     #
     # @return [Integer] interporated color
+    #
+    # @see https://processing.org/reference/lerpColor_.html
+    # @see https://p5js.org/reference/#/p5/lerpColor
     #
     def lerpColor(color1, color2, amount)
       color(
@@ -2171,6 +2506,9 @@ module Processing
     #
     # @return [Numeric] mapped number
     #
+    # @see https://processing.org/reference/map_.html
+    # @see https://p5js.org/reference/#/p5/map
+    #
     def map(value, start1, stop1, start2, stop2)
       lerp start2, stop2, norm(value, start1, stop1)
     end
@@ -2187,6 +2525,9 @@ module Processing
     # @param array [Numeric] values to compare
     #
     # @return [Numeric] minimum value
+    #
+    # @see https://processing.org/reference/min_.html
+    # @see https://p5js.org/reference/#/p5/min
     #
     def min(*args)
       args.flatten.min
@@ -2205,6 +2546,9 @@ module Processing
     #
     # @return [Numeric] maximum value
     #
+    # @see https://processing.org/reference/max_.html
+    # @see https://p5js.org/reference/#/p5/max
+    #
     def max(*args)
       args.flatten.max
     end
@@ -2217,6 +2561,9 @@ module Processing
     #
     # @return [Numeric] constrained number
     #
+    # @see https://processing.org/reference/constrain_.html
+    # @see https://p5js.org/reference/#/p5/constrain
+    #
     def constrain(value, min, max)
       value < min ? min : (value > max ? max : value)
     end
@@ -2226,6 +2573,9 @@ module Processing
     # @param degree [Numeric] degree to convert
     #
     # @return [Numeric] radian
+    #
+    # @see https://processing.org/reference/radians_.html
+    # @see https://p5js.org/reference/#/p5/radians
     #
     def radians(degree)
       degree * DEG2RAD__
@@ -2237,6 +2587,9 @@ module Processing
     #
     # @return [Numeric] degree
     #
+    # @see https://processing.org/reference/degrees_.html
+    # @see https://p5js.org/reference/#/p5/degrees
+    #
     def degrees(radian)
       radian * RAD2DEG__
     end
@@ -2246,6 +2599,9 @@ module Processing
     # @param angle [Numeric] angle in radians
     #
     # @return [Numeric] the sine
+    #
+    # @see https://processing.org/reference/sin_.html
+    # @see https://p5js.org/reference/#/p5/sin
     #
     def sin(angle)
       Math.sin angle
@@ -2257,6 +2613,9 @@ module Processing
     #
     # @return [Numeric] the cosine
     #
+    # @see https://processing.org/reference/cos_.html
+    # @see https://p5js.org/reference/#/p5/cos
+    #
     def cos(angle)
       Math.cos angle
     end
@@ -2266,6 +2625,9 @@ module Processing
     # @param angle [Numeric] angle in radians
     #
     # @return [Numeric] the tangent
+    #
+    # @see https://processing.org/reference/tan_.html
+    # @see https://p5js.org/reference/#/p5/tan
     #
     def tan(angle)
       Math.tan angle
@@ -2277,6 +2639,9 @@ module Processing
     #
     # @return [Numeric] the arc sine
     #
+    # @see https://processing.org/reference/asin_.html
+    # @see https://p5js.org/reference/#/p5/asin
+    #
     def asin(value)
       Math.asin value
     end
@@ -2286,6 +2651,9 @@ module Processing
     # @param value [Numeric] value for calculation
     #
     # @return [Numeric] the arc cosine
+    #
+    # @see https://processing.org/reference/acos_.html
+    # @see https://p5js.org/reference/#/p5/acos
     #
     def acos(value)
       Math.acos value
@@ -2297,6 +2665,9 @@ module Processing
     #
     # @return [Numeric] the arc tangent
     #
+    # @see https://processing.org/reference/atan_.html
+    # @see https://p5js.org/reference/#/p5/atan
+    #
     def atan(value)
       Math.atan value
     end
@@ -2307,6 +2678,9 @@ module Processing
     # @param x [Numeric] x of the point
     #
     # @return [Numeric] the angle in radians
+    #
+    # @see https://processing.org/reference/atan2_.html
+    # @see https://p5js.org/reference/#/p5/atan2
     #
     def atan2(y, x)
       Math.atan2 y, x
@@ -2540,6 +2914,8 @@ module Processing
     #
     # @return [Vector] new vector
     #
+    # @see https://p5js.org/reference/#/p5/createVector
+    #
     def createVector(*args)
       Vector.new(*args, context: self)
     end
@@ -2548,6 +2924,10 @@ module Processing
     #
     # @param name [String]  font name
     # @param size [Numeric] font size (max 256)
+    #
+    # @return [Font] new font
+    #
+    # @see https://processing.org/reference/createFont_.html
     #
     def createFont(name, size)
       size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
@@ -2564,6 +2944,9 @@ module Processing
     # @param format [RGB, RGBA] image format
     #
     # @return [Image] new image
+    #
+    # @see https://processing.org/reference/createImage_.html
+    # @see https://p5js.org/reference/#/p5/createImage
     #
     def createImage(w, h, format = RGBA)
       colorspace = {RGB => Rays::RGB, RGBA => Rays::RGBA}[format]
@@ -2583,6 +2966,10 @@ module Processing
     # @overload createShape(GROUP)
     #
     # @param kind [LINE, RECT, ELLIPSE, ARC, TRIANGLE, QUAD, GROUP]
+    #
+    # @return [Shape] new shape
+    #
+    # @see https://processing.org/reference/createShape_.html
     #
     def createShape(kind = nil, *args)
       case kind
@@ -2640,6 +3027,9 @@ module Processing
     #
     # @return [Graphics] graphics object
     #
+    # @see https://processing.org/reference/createGraphics_.html
+    # @see https://p5js.org/reference/#/p5/createGraphics
+    #
     def createGraphics(width, height, pixelDensity = 1)
       Graphics.new width, height, pixelDensity
     end
@@ -2675,6 +3065,8 @@ module Processing
     # @param fragSource [String] fragment shader source
     #
     # @return [Shader] shader object
+    #
+    # @see https://p5js.org/reference/#/p5/createShader
     #
     def createShader(vert, frag)
       vert = File.read if vert && File.exist?(vert)
@@ -2756,6 +3148,9 @@ module Processing
     # @param vertPath [String] vertex shader file path
     #
     # @return [Shader] loaded shader object
+    #
+    # @see https://processing.org/reference/loadShader_.html
+    # @see https://p5js.org/reference/#/p5/loadShader
     #
     def loadShader(fragPath, vertPath = nil)
       createShader vertPath, fragPath

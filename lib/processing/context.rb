@@ -180,6 +180,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/setup_.html
+    # @see https://p5js.org/reference/#/p5/setup
+    #
     def setup(&block)
       @window__.setup = block if block
       nil
@@ -210,6 +213,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/draw_.html
+    # @see https://p5js.org/reference/#/p5/draw
+    #
     def draw(&block)
       @drawBlock__ = block if block
       nil
@@ -218,6 +224,9 @@ module Processing
     # Defines keyPressed block.
     #
     # @return [Boolean] is any key pressed or not
+    #
+    # @see https://processing.org/reference/keyPressed_.html
+    # @see https://p5js.org/reference/#/p5/keyPressed
     #
     def keyPressed(&block)
       @keyPressedBlock__ = block if block
@@ -228,6 +237,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/keyReleased_.html
+    # @see https://p5js.org/reference/#/p5/keyReleased
+    #
     def keyReleased(&block)
       @keyReleasedBlock__ = block if block
       nil
@@ -236,6 +248,9 @@ module Processing
     # Defines keyTyped block.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/keyTyped_.html
+    # @see https://p5js.org/reference/#/p5/keyTyped
     #
     def keyTyped(&block)
       @keyTypedBlock__ = block if block
@@ -246,6 +261,10 @@ module Processing
     #
     # @return [Boolean] is any mouse button pressed or not
     #
+    # @see https://processing.org/reference/mousePressed_.html
+    # @see https://processing.org/reference/mousePressed.html
+    # @see https://p5js.org/reference/#/p5/mousePressed
+    #
     def mousePressed(&block)
       @mousePressedBlock__ = block if block
       not @pointersPressed__.empty?
@@ -254,6 +273,9 @@ module Processing
     # Defines mouseReleased block.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/mouseReleased_.html
+    # @see https://p5js.org/reference/#/p5/mouseReleased
     #
     def mouseReleased(&block)
       @mouseReleasedBlock__ = block if block
@@ -264,6 +286,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/mouseMoved_.html
+    # @see https://p5js.org/reference/#/p5/mouseMoved
+    #
     def mouseMoved(&block)
       @mouseMovedBlock__ = block if block
       nil
@@ -272,6 +297,9 @@ module Processing
     # Defines mouseDragged block.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/mouseDragged_.html
+    # @see https://p5js.org/reference/#/p5/mouseDragged
     #
     def mouseDragged(&block)
       @mouseDraggedBlock__ = block if block
@@ -282,6 +310,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/mouseClicked_.html
+    # @see https://p5js.org/reference/#/p5/mouseClicked
+    #
     def mouseClicked(&block)
       @mouseClickedBlock__ = block if block
       nil
@@ -290,6 +321,8 @@ module Processing
     # Defines doubleClicked block.
     #
     # @return [nil] nil
+    #
+    # @see https://p5js.org/reference/#/p5/doubleClicked
     #
     def doubleClicked(&block)
       @doubleClickedBlock__ = block if block
@@ -300,6 +333,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/mouseWheel_.html
+    # @see https://p5js.org/reference/#/p5/mouseWheel
+    #
     def mouseWheel(&block)
       @mouseWheelBlock__ = block if block
       nil
@@ -308,6 +344,8 @@ module Processing
     # Defines touchStarted block.
     #
     # @return [nil] nil
+    #
+    # @see https://p5js.org/reference/#/p5/touchStarted
     #
     def touchStarted(&block)
       @touchStartedBlock__ = block if block
@@ -318,6 +356,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://p5js.org/reference/#/p5/touchEnded
+    #
     def touchEnded(&block)
       @touchEndedBlock__ = block if block
       nil
@@ -326,6 +366,8 @@ module Processing
     # Defines touchMoved block.
     #
     # @return [nil] nil
+    #
+    # @see https://p5js.org/reference/#/p5/touchMoved
     #
     def touchMoved(&block)
       @touchMovedBlock__ = block if block
@@ -336,6 +378,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/windowMoved_.html
+    #
     def windowMoved(&block)
       @windowMovedBlock__ = block if block
       nil
@@ -344,6 +388,9 @@ module Processing
     # Defines windowResized block.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/windowResized_.html
+    # @see https://p5js.org/reference/#/p5/windowResized
     #
     def windowResized(&block)
       @windowResizedBlock__ = block if block
@@ -367,6 +414,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/size_.html
+    #
     def size(width, height, pixelDensity: self.pixelDensity)
       windowResize width, height
       resizeCanvas__ width, height, pixelDensity
@@ -381,6 +430,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://p5js.org/reference/#/p5/createCanvas
+    #
     def createCanvas(width, height, pixelDensity: self.pixelDensity)
       windowResize width, height
       resizeCanvas__ width, height, pixelDensity
@@ -393,6 +444,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/setTitle_.html
+    #
     def setTitle(title)
       @window__.title = title
       nil
@@ -403,6 +456,9 @@ module Processing
     # @param density [Numeric] new pixel density
     #
     # @return [Numeric] current pixel density
+    #
+    # @see https://processing.org/reference/pixelDensity_.html
+    # @see https://p5js.org/reference/#/p5/pixelDensity
     #
     def pixelDensity(density = nil)
       resizeCanvas__ width, height, density if density
@@ -430,6 +486,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/smooth_.html
+    # @see https://p5js.org/reference/#/p5/smooth
+    #
     def smooth()
       @smooth__ = true
       resizeCanvas__ width, height, pixelDensity
@@ -439,6 +498,9 @@ module Processing
     # Disables anti-aliasing.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/noSmooth_.html
+    # @see https://p5js.org/reference/#/p5/noSmooth
     #
     def noSmooth()
       @smooth__ = false
@@ -455,6 +517,9 @@ module Processing
     #
     # @return [Numeric] width
     #
+    # @see https://processing.org/reference/displayWidth.html
+    # @see https://p5js.org/reference/#/p5/displayWidth
+    #
     def displayWidth()
       @window__.screen.width
     end
@@ -463,6 +528,9 @@ module Processing
     #
     # @return [Numeric] height
     #
+    # @see https://processing.org/reference/displayHeight.html
+    # @see https://p5js.org/reference/#/p5/displayHeight
+    #
     def displayHeight()
       @window__.screen.height
     end
@@ -470,6 +538,9 @@ module Processing
     # Returns the pixel density of the display.
     #
     # @return [Numeric] pixel density
+    #
+    # @see https://processing.org/reference/displayDensity_.html
+    # @see https://p5js.org/reference/#/p5/displayDensity
     #
     def displayDensity()
       @window__.painter.pixel_density
@@ -481,6 +552,8 @@ module Processing
     # @param [Numeric] y y position of the window
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/windowMove_.html
     #
     def windowMove(x, y)
       @window__.pos = [x, y]
@@ -494,6 +567,8 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/windowResize_.html
+    #
     def windowResize(width, height)
       @window__.size = [width, height]
       nil
@@ -504,6 +579,8 @@ module Processing
     # @param [Boolean] resizable resizable or not
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/windowResizable_.html
     #
     def windowResizable(resizable)
       @window__.resizable = resizable
@@ -540,6 +617,8 @@ module Processing
     #
     # @return [Numeric] window width
     #
+    # @see https://p5js.org/reference/#/p5/windowWidth
+    #
     def windowWidth()
       @window__.width
     end
@@ -547,6 +626,8 @@ module Processing
     # Returns the height of the window.
     #
     # @return [Numeric] window height
+    #
+    # @see https://p5js.org/reference/#/p5/windowHeight
     #
     def windowHeight()
       @window__.height
@@ -556,6 +637,9 @@ module Processing
     #
     # @return [Boolean] active or not
     #
+    # @see https://processing.org/reference/focused.html
+    # @see https://p5js.org/reference/#/p5/focused
+    #
     def focused()
       @window__.active?
     end
@@ -563,6 +647,9 @@ module Processing
     # Returns the number of frames since the program started.
     #
     # @return [Integer] total number of frames
+    #
+    # @see https://processing.org/reference/frameCount.html
+    # @see https://p5js.org/reference/#/p5/frameCount
     #
     def frameCount()
       @frameCount__
@@ -572,6 +659,9 @@ module Processing
     #
     # @return [Float] frames per second
     #
+    # @see https://processing.org/reference/frameRate.html
+    # @see https://p5js.org/reference/#/p5/frameRate
+    #
     def frameRate()
       @window__.event.fps
     end
@@ -579,6 +669,8 @@ module Processing
     # Returns the elapsed time after previous drawing event
     #
     # @return [Float] elapsed time in milliseconds
+    #
+    # @see https://p5js.org/reference/#/p5/deltaTime
     #
     def deltaTime()
       @window__.event.dt * 1000
@@ -588,6 +680,9 @@ module Processing
     #
     # @return [String] last key
     #
+    # @see https://processing.org/reference/key.html
+    # @see https://p5js.org/reference/#/p5/key
+    #
     def key()
       @key__
     end
@@ -596,6 +691,9 @@ module Processing
     #
     # @return [Symbol] last key code
     #
+    # @see https://processing.org/reference/keyCode.html
+    # @see https://p5js.org/reference/#/p5/keyCode
+    #
     def keyCode()
       @keyCode__
     end
@@ -603,6 +701,8 @@ module Processing
     # Returns whether or not any key is pressed.
     #
     # @return [Boolean] is any key pressed or not
+    #
+    # @see https://p5js.org/reference/#/p5/keyIsPressed
     #
     def keyIsPressed()
       not @keysPressed__.empty?
@@ -614,6 +714,8 @@ module Processing
     #
     # @return [Boolean] is the key pressed or not
     #
+    # @see https://p5js.org/reference/#/p5/keyIsDown
+    #
     def keyIsDown(keyCode)
       @keysPressed__.include? keyCode
     end
@@ -621,6 +723,9 @@ module Processing
     # Returns mouse x position
     #
     # @return [Numeric] horizontal position of mouse
+    #
+    # @see https://processing.org/reference/mouseX.html
+    # @see https://p5js.org/reference/#/p5/mouseX
     #
     def mouseX()
       @pointer__&.x || 0
@@ -630,6 +735,9 @@ module Processing
     #
     # @return [Numeric] vertical position of mouse
     #
+    # @see https://processing.org/reference/mouseY.html
+    # @see https://p5js.org/reference/#/p5/mouseY
+    #
     def mouseY()
       @pointer__&.y || 0
     end
@@ -637,6 +745,9 @@ module Processing
     # Returns mouse x position in previous frame
     #
     # @return [Numeric] horizontal position of mouse
+    #
+    # @see https://processing.org/reference/pmouseX.html
+    # @see https://p5js.org/reference/#/p5/pmouseX
     #
     def pmouseX()
       @pointerPrev__&.x || 0
@@ -646,6 +757,9 @@ module Processing
     #
     # @return [Numeric] vertical position of mouse
     #
+    # @see https://processing.org/reference/pmouseY.html
+    # @see https://p5js.org/reference/#/p5/pmouseY
+    #
     def pmouseY()
       @pointerPrev__&.y || 0
     end
@@ -654,6 +768,9 @@ module Processing
     #
     # @return [Numeric] LEFT, RIGHT, CENTER or 0
     #
+    # @see https://processing.org/reference/mouseButton.html
+    # @see https://p5js.org/reference/#/p5/mouseButton
+    #
     def mouseButton()
       ((@pointersPressed__ + @pointersReleased__) & [LEFT, RIGHT, CENTER]).last
     end
@@ -661,6 +778,8 @@ module Processing
     # Returns array of touches
     #
     # @return [Array] Touch objects
+    #
+    # @see https://p5js.org/reference/#/p5/touches
     #
     def touches()
       @touches__
@@ -678,6 +797,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/loop_.html
+    # @see https://p5js.org/reference/#/p5/loop
+    #
     def loop()
       @loop__ = true
     end
@@ -686,6 +808,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/noLoop_.html
+    # @see https://p5js.org/reference/#/p5/noLoop
+    #
     def noLoop()
       @loop__ = false
     end
@@ -693,6 +818,9 @@ module Processing
     # Calls draw block to redraw frame.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/redraw_.html
+    # @see https://p5js.org/reference/#/p5/redraw
     #
     def redraw()
       @redraw__ = true

@@ -3,6 +3,9 @@ module Processing
 
   # Shader object.
   #
+  # @see https://processing.org/reference/PShader.html
+  # @see https://p5js.org/reference/#/p5.Shader
+  #
   class Shader
 
     include Xot::Inspectable
@@ -37,7 +40,10 @@ module Processing
     # @param ncoords [Integer] number of coordinates, max 4
     # @param tex     [Image]   texture image
     #
-    def setUniform(name, *args)
+    # @see https://processing.org/reference/PShader_set_.html
+    # @see https://p5js.org/reference/#/p5.Shader/setUniform
+    #
+    def set(name, *args)
       arg = args.first
       case
       when Array === arg
@@ -54,7 +60,7 @@ module Processing
       end
     end
 
-    alias set setUniform
+    alias setUniform set
 
     # @private
     def getInternal__()

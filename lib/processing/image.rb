@@ -3,6 +3,9 @@ module Processing
 
   # Image object.
   #
+  # @see https://processing.org/reference/PImage.html
+  # @see https://p5js.org/reference/#/p5.Image
+  #
   class Image
 
     include Xot::Inspectable
@@ -17,6 +20,9 @@ module Processing
     #
     # @return [Numeric] width of image
     #
+    # @see https://processing.org/reference/PImage_width.html
+    # @see https://p5js.org/reference/#/p5.Image/width
+    #
     def width()
       @image&.width || (@error ? -1 : 0)
     end
@@ -24,6 +30,9 @@ module Processing
     # Gets height of image.
     #
     # @return [Numeric] height of image
+    #
+    # @see https://processing.org/reference/PImage_height.html
+    # @see https://p5js.org/reference/#/p5.Image/height
     #
     def height()
       @image&.height || (@error ? -1 : 0)
@@ -48,6 +57,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/PImage_set_.html
+    # @see https://p5js.org/reference/#/p5.Image/set
+    #
     def set(x, y, c)
       getInternal__.bitmap(true)[x, y] = self.class.fromColor__(c).map {|n| n / 255.0}
       nil
@@ -56,6 +68,9 @@ module Processing
     # Returns the color of the pixel.
     #
     # @return [Integer] color value (0xAARRGGBB)
+    #
+    # @see https://processing.org/reference/PImage_get_.html
+    # @see https://p5js.org/reference/#/p5.Image/get
     #
     def get(x, y)
       getInternal__.bitmap[x, y]
@@ -67,6 +82,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/PImage_loadPixels_.html
+    # @see https://p5js.org/reference/#/p5.Image/loadPixels
+    #
     def loadPixels()
       @pixels = getInternal__.pixels
     end
@@ -74,6 +92,9 @@ module Processing
     # Update the image pixels with the 'pixels' array.
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/PImage_updatePixels_.html
+    # @see https://p5js.org/reference/#/p5.Image/updatePixels
     #
     def updatePixels()
       return unless @pixels
@@ -83,6 +104,11 @@ module Processing
 
     # An array of all pixels.
     # Call loadPixels() before accessing the array.
+    #
+    # @return [Array] color array
+    #
+    # @see https://processing.org/reference/PImage_pixels.html
+    # @see https://p5js.org/reference/#/p5.Image/pixels
     #
     attr_reader :pixels
 
@@ -96,6 +122,9 @@ module Processing
     # @param type   [THRESHOLD, GRAY, INVERT, BLUR] filter type
     # @param param  [Numeric] a parameter for each filter
     #
+    # @see https://processing.org/reference/PImage_filter_.html
+    # @see https://p5js.org/reference/#/p5.Image/filter
+    #
     def filter(*args)
       @filter = Shader.createFilter__(*args)
     end
@@ -106,6 +135,9 @@ module Processing
     # @param height [Numeric] height for resized image
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/PImage_resize_.html
+    # @see https://p5js.org/reference/#/p5.Image/resize
     #
     def resize(width, height)
       @image = Rays::Image.new(width, height).paint do |painter|
@@ -131,6 +163,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/PImage_copy_.html
+    # @see https://p5js.org/reference/#/p5.Image/copy
+    #
     def copy(img = nil, sx, sy, sw, sh, dx, dy, dw, dh)
       blend img, sx, sy, sw, sh, dx, dy, dw, dh, :normal
     end
@@ -153,6 +188,9 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @see https://processing.org/reference/PImage_blend_.html
+    # @see https://p5js.org/reference/#/p5.Image/blend
+    #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       img ||= self
       getInternal__.paint do |painter|
@@ -166,6 +204,9 @@ module Processing
     # @param filename [String] file name to save image
     #
     # @return [nil] nil
+    #
+    # @see https://processing.org/reference/PImage_save_.html
+    # @see https://p5js.org/reference/#/p5.Image/save
     #
     def save(filename)
       getInternal__.save filename
