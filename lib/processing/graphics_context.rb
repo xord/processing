@@ -123,96 +123,127 @@ module Processing
     REPLACE   = :replace
 
     # Key code or Mode for textAlign().
+    #
     LEFT     = :left
 
     # Key code or Mode for textAlign().
+    #
     RIGHT    = :right
 
     # Mode for textAlign().
+    #
     TOP      = :top
 
     # Mode for textAlign().
+    #
     BOTTOM   = :bottom
 
     # Mode for textAlign().
+    #
     BASELINE = :baseline
 
     # Mode for textureMode().
+    #
     IMAGE  = :image
 
     # Mode for textureMode().
+    #
     NORMAL = :normal
 
     # Mode for textureWrap().
+    #
     CLAMP  = :clamp
 
     # Mode for textureWrap().
+    #
     REPEAT = :repeat
 
     # Filter type for filter()
+    #
     THRESHOLD = :threshold
 
     # Filter type for filter()
+    #
     GRAY      = :gray
 
     # Filter type for filter()
+    #
     INVERT    = :invert
 
     # Filter type for filter()
+    #
     BLUR      = :blur
 
     # Shape mode for createShape()
+    #
     LINE     = :line
 
     # Shape mode for createShape()
+    #
     RECT     = :rect
 
     # Shape mode for createShape()
+    #
     ELLIPSE  = :ellipse
 
     # Shape mode for createShape()
+    #
     ARC      = :arc
 
     # Shape mode for createShape()
+    #
     TRIANGLE = :triangle
 
     # Shape mode for createShape()
+    #
     QUAD     = :quad
 
     # Shape mode for createShape()
+    #
     GROUP    = :group
 
     # Shape mode for beginShape()
+    #
     POINTS         = :points
 
     # Shape mode for beginShape()
+    #
     LINES          = :lines
 
     # Shape mode for beginShape()
+    #
     TRIANGLES      = :triangles
 
     # Shape mode for beginShape()
+    #
     TRIANGLE_FAN   = :triangle_fan
 
     # Shape mode for beginShape()
+    #
     TRIANGLE_STRIP = :triangle_strip
 
     # Shape mode for beginShape()
+    #
     QUADS          = :quads
 
     # Shape mode for beginShape()
+    #
     QUAD_STRIP     = :quad_strip
 
     # Shape mode for beginShape()
+    #
     TESS           = :tess
 
     # OPEN flag for endShape()
+    #
     OPEN           = :open
 
     # CLOSE flag for endShape()
+    #
     CLOSE          = :close
 
     # Key codes.
+    #
     ENTER     = :enter
     SPACE     = :space
     TAB       = :tab

@@ -593,6 +593,7 @@ module Processing
     #
     # @return [nil] nil
     #
+    #
     def windowOrientation(*orientations)
       @window__.orientations = orientations.flatten.uniq
     end
