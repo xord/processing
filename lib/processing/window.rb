@@ -212,6 +212,7 @@ module Processing
   end# Window
 
 
+  # @private
   class Window::Canvas
 
     def initialize(window, width, height)
@@ -297,6 +298,7 @@ module Processing
   end# Window::Canvas
 
 
+  # @private
   class Window::CanvasView < Reflex::View
 
     def on_update(e)

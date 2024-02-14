@@ -16,7 +16,7 @@ module Processing
     # @param fragSrc [String] fragment shader source
     #
     def initialize(vertSrc, fragSrc)
-      @shader = Rays::Shader.new modifyFragSource(fragSrc), vertSrc, ENV__
+      @shader = Rays::Shader.new modifyFragSource__(fragSrc), vertSrc, ENV__
     end
 
     # Sets uniform variables.
@@ -89,13 +89,13 @@ module Processing
       when Shader
         arg
       when :threshold
-        self.new(nil, THRESHOLD_SOURCE).tap {|sh| sh.set :threshold, (args.shift || 0.5)}
+        self.new(nil, THRESHOLD_SOURCE__).tap {|sh| sh.set :threshold, (args.shift || 0.5)}
       when :gray
-        self.new nil, GRAY_SOURCE
+        self.new nil, GRAY_SOURCE__
       when :invert
-        self.new nil, INVERT_SOURCE
+        self.new nil, INVERT_SOURCE__
       when :blur
-        self.new(nil, BLUR_SOURCE).tap {|sh| sh.set :radius, (args.shift || 1).to_f}
+        self.new(nil, BLUR_SOURCE__).tap {|sh| sh.set :radius, (args.shift || 1).to_f}
       else
         nil
       end
@@ -103,7 +103,8 @@ module Processing
 
     private
 
-    THRESHOLD_SOURCE = <<~END
+    # @private
+    THRESHOLD_SOURCE__ = <<~END
       uniform float threshold;
       uniform sampler2D texMap;
       varying vec4 vertTexCoord;
@@ -115,7 +116,8 @@ module Processing
       }
     END
 
-    GRAY_SOURCE = <<~END
+    # @private
+    GRAY_SOURCE__ = <<~END
       uniform sampler2D texMap;
       varying vec4 vertTexCoord;
       varying vec4 vertColor;
@@ -126,7 +128,8 @@ module Processing
       }
     END
 
-    INVERT_SOURCE = <<~END
+    # @private
+    INVERT_SOURCE__ = <<~END
       uniform sampler2D texMap;
       varying vec4 vertTexCoord;
       varying vec4 vertColor;
@@ -136,7 +139,8 @@ module Processing
       }
     END
 
-    BLUR_SOURCE = <<~END
+    # @private
+    BLUR_SOURCE__ = <<~END
       #define PI 3.1415926538
       uniform float radius;
       uniform sampler2D texMap;
@@ -169,9 +173,10 @@ module Processing
       }
     END
 
-    def modifyFragSource(source)
+    # @private
+    def modifyFragSource__(source)
       return nil unless source
-      if hasShadertoyMainImage?(source) && source !~ /void\s+main\s*\(/
+      if hasShadertoyMainImage__?(source) && source !~ /void\s+main\s*\(/
         source += <<~END
           varying vec4 vertTexCoord;
           void main() {
@@ -184,7 +189,7 @@ module Processing
         iResolution: :vec2,
         iMouse:      :vec2
       }.each do |uniformName, type|
-        if needsUniformDeclaration type, uniformName, source
+        if needsUniformDeclaration__ type, uniformName, source
           source = <<~END + source
             uniform #{type} #{uniformName};
           END
@@ -193,11 +198,13 @@ module Processing
       source
     end
 
-    def hasShadertoyMainImage?(source)
+    # @private
+    def hasShadertoyMainImage__?(source)
       source =~ /void\s+mainImage\s*\(\s*out\s+vec4\s+\w+\s*,\s*in\s+vec2\s+\w+\s*\)/
     end
 
-    def needsUniformDeclaration(type, uniformName, source)
+    # @private
+    def needsUniformDeclaration__(type, uniformName, source)
       source.include?(uniformName.to_s) &&
         source !~ /uniform\s+#{type}\s+#{uniformName}/
     end
