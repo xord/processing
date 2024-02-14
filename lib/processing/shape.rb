@@ -399,19 +399,6 @@ module Processing
       nil
     end
 
-    # Applies rotation matrix to the shape.
-    #
-    # @param angle [Numeric] angle for rotation
-    #
-    # @return [nil] nil
-    #
-    # @see https://processing.org/reference/PShape_rotate_.html
-    #
-    def rotate(angle)
-      matrix__.rotate! @context.toDegrees__(angle)
-      nil
-    end
-
     # Applies scale matrix to the shape.
     #
     # @overload scale(s)
@@ -432,14 +419,16 @@ module Processing
       nil
     end
 
-    # Reset the transformation matrix.
+    # Applies rotation matrix to the shape.
+    #
+    # @param angle [Numeric] angle for rotation
     #
     # @return [nil] nil
     #
-    # @see https://processing.org/reference/PShape_resetMatrix_.html
+    # @see https://processing.org/reference/PShape_rotate_.html
     #
-    def resetMatrix()
-      @matrix = nil
+    def rotate(angle)
+      matrix__.rotate! @context.toDegrees__(angle)
       nil
     end
 
@@ -479,6 +468,17 @@ module Processing
     #
     def rotateZ(angle)
       matrix__.rotate! @context.toDegrees__(angle), 0, 0, 1
+      nil
+    end
+
+    # Reset the transformation matrix.
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/PShape_resetMatrix_.html
+    #
+    def resetMatrix()
+      @matrix = nil
       nil
     end
 
