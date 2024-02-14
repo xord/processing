@@ -1063,6 +1063,7 @@ module Processing
     #
     def textSize(size)
       textFont @textFont__, size
+      nil
     end
 
     # Returns the width of the text.
@@ -1113,6 +1114,7 @@ module Processing
     def textAlign(horizontal, vertical = BASELINE)
       @textAlignH__ = horizontal
       @textAlignV__ = vertical
+      nil
     end
 
     # Sets the spacing between lines of text in units of pixels.
@@ -1226,6 +1228,7 @@ module Processing
     #
     def filter(*args)
       @filter__ = Shader.createFilter__(*args)
+      nil
     end
 
     # Clears screen.
@@ -2027,6 +2030,7 @@ module Processing
         t, 1, 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1)
+      nil
     end
 
     # Pushes the current transformation matrix to stack.

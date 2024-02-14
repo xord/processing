@@ -157,6 +157,7 @@ module Processing
         @colors    << color
         @texcoords << u << v
       end
+      nil
     end
 
     # Append curve vertex for shape polygon.
@@ -331,6 +332,7 @@ module Processing
           polylines.map {|pl| pl.with colors: pl.points.map {color}}
         end
       end
+      nil
     end
 
     # Adds a new child shape.
@@ -433,6 +435,7 @@ module Processing
     #
     def resetMatrix()
       @matrix = nil
+      nil
     end
 
     # Applies rotation around the x-axis to the shape.
@@ -445,6 +448,7 @@ module Processing
     #
     def rotateX(angle)
       matrix__.rotate! @context.toDegrees__(angle), 1, 0, 0
+      nil
     end
 
     # Applies rotation around the y-axis to the shape.
@@ -457,6 +461,7 @@ module Processing
     #
     def rotateY(angle)
       matrix__.rotate! @context.toDegrees__(angle), 0, 1, 0
+      nil
     end
 
     # Applies rotation around the z-axis to the shape.
@@ -469,6 +474,7 @@ module Processing
     #
     def rotateZ(angle)
       matrix__.rotate! @context.toDegrees__(angle), 0, 0, 1
+      nil
     end
 
     # @private
