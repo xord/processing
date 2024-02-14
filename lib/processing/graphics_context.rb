@@ -1900,7 +1900,7 @@ module Processing
     #
     # @param x [Numeric] left/right translation
     # @param y [Numeric] up/down translation
-    # @param y [Numeric] forward/backward translation
+    # @param z [Numeric] forward/backward translation
     #
     # @return [nil] nil
     #
