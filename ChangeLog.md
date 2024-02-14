@@ -64,7 +64,7 @@
 - Add createShape(), shape(), shapeMode()
 - Add beginShape(), endShape(), and vertex(x, y)
 - Test with p5.rb
-- GraphicsContext#rotate() can take z parameter
+- GraphicsContext#scale() can take z parameter
 - Set default miter_limit to 10
 - Trigger github actions on all pull_request
 
