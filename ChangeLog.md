@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v0.5.34] - 2024-02-16
+
+- Add '@see' links to documents
+- Fix missing nil returning
+
+
 ## [v0.5.33] - 2024-02-07
 
 - Add curveDetail() and bezierDetail()
