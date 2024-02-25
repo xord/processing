@@ -535,6 +535,15 @@ module Processing
         .then {|r, g, b, a| Image.toColor__ r, g, b, a}
     end
 
+    # @private
+    private def color2raw__(color)
+      Rays::Color.new(
+        ((color >> 16) & 0xff) / 255.0,
+        ((color >> 8)  & 0xff) / 255.0,
+        ( color        & 0xff) / 255.0,
+        ((color >> 24) & 0xff) / 255.0)
+    end
+
     # Returns the red value of the color.
     #
     # @param color [Numeric] color value
@@ -597,7 +606,7 @@ module Processing
     # @see https://p5js.org/reference/#/p5/hue
     #
     def hue(color)
-      h, = toRawColor__(color).to_hsv
+      h, = color2raw__(color).to_hsv
       h * (@hsbColor__ ? @colorMaxes__[0] : 1)
     end
 
@@ -611,7 +620,7 @@ module Processing
     # @see https://p5js.org/reference/#/p5/saturation
     #
     def saturation(color)
-      _, s, = toRawColor__(color).to_hsv
+      _, s, = color2raw__(color).to_hsv
       s * (@hsbColor__ ? @colorMaxes__[1] : 1)
     end
 
@@ -625,7 +634,7 @@ module Processing
     # @see https://p5js.org/reference/#/p5/brightness
     #
     def brightness(color)
-      _, _, b = toRawColor__(color).to_hsv
+      _, _, b = color2raw__(color).to_hsv
       b * (@hsbColor__ ? @colorMaxes__[2] : 1)
     end
 
@@ -660,15 +669,6 @@ module Processing
     # @private
     private def alphaMax__()
       @colorMaxes__[3]
-    end
-
-    # @private
-    private def toRawColor__(color)
-      Rays::Color.new(
-        ((color >> 16) & 0xff) / 255.0,
-        ((color >> 8)  & 0xff) / 255.0,
-        ( color        & 0xff) / 255.0,
-        ((color >> 24) & 0xff) / 255.0)
     end
 
     # Sets angle mode.
