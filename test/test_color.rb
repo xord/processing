@@ -51,6 +51,15 @@ class TestColor < Test::Unit::TestCase
     assert_in_delta 0.4, g.alpha(c),      1 / 256.0
   end
 
+  def test_parse_color()
+    g = graphics
+
+    assert_equal 0xff010203, g.color('#010203')
+    assert_equal 0x04010203, g.color('#01020304')
+    assert_equal 0xff112233, g.color('#123')
+    assert_equal 0x44112233, g.color('#1234')
+  end
+
   def test_default_background_color()
     assert_p5_draw '', default_header: '', threshold: THRESHOLD_TO_BE_FIXED
   end

@@ -640,30 +640,35 @@ module Processing
 
     # @private
     private def toRGBA__(*args)
-      a, b = args
-      return parseColor__(a, b || alphaMax__) if a.kind_of?(String)
       toRawColor__(*args).to_a
     end
 
     # @private
     def toRawColor__(*args)
       a, b, c, d = args
-      rgba = case args.size
+      return parseColor__(a, b || alphaMax__) if a.is_a?(String) || a.is_a?(Symbol)
+      rgba =
+        case args.size
         when 1, 2 then [a, a, a, b || alphaMax__]
         when 3, 4 then [a, b, c, d || alphaMax__]
         else raise ArgumentError
         end
-      rgba = rgba.map.with_index {|value, i| value / @colorMaxes__[i]}
+      rgba = rgba.map.with_index {|n, i| n / @colorMaxes__[i]}
       @hsbColor__ ? Rays::Color.hsv(*rgba) : Rays::Color.new(*rgba)
     end
 
     # @private
     private def parseColor__(str, alpha)
-      result = str.match(/^\s*##{'([0-9a-f]{2})' * 3}\s*$/i)
-      raise ArgumentError, "invalid color code: '#{str}'" unless result
-
-      rgb = result[1..3].map.with_index {|hex, i| hex.to_i(16) / 255.0}
-      return *rgb, (alpha / alphaMax__)
+      r, g, b, a =
+        case str
+        when /^\s*##{'([0-9a-f]{2})' * 3}([0-9a-f]{2})?\s*$/i
+          $~[1..4].map {|n| n.to_i(16) / 255.0 if n}
+        when /^\s*##{'([0-9a-f]{1})' * 3}([0-9a-f]{1})?\s*$/i
+          $~[1..4].map {|n| n.to_i(16) / 15.0  if n}
+        else
+          raise ArgumentError, "invalid color code: '#{str}'"
+        end
+      Rays::Color.new(r, g, b, a || (alpha / alphaMax__))
     end
 
     # @private
