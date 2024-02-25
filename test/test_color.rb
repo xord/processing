@@ -58,6 +58,18 @@ class TestColor < Test::Unit::TestCase
     assert_equal 0x04010203, g.color('#01020304')
     assert_equal 0xff112233, g.color('#123')
     assert_equal 0x44112233, g.color('#1234')
+    assert_equal 0xff0000ff, g.color('blue')
+    assert_equal 0x040000ff, g.color('blue', 4)
+  end
+
+  def test_color_codes()
+    g = graphics
+
+    assert_equal 0xffff0000, g.color(:red)
+    assert_equal 0xff008000, g.color(:GREEN)
+    assert_equal 0xff0000ff, g.color('blue')
+
+    assert_raise(ArgumentError) {g.color :unknown}
   end
 
   def test_default_background_color()
