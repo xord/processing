@@ -250,7 +250,7 @@ module Processing
     # @see https://p5js.org/reference/#/p5/fill
     #
     def fill(*args)
-      @fill = @context.rawColor__(*args)
+      @fill = @context.toRawColor__(*args)
       nil
     end
 
@@ -318,7 +318,7 @@ module Processing
     # @see https://processing.org/reference/PShape_setFill_.html
     #
     def setFill(*args)
-      color = @context.rawColor__(*args)
+      color = @context.toRawColor__(*args)
       count = getVertexCount
       if count > 0
         if @colors
