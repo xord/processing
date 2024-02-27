@@ -3185,19 +3185,19 @@ module Processing
     end
 
     # @private
-    private def createLineShape__(x1, y1, x2, y2)
+    def createLineShape__(x1, y1, x2, y2)
       Shape.new Rays::Polygon.line(x1, y1, x2, y2), context: self
     end
 
     # @private
-    private def createRectShape__(a, b, c, d)
-      x, y, w, h = toXYWH__ @rectMode__, a, b, c, d
+    def createRectShape__(a, b, c, d, mode = @rectMode__)
+      x, y, w, h = toXYWH__ mode, a, b, c, d
       Shape.new Rays::Polygon.rect(x, y, w, h), context: self
     end
 
     # @private
-    private def createEllipseShape__(a, b, c, d)
-      x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
+    def createEllipseShape__(a, b, c, d, mode = @ellipseMode__)
+      x, y, w, h = toXYWH__ mode, a, b, c, d
       Shape.new Rays::Polygon.ellipse(x, y, w, h), context: self
     end
 
@@ -3336,6 +3336,10 @@ module Processing
         img.setInternal__ nil, true
       end
       img
+    end
+
+    def loadShape(filename)
+      Processing::SVGLoader.new(self).load filename
     end
 
     # Loads shader file.
