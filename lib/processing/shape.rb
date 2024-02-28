@@ -9,9 +9,10 @@ module Processing
 
     # @private
     def initialize(polygon = nil, children = nil, context: nil)
-      @polygon, @children      = polygon, children
-      @context                 = context || Context.context__
-      @visible, @fill, @matrix = true, nil, nil
+      @polygon, @children = polygon, children
+      @context            = context || Context.context__
+      @visible            = true
+      @fill = @stroke = @strokeWeight = @matrix = nil
       @type = @points = @curvePoints = @colors = @texcoords = @close = nil
       @contours = @contourPoints = @contourColors = @contourTexCoords = nil
     end
@@ -72,6 +73,7 @@ module Processing
     #
     def beginShape(type = nil)
       raise "beginShape() cannot be called twice" if drawingShape__
+      @fill = @stroke = @strokeWeight = nil
       @type        = type
       @points    ||= []
       @curvePoints = []
@@ -91,7 +93,11 @@ module Processing
     #
     def endShape(close = nil)
       raise "endShape() must be called after beginShape()" unless drawingShape__
-      @close = close == GraphicsContext::CLOSE || @contours.size > 0
+      painter         = @context.getPainter__
+      @fill         ||= painter.fill
+      @stroke       ||= painter.stroke
+      @strokeWeight ||= painter.stroke_width
+      @close          = close == GraphicsContext::CLOSE || @contours.size > 0
       if @close && @curvePoints.size >= 8
         x, y = @curvePoints[0, 2]
         2.times {curveVertex x, y}
@@ -147,7 +153,7 @@ module Processing
       raise "Either 'u' or 'v' is missing" if (u == nil) != (v == nil)
       u   ||= x
       v   ||= y
-      color = @fill || @context.getFill__
+      color = @fill || @context.getPainter__.fill
       if drawingContour__
         @contourPoints    << x << y
         @contourColors    << color
@@ -254,6 +260,29 @@ module Processing
       nil
     end
 
+    # Sets stroke color.
+    #
+    # @overload stroke(gray)
+    # @overload stroke(gray, alpha)
+    # @overload stroke(r, g, b)
+    # @overload stroke(r, g, b, alpha)
+    #
+    # @param gray  [Integer]  gray value (0..255)
+    # @param r     [Integer]   red value (0..255)
+    # @param g     [Integer] green value (0..255)
+    # @param b     [Integer]  blue value (0..255)
+    # @param alpha [Integer] alpha value (0..255)
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/stroke_.html
+    # @see https://p5js.org/reference/#/p5/stroke
+    #
+    def stroke(*args)
+      @stroke = @context.toRawColor__(*args)
+      nil
+    end
+
     # Sets the vertex at the index position.
     #
     # @overload setVertex(index, x, y)
@@ -300,12 +329,12 @@ module Processing
       @points.size / 2
     end
 
-    # Sets the fill color.
+    # Sets the fill color for all vertices.
     #
-    # @overload fill(gray)
-    # @overload fill(gray, alpha)
-    # @overload fill(r, g, b)
-    # @overload fill(r, g, b, alpha)
+    # @overload setFill(gray)
+    # @overload setFill(gray, alpha)
+    # @overload setFill(r, g, b)
+    # @overload setFill(r, g, b, alpha)
     #
     # @param gray  [Integer]  gray value (0..255)
     # @param r     [Integer]   red value (0..255)
@@ -318,26 +347,54 @@ module Processing
     # @see https://processing.org/reference/PShape_setFill_.html
     #
     def setFill(*args)
-      color = @context.toRawColor__(*args)
+      fill(*args)
       count = getVertexCount
       if count > 0
         if @colors
-          @colors.fill color
+          @colors.fill @fill
         else
-          @colors = [color] * count
+          @colors = [@fill] * count
         end
         clearCache__
       elsif @polygon
         @polygon = @polygon.transform do |polylines|
-          polylines.map {|pl| pl.with colors: pl.points.map {color}}
+          polylines.map {|pl| pl.with colors: pl.points.map {@fill}}
         end
       end
       nil
     end
 
-    # @private
-    def setStroke__()
-      raise NotImplementedError
+    # Sets the stroke color.
+    #
+    # @overload setStroke(gray)
+    # @overload setStroke(gray, alpha)
+    # @overload setStroke(r, g, b)
+    # @overload setStroke(r, g, b, alpha)
+    #
+    # @param gray  [Integer]  gray value (0..255)
+    # @param r     [Integer]   red value (0..255)
+    # @param g     [Integer] green value (0..255)
+    # @param b     [Integer]  blue value (0..255)
+    # @param alpha [Integer] alpha value (0..255)
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/PShape_setStroke_.html
+    #
+    def setStroke(*args)
+      stroke(*args)
+      nil
+    end
+
+    # Sets the stroke weight.
+    #
+    # @param weight [Numeric] stroke weight
+    #
+    # @return [nil] nil
+    #
+    def setStrokeWeight(weight)
+      @strokeWeight = weight
+      nil
     end
 
     # Adds a new child shape.
@@ -505,24 +562,32 @@ module Processing
 
     # @private
     def draw__(painter, x, y, w = nil, h = nil)
-      poly = getInternal__
+      p, poly = painter, getInternal__
 
-      backup = nil
+      matrix_ = nil
       if @matrix && (poly || @children)
-        backup = painter.matrix
-        painter.matrix = backup * @matrix
+        matrix_  = p.matrix
+        p.matrix = matrix_ * @matrix
       end
 
       if poly
+        f_ = s_ = sw_ = nil
+        f_,  p.fill         = p.fill,         @fill         if @fill
+        s_,  p.stroke       = p.stroke,       @stroke       if @stroke
+        sw_, p.stroke_width = p.stroke_width, @strokeWeight if @strokeWeight
         if w || h
-          painter.polygon poly, x, y, w,h
+          p.polygon poly, x, y, w,h
         else
-          painter.polygon poly, x, y
+          p.polygon poly, x, y
         end
+        p.fill         = f_  if f_
+        p.stroke       = s_  if s_
+        p.stroke_width = sw_ if sw_
       end
-      @children&.each {|o| o.draw__ painter, x, y, w, h}
 
-      painter.matrix = backup if backup
+      @children&.each {|o| o.draw__ p, x, y, w, h}
+
+      p.matrix = matrix_ if matrix_
     end
 
     # @private

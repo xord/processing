@@ -993,11 +993,6 @@ module Processing
       nil
     end
 
-    # @private
-    def getFill__()
-      @painter__.fill
-    end
-
     # Disables filling.
     #
     # @return [nil] nil
@@ -2444,6 +2439,11 @@ module Processing
     def pop()
       popMatrix
       popStyle
+    end
+
+    # @private
+    def getPainter__()
+      @painter__
     end
 
     # @private

@@ -366,14 +366,33 @@ class TestShape < Test::Unit::TestCase
 
   def test_fill()
     assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
       noStroke
     HEADER
-      fill 0, 255, 0
+      fill 0, 0, 255
       rect 100, 100, 500, 400
     EXPECTED
       s = createShape
       s.beginShape
-      s.fill 0, 255, 0
+      s.fill 0, 0, 255
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      noStroke
+    HEADER
+      fill 0, 0, 255
+      rect 100, 100, 500, 400
+    EXPECTED
+      fill 0, 0, 255
+      s = createShape
+      s.beginShape
       s.vertex 100, 100
       s.vertex 600, 100
       s.vertex 600, 500
@@ -383,11 +402,50 @@ class TestShape < Test::Unit::TestCase
     ACTUAL
   end
 
-  def test_setFill()
+  def test_stroke()
     assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
       noStroke
     HEADER
-      fill 0, 255, 0
+      stroke 0, 0, 255
+      rect 100, 100, 500, 400
+    EXPECTED
+      s = createShape
+      s.beginShape
+      s.stroke 0, 0, 255
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape CLOSE
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      noStroke
+    HEADER
+      stroke 0, 0, 255
+      rect 100, 100, 500, 400
+    EXPECTED
+      stroke 0, 0, 255
+      s = createShape
+      s.beginShape
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape CLOSE
+      shape s
+    ACTUAL
+  end
+
+  def test_setFill()
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      noStroke
+    HEADER
+      fill 0, 0, 255
       rect 100, 100, 500, 400
     EXPECTED
       s = createShape
@@ -397,18 +455,83 @@ class TestShape < Test::Unit::TestCase
       s.vertex 600, 500
       s.vertex 100, 500
       s.endShape
-      s.setFill 0, 255, 0
+      s.setFill 0, 0, 255
       shape s
     ACTUAL
 
     assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
       noStroke
     HEADER
-      fill 0, 255, 0
+      fill 0, 0, 255
       ellipse 300, 400, 500, 400
     EXPECTED
       s = createShape ELLIPSE, 300, 400, 500, 400
-      s.setFill 0, 255, 0
+      s.setFill 0, 0, 255
+      shape s
+    ACTUAL
+  end
+
+  def test_setStroke()
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      noStroke
+    HEADER
+      stroke 0, 0, 255
+      rect 100, 100, 500, 400
+    EXPECTED
+      s = createShape
+      s.beginShape
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape CLOSE
+      s.setStroke 0, 0, 255
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      noStroke
+    HEADER
+      stroke 0, 0, 255
+      ellipse 300, 400, 500, 400
+    EXPECTED
+      s = createShape ELLIPSE, 300, 400, 500, 400
+      s.setStroke 0, 0, 255
+      shape s
+    ACTUAL
+  end
+
+  def test_setStrokeWeight()
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      strokeWeight 1
+    HEADER
+      strokeWeight 100
+      rect 100, 100, 500, 400
+    EXPECTED
+      s = createShape
+      s.beginShape
+      s.vertex 100, 100
+      s.vertex 600, 100
+      s.vertex 600, 500
+      s.vertex 100, 500
+      s.endShape CLOSE
+      s.setStrokeWeight 100
+      shape s
+    ACTUAL
+
+    assert_equal_draw <<~HEADER, <<~EXPECTED, <<~ACTUAL
+      noFill
+      strokeWeight 1
+    HEADER
+      strokeWeight 100
+      ellipse 300, 400, 500, 400
+    EXPECTED
+      s = createShape ELLIPSE, 300, 400, 500, 400
+      s.setStrokeWeight 100
       shape s
     ACTUAL
   end
