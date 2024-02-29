@@ -94,7 +94,7 @@ module Processing
 
     def addPath(parent, e)
       d = e[:d] or raise Error, "missing 'd'"
-      d.gsub!(/\.(\d)(\d)\./) {".#{$1} #{$2}."}
+      d.gsub!(/\.(\d+)\./) {".#{$1} 0."}
 
       scanner = StringScanner.new d
       skipSpaces scanner
