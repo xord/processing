@@ -9,24 +9,26 @@ module Processing
     end
 
     def load(filename)
-      root = @c.createShape @cc::GROUP
-      svg  = REXML::Document.new File.read filename
-      svg.elements.first.elements.each do |e|
-        parseElement root, e
-      end
-      root
+      svg = REXML::Document.new File.read filename
+      addGroup nil, svg.elements.first
     end
 
-    def parseElement(parent, e)
-      case e.name.to_sym
-      when :line     then addLine     parent, e
-      when :rect     then addRect     parent, e
-      when :circle   then addCircle   parent, e
-      when :ellipse  then addEllipse  parent, e
-      when :polyline then addPolyline parent, e
-      when :polygon  then addPolyline parent, e, true
-      when :path     then addPath     parent, e
+    def addGroup(parent, e)
+      group = @c.createShape @cc::GROUP
+      e.elements.each do |child|
+        case child.name.to_sym
+        when :g, :a    then addGroup    group, child
+        when :line     then addLine     group, child
+        when :rect     then addRect     group, child
+        when :circle   then addCircle   group, child
+        when :ellipse  then addEllipse  group, child
+        when :polyline then addPolyline group, child
+        when :polygon  then addPolyline group, child, true
+        when :path     then addPath     group, child
+        end
       end
+      parent.addChild group if parent
+      group
     end
 
     def addLine(parent, e)
