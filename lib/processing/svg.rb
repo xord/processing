@@ -13,57 +13,58 @@ module Processing
       addGroup nil, svg.elements.first
     end
 
-    def addGroup(parent, e)
-      group = @c.createShape @cc::GROUP
+    def addGroup(parent, e, **attribs)
+      group   = @c.createShape @cc::GROUP
+      attribs = getAttribs e, attribs
       e.elements.each do |child|
         case child.name.to_sym
-        when :g, :a    then addGroup    group, child
-        when :line     then addLine     group, child
-        when :rect     then addRect     group, child
-        when :circle   then addCircle   group, child
-        when :ellipse  then addEllipse  group, child
-        when :polyline then addPolyline group, child
-        when :polygon  then addPolyline group, child, true
-        when :path     then addPath     group, child
+        when :g, :a    then addGroup    group, child,       **attribs
+        when :line     then addLine     group, child,       **attribs
+        when :rect     then addRect     group, child,       **attribs
+        when :circle   then addCircle   group, child,       **attribs
+        when :ellipse  then addEllipse  group, child,       **attribs
+        when :polyline then addPolyline group, child,       **attribs
+        when :polygon  then addPolyline group, child, true, **attribs
+        when :path     then addPath     group, child,       **attribs
         end
       end
       parent.addChild group if parent
       group
     end
 
-    def addLine(parent, e)
+    def addLine(parent, e, **attribs)
       x1, y1 = float(e, :x1), float(e, :y1)
       x2, y2 = float(e, :x2), float(e, :y2)
       s = @c.createLineShape__ x1, y1, x2, y2
-      apply_attribs s, e
+      applyAttribs s, e, attribs
       parent.addChild s
     end
 
-    def addRect(parent, e)
+    def addRect(parent, e, **attribs)
       x, y = float(e, :x),     float(e, :y)
       w, h = float(e, :width), float(e, :height)
       s = @c.createRectShape__ x, y, w, h, @cc::CORNER
-      apply_attribs s, e
+      applyAttribs s, e, attribs
       parent.addChild s
     end
 
-    def addCircle(parent, e)
+    def addCircle(parent, e, **attribs)
       cx, cy = float(e, :cx), float(e, :cy)
       r      = float(e, :r)
       s = @c.createEllipseShape__ cx, cy, r, r, @cc::CENTER
-      apply_attribs s, e
+      applyAttribs s, e, attribs
       parent.addChild s
     end
 
-    def addEllipse(parent, e)
+    def addEllipse(parent, e, **attribs)
       cx, cy = float(e, :cx), float(e, :cy)
       rx, ry = float(e, :rx), float(e, :ry)
       s = @c.createEllipseShape__ cx, cy, rx, ry, @cc::CENTER
-      apply_attribs s, e
+      applyAttribs s, e, attribs
       parent.addChild s
     end
 
-    def addPolyline(parent, e, close = false)
+    def addPolyline(parent, e, close = false, **attribs)
       points  = e[:points] or raise Error, "missing 'points'"
       scanner = StringScanner.new points
       child   = @c.createShape
@@ -76,14 +77,23 @@ module Processing
       end
 
       child.endShape close ? @cc::CLOSE : @cc::OPEN
-      apply_attribx child, e
+      applyAttribs child, e, attribs
       parent.addChild child
     end
 
-    def apply_attribs(shape, e)
-      shape.setFill         e[:fill]           || :none
-      shape.setStroke       e[:stroke]         || :none
-      shape.setStrokeWeight e[:'stroke-width'] || 1
+    def applyAttribs(shape, e, attribs)
+      a = getAttribs e, attribs
+      shape.setFill         a[:fill]         || :black
+      shape.setStroke       a[:stroke]       || :none
+      shape.setStrokeWeight a[:strokeWeight] || 1
+    end
+
+    def getAttribs(e, attribs)
+      attribs.merge({
+        fill:         e[:fill],
+        stroke:       e[:stroke],
+        strokeWeight: e[:'stroke-width']
+      }.compact)
     end
 
     def int(e, key, defval = 0)
@@ -94,7 +104,7 @@ module Processing
       e[key]&.to_f || defval
     end
 
-    def addPath(parent, e)
+    def addPath(parent, e, **attribs)
       data    = e[:d] or raise Error, "missing 'd'"
       scanner = StringScanner.new data
       skipSpaces scanner
@@ -109,7 +119,7 @@ module Processing
       endChild   = -> {
         if child# && child.getVertexCount >= 2
           child.endShape close ? @cc::CLOSE : @cc::OPEN
-          apply_attribs child, e
+          applyAttribs child, e, attribs
           parent.addChild child
         end
       }
