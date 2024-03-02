@@ -118,14 +118,14 @@ module Processing
       lastX,  lastY  = 0, 0
       lastCX, lastCY = 0, 0
       until scanner.empty?
-        currentCommand = nextCommand scanner
-        if currentCommand =~ /^[Mm]$/
+        command = nextCommand scanner
+        if command =~ /^[Mm]$/
           endChild.call
           beginChild.call
         end
         raise Error, "no leading 'M' or 'm'" unless child
 
-        command = currentCommand || lastCommand
+        command ||= lastCommand
         case command
         when 'M', 'm'
           lastX, lastY = nextPos scanner, lastX, lastY, command == 'm'
