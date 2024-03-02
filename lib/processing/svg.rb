@@ -95,10 +95,8 @@ module Processing
     end
 
     def addPath(parent, e)
-      d = e[:d] or raise Error, "missing 'd'"
-      d.gsub!(/\.(\d+)\./) {".#{$1} 0."}
-
-      scanner = StringScanner.new d
+      data    = e[:d] or raise Error, "missing 'd'"
+      scanner = StringScanner.new data
       skipSpaces scanner
 
       child      = nil
@@ -194,7 +192,7 @@ module Processing
     end
 
     def nextNum(scanner, base = 0, relative = true)
-      n = scanner.scan(/(?:[\+\-]\s*)?\d+(?:\.\d+)?/)&.strip&.to_f
+      n = scanner.scan(/(?:[\+\-]\s*)?\d*(?:\.\d+)?/)&.strip&.to_f
       raise Error, 'invalid path' unless n
       skipSpaces scanner
       n + (relative ? base : 0)
