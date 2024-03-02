@@ -3196,7 +3196,7 @@ module Processing
     end
 
     # @private
-    def createEllipseShape__(a, b, c, d, mode = @ellipseMode__)
+    def createEllipseShape__(a, b, c, d, mode: @ellipseMode__)
       x, y, w, h = toXYWH__ mode, a, b, c, d
       Shape.new Rays::Polygon.ellipse(x, y, w, h), context: self
     end

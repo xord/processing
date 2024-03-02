@@ -52,7 +52,7 @@ module Processing
     def addCircle(parent, e, **attribs)
       cx, cy = float(e, :cx), float(e, :cy)
       r      = float(e, :r)
-      s = @c.createEllipseShape__ cx, cy, r, r, @cc::CENTER
+      s = @c.createEllipseShape__ cx, cy, r * 2, r * 2, mode: @cc::CENTER
       applyAttribs s, e, attribs
       parent.addChild s
     end
@@ -60,7 +60,7 @@ module Processing
     def addEllipse(parent, e, **attribs)
       cx, cy = float(e, :cx), float(e, :cy)
       rx, ry = float(e, :rx), float(e, :ry)
-      s = @c.createEllipseShape__ cx, cy, rx, ry, @cc::CENTER
+      s = @c.createEllipseShape__ cx, cy, rx * 2, ry * 2, mode: @cc::CENTER
       applyAttribs s, e, attribs
       parent.addChild s
     end
