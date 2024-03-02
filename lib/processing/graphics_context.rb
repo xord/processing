@@ -3190,9 +3190,9 @@ module Processing
     end
 
     # @private
-    def createRectShape__(a, b, c, d, mode = @rectMode__)
+    def createRectShape__(a, b, c, d, *args, mode: @rectMode__)
       x, y, w, h = toXYWH__ mode, a, b, c, d
-      Shape.new Rays::Polygon.rect(x, y, w, h), context: self
+      Shape.new Rays::Polygon.rect(x, y, w, h, *args), context: self
     end
 
     # @private

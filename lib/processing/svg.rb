@@ -41,9 +41,10 @@ module Processing
     end
 
     def addRect(parent, e, **attribs)
-      x, y = float(e, :x),     float(e, :y)
-      w, h = float(e, :width), float(e, :height)
-      s = @c.createRectShape__ x, y, w, h, @cc::CORNER
+      x,  y  = float(e, :x),     float(e, :y)
+      w,  h  = float(e, :width), float(e, :height)
+      rx, ry = float(e, :rx),    float(e, :ry)
+      s = @c.createRectShape__ x, y, w, h, (rx || ry), mode: @cc::CORNER
       applyAttribs s, e, attribs
       parent.addChild s
     end
