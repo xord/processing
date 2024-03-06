@@ -215,11 +215,6 @@ module Processing
     end
 
     # @private
-    def setFrame__()
-      raise NotImplementedError
-    end
-
-    # @private
     def getCurrentFrame__()
       raise NotImplementedError
     end
