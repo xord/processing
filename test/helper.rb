@@ -111,12 +111,19 @@ def assert_p5_draw(
   *sources, default_header: DEFAULT_DRAW_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)
 
+  source = [default_header, *sources].compact.join("\n")
+  assert_draw_on_browser(source, width, height, threshold, label, **kwargs) do |path|
+    draw_p5rb width, height, source, path, **kwargs
+  end
+end
+
+def assert_draw_on_browser(
+  source, width, height, threshold, label, **kwargs, &draw_on_browser)
+
   return unless test_with_p5?
 
-  source = [default_header, *sources].compact.join("\n")
   path   = draw_output_path "#{label}_expected", source
-
-  pd     = draw_p5rb width, height, source, path, **kwargs
+  pd     = draw_on_browser.call path
   actual = test_draw source, width: width, height: height, pixelDensity: pd
   actual.save path.sub('_expected', '_actual')
 
