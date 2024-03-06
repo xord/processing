@@ -21,8 +21,8 @@ DEFAULT_DRAW_HEADER = <<~END
 END
 
 
-def test_with_p5?()
-  ENV['TEST_WITH_P5'] == '1'
+def test_with_browser?()
+  (ENV['TEST_WITH_BROWSER'] || '0') != '0'
 end
 
 def md5(s)
@@ -120,7 +120,7 @@ end
 def assert_draw_on_browser(
   source, width, height, threshold, label, **kwargs, &draw_on_browser)
 
-  return unless test_with_p5?
+  return unless test_with_browser?
 
   path   = draw_output_path "#{label}_expected", source
   pd     = draw_on_browser.call path
@@ -143,4 +143,4 @@ def assert_p5_fill_stroke(*sources, **kwargs)
 end
 
 
-require_relative 'p5' if test_with_p5?
+require_relative 'browser' if test_with_browser?

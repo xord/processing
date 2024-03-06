@@ -14,15 +14,15 @@ require 'reflex/extension'
 require 'processing/extension'
 
 
-def test_with_p5()
-  ENV['TEST_WITH_P5'] = '1'
+def test_with_browser()
+  ENV['TEST_WITH_BROWSER'] = '1'
 end
 
 EXTENSIONS = [Xot, Rucy, Rays, Reflex, Processing]
 
 ENV['RDOC'] = 'yardoc --no-private'
 
-#test_with_p5 if ci?
+#test_with_browser if ci?
 
 default_tasks
 use_bundler
@@ -37,8 +37,8 @@ namespace :test do
     sh %( rm -rf test/.png/*.png )
   end
 
-  task :with_p5 do
-    test_with_p5
+  task :with_browser do
+    test_with_browser
   end
 
   ::Rake::TestTask.new :draw do |t|
