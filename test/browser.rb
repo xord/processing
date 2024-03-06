@@ -57,21 +57,26 @@ def sleep_until(try: 3, timeout: 10, &block)
       limit = now[timeout]
       try -= 1
       next if try > 0
-      raise 'Drawing timed out in p5.rb'
+      raise 'Drawing timed out in browser'
     end
     sleep 0.1
   end
 end
 
-def draw_p5rb(width, height, draw_src, path, headless: true, webgl: false)
+def draw_on_browser(width, height, path, html, headless: true)
   b = browser width, height, headless: headless
   unless File.exist? path
     b.reset
-    b.main_frame.content = get_p5rb_html width, height, draw_src, webgl: webgl
+    b.main_frame.content = html
     sleep_until do
       b.evaluate 'document.querySelector("#completed") != null'
     end
     b.screenshot path: path
   end
   b.device_pixel_ratio
+end
+
+def draw_p5rb(width, height, draw_src, path, headless: true, webgl: false)
+  html = get_p5rb_html width, height, draw_src, webgl: webgl
+  draw_on_browser width, height, path, html, headless: headless
 end
