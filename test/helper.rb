@@ -20,6 +20,8 @@ DEFAULT_DRAW_HEADER = <<~END
   strokeWeight 50
 END
 
+THRESHOLD_TO_BE_FIXED = 0.0
+
 
 def test_with_browser?()
   (ENV['TEST_WITH_BROWSER'] || '0') != '0'

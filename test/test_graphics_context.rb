@@ -6,8 +6,6 @@ class TestGraphicsContext < Test::Unit::TestCase
   P = Processing
   G = P::Graphics
 
-  THRESHOLD_TO_BE_FIXED = 0.0
-
   def test_colorMode()
     g = graphics
     assert_equal G::RGB, g.colorMode

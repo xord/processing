@@ -6,8 +6,6 @@ class TestColor < Test::Unit::TestCase
   P = Processing
   G = P::Graphics
 
-  THRESHOLD_TO_BE_FIXED = 0.0
-
   def test_rgb_color()
     g = graphics
 
