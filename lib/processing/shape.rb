@@ -12,7 +12,7 @@ module Processing
       @polygon, @children = polygon, children
       @context            = context || Context.context__
       @visible            = true
-      @fill = @stroke = @strokeWeight = @matrix = nil
+      @fill = @stroke = @strokeWeight = @strokeCap = @strokeJoin = @matrix = nil
       @type = @points = @curvePoints = @colors = @texcoords = @close = nil
       @contours = @contourPoints = @contourColors = @contourTexCoords = nil
     end
@@ -73,7 +73,7 @@ module Processing
     #
     def beginShape(type = nil)
       raise "beginShape() cannot be called twice" if drawingShape__
-      @fill = @stroke = @strokeWeight = nil
+      @fill = @stroke = @strokeWeight = @strokeCap = @strokeJoin = nil
       @type        = type
       @points    ||= []
       @curvePoints = []
@@ -97,6 +97,8 @@ module Processing
       @fill         ||= painter.fill
       @stroke       ||= painter.stroke
       @strokeWeight ||= painter.stroke_width
+      @strokeCap    ||= painter.stroke_cap
+      @strokeJoin   ||= painter.stroke_join
       @close          = close == GraphicsContext::CLOSE || @contours.size > 0
       if @close && @curvePoints.size >= 8
         x, y = @curvePoints[0, 2]
@@ -397,6 +399,28 @@ module Processing
       nil
     end
 
+    # Sets the stroke cap.
+    #
+    # @param cap [ROUND, SQUARE, PROJECT] stroke cap
+    #
+    # @return [nil] nil
+    #
+    def setStrokeCap(cap)
+      @strokeCap = cap
+      nil
+    end
+
+    # Sets the stroke join.
+    #
+    # @param join [MITER, BEVEL, ROUND] stroke join
+    #
+    # @return [nil] nil
+    #
+    def setStrokeJoin(join)
+      @strokeJoin = join
+      nil
+    end
+
     # Adds a new child shape.
     #
     # @param child [Shape]   child shape
@@ -571,10 +595,12 @@ module Processing
       end
 
       if poly
-        f_ = s_ = sw_ = nil
+        f_ = s_ = sw_ = sc_ = sj_ = nil
         f_,  p.fill         = p.fill,         @fill         if @fill
         s_,  p.stroke       = p.stroke,       @stroke       if @stroke
         sw_, p.stroke_width = p.stroke_width, @strokeWeight if @strokeWeight
+        sc_, p.stroke_cap   = p.stroke_cap,   @strokeCap    if @strokeCap
+        sj_, p.stroke_join  = p.stroke_join,  @strokeJoin   if @strokeJoin
         if w || h
           p.polygon poly, x, y, w,h
         else
@@ -583,6 +609,8 @@ module Processing
         p.fill         = f_  if f_
         p.stroke       = s_  if s_
         p.stroke_width = sw_ if sw_
+        p.stroke_cap   = sc_ if sc_
+        p.stroke_join  = sj_ if sj_
       end
 
       @children&.each {|o| o.draw__ p, x, y, w, h}
