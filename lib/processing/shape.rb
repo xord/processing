@@ -596,7 +596,7 @@ module Processing
 
       if poly
         f_ = s_ = sw_ = sc_ = sj_ = nil
-        f_,  p.fill         = p.fill,         @fill         if @fill
+        f_,  p.fill         = p.fill,         '#fff'        if @fill
         s_,  p.stroke       = p.stroke,       @stroke       if @stroke
         sw_, p.stroke_width = p.stroke_width, @strokeWeight if @strokeWeight
         sc_, p.stroke_cap   = p.stroke_cap,   @strokeCap    if @strokeCap
