@@ -75,7 +75,7 @@ module Processing
       child.beginShape
 
       skipSpaces scanner
-      until scanner.empty?
+      until scanner.eos?
         child.vertex(*nextPos(scanner))
         skipSpaces scanner
       end
@@ -145,7 +145,7 @@ module Processing
       lastCommand    = nil
       lastX,  lastY  = 0, 0
       lastCX, lastCY = 0, 0
-      until scanner.empty?
+      until scanner.eos?
         command = nextCommand scanner
         if command =~ /^[Mm]$/
           endChild.call
@@ -231,7 +231,7 @@ module Processing
     end
 
     def skipSpaces(scanner)
-      scanner.scan /\s*,?\s*/
+      scanner.scan(/\s*,?\s*/)
     end
 
     class Error < StandardError
