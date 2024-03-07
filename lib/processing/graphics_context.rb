@@ -70,6 +70,14 @@ module Processing
     #
     RADIUS  = :radius
 
+    # Mode for strokeCap() and strokeJoin().
+    #
+    ROUND   = :round
+
+    # Mode for strokeCap().
+    #
+    SQUARE  = :butt
+
     # Mode for strokeCap().
     #
     PROJECT = :square
@@ -80,11 +88,7 @@ module Processing
 
     # Mode for strokeCap() and strokeJoin().
     #
-    ROUND   = :round
-
-    # Mode for strokeCap() and strokeJoin().
-    #
-    SQUARE  = :butt
+    BEVEL   = :square
 
     # Mode for blendMode().
     #
@@ -1058,8 +1062,9 @@ module Processing
     end
 
     # Sets stroke cap mode.
+    # The default cap if ROUND.
     #
-    # @param cap [BUTT, ROUND, SQUARE]
+    # @param cap [ROUND, SQUARE, PROJECT]
     #
     # @return [nil] nil
     #
@@ -1072,8 +1077,9 @@ module Processing
     end
 
     # Sets stroke join mode.
+    # The default join is MITER.
     #
-    # @param join [MITER, ROUND, SQUARE]
+    # @param join [MITER, BEVEL, ROUND]
     #
     # @return [nil] nil
     #

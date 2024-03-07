@@ -36,6 +36,39 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_raise {g.blendMode LEFT}
   end
 
+  def test_strokeCap()
+    header = <<~END
+      noFill
+      strokeWeight 200
+    END
+    footer = <<~END
+      line 200, 200, 800, 800
+    END
+    assert_p5_draw header, '',                  footer
+    assert_p5_draw header, 'strokeCap ROUND',   footer
+    assert_p5_draw header, 'strokeCap SQUARE',  footer
+    assert_p5_draw header, 'strokeCap PROJECT', footer
+  end
+
+  def test_strokeJoin()
+    header = <<~END
+      noFill
+      strokeWeight 200
+      strokeCap SQUARE
+    END
+    footer = <<~END
+      beginShape
+      vertex 200, 200
+      vertex 800, 500
+      vertex 200, 800
+      endShape
+    END
+    assert_p5_draw header, '',                 footer
+    assert_p5_draw header, 'strokeJoin MITER', footer
+    assert_p5_draw header, 'strokeJoin BEVEL', footer, threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_draw header, 'strokeJoin ROUND', footer
+  end
+
   def test_textFont()
     graphics do |g|
       arial10     = g.createFont 'Arial',     10
