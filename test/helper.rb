@@ -109,6 +109,28 @@ def assert_equal_draw(
   assert_equal_pixels e, a, threshold: threshold
 end
 
+def assert_svg_draw(
+  svg_xml,
+  width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)
+
+  source = <<~END
+    background 255
+    shape Processing::SVGLoader.new(self).parse <<~SVG
+      <?xml version="1.0" encoding="UTF-8"?>
+      <svg xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 100 100">
+        #{svg_xml}
+      </svg>
+    SVG
+  END
+  assert_draw_on_browser(
+    source, width, height, threshold, label, **kwargs
+  ) do |path|
+    draw_svg width, height, svg_xml, path, **kwargs
+  end
+end
+
 def assert_p5_draw(
   *sources, default_header: DEFAULT_DRAW_HEADER,
   width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)

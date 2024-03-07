@@ -9,8 +9,11 @@ module Processing
     end
 
     def load(filename)
-      svg = REXML::Document.new File.read filename
-      addGroup nil, svg.elements.first
+      parse File.read(filename)
+    end
+
+    def parse(xml)
+      addGroup nil, REXML::Document.new(xml).elements.first
     end
 
     def addGroup(parent, e, **attribs)

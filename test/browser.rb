@@ -13,6 +13,30 @@ def browser(width, height, headless: true)
   hash[key] ||= Ferrum::Browser.new headless: headless, window_size: [width, height]
 end
 
+def get_svg_html(width, height, svg_xml)
+  <<~END
+    <html>
+      <head>
+        <style type="text/css">
+          body {margin: 0;}
+        </style>
+        <script type="text/javascript">
+          window.onload = function() {
+            let e = document.createElement("span");
+            e.id = 'completed';
+            document.body.appendChild(e);
+          }
+        </script>
+      </head>
+      <body>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 #{width} #{height}">
+          #{svg_xml}
+        </svg>
+      </body>
+    </html>
+  END
+end
+
 def get_p5rb_html(width, height, draw_src, webgl: false)
   <<~END
     <html>
@@ -74,6 +98,11 @@ def draw_on_browser(width, height, path, html, headless: true)
     b.screenshot path: path
   end
   b.device_pixel_ratio
+end
+
+def draw_svg(width, height, svg_xml, path, headless: true)
+  html = get_svg_html width, height, svg_xml
+  draw_on_browser width, height, path, html, headless: headless
 end
 
 def draw_p5rb(width, height, draw_src, path, headless: true, webgl: false)
