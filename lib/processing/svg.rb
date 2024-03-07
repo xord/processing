@@ -87,13 +87,27 @@ module Processing
       shape.setFill         a[:fill]         || :black
       shape.setStroke       a[:stroke]       || :none
       shape.setStrokeWeight a[:strokeWeight] || 1
+      shape.setStrokeCap    a[:strokeCap]    || @cc::SQUARE
+      shape.setStrokeJoin   a[:strokeJoin]   || @cc::MITER
     end
 
     def getAttribs(e, attribs)
+      @caps ||= {
+        'butt'   => @cc::SQUARE,
+        'round'  => @cc::ROUND,
+        'square' => @cc::PROJECT
+      }
+      @joins ||= {
+        'miter' => @cc::MITER,
+        'round' => @cc::ROUND,
+        'bevel' => @cc::BEVEL
+      }
       attribs.merge({
-        fill:         e[:fill],
-        stroke:       e[:stroke],
-        strokeWeight: e[:'stroke-width']
+        fill:                e[:fill],
+        stroke:              e[:stroke],
+        strokeWeight:        e[:'stroke-width'],
+        strokeCap:    @caps[ e[:'stroke-linecap']],
+        strokeJoin:   @joins[e[:'stroke-linejoin']]
       }.compact)
     end
 
