@@ -114,7 +114,9 @@ def assert_p5_draw(
   width: 1000, height: 1000, threshold: 0.99, label: test_label, **kwargs)
 
   source = [default_header, *sources].compact.join("\n")
-  assert_draw_on_browser(source, width, height, threshold, label, **kwargs) do |path|
+  assert_draw_on_browser(
+    source, width, height, threshold, label, **kwargs
+  ) do |path|
     draw_p5rb width, height, source, path, **kwargs
   end
 end
