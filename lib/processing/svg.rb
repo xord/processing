@@ -101,9 +101,11 @@ module Processing
         'square' => @cc::PROJECT
       }
       @joins ||= {
-        'miter' => @cc::MITER,
-        'round' => @cc::ROUND,
-        'bevel' => @cc::BEVEL
+        'miter'      => @cc::MITER,
+        'miter-clip' => @cc::MITER,
+        'round'      => @cc::ROUND,
+        'bevel'      => @cc::BEVEL,
+        'arcs'       => @cc::MITER
       }
       attribs.merge({
         fill:                e[:fill],
