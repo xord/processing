@@ -173,7 +173,7 @@ module Processing
           lastX,  lastY  = nextPos scanner, lastX, lastY, relative
           child.quadraticVertex lastCX, lastCY, lastX, lastY
         when 'T', 't'
-          lastCY, lastCY =
+          lastCX, lastCY =
             if lastCommand =~ /[QqTt]/
               [lastX + (lastX - lastCX), lastY + (lastY - lastCY)]
             else
