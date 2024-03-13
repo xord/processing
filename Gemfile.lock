@@ -12,21 +12,22 @@ GEM
     power_assert (2.0.3)
     public_suffix (5.0.3)
     rake (13.1.0)
+    rexml (3.2.6)
     test-unit (3.6.1)
       power_assert
     webrick (1.7.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    yard (0.9.34)
+    yard (0.9.36)
 
 PLATFORMS
-  arm64-darwin-20
-  arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   ferrum
   rake
+  rexml
   test-unit
   yard
 
