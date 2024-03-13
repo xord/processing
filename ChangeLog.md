@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.0.1] - 2024-03-14
+
+- Add 'rexml' to Gemfile
+
+
 ## [v1.0] - 2024-03-14
 
 - Add stroke(), setStroke(), and setStrokeWeight() to Shape class
