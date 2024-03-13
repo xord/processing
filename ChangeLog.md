@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.0.2] - 2024-03-14
+
+- Add 'rexml' to gemspec dependency
+
+
 ## [v1.0.1] - 2024-03-14
 
 - Add 'rexml' to Gemfile
