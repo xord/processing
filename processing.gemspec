@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 3.0.0'
 
+  s.add_runtime_dependency 'rexml'
   s.add_runtime_dependency 'xot',       '~> 0.2'
   s.add_runtime_dependency 'rucy',      '~> 0.2'
   s.add_runtime_dependency 'rays',      '~> 0.2'
