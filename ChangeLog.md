@@ -1,6 +1,19 @@
 # processing ChangeLog
 
 
+## [v1.0] - 2024-03-14
+
+- Add stroke(), setStroke(), and setStrokeWeight() to Shape class
+- Add setStrokeCap() and setStrokeJoin() to Shape class
+- Add join type 'miter-clip' and 'arcs'
+- Add color codes
+- Add loadShape()
+
+- Rename the join type 'SQUARE' to 'BEVEL'
+
+- Fix that <circle> and <ellipse> had half diameters
+
+
 ## [v0.5.34] - 2024-02-16
 
 - Add '@see' links to documents
