@@ -649,7 +649,7 @@ draw do
   noFill()
 
   beginShape()
-  (0..width).each do |x|
+  width.times do |x|
     # noise() 関数で Perlin ノイズを生成する
     y = noise(x / 50.0) * height
 
