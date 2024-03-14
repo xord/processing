@@ -87,7 +87,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/57184fabd863-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/57184fabd863-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/3a79b2d5def4-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -117,17 +117,17 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/9aceeb9123d6-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/9aceeb9123d6-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/a8a3b2f6b5eb-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
 実装は以下の順で進めました。
 
 1. [Rays::Polygon.new() can take DrawMode](https://github.com/xord/all/pull/2)<br>
-Processing gem は Ruby で実装されていますが、依存ライブラリとして C++ で実装したレイヤーがあり、その C++ 実装部分に [beginShape()](https://processing.org/reference/beginShape_.html), [endShape()](https://processing.org/reference/endShape_.html), [vertex()](https://processing.org/reference/vertex_.html) を実装するために必要な機能を実装しました。
+Processing Gem は Ruby で実装されていますが、依存ライブラリとして C++ で実装したレイヤーがあり、その C++ 実装部分に [beginShape()](https://processing.org/reference/beginShape_.html), [endShape()](https://processing.org/reference/endShape_.html), [vertex()](https://processing.org/reference/vertex_.html) を実装するために必要な機能を実装しました。
 
 2. [Add beginShape(), endShape(), and vertex(x, y)](https://github.com/xord/all/pull/3)<br>
-1 で実装した機能をベースに Processing gem に beginShape()、endShape()、vertex(x, y) を追加しました。
+1 で実装した機能をベースに Processing Gem に beginShape()、endShape()、vertex(x, y) を追加しました。
 
 3. [Add shape(), createShape(), shapeMode(), and Shape class](https://github.com/xord/all/pull/7)<br>
 shape()、shapeMode()、createShape() を実装しました。
@@ -170,7 +170,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/a399a4399a8e-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/a399a4399a8e-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/777550cb356d-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -226,7 +226,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/0ec9ae73600b-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/0ec9ae73600b-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/62328f1f48ef-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -275,7 +275,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/f264c90642b6-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/f264c90642b6-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/382c66366ee8-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -339,7 +339,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/99c99f850f77-20240104.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/99c99f850f77-20240104.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/04f34b69aceb-20240104.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -379,7 +379,7 @@ draw do
 end
 ```
 
-<img src="https://storage.googleapis.com/zenn-user-upload/9852c123c315-20240105.png" width="200"> _Ruby 版 Processing gem の描画結果_
+<img src="https://storage.googleapis.com/zenn-user-upload/9852c123c315-20240105.png" width="200"> _Ruby 版 Processing Gem の描画結果_
 
 <img src="https://storage.googleapis.com/zenn-user-upload/d5270ba340c3-20240105.png" width="200"> _Java 版 Processing の描画結果_
 
@@ -443,7 +443,7 @@ end
 1. [Add requestImage()](https://github.com/xord/all/pull/25)<br>
 requestImage() を実装しました。
 
-ただし `preload()` については、p5.js (JavaScript) 特有の事情で実装された機能であり、Ruby 版 Processing gem には不要と判断し実装をキャンセルしています。
+ただし `preload()` については、p5.js (JavaScript) 特有の事情で実装された機能であり、Ruby 版 Processing Gem には不要と判断し実装をキャンセルしています。
 
 以上の機能追加をもって[イシュー](https://github.com/xord/processing/issues/18)をクローズしております。
 
@@ -883,13 +883,13 @@ loadShape() を実装しました。
 
 本取り組みの初期において、開発効率改善のため Processing/p5.js との互換性をユニットテストで検証する仕組みを導入しました。
 
-ユニットテストの中でヘッドレスブラウザを開き、[ruby.wasm](https://github.com/ruby/ruby.wasm) をベースにした [p5.rb](https://github.com/ongaeshi/p5rb/) を使い [p5.js](https://p5js.org/) を動かし、その描画結果と Processing gem の描画結果をピクセル単位で比較するというものです。
+ユニットテストの中でヘッドレスブラウザを開き、[ruby.wasm](https://github.com/ruby/ruby.wasm) をベースにした [p5.rb](https://github.com/ongaeshi/p5rb/) を使い [p5.js](https://p5js.org/) を動かし、その描画結果と Processing Gem の描画結果をピクセル単位で比較するというものです。
 
 詳細については[自前 Processing 実装の互換性検証に p5.rb を使ってみた話](https://zenn.dev/tokujiros/articles/973815bce7afdc)を参照ください。
 
 ### 5.2 RubySketch iOS アプリのバージョンアップ
 
-本件とは別に、[RubySketch](https://apps.apple.com/jp/app/rubysketch/id1491477639) という iOS アプリを Apple の AppStore で公開しています。このアプリには Processing gem も組み込んでおり、iOS アプリ単体でクリエイティブコーディングを楽しむことができるようになっています。
+本件とは別に、[RubySketch](https://apps.apple.com/jp/app/rubysketch/id1491477639) という iOS アプリを Apple の AppStore で公開しています。このアプリには Processing Gem も組み込んでおり、iOS アプリ単体でクリエイティブコーディングを楽しむことができるようになっています。
 
 今回そのアプリの新バージョン v2.10 を公開しております。本取り組みで追加した新機能を反映し、アプリ利用者に最新の機能を提供することができました。
 
@@ -964,23 +964,23 @@ RubySketch v2.10 更新情報
 Ruby によるグラフィックスプログラミングを広めるために、以下の記事を本取り組み期間中に公開いたしました。
 
 - [Processing ベースの2Dゲームエンジン for CRuby の紹介](https://zenn.dev/tokujiros/articles/7f0b44a6b7e2a6)<br>
-本取り組みで開発する Processing gem をベースにしたゲームエンジンを別途開発しており、その紹介記事になります。Processing API を使ってゲーム開発をしてみようという内容となっています。
+本取り組みで開発する Processing Gem をベースにしたゲームエンジンを別途開発しており、その紹介記事になります。Processing API を使ってゲーム開発をしてみようという内容となっています。
 
 ## 6. 今後の課題
 
-本取り組みにより、CRuby 用 Processing gem は本家 Processing との高い互換性を得ることができました。これにより、より実用性の高いライブラリとなることができたと思います。
+本取り組みにより、CRuby 用 Processing Gem は本家 Processing との高い互換性を得ることができました。これにより、より実用性の高いライブラリとなることができたと思います。
 
 しかしその代わりに見えてきた課題もありました。
 
 ### 6.1 Windows 対応
 
-Processing gem は現時点では Mac と iOS で利用可能となっていますが、プラットフォームのシェアを考えるとやはり Windows 対応は必要になってくると思います。
+Processing Gem は現時点では Mac と iOS で利用可能となっていますが、プラットフォームのシェアを考えるとやはり Windows 対応は必要になってくると思います。
 
 今後より多くの利用者を獲得するためにも、なるべく早いタイミングで Windows 対応をする必要があると感じています。
 
 ### 6.2 描画性能の改善
 
-Processing gem は描画性能がとても大事なライブラリでありつつも、実は、これまでパフォーマンスを最重要とはしてきていませんでした。本ライブラリが最優先とするのはライブラリ利用者がなるべく自然に違和感なく記述することができる API 設計としてきたためです。最適化を優先した結果、使いにくい API になることはできるだけ避けてきました。
+Processing Gem は描画性能がとても大事なライブラリでありつつも、実は、これまでパフォーマンスを最重要とはしてきていませんでした。本ライブラリが最優先とするのはライブラリ利用者がなるべく自然に違和感なく記述することができる API 設計としてきたためです。最適化を優先した結果、使いにくい API になることはできるだけ避けてきました。
 
 とは言え、今回グルーピング可能な Shape を実装したためさすがに描画処理の負荷が気になってきています。loadShape() の例で示したトラの SVG を1枚描画するだけでも環境によっては 60FPS 維持できないケースもありますので、複雑な SVG を描画するケースでもドローコールは1回で済むような性能改善は早いうちに実装しておきたいところです。
 
@@ -990,6 +990,6 @@ Processing gem は描画性能がとても大事なライブラリでありつ�
 
 ## 8. さいごに
 
-ここまでの開発によって、Processing gem は Processing/p5.js との互換性において最低限必要な水準の機能がすべて実装された状態となったため、バージョン番号を v1.0 としめでたく[正式版としてリリース](https://rubygems.org/gems/processing/versions/1.0.1)することができました。
+ここまでの開発によって、Processing Gem は Processing/p5.js との互換性において最低限必要な水準の機能がすべて実装された状態となったため、バージョン番号を v1.0 としめでたく[正式版としてリリース](https://rubygems.org/gems/processing/versions/1.0.1)することができました。
 
 この成果を達成するためにサポートしてくださった Ruby アソシエーション様と、メンターとして支えてくださった須藤功平様に深く感謝いたします。
