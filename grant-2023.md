@@ -14,7 +14,7 @@
 
 ## 3. 開発計画
 
-Processing との互換性を向上させるため、まずは本取り組みで実装する予定の具体的な開発項目を18に分け GitHub のイシューとしました。これらをさらにグルーピング＆優先度付けし、GitHub の[マイルストーン](https://github.com/xord/processing/milestones)にまとめたのが以下になります。
+Processing との互換性を向上させるため、まずは本プロジェクトで実装する予定の具体的な開発項目を18に分け GitHub のイシューとしました。これらをさらにグルーピング＆優先度付けし、GitHub の[マイルストーン](https://github.com/xord/processing/milestones)にまとめたのが以下になります。
 
 - Milestone: [ProcessingAPI 実装 高難度グループ Shape 関連](https://github.com/xord/processing/milestone/3?closed=1)
   - Issue: [shape() と基本的な関数群](https://github.com/xord/processing/issues/19)
@@ -297,7 +297,7 @@ Shape#setFill を追加し、あとから Shape の色を変更できるよう�
 
 ### 4.2 [ProcessingAPI 実装 高難度グループ その他](https://github.com/xord/processing/milestone/4?closed=1)
 
-このマイルストーンでは、本取り組みで開発予定のうち、難易度高めグループの残りの機能を実装しています。
+このマイルストーンでは、本プロジェクトで開発予定のうち、難易度高めグループの残りの機能を実装しています。
 
 ![](https://storage.googleapis.com/zenn-user-upload/8e9c9a96e7c1-20240104.png)
 
@@ -507,7 +507,7 @@ loadFont() を実装しました。
 
 ### 4.3 [ProcessingAPI 実装 中難度グループ](https://github.com/xord/processing/milestone/2)
 
-このマイルストーンでは、本取り組みで開発予定のうち実装難度が中程度の機能をまとめて実装しています。
+このマイルストーンでは、本プロジェクトで開発予定のうち実装難度が中程度の機能をまとめて実装しています。
 
 ![](https://storage.googleapis.com/zenn-user-upload/82bc6e08f7de-20240105.png)
 ![](https://storage.googleapis.com/zenn-user-upload/94a6bb29e6ce-20240105.png)
@@ -822,7 +822,7 @@ rotateX()、rotateY()、rotateZ() を Shape クラスに追加しました。
 
 ### 4.5 [ProcessingAPI 実装 低優先度グループ](https://github.com/xord/processing/milestone/5)
 
-このマイルストーンは、本取り組みの終盤に時間的に余裕があれば実装しようという、優先度の低い機能をまとめています。
+このマイルストーンは、本プロジェクトの終盤に時間的に余裕があれば実装しようという、優先度の低い機能をまとめています。
 
 ![](https://storage.googleapis.com/zenn-user-upload/6716dd8eaeb7-20240105.png)
 
@@ -873,7 +873,7 @@ loadShape() を実装しました。
 
 以上の機能追加をもって[イシュー](https://github.com/xord/processing/issues/25)をクローズしております。
 
-ここまでで、本取り組みで実装予定とした全てのイシューとマイルストーンをクローズできました。
+ここまでで、本プロジェクトで実装予定とした全てのイシューとマイルストーンをクローズできました。
 
 ## 5. その他の成果
 
@@ -881,7 +881,7 @@ loadShape() を実装しました。
 
 ### 5.1 [p5.rb](https://github.com/ongaeshi/p5rb/) を利用した互換性検証について
 
-本取り組みの初期において、開発効率改善のため Processing/p5.js との互換性をユニットテストで検証する仕組みを導入しました。
+本プロジェクトの初期において、開発効率改善のため Processing/p5.js との互換性をユニットテストで検証する仕組みを導入しました。
 
 ユニットテストの中でヘッドレスブラウザを開き、[ruby.wasm](https://github.com/ruby/ruby.wasm) をベースにした [p5.rb](https://github.com/ongaeshi/p5rb/) を使い [p5.js](https://p5js.org/) を動かし、その描画結果と Processing Gem の描画結果をピクセル単位で比較するというものです。
 
@@ -891,7 +891,7 @@ loadShape() を実装しました。
 
 本件とは別に、[RubySketch](https://apps.apple.com/jp/app/rubysketch/id1491477639) という iOS アプリを Apple の AppStore で公開しています。このアプリには Processing Gem も組み込んでおり、iOS アプリ単体でクリエイティブコーディングを楽しむことができるようになっています。
 
-今回そのアプリの新バージョン v2.10 を公開しております。本取り組みで追加した新機能を反映し、アプリ利用者に最新の機能を提供することができました。
+今回そのアプリの新バージョン v2.10 を公開しております。本プロジェクトで追加した新機能を反映し、アプリ利用者に最新の機能を提供することができました。
 
 こちらはそのアプリの v2.10 更新情報になります。
 
@@ -961,14 +961,14 @@ RubySketch v2.10 更新情報
 
 ### 5.3 Ruby によるグラフィックスプログラミングを広める活動について
 
-Ruby によるグラフィックスプログラミングを広めるために、以下の記事を本取り組み期間中に公開いたしました。
+Ruby によるグラフィックスプログラミングを広めるために、以下の記事を本プロジェクト期間中に公開いたしました。
 
 - [Processing ベースの2Dゲームエンジン for CRuby の紹介](https://zenn.dev/tokujiros/articles/7f0b44a6b7e2a6)<br>
-本取り組みで開発する Processing Gem をベースにしたゲームエンジンを別途開発しており、その紹介記事になります。Processing API を使ってゲーム開発をしてみようという内容となっています。
+本プロジェクトで開発する Processing Gem をベースにしたゲームエンジンを別途開発しており、その紹介記事になります。Processing API を使ってゲーム開発をしてみようという内容となっています。
 
 ## 6. 今後の課題
 
-本取り組みにより、CRuby 用 Processing Gem は本家 Processing との高い互換性を得ることができました。これにより、より実用性の高いライブラリとなることができたと思います。
+本プロジェクトにより、CRuby 用 Processing Gem は本家 Processing との高い互換性を得ることができました。これにより、より実用性の高いライブラリとなることができたと思います。
 
 しかしその代わりに見えてきた課題もありました。
 
