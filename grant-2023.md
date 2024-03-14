@@ -845,7 +845,7 @@ rotateX()、rotateY()、rotateZ() を Shape クラスに追加しました。
 - Java 版 Processing にはそもそもこれらの関数が無い
 - p5.js は、Mac と iPhone 両環境で accelerationXYZ、rotateionXYZ 共に 0 しか返されずうまく動かせなかった（パーミッション関係の可能性が高そう）
 
-以上、機能追加はしいませんでしたが、後日実装の予定も今のところ無いので[イシュー](https://github.com/xord/processing/issues/24)はクローズしております。
+以上、機能追加はしませんでしたが、後日実装の予定も今のところ無いので[イシュー](https://github.com/xord/processing/issues/24)はクローズしております。
 
 #### 4.5.2 [loadShape()](https://github.com/xord/processing/issues/25)
 
