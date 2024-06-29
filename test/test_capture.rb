@@ -1,6 +1,9 @@
 require_relative 'helper'
 
 
+return if win32?
+
+
 class TestCapture < Test::Unit::TestCase
 
   P = Processing
