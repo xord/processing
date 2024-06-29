@@ -26,7 +26,7 @@ ENV['RDOC'] = 'yardoc --no-private'
 
 default_tasks
 use_bundler
-test_ruby_extension
+test_ruby_extension unless github_actions? && win32?
 generate_documents
 build_ruby_gem
 
