@@ -24,5 +24,11 @@ jobs:
       - name: setup dependencies
         run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
 
+      - name: lib
+        run: bundle exec rake lib
+
+      - name: ext
+        run: bundle exec rake ext
+
       - name: test
         run: bundle exec rake test
