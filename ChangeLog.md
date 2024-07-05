@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1] - 2024-07-06
+
+- Support Windows
+
+
 ## [v1.0.3] - 2024-07-05
 
 - Update workflows for test
