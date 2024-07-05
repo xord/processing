@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v1.0.3] - 2024-07-05
+
+- Update workflows for test
+- Update to actions/checkout@v4
+
+
 ## [v1.0.2] - 2024-03-14
 
 - Add 'rexml' to gemspec dependency
