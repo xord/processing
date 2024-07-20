@@ -148,7 +148,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/vertex_.html
-    # @see https://p5js.org/reference/#/p5/vertex
+    # @see https://p5js.org/reference/p5/vertex/
     #
     def vertex(x, y, u = nil, v = nil)
       raise "vertex() must be called after beginShape()" unless drawingShape__
@@ -176,7 +176,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/curveVertex_.html
-    # @see https://p5js.org/reference/#/p5/curveVertex
+    # @see https://p5js.org/reference/p5/curveVertex/
     #
     def curveVertex(x, y)
       raise "curveVertex() must be called after beginShape()" unless drawingShape__
@@ -197,7 +197,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/bezierVertex_.html
-    # @see https://p5js.org/reference/#/p5/bezierVertex
+    # @see https://p5js.org/reference/p5/bezierVertex/
     #
     def bezierVertex(x2, y2, x3, y3, x4, y4)
       raise "bezierVertex() must be called after beginShape()" unless drawingShape__
@@ -217,7 +217,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/quadraticVertex_.html
-    # @see https://p5js.org/reference/#/p5/quadraticVertex
+    # @see https://p5js.org/reference/p5/quadraticVertex/
     #
     def quadraticVertex(cx, cy, x3, y3)
       x1, y1 = @points[-2, 2]
@@ -255,7 +255,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/fill_.html
-    # @see https://p5js.org/reference/#/p5/fill
+    # @see https://p5js.org/reference/p5/fill/
     #
     def fill(*args)
       @fill = @context.toRawColor__(*args)
@@ -278,7 +278,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/stroke_.html
-    # @see https://p5js.org/reference/#/p5/stroke
+    # @see https://p5js.org/reference/p5/stroke/
     #
     def stroke(*args)
       @stroke = @context.toRawColor__(*args)

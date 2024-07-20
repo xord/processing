@@ -4,7 +4,7 @@ module Processing
   # Draws graphics into an offscreen buffer
   #
   # @see https://processing.org/reference/PGraphics.html
-  # @see https://p5js.org/reference/#/p5.Graphics
+  # @see https://p5js.org/reference/p5/p5.Graphics/
   #
   class Graphics
 
@@ -13,7 +13,7 @@ module Processing
 
     # Initialize graphics object.
     #
-    # @see https://p5js.org/reference/#/p5.Graphics
+    # @see https://p5js.org/reference/p5/p5.Graphics/
     #
     def initialize(width, height, pixelDensity = 1)
       image = Rays::Image.new width, height, Rays::RGBA, pixelDensity

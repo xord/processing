@@ -4,7 +4,7 @@ module Processing
   # Vector class.
   #
   # @see https://processing.org/reference/PVector.html
-  # @see https://p5js.org/reference/#/p5.Vector
+  # @see https://p5js.org/reference/p5/p5.Vector/
   #
   class Vector
 
@@ -26,7 +26,7 @@ module Processing
     # @param a [Array]   array like [x, y, z]
     #
     # @see https://processing.org/reference/PVector.html
-    # @see https://p5js.org/reference/#/p5.Vector
+    # @see https://p5js.org/reference/p5/p5.Vector/
     #
     def initialize(x = 0, y = 0, z = 0, context: nil)
       @point = case x
@@ -49,7 +49,7 @@ module Processing
     # @return [Vector] duplicated vector object
     #
     # @see https://processing.org/reference/PVector_copy_.html
-    # @see https://p5js.org/reference/#/p5.Vector/copy
+    # @see https://p5js.org/reference/p5.Vector/copy/
     #
     alias copy dup
 
@@ -70,7 +70,7 @@ module Processing
     # @return [nil] nil
     #
     # @see https://processing.org/reference/PVector_set_.html
-    # @see https://p5js.org/reference/#/p5.Vector/set
+    # @see https://p5js.org/reference/p5.Vector/set/
     #
     def set(*args)
       initialize(*args)
@@ -82,7 +82,7 @@ module Processing
     # @return [Numeric] x value of vector
     #
     # @see https://processing.org/reference/PVector_x.html
-    # @see https://p5js.org/reference/#/p5.Vector/x
+    # @see https://p5js.org/reference/p5.Vector/x/
     #
     def x()
       @point.x
@@ -93,7 +93,7 @@ module Processing
     # @return [Numeric] y value of vector
     #
     # @see https://processing.org/reference/PVector_y.html
-    # @see https://p5js.org/reference/#/p5.Vector/y
+    # @see https://p5js.org/reference/p5.Vector/y/
     #
     def y()
       @point.y
@@ -104,7 +104,7 @@ module Processing
     # @return [Numeric] z value of vector
     #
     # @see https://processing.org/reference/PVector_z.html
-    # @see https://p5js.org/reference/#/p5.Vector/z
+    # @see https://p5js.org/reference/p5.Vector/z/
     #
     def z()
       @point.z
@@ -115,7 +115,7 @@ module Processing
     # @return [Numeric] x value of vector
     #
     # @see https://processing.org/reference/PVector_x.html
-    # @see https://p5js.org/reference/#/p5.Vector/x
+    # @see https://p5js.org/reference/p5.Vector/x/
     #
     def x=(x)
       @point.x = x
@@ -126,7 +126,7 @@ module Processing
     # @return [Numeric] y value of vector
     #
     # @see https://processing.org/reference/PVector_y.html
-    # @see https://p5js.org/reference/#/p5.Vector/y
+    # @see https://p5js.org/reference/p5.Vector/y/
     #
     def y=(y)
       @point.y = y
@@ -137,7 +137,7 @@ module Processing
     # @return [Numeric] z value of vector
     #
     # @see https://processing.org/reference/PVector_z.html
-    # @see https://p5js.org/reference/#/p5.Vector/z
+    # @see https://p5js.org/reference/p5.Vector/z/
     #
     def z=(z)
       @point.z = z
@@ -158,7 +158,7 @@ module Processing
     # @return [Vector] interporated vector
     #
     # @see https://processing.org/reference/PVector_lerp_.html
-    # @see https://p5js.org/reference/#/p5.Vector/lerp
+    # @see https://p5js.org/reference/p5.Vector/lerp/
     #
     def lerp(*args, amount)
       v      = toVector__(*args)
@@ -177,7 +177,7 @@ module Processing
     # @return [Vector] interporated vector
     #
     # @see https://processing.org/reference/PVector_lerp_.html
-    # @see https://p5js.org/reference/#/p5.Vector/lerp
+    # @see https://p5js.org/reference/p5.Vector/lerp/
     #
     def self.lerp(v1, v2, amount)
       v1.dup.lerp v2, amount
@@ -190,7 +190,7 @@ module Processing
     # @return [Array] array of x, y, z
     #
     # @see https://processing.org/reference/PVector_array_.html
-    # @see https://p5js.org/reference/#/p5.Vector/array
+    # @see https://p5js.org/reference/p5.Vector/array/
     #
     def array(n = 3)
       @point.to_a n
@@ -212,7 +212,7 @@ module Processing
     # @return [Vector] added vector
     #
     # @see https://processing.org/reference/PVector_add_.html
-    # @see https://p5js.org/reference/#/p5.Vector/add
+    # @see https://p5js.org/reference/p5.Vector/add/
     #
     def add(*args)
       @point += toVector__(*args).getInternal__
@@ -233,7 +233,7 @@ module Processing
     # @return [Vector] subtracted vector
     #
     # @see https://processing.org/reference/PVector_sub_.html
-    # @see https://p5js.org/reference/#/p5.Vector/sub
+    # @see https://p5js.org/reference/p5.Vector/sub/
     #
     def sub(*args)
       @point -= toVector__(*args).getInternal__
@@ -247,7 +247,7 @@ module Processing
     # @return [Vector] multiplied vector
     #
     # @see https://processing.org/reference/PVector_mult_.html
-    # @see https://p5js.org/reference/#/p5.Vector/mult
+    # @see https://p5js.org/reference/p5.Vector/mult/
     #
     def mult(num)
       @point *= num
@@ -261,7 +261,7 @@ module Processing
     # @return [Vector] divided vector
     #
     # @see https://processing.org/reference/PVector_div_.html
-    # @see https://p5js.org/reference/#/p5.Vector/div
+    # @see https://p5js.org/reference/p5.Vector/div/
     #
     def div(num)
       @point /= num
@@ -275,7 +275,7 @@ module Processing
     # @return [Vector] added vector
     #
     # @see https://processing.org/reference/PVector_add_.html
-    # @see https://p5js.org/reference/#/p5.Vector/add
+    # @see https://p5js.org/reference/p5.Vector/add/
     #
     def +(v)
       dup.add v
@@ -288,7 +288,7 @@ module Processing
     # @return [Vector] subtracted vector
     #
     # @see https://processing.org/reference/PVector_sub_.html
-    # @see https://p5js.org/reference/#/p5.Vector/sub
+    # @see https://p5js.org/reference/p5.Vector/sub/
     #
     def -(v)
       dup.sub v
@@ -301,7 +301,7 @@ module Processing
     # @return [Vector] multiplied vector
     #
     # @see https://processing.org/reference/PVector_mult_.html
-    # @see https://p5js.org/reference/#/p5.Vector/mult
+    # @see https://p5js.org/reference/p5.Vector/mult/
     #
     def *(num)
       dup.mult num
@@ -314,7 +314,7 @@ module Processing
     # @return [Vector] divided vector
     #
     # @see https://processing.org/reference/PVector_div_.html
-    # @see https://p5js.org/reference/#/p5.Vector/div
+    # @see https://p5js.org/reference/p5.Vector/div/
     #
     def /(num)
       dup.div num
@@ -332,7 +332,7 @@ module Processing
     # @return [Vector] added vector
     #
     # @see https://processing.org/reference/PVector_add_.html
-    # @see https://p5js.org/reference/#/p5.Vector/add
+    # @see https://p5js.org/reference/p5.Vector/add/
     #
     def self.add(v1, v2, target = nil)
       v = v1 + v2
@@ -352,7 +352,7 @@ module Processing
     # @return [Vector] subtracted vector
     #
     # @see https://processing.org/reference/PVector_sub_.html
-    # @see https://p5js.org/reference/#/p5.Vector/sub
+    # @see https://p5js.org/reference/p5.Vector/sub/
     #
     def self.sub(v1, v2, target = nil)
       v = v1 - v2
@@ -372,7 +372,7 @@ module Processing
     # @return [Vector] multiplied vector
     #
     # @see https://processing.org/reference/PVector_mult_.html
-    # @see https://p5js.org/reference/#/p5.Vector/mult
+    # @see https://p5js.org/reference/p5.Vector/mult/
     #
     def self.mult(v1, num, target = nil)
       v = v1 * num
@@ -392,7 +392,7 @@ module Processing
     # @return [Vector] divided vector
     #
     # @see https://processing.org/reference/PVector_div_.html
-    # @see https://p5js.org/reference/#/p5.Vector/div
+    # @see https://p5js.org/reference/p5.Vector/div/
     #
     def self.div(v1, num, target = nil)
       v = v1 / num
@@ -405,7 +405,7 @@ module Processing
     # @return [Numeric] length
     #
     # @see https://processing.org/reference/PVector_mag_.html
-    # @see https://p5js.org/reference/#/p5.Vector/mag
+    # @see https://p5js.org/reference/p5.Vector/mag/
     #
     def mag()
       @point.length
@@ -416,7 +416,7 @@ module Processing
     # @return [Numeric] squared length
     #
     # @see https://processing.org/reference/PVector_magSq_.html
-    # @see https://p5js.org/reference/#/p5.Vector/magSq
+    # @see https://p5js.org/reference/p5.Vector/magSq/
     #
     def magSq()
       Rays::Point::dot(@point, @point)
@@ -433,7 +433,7 @@ module Processing
     # @return [Vector] vector with new length
     #
     # @see https://processing.org/reference/PVector_setMag_.html
-    # @see https://p5js.org/reference/#/p5.Vector/setMag
+    # @see https://p5js.org/reference/p5.Vector/setMag/
     #
     def setMag(target = nil, len)
       (target || self).set @point.normal * len
@@ -446,7 +446,7 @@ module Processing
     # @return [Vector] normalized vector
     #
     # @see https://processing.org/reference/PVector_normalize_.html
-    # @see https://p5js.org/reference/#/p5.Vector/normalize
+    # @see https://p5js.org/reference/p5.Vector/normalize/
     #
     def normalize(target = nil)
       (target || self).set @point.normal
@@ -459,7 +459,7 @@ module Processing
     # @return [Vector] new vector
     #
     # @see https://processing.org/reference/PVector_limit_.html
-    # @see https://p5js.org/reference/#/p5.Vector/limit
+    # @see https://p5js.org/reference/p5.Vector/limit/
     #
     def limit(max)
       setMag max if magSq > max ** 2
@@ -473,7 +473,7 @@ module Processing
     # @return [Numeric] the distance
     #
     # @see https://processing.org/reference/PVector_dist_.html
-    # @see https://p5js.org/reference/#/p5.Vector/dist
+    # @see https://p5js.org/reference/p5.Vector/dist/
     #
     def dist(v)
       (self - v).mag
@@ -487,7 +487,7 @@ module Processing
     # @return [Numeric] the distance
     #
     # @see https://processing.org/reference/PVector_dist_.html
-    # @see https://p5js.org/reference/#/p5.Vector/dist
+    # @see https://p5js.org/reference/p5.Vector/dist/
     #
     def self.dist(v1, v2)
       v1.dist v2
@@ -507,7 +507,7 @@ module Processing
     # @return [Numeric] result of dot product
     #
     # @see https://processing.org/reference/PVector_dot_.html
-    # @see https://p5js.org/reference/#/p5.Vector/dot
+    # @see https://p5js.org/reference/p5.Vector/dot/
     #
     def dot(*args)
       Rays::Point::dot getInternal__, toVector__(*args).getInternal__
@@ -521,7 +521,7 @@ module Processing
     # @return [Numeric] result of dot product
     #
     # @see https://processing.org/reference/PVector_dot_.html
-    # @see https://p5js.org/reference/#/p5.Vector/dot
+    # @see https://p5js.org/reference/p5.Vector/dot/
     #
     def self.dot(v1, v2)
       v1.dot v2
@@ -541,7 +541,7 @@ module Processing
     # @return [Numeric] result of cross product
     #
     # @see https://processing.org/reference/PVector_cross_.html
-    # @see https://p5js.org/reference/#/p5.Vector/cross
+    # @see https://p5js.org/reference/p5.Vector/cross/
     #
     def cross(a, *rest)
       target = self.class === rest.last ? rest.pop : nil
@@ -558,7 +558,7 @@ module Processing
     # @return [Numeric] result of cross product
     #
     # @see https://processing.org/reference/PVector_cross_.html
-    # @see https://p5js.org/reference/#/p5.Vector/cross
+    # @see https://p5js.org/reference/p5.Vector/cross/
     #
     def self.cross(v1, v2, target = nil)
       v1.cross v2, target
@@ -571,7 +571,7 @@ module Processing
     # @return [Vector] rotated this object
     #
     # @see https://processing.org/reference/PVector_rotate_.html
-    # @see https://p5js.org/reference/#/p5.Vector/rotate
+    # @see https://p5js.org/reference/p5.Vector/rotate/
     #
     def rotate(angle)
       deg = @context ?
@@ -585,7 +585,7 @@ module Processing
     # @return [Numeric] the angle in radians
     #
     # @see https://processing.org/reference/PVector_heading_.html
-    # @see https://p5js.org/reference/#/p5.Vector/heading
+    # @see https://p5js.org/reference/p5.Vector/heading/
     #
     def heading()
       Math.atan2 y, x
@@ -599,7 +599,7 @@ module Processing
     # @return [Vector] rotated vector
     #
     # @see https://processing.org/reference/PVector_fromAngle_.html
-    # @see https://p5js.org/reference/#/p5.Vector/fromAngle
+    # @see https://p5js.org/reference/p5.Vector/fromAngle/
     #
     def self.fromAngle(angle, target = nil)
       v = self.new(1, 0, 0).rotate(angle)
@@ -615,7 +615,7 @@ module Processing
     # @return [Numeric] angle in radians
     #
     # @see https://processing.org/reference/PVector_angleBetween_.html
-    # @see https://p5js.org/reference/#/p5.Vector/angleBetween
+    # @see https://p5js.org/reference/p5.Vector/angleBetween/
     #
     def self.angleBetween(v1, v2)
       x1, y1, z1 = v1.array
@@ -635,7 +635,7 @@ module Processing
     # @return [Vector] a random vector
     #
     # @see https://processing.org/reference/PVector_random2D_.html
-    # @see https://p5js.org/reference/#/p5.Vector/random2D
+    # @see https://p5js.org/reference/p5.Vector/random2D/
     #
     def self.random2D(target = nil)
       v = self.new(1, 0, 0)
@@ -651,7 +651,7 @@ module Processing
     # @return [Vector] a random vector
     #
     # @see https://processing.org/reference/PVector_random3D_.html
-    # @see https://p5js.org/reference/#/p5.Vector/random3D
+    # @see https://p5js.org/reference/p5.Vector/random3D/
     #
     def self.random3D(target = nil)
       angle = rand 0.0...(Math::PI * 2)

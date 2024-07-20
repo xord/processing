@@ -4,7 +4,7 @@ module Processing
   # Shader object.
   #
   # @see https://processing.org/reference/PShader.html
-  # @see https://p5js.org/reference/#/p5.Shader
+  # @see https://p5js.org/reference/p5/p5.Shader/
   #
   class Shader
 
@@ -41,7 +41,7 @@ module Processing
     # @param tex     [Image]   texture image
     #
     # @see https://processing.org/reference/PShader_set_.html
-    # @see https://p5js.org/reference/#/p5.Shader/setUniform
+    # @see https://p5js.org/reference/p5.Shader/setUniform/
     #
     def set(name, *args)
       arg = args.first

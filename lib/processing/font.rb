@@ -4,7 +4,7 @@ module Processing
   # Font object.
   #
   # @see https://processing.org/reference/PFont.html
-  # @see https://p5js.org/reference/#/p5.Font
+  # @see https://p5js.org/reference/p5/p5.Font/
   #
   class Font
 
@@ -27,7 +27,7 @@ module Processing
     #
     # @return [TextBounds] bounding box for text
     #
-    # @see https://p5js.org/reference/#/p5.Font/textBounds
+    # @see https://p5js.org/reference/p5.Font/textBounds/
     #
     def textBounds(str, x = 0, y = 0, fontSize = nil)
       font = getInternal__ fontSize
