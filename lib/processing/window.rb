@@ -161,15 +161,17 @@ module Processing
     def get_scroll_and_zoom()
       ww, wh =               width.to_f,               height.to_f
       cw, ch = @canvas.image.width.to_f, @canvas.image.height.to_f
-      return [0, 0, 1] if ww == 0 || wh == 0 || cw == 0 || ch == 0
+      return 0, 0, 1 if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
-      if wratio >= cratio
-        scaled_w = wh * cratio
-        return (ww - scaled_w) / 2, 0, scaled_w / cw
+      if wratio == cratio
+        return 0, 0, 1
+      elsif wratio > cratio
+        w = wh * cratio
+        return (ww - w) / 2, 0, w / cw
       else
-        scaled_h = ww / cratio
-        return 0, (wh - scaled_h) / 2, ww / cw
+        h = ww / cratio
+        return 0, (wh - h) / 2, ww / cw
       end
     end
 
