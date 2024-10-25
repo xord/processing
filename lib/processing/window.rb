@@ -243,7 +243,7 @@ module Processing
 
       old_paintable, old_painter = @paintable, @painter
 
-      @framebuffer = Rays::Image.new width, height, cs, pd
+      @framebuffer = Rays::Image.new width, height, cs, pixel_density: pd
       @paintable   = aa ?
         Rays::Image.new(width, height, cs, pixel_density: pd * 2) : @framebuffer
       @painter     = @paintable.painter
