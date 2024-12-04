@@ -4,15 +4,15 @@ require 'processing/all'
 module Processing
   w = (ENV['WIDTH']  || 500).to_i
   h = (ENV['HEIGHT'] || 500).to_i
-  WINDOW  = Processing::Window.new(w, h) {start}
-  CONTEXT = Processing::Context.new WINDOW
+  WINDOW__  = Processing::Window.new(w, h) {start}
+  CONTEXT__ = Processing::Context.new WINDOW__
 
   refine Object do
-    (CONTEXT.methods - Object.instance_methods)
-      .reject {_1 =~ /__$/}
+    (CONTEXT__.methods - Object.instance_methods)
+      .reject {_1 =~ /__$/} # methods for internal use
       .each do |method|
         define_method method do |*args, **kwargs, &block|
-          CONTEXT.__send__ method, *args, **kwargs, &block
+          CONTEXT__.__send__ method, *args, **kwargs, &block
         end
       end
   end
@@ -20,7 +20,7 @@ end# Processing
 
 
 begin
-  w, c = Processing::WINDOW, Processing::CONTEXT
+  w, c = Processing::WINDOW__, Processing::CONTEXT__
 
   c.class.constants.reject {_1 =~ /__$/}.each do |const|
     self.class.const_set const, c.class.const_get(const)
