@@ -165,7 +165,7 @@ module Processing
 
       wratio, cratio = ww / wh, cw / ch
       if wratio == cratio
-        return 0, 0, 1
+        return 0, 0, ww / cw
       elsif wratio > cratio
         w = wh * cratio
         return (ww - w) / 2, 0, w / cw
