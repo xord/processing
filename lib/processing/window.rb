@@ -41,6 +41,10 @@ module Processing
       @overlay_view.add view
     end
 
+    def remove_overlay(view)
+      @overlay_view.remove view
+    end
+
     def start(&block)
       draw_canvas do
         block.call if block
