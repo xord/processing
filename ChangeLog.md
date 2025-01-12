@@ -1,6 +1,14 @@
 # processing ChangeLog
 
 
+## [v1.1.1] - 2025-01-13
+
+- Update URLs as p5js.org has been relaunched
+- Update LICENSE
+
+- Fix a bug in which the display magnification was fixed at 1x when the size specified by size() was different from the window size and the aspect ratio of both windows was the same
+
+
 ## [v1.1] - 2024-07-06
 
 - Support Windows
