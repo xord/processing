@@ -201,8 +201,8 @@ module Processing
           lastX,  lastY  = nextPos scanner, lastX, lastY, relative
           child.bezierVertex cx, cy, lastCX, lastCY, lastX, lastY
         when 'A', 'a'
-          rx, ry       = nextPos scanner
-          a, b, c      = nextNum(scanner), nextNum(scanner), nextNum(scanner)
+          _rx, _ry     = nextPos scanner
+          _a, _b, _c   = nextNum(scanner), nextNum(scanner), nextNum(scanner)
           lastX, lastY = nextPos scanner, lastX, lastY, command == 'a'
           child.vertex lastX, lastY
         when 'Z', 'z'
