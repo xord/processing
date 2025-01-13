@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v1.1.2] - 2025-01-14
+
+- Update workflow files
+- Set minumum version for runtime dependency
+
+
 ## [v1.1.1] - 2025-01-13
 
 - Update URLs as p5js.org has been relaunched
