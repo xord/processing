@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.3] - 2025-01-23
+
+- Update dependencies
+
+
 ## [v1.1.2] - 2025-01-14
 
 - Update workflow files
