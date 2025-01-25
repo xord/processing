@@ -1,3 +1,15 @@
+require 'set'
+require 'strscan'
+require 'digest/sha1'
+require 'pathname'
+require 'tmpdir'
+require 'uri'
+require 'rexml'
+require 'net/http'
+require 'xot/inspectable'
+require 'reflex'
+
+
 module Processing
 
   # @private
@@ -49,17 +61,6 @@ module Processing
 
 end# Processing
 
-
-require 'set'
-require 'strscan'
-require 'digest/sha1'
-require 'pathname'
-require 'tmpdir'
-require 'uri'
-require 'rexml'
-require 'net/http'
-require 'xot/inspectable'
-require 'reflex'
 
 require 'processing/extension'
 require 'processing/app'
