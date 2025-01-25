@@ -2,6 +2,8 @@ require 'processing/all'
 
 
 module Processing
+  Processing.alias_snake_case_methods__ Processing
+
   WINDOW__, CONTEXT__, funcs, events = Processing.setup__ Processing
 
   refine Object do

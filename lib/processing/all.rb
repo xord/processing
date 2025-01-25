@@ -19,10 +19,32 @@ module Processing
     context = namespace::Context.new window
     funcs   = (context.methods - Object.instance_methods)
       .reject {_1 =~ /__$/} # methods for internal use
-    events  = EVENT_NAMES__
+    events  = to_snake_case__(EVENT_NAMES__).flatten.uniq
       .each.with_object({}) {|event, hash| hash[event] = -> {__send__ event}}
 
     return window, context, funcs, events
+  end
+
+  # @private
+  def self.alias_snake_case_methods__(klass, recursive = 1)
+    to_snake_case__(klass.instance_methods false)
+      .reject {|camel, snake| camel =~ /__$/}
+      .reject {|camel, snake| klass.method_defined? snake}
+      .each   {|camel, snake| klass.alias_method snake, camel}
+    if recursive > 0
+      klass.constants.map {klass.const_get _1}
+        .flatten
+        .select {_1.class == Module || _1.class == Class}
+        .each {|inner_class| alias_snake_case_methods__ inner_class, recursive - 1}
+    end
+  end
+
+  # @private
+  def self.to_snake_case__(camel_case_names)
+    camel_case_names.map do |camel|
+      snake = camel.to_s.gsub(/([a-z])([A-Z])/) {"#{$1}_#{$2.downcase}"}
+      [camel, snake].map(&:to_sym)
+    end
   end
 
 end# Processing
