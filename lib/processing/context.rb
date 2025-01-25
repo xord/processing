@@ -26,16 +26,6 @@ module Processing
     LANDSCAPE = :landscape
 
     # @private
-    EVENT_NAMES__ = %i[
-      setup draw
-      keyPressed keyReleased keyTyped
-      mousePressed mouseReleased mouseMoved mouseDragged
-      mouseClicked doubleClicked mouseWheel
-      touchStarted touchEnded touchMoved
-      windowMoved windowResized motion
-    ]
-
-    # @private
     @@context__ = nil
 
     # @private
