@@ -6,7 +6,9 @@ module Processing
   h         = (ENV['HEIGHT'] || 500).to_i
   WINDOW__  = Processing::Window.new(w, h) {start}
   CONTEXT__ = Processing::Context.new WINDOW__
-  BINDING__ = binding
+
+  event_callers = Processing::Context::EVENT_NAMES__
+    .each.with_object({}) {|event, hash| hash[event] = -> {__send__ event}}
 
   refine Object do
     (CONTEXT__.methods - Object.instance_methods)
@@ -17,9 +19,10 @@ module Processing
         end
       end
 
-    def Object.method_added(method)
+    Object.singleton_class.define_method :method_added do |method|
       if Processing::Context::EVENT_NAMES__.include? method
-        CONTEXT__.__send__(method) {BINDING__.eval method.to_s}
+        caller = event_callers[method]
+        CONTEXT__.__send__(method) {caller.call} if caller
       end
     end
   end
