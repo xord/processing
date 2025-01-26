@@ -1540,6 +1540,9 @@ module Processing
     #
     # The parameters a, b, c, and d are determined by ellipseMode().
     #
+    # @overload ellipse(a, b, c)
+    # @overload ellipse(a, b, c, d)
+    #
     # @param a [Numeric] horizontal position of the shape, by default
     # @param b [Numeric] vertical position of the shape, by default
     # @param c [Numeric] width of the shape, by default
@@ -1550,9 +1553,9 @@ module Processing
     # @see https://processing.org/reference/ellipse_.html
     # @see https://p5js.org/reference/p5/ellipse/
     #
-    def ellipse(a, b, c, d)
+    def ellipse(a, b, c, d = nil)
       assertDrawing__
-      x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, d
+      x, y, w, h = toXYWH__ @ellipseMode__, a, b, c, (d || c)
       @painter__.ellipse x, y, w, h
       nil
     end
