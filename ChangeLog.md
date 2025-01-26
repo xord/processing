@@ -1,6 +1,13 @@
 # processing ChangeLog
 
 
+## [v1.1.4] - 2025-01-27
+
+- Event blocks can be defined as methods with 'def'
+- Alias snake case methods
+- ellipse() can take 3 params
+
+
 ## [v1.1.3] - 2025-01-23
 
 - Update dependencies
