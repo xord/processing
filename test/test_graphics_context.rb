@@ -198,9 +198,13 @@ class TestGraphicsContext < Test::Unit::TestCase
 
   def test_ellipse_with_ellipseMode()
     assert_p5_draw 'ellipseMode CORNER;  ellipse 100, 200, 300, 400'
+    assert_p5_draw 'ellipseMode CORNER;  ellipse 100, 200, 300'
     assert_p5_draw 'ellipseMode CORNERS; ellipse 100, 200, 300, 500'
+    assert_p5_draw 'ellipseMode CORNERS; ellipse 100, 200, 300'
     assert_p5_draw 'ellipseMode CENTER;  ellipse 400, 500, 300, 400'
+    assert_p5_draw 'ellipseMode CENTER;  ellipse 400, 500, 300'
     assert_p5_draw 'ellipseMode RADIUS;  ellipse 400, 500, 300, 400'
+    assert_p5_draw 'ellipseMode RADIUS;  ellipse 400, 500, 300'
   end
 
   def test_circle()
