@@ -29,12 +29,20 @@ module Processing
 
     window  = Processing::Window.new(w, h) {start}
     context = namespace::Context.new window
-    funcs   = (context.methods - Object.instance_methods)
-      .reject {_1 =~ /__$/} # methods for internal use
-    events  = to_snake_case__(EVENT_NAMES__).flatten.uniq
-      .each.with_object({}) {|event, hash| hash[event] = -> {__send__ event}}
 
-    return window, context, funcs, events
+    return window, context
+  end
+
+  # @private
+  def self.funcs_and_events__(context, snake_case: false)
+    funcs       = (context.methods - Object.instance_methods)
+      .reject {_1 =~ /__$/} # methods for internal use
+    event_names = snake_case ? to_snake_case__(EVENT_NAMES__) : EVENT_NAMES__
+    events      = event_names.flatten.uniq.each.with_object({}) {|event, hash|
+      hash[event] = -> {__send__ event}
+    }
+
+    return funcs, events
   end
 
   # @private
