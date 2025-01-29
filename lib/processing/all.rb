@@ -34,15 +34,14 @@ module Processing
   end
 
   # @private
-  def self.funcs_and_events__(context, snake_case: false)
-    funcs       = (context.methods - Object.instance_methods)
+  def self.funcs__(context)
+    (context.methods - Object.instance_methods)
       .reject {_1 =~ /__$/} # methods for internal use
-    event_names = snake_case ? to_snake_case__(EVENT_NAMES__) : EVENT_NAMES__
-    events      = event_names.flatten.uniq.each.with_object({}) {|event, hash|
-      hash[event] = -> {__send__ event}
-    }
+  end
 
-    return funcs, events
+  # @private
+  def self.events__(context)
+    to_snake_case__(EVENT_NAMES__).flatten.uniq.select {context.respond_to? _1}
   end
 
   # @private
