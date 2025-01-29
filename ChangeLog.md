@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.5] - 2025-01-30
+
+- Do not define snake_case methods by default
+
+
 ## [v1.1.4] - 2025-01-27
 
 - Event blocks can be defined as methods with 'def'
