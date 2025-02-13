@@ -10,7 +10,7 @@ P5RB_SRC = URI.open(P5RB_URL) {|f| f.read}
 def browser(width, height, headless: true)
   hash        = ($browsers ||= {})
   key         = [width, height, headless]
-  hash[key] ||= Ferrum::Browser.new headless: headless, window_size: [width, height]
+  hash[key] ||= Ferrum::Browser.new headless: headless, window_size: [width, height + 200]
 end
 
 def get_svg_html(width, height, svg_xml)
@@ -95,8 +95,9 @@ def draw_on_browser(width, height, path, html, headless: true)
     sleep_until do
       b.evaluate 'document.querySelector("#completed") != null'
     end
-    b.screenshot path: path
+    b.screenshot path: path, area: {x: 0, y: 0, width: width, height: height}
   end
+  sleep 1
   b.device_pixel_ratio
 end
 
