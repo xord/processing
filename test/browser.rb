@@ -3,7 +3,7 @@ require 'ferrum'
 
 RUBY_URL = 'https://cdn.jsdelivr.net/npm/ruby-3_2-wasm-wasi@next/dist/browser.script.iife.js'
 P5JS_URL = 'https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js'
-P5RB_URL = 'https://raw.githubusercontent.com/ongaeshi/p5rb/master/docs/lib/p5.rb'
+P5RB_URL = 'https://raw.githubusercontent.com/ongaeshi/p5rb/421ce24c4a29c5787d143f8132eb610b73f60b92/docs/lib/p5.rb'
 
 P5RB_SRC = URI.open(P5RB_URL) {|f| f.read}
 
