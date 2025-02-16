@@ -461,7 +461,7 @@ module Processing
     FONT_SIZE_MAX__     = 256
 
     # @private
-    def init__(image, painter)
+    def init__(image, painter = image.painter)
       @drawing__        = false
       @renderMode__     = nil
       @p5jsMode__       = false
@@ -525,7 +525,7 @@ module Processing
     end
 
     # @private
-    def updateCanvas__(image, painter)
+    def updateCanvas__(image, painter = image.painter)
       @image__, @painter__     = image, painter
       @painter__.miter_limit   = 10
       @painter__.stroke_outset = 0.5
