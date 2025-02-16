@@ -533,7 +533,7 @@ module Processing
 
     # @private
     def beginDraw__()
-      raise "call beginDraw() before drawing" if @drawing__
+      raise "beginDraw() is already called" if @drawing__
       @matrixStack__.clear
       @styleStack__.clear
       @drawing__ = true
@@ -561,7 +561,7 @@ module Processing
 
     # @private
     def endDraw__()
-      raise unless @drawing__
+      assertDrawing__
       @drawing__ = false
     end
 
