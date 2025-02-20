@@ -89,10 +89,8 @@ module Processing
       updateKeyStates = -> event, pressed {
         @key__     = event.chars
         @keyCode__ = event.key
-        if pressed != nil
-          set = @keysPressed__
-          pressed ? set.add(@keyCode__) : set.delete(@keyCode__)
-        end
+        set = @keysPressed__
+        pressed ? set.add(@keyCode__) : set.delete(@keyCode__)
       }
 
       mouseButtonMap = {
