@@ -30,7 +30,7 @@ module Processing
 
     # @private
     def self.context__()
-      @@context__
+      $__processing_context__ || @@context__
     end
 
     # @private
