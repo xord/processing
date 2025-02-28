@@ -50,6 +50,7 @@ module Processing
       @frameCount__       = 0
       @key__              = nil
       @keyCode__          = nil
+      @keyRepeat__        = false
       @keysPressed__      = Set.new
       @pointer__          = nil
       @pointerPrev__      = nil
@@ -87,9 +88,10 @@ module Processing
       end
 
       updateKeyStates = -> event, pressed {
-        @key__     = event.chars
-        @keyCode__ = event.key
-        set = @keysPressed__
+        set          = @keysPressed__
+        @key__       = event.chars
+        @keyCode__   = event.key
+        @keyRepeat__ = pressed && set.include?(@keyCode__)
         pressed ? set.add(@keyCode__) : set.delete(@keyCode__)
       }
 
@@ -716,6 +718,14 @@ module Processing
     #
     def keyIsDown(keyCode)
       @keysPressed__.include? keyCode
+    end
+
+    # Returns whether the current key is repeated or not.
+    #
+    # @return [Boolean] is the key repeated or not
+    #
+    def keyIsRepeated()
+      @keyRepeat__
     end
 
     # Returns mouse x position
