@@ -633,7 +633,7 @@ module Processing
       @window__.height
     end
 
-    # Returns weather the window is active or not.
+    # Returns whether the window is active or not.
     #
     # @return [Boolean] active or not
     #
@@ -708,7 +708,7 @@ module Processing
       not @keysPressed__.empty?
     end
 
-    # Returns weather or not the key is currently pressed.
+    # Returns whether or not the key is currently pressed.
     #
     # @param keyCode [Numeric] code for the key
     #
