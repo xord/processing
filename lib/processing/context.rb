@@ -29,6 +29,9 @@ module Processing
     @@rootContext__ = nil
 
     # @private
+    @@context__     = nil
+
+    # @private
     def self.context__()
       @@context__ || @@rootContext__
     end
