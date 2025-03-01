@@ -26,16 +26,21 @@ module Processing
     LANDSCAPE = :landscape
 
     # @private
-    @@context__ = nil
+    @@rootContext__ = nil
 
     # @private
     def self.context__()
-      $__processing_context__ || @@context__
+      @@context__ || @@rootContext__
+    end
+
+    # @private
+    def self.setContext__(context)
+      @@context__ = context
     end
 
     # @private
     def initialize(window)
-      @@context__ = self
+      @@rootContext__ = self
 
       tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?}
 
