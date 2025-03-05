@@ -191,6 +191,11 @@ class TestVector < Test::Unit::TestCase
     assert_equal_vector vec(2, 4, 6), v
   end
 
+  def test_op_negate()
+    assert_equal_vector vec(-1, -2, -3), -vec( 1,  2,  3)
+    assert_equal_vector vec( 1,  2,  3), -vec(-1, -2, -3)
+  end
+
   def test_fun_add()
     v1     = vec 1, 2, 3
     v2     = vec 4, 5, 6

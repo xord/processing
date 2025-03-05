@@ -320,6 +320,14 @@ module Processing
       dup.div num
     end
 
+    # Negate a vector.
+    #
+    # @return [Vector] negated vector
+    #
+    def -@()
+      dup.mult -1
+    end
+
     # Adds 2 vectors.
     #
     # @overload add(v1, v2)
