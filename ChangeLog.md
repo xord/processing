@@ -1,6 +1,17 @@
 # processing ChangeLog
 
 
+## [v1.1.6] - 2025-03-07
+
+- Add keyIsRepeat
+- Add Vector#-@
+
+- Painter#background: Clearing background with transparency uses blend_mode with :replace to replace alpha value
+- Fix p5.rb version
+
+- Fix smaller-than-expected height of screenshots rendered in headless chrome
+
+
 ## [v1.1.5] - 2025-01-30
 
 - Do not define snake_case methods by default

@@ -26,10 +26,10 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.0.0'
 
   s.add_dependency 'rexml'
-  s.add_dependency 'xot',       '~> 0.3.3', '>= 0.3.3'
-  s.add_dependency 'rucy',      '~> 0.3.3', '>= 0.3.3'
-  s.add_dependency 'rays',      '~> 0.3.3', '>= 0.3.3'
-  s.add_dependency 'reflexion', '~> 0.3.3', '>= 0.3.3'
+  s.add_dependency 'xot',       '~> 0.3.4', '>= 0.3.4'
+  s.add_dependency 'rucy',      '~> 0.3.4', '>= 0.3.4'
+  s.add_dependency 'rays',      '~> 0.3.4', '>= 0.3.4'
+  s.add_dependency 'reflexion', '~> 0.3.4', '>= 0.3.4'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
