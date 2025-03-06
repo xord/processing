@@ -1453,7 +1453,7 @@ module Processing
       if rgba[3] == 1
         @painter__.background(*rgba)
       else
-        @painter__.push fill: rgba, stroke: :none do |_|
+        @painter__.push fill: rgba, stroke: :none, blend_mode: :replace do |_|
           @painter__.rect 0, 0, width, height
         end
       end
