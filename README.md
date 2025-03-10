@@ -28,17 +28,17 @@ It allows artists and developers to create visual art and interactive graphics u
 
 Add this line to your Gemfile:
 ```ruby
-gem 'processing'
+$ gem 'processing'
 ```
 
 Then, install gem:
 ```bash
- $ bundle install
+$ bundle install
 ```
 
 Or install it directly:
 ```bash
- $ gem install processing
+$ gem install processing
 ```
 
 ## 📜 License
