@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v1.1.7] - 2025-03-24
+
+- Add PULL_REQUEST_TEMPLATE.md
+- Add CONTRIBUTING.md
+
+
 ## [v1.1.6] - 2025-03-07
 
 - Add keyIsRepeat
