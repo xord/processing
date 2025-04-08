@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.8] - 2025-04-08
+
+- Update dependencies: xot, rucy, rays, reflex
+
+
 ## [v1.1.7] - 2025-03-24
 
 - Add PULL_REQUEST_TEMPLATE.md
