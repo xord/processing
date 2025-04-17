@@ -184,18 +184,6 @@ module Processing
       end
     end
 
-    # Defines setup block.
-    #
-    # @return [nil] nil
-    #
-    # @see https://processing.org/reference/setup_.html
-    # @see https://p5js.org/reference/p5/setup/
-    #
-    def setup(&block)
-      @window__.setup = block if block
-      nil
-    end
-
     # @private
     def hasUserBlocks__()
       @drawBlock__          ||
@@ -215,6 +203,18 @@ module Processing
       @windowMovedBlock__   ||
       @windowResizedBlock__ ||
       @motionBlock__
+    end
+
+    # Defines setup block.
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/setup_.html
+    # @see https://p5js.org/reference/p5/setup/
+    #
+    def setup(&block)
+      @window__.setup = block if block
+      nil
     end
 
     # Defines draw block.

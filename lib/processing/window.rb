@@ -82,12 +82,12 @@ module Processing
       update_canvas_view
     end
 
-    def on_key(e)
-      block = case e.action
-        when :down then @key_down
-        when :up   then @key_up
-      end
-      draw_canvas {call_block block, e} if block
+    def on_key_down(e)
+      draw_canvas {call_block @key_down, e} if @key_down
+    end
+
+    def on_key_up(e)
+      draw_canvas {call_block @key_up,   e} if @key_up
     end
 
     def on_move(e)
