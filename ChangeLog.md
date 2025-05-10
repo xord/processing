@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.9] - 2025-05-11
+
+- Update dependencies
+
+
 ## [v1.1.8] - 2025-04-08
 
 - Update dependencies: xot, rucy, rays, reflex
