@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.10] - 2025-05-12
+
+- Update dependencies
+
+
 ## [v1.1.9] - 2025-05-11
 
 - Update dependencies
