@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.12] - 2025-05-22
+
+- Add control_change event handler block
+
+
 ## [v1.1.11] - 2025-05-13
 
 - Update dependencies
