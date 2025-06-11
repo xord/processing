@@ -1,5 +1,6 @@
 # Processing for CRuby - Processing compatible Creative Coding Framework
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/xord/processing)
 ![License](https://img.shields.io/github/license/xord/processing)
 ![Build Status](https://github.com/xord/processing/actions/workflows/test.yml/badge.svg)
 ![Gem Version](https://badge.fury.io/rb/processing.svg)
