@@ -994,6 +994,11 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  fill(255)            # White fill
+    #  fill(255, 0, 0)      # Red fill
+    #  fill(0, 255, 0, 128) # Semi-transparent green fill
+    #
     # @see https://processing.org/reference/fill_.html
     # @see https://p5js.org/reference/p5/fill/
     #
@@ -1031,6 +1036,11 @@ module Processing
     # @param alpha [Integer] alpha value (0..255)
     #
     # @return [nil] nil
+    #
+    # @example
+    #  stroke(0)              # Black stroke
+    #  stroke(255, 0, 0)      # Red stroke
+    #  stroke(0, 0, 255, 128) # Semi-transparent blue stroke
     #
     # @see https://processing.org/reference/stroke_.html
     # @see https://p5js.org/reference/p5/stroke/
@@ -1444,6 +1454,12 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  background(255)            # White background
+    #  background(0)              # Black background
+    #  background(255, 0, 0)      # Red background
+    #  background(255, 0, 0, 128) # Semi-transparent red background
+    #
     # @see https://processing.org/reference/background_.html
     # @see https://p5js.org/reference/p5/background/
     #
@@ -1473,6 +1489,10 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  point(50, 50)   # Draw point at (50,50)
+    #  point(100, 200) # Draw point at (100,200)
+    #
     # @see https://processing.org/reference/point_.html
     # @see https://p5js.org/reference/p5/point/
     #
@@ -1492,6 +1512,10 @@ module Processing
     # @param y2 [Numeric] vertical position of second point
     #
     # @return [nil] nil
+    #
+    # @example
+    #  line(10, 20, 50, 80)      # Draw line from (10,20) to (50,80)
+    #  line(0, 0, width, height) # Draw diagonal line from top-left to bottom-right
     #
     # @see https://processing.org/reference/line_.html
     # @see https://p5js.org/reference/p5/line/
@@ -1524,6 +1548,11 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  rect(10, 20, 30, 40)             # Draw rectangle at (10,20) with width 30, height 40
+    #  rect(10, 20, 30, 40, 5)          # Draw rectangle with rounded corners (radius 5)
+    #  rect(10, 20, 30, 40, 5, 3, 7, 2) # Draw rectangle with different corner radii
+    #
     # @see https://processing.org/reference/rect_.html
     # @see https://p5js.org/reference/p5/rect/
     #
@@ -1555,6 +1584,11 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  ellipse(50, 50, 80, 80) # Draw circle at (50,50) with diameter 80
+    #  ellipse(50, 50, 80, 60) # Draw ellipse at (50,50) with width 80, height 60
+    #  ellipse(50, 50, 80)     # Draw circle at (50,50) with diameter 80
+    #
     # @see https://processing.org/reference/ellipse_.html
     # @see https://p5js.org/reference/p5/ellipse/
     #
@@ -1574,6 +1608,10 @@ module Processing
     # @param extent [Numeric] width and height of the shape
     #
     # @return [nil] nil
+    #
+    # @example
+    #  circle(50, 60, 80)   # Draw circle at (50,60) with diameter 80
+    #  circle(100, 200, 60) # Draw circle at (100,200) with diameter 60
     #
     # @see https://processing.org/reference/circle_.html
     # @see https://p5js.org/reference/p5/circle/
@@ -1783,6 +1821,11 @@ module Processing
     # @param d   [Numeric] height of the image, by default
     #
     # @return [nil] nil
+    #
+    # @example
+    #  image(img, 10, 20)              # Draw image at (10,20) with original size
+    #  image(img, 10, 20, 50, 80)      # Draw image at (10,20) with width 50, height 80
+    #  image(img, 0, 0, width, height) # Draw image to fill entire canvas
     #
     # @see https://processing.org/reference/image_.html
     # @see https://p5js.org/reference/p5/image/
@@ -2102,6 +2145,10 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  translate(50, 100)           # Move coordinate system by (50, 100)
+    #  translate(width/2, height/2) # Move origin to center of canvas
+    #
     # @see https://processing.org/reference/translate_.html
     # @see https://p5js.org/reference/p5/translate/
     #
@@ -2124,6 +2171,11 @@ module Processing
     #
     # @return [nil] nil
     #
+    # @example
+    #  scale(2)    # Scale uniformly by 2x
+    #  scale(2, 3) # Scale by 2x horizontally, 3x vertically
+    #  scale(0.5)  # Scale down by half
+    #
     # @see https://processing.org/reference/scale_.html
     # @see https://p5js.org/reference/p5/scale/
     #
@@ -2138,6 +2190,11 @@ module Processing
     # @param angle [Numeric] angle for rotation
     #
     # @return [nil] nil
+    #
+    # @example
+    #  rotate(PI/4)                     # Rotate 45 degrees (PI/4 radians) in RADIANS mode
+    #  angleMode(DEGREES); rotate(45)   # Rotate 45 degrees in DEGREES mode
+    #  angleMode(RADIANS); rotate(PI/2) # Rotate 90 degrees in RADIANS mode
     #
     # @see https://processing.org/reference/rotate_.html
     # @see https://p5js.org/reference/p5/rotate/
