@@ -1,6 +1,12 @@
 # processing ChangeLog
 
 
+## [v1.1.13] - 2025-07-06
+
+- Add method docs for background(), fill(), stroke(), point(), line(), rect(), ellipse(), circle(), image(), translate(), scale(), and rotate()
+- Add deepwiki badge
+
+
 ## [v1.1.12] - 2025-05-22
 
 - Add control_change event handler block
