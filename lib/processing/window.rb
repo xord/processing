@@ -18,7 +18,9 @@ module Processing
       @overlay_view = @canvas_view.add Reflex::View.new name: :overlay
 
       super(*args, size: [width, height], **kwargs, &block)
+
       self.center = screen.center
+      @canvas_view.focus
     end
 
     attr_accessor :setup, :update, :draw, :move, :resize, :motion,
@@ -83,26 +85,6 @@ module Processing
       update_canvas_view
     end
 
-    def on_key_down(e)
-      draw_canvas {call_block @key_down, e} if @key_down
-    end
-
-    def on_key_up(e)
-      draw_canvas {call_block @key_up,   e} if @key_up
-    end
-
-    def on_note_on(e)
-      draw_canvas {call_block @note_on,  e} if @note_on
-    end
-
-    def on_note_off(e)
-      draw_canvas {call_block @note_off, e} if @note_off
-    end
-
-    def on_control_change(e)
-      draw_canvas {call_block @control_change, e} if @control_change
-    end
-
     def on_move(e)
       draw_canvas {call_block @move, e} if @move
     end
@@ -126,6 +108,14 @@ module Processing
       draw_screen e.painter
     end
 
+    def on_canvas_key_down(e)
+      draw_canvas {call_block @key_down, e} if @key_down
+    end
+
+    def on_canvas_key_up(e)
+      draw_canvas {call_block @key_up,   e} if @key_up
+    end
+
     def on_canvas_pointer(e)
       block = case e.action
         when :down        then @pointer_down
@@ -137,6 +127,18 @@ module Processing
 
     def on_canvas_wheel(e)
       draw_canvas {call_block @wheel, e} if @wheel
+    end
+
+    def on_canvas_note_on(e)
+      draw_canvas {call_block @note_on,  e} if @note_on
+    end
+
+    def on_canvas_note_off(e)
+      draw_canvas {call_block @note_off, e} if @note_off
+    end
+
+    def on_canvas_control_change(e)
+      draw_canvas {call_block @control_change, e} if @control_change
     end
 
     def on_canvas_resize(e)
@@ -330,12 +332,32 @@ module Processing
       window.on_canvas_draw e
     end
 
+    def on_key_down(e)
+      window.on_canvas_key_down e
+    end
+
+    def on_key_up(e)
+      window.on_canvas_key_up e
+    end
+
     def on_pointer(e)
       window.on_canvas_pointer e
     end
 
     def on_wheel(e)
       window.on_canvas_wheel e
+    end
+
+    def on_note_on(e)
+      window.on_canvas_note_on e
+    end
+
+    def on_note_off(e)
+      window.on_canvas_note_off e
+    end
+
+    def on_control_change(e)
+      window.on_canvas_control_change e
     end
 
     def on_resize(e)
