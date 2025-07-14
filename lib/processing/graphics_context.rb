@@ -1795,8 +1795,8 @@ module Processing
         when CENTER then x += (w - font.width(str)) / 2.0
         end
         case @textAlignV__
-        when BOTTOM then y +=  h - font.height
-        when CENTER then y += (h - font.height) / 2.0
+        when BOTTOM then y +=  h - font.ascent
+        when CENTER then y += (h - font.ascent) / 2.0
         else
         end
       else
