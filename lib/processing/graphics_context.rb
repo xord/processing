@@ -1786,22 +1786,23 @@ module Processing
     #
     def text(str, x, y, x2 = nil, y2 = nil)
       assertDrawing__
+      font = @painter__.font
       if x2
         raise ArgumentError, "missing y2 parameter" unless y2
         x, y, w, h = toXYWH__ @rectMode__, x, y, x2, y2
         case @textAlignH__
-        when RIGHT  then x +=  w - @painter__.font.width(str)
-        when CENTER then x += (w - @painter__.font.width(str)) / 2
+        when RIGHT  then x +=  w - font.width(str)
+        when CENTER then x += (w - font.width(str)) / 2.0
         end
         case @textAlignV__
-        when BOTTOM then y +=  h - @painter__.font.height
-        when CENTER then y += (h - @painter__.font.height) / 2
+        when BOTTOM then y +=  h - font.height
+        when CENTER then y += (h - font.height) / 2.0
         else
         end
       else
-        y -= @painter__.font.ascent
+        y -= font.ascent
       end
-      x, y = x.round, y.round unless @painter__.font.smooth
+      x, y = x.round, y.round unless font.smooth
       @painter__.text str, x, y
       nil
     end
