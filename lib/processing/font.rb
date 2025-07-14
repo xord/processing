@@ -64,8 +64,8 @@ module Processing
     # @private
     def setSize__(size)
       return if size == @font.size
-      @cachedSizes[@font.size] = @font
-      @font = getInternal__ size
+      @cachedSizes[@font.size.to_f] = @font
+      @font                         = getInternal__ size
     end
 
   end# Font
