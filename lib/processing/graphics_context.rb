@@ -1801,6 +1801,7 @@ module Processing
       else
         y -= @painter__.font.ascent
       end
+      x, y = x.round, y.round unless @painter__.font.smooth
       @painter__.text str, x, y
       nil
     end
@@ -3186,16 +3187,18 @@ module Processing
 
     # Creates a new font object.
     #
-    # @param name [String]  font name
-    # @param size [Numeric] font size (max 256)
+    # @param name   [String]  font name
+    # @param size   [Numeric] font size (max 256)
+    # @param smooth [Boolean] anti-aliased or pixel-perfect
     #
     # @return [Font] new font
     #
     # @see https://processing.org/reference/createFont_.html
     #
-    def createFont(name, size)
-      size = FONT_SIZE_MAX__ if size && size > FONT_SIZE_MAX__
-      Font.new Rays::Font.new(name, size || FONT_SIZE_DEFAULT__)
+    def createFont(name, size, smooth: true)
+      size ||= FONT_SIZE_DEFAULT__
+      size   = FONT_SIZE_MAX__ if size > FONT_SIZE_MAX__
+      Font.new Rays::Font.new(name, size, smooth)
     end
 
     # Creates a new image object.
@@ -3348,19 +3351,22 @@ module Processing
 
     # Loads font from file.
     #
-    # @param filename  [String] file name to load font file
+    # @param filename [String]  file name to load font file
+    # @param smooth   [Boolean] anti-aliased or pixel-perfect
     #
     # @return [Font] loaded font object
     #
     # @see https://processing.org/reference/loadFont_.html
     # @see https://p5js.org/reference/p5/loadFont/
     #
-    def loadFont(filename)
+    def loadFont(filename, smooth: true)
       ext = File.extname filename
       raise "unsupported font type -- '#{ext}'" unless ext =~ /^\.?(ttf|otf)$/i
 
-      filename = httpGet__ filename, ext if filename =~ %r|^https?://|
-      Font.new Rays::Font.load filename
+      filename    = httpGet__ filename, ext if filename =~ %r|^https?://|
+      font        = Rays::Font.load filename
+      font.smooth = smooth
+      Font.new font
     end
 
     # Loads image.
