@@ -325,7 +325,7 @@ module Processing
     # @return [Vector] negated vector
     #
     def -@()
-      dup.mult -1
+      dup.mult(-1)
     end
 
     # Adds 2 vectors.

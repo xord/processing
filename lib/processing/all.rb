@@ -22,6 +22,8 @@ module Processing
     windowMoved windowResized motion
   ]
 
+  SUFFIX_PRIVATE = /__[!?]?$/
+
   # @private
   def self.setup__(namespace)
     w = (ENV['WIDTH']  || 500).to_i
@@ -36,7 +38,7 @@ module Processing
   # @private
   def self.funcs__(context)
     (context.methods - Object.instance_methods)
-      .reject {_1 =~ /__$/} # methods for internal use
+      .reject {_1 =~ SUFFIX_PRIVATE} # methods for internal use
   end
 
   # @private
@@ -47,7 +49,7 @@ module Processing
   # @private
   def self.alias_snake_case_methods__(klass, recursive = 1)
     to_snake_case__(klass.instance_methods false)
-      .reject {|camel, snake| camel =~ /__$/}
+      .reject {|camel, snake| camel =~ SUFFIX_PRIVATE}
       .reject {|camel, snake| klass.method_defined? snake}
       .each   {|camel, snake| klass.alias_method snake, camel}
     if recursive > 0
