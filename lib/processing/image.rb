@@ -140,6 +140,7 @@ module Processing
     # @see https://p5js.org/reference/p5.Image/resize/
     #
     def resize(width, height)
+      return nil if width == @image.width && height == @image.height
       @image = Rays::Image.new(width, height).paint do |painter|
         painter.image getInternal__, 0, 0, width, height
       end
