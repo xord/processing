@@ -18,6 +18,10 @@ class TestGraphics < Test::Unit::TestCase
       g.dup.tap {|gg| gg.beginDraw {gg.rect 0, 0, 1, 1}}.loadPixels[0])
   end
 
+  def test_size()
+    assert_equal [1, 2], graphics(1, 2).size
+  end
+
   def test_beginDraw()
     g = graphics
     g.beginDraw

@@ -32,6 +32,17 @@ module Processing
       restoreStyles__ o.styles__
     end
 
+    alias w width
+    alias h height
+
+    # Returns the width and height of graphics.
+    #
+    # @return [Array<Numeric>] [width, height]
+    #
+    def size()
+      [width, height]
+    end
+
     # Start drawing.
     #
     # @see https://processing.org/reference/PGraphics_beginDraw_.html
