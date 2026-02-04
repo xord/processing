@@ -21,6 +21,17 @@ module Processing
       init__ image, image.painter
     end
 
+    def initialize_copy(o)
+      super
+      raise 'cannot duplicate during drawing' if @drawing__
+      raise 'cannot duplicate because each stack is not empty' unless
+        @matrixStack__.empty? && @styleStack__.empty?
+
+      image = getInternal__.dup
+      updateCanvas__ image, image.painter
+      restoreStyles__ o.styles__
+    end
+
     # Start drawing.
     #
     # @see https://processing.org/reference/PGraphics_beginDraw_.html

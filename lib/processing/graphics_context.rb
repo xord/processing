@@ -2399,7 +2399,28 @@ module Processing
     #
     def pushStyle(&block)
       assertDrawing__
-      @styleStack__.push [
+      @styleStack__.push styles__
+      block.call if block
+    ensure
+      popStyle if block
+    end
+
+    # Restore style values from the style stack.
+    #
+    # @return [nil] nil
+    #
+    # @see https://processing.org/reference/popStyle_.html
+    #
+    def popStyle()
+      assertDrawing__
+      raise "style stack underflow" if @styleStack__.empty?
+      restoreStyles__ @styleStack__.pop
+      nil
+    end
+
+    # @private
+    def styles__()
+      [
         @painter__.fill,
         @painter__.stroke,
         @painter__.stroke_width,
@@ -2435,20 +2456,10 @@ module Processing
         @textFont__,
         @tint__,
       ]
-      block.call if block
-    ensure
-      popStyle if block
     end
 
-    # Restore style values from the style stack.
-    #
-    # @return [nil] nil
-    #
-    # @see https://processing.org/reference/popStyle_.html
-    #
-    def popStyle()
-      assertDrawing__
-      raise "style stack underflow" if @styleStack__.empty?
+    # @private
+    def restoreStyles__(styles)
       @painter__.fill,
       @painter__.stroke,
       @painter__.stroke_width,
@@ -2482,9 +2493,8 @@ module Processing
       @textAlignH__,
       @textAlignV__,
       @textFont__,
-      @tint__ = @styleStack__.pop
+      @tint__ = styles
       @textFont__.setSize__ @painter__.font.size
-      nil
     end
 
     # Save current styles and transformations to stack.

@@ -3,6 +3,21 @@ require_relative 'helper'
 
 class TestGraphics < Test::Unit::TestCase
 
+  def test_dup()
+    g = graphics 1, 1
+    assert_equal g.color(0, 0, 0, 0),     g.dup.loadPixels[0]
+
+    g.fill 255, 0, 0
+    g.noStroke
+    g.beginDraw {g.rect 0, 0, 1, 1}
+    assert_equal g.color(255, 0, 0, 255), g.dup.loadPixels[0]
+
+    g.fill 0, 255, 0
+    assert_equal(
+      g.color(0, 255, 0, 255),
+      g.dup.tap {|gg| gg.beginDraw {gg.rect 0, 0, 1, 1}}.loadPixels[0])
+  end
+
   def test_beginDraw()
     g = graphics
     g.beginDraw
