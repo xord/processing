@@ -29,8 +29,7 @@ class TestGraphics < Test::Unit::TestCase
   end
 
   def test_save()
-    g = graphics 100, 100
-    g.beginDraw do
+    g = graphics 100, 100 do |g|
       g.background 200
       g.fill 255
       g.stroke 0
