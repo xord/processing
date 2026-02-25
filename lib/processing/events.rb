@@ -11,10 +11,12 @@ module Processing
     end
 
     def delta()
-      @event.dy
+      [@event.dx, @event.dy]
     end
 
-    alias getCount delta
+    def getCount()
+      @event.dy
+    end
 
   end# WheelEvent
 
