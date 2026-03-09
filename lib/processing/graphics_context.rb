@@ -3370,12 +3370,13 @@ module Processing
     # @see https://processing.org/reference/loadFont_.html
     # @see https://p5js.org/reference/p5/loadFont/
     #
-    def loadFont(filename, smooth: true)
+    def loadFont(filename, size: nil, smooth: true)
       ext = File.extname filename
       raise "unsupported font type -- '#{ext}'" unless ext =~ /^\.?(ttf|otf)$/i
 
       filename    = httpGet__ filename, ext if filename =~ %r|^https?://|
       font        = Rays::Font.load filename
+      font.size   = size if size
       font.smooth = smooth
       Font.new font
     end
