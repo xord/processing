@@ -1,22 +1,22 @@
 # Processing
 
-Processing/p5.js 互換の Ruby クリエイティブコーディングフレームワーク。
+Processing/p5.js-compatible creative coding framework for Ruby.
 
 ## Dual API
 
-- デフォルト: Processing 互換の camelCase (`colorMode`, `ellipseMode`)
-- オプション: `Processing(snake_case: true)` で snake_case エイリアスも利用可能
+- Default: Processing-compatible camelCase (`colorMode`, `ellipseMode`)
+- Optional: `Processing(snake_case: true)` enables snake_case aliases
 
-## 命名規約
+## Naming Convention
 
-- 内部メソッドは `__` サフィックス（例: `init__`, `beginDraw__`, `@context__`）
-- `/__[!?]?$/` にマッチするメソッドは API から除外される
+- Internal methods use `__` suffix (e.g., `init__`, `beginDraw__`, `@context__`)
+- Methods matching `/__[!?]?$/` are excluded from the public API
 
-## ビジュアル回帰テスト
+## Visual Regression Testing
 
-`TEST_WITH_BROWSER=1` で Ferrum によるブラウザベースの描画テストが有効になる。
-`assert_p5_draw` でスクリーンショット比較を行う。
+Set `TEST_WITH_BROWSER=1` to enable browser-based drawing tests via Ferrum.
+`assert_p5_draw` performs screenshot comparison.
 
 ## GraphicsContext
 
-描画ロジックは `GraphicsContext` モジュールに集約され、`Context`（トップレベル）と `Graphics`（オフスクリーンバッファ）の両方にミックスインされる。
+Drawing logic is concentrated in the `GraphicsContext` module, mixed into both `Context` (top-level) and `Graphics` (offscreen buffer).
