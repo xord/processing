@@ -1,6 +1,19 @@
 # processing ChangeLog
 
 
+## [v1.1.14] - 2026-04-09
+
+- Add Graphics#size
+- Add Graphics#initialize_copy
+- Add the 'smooth' param to createFont() and loadFont()
+- loadFont() can take size parameter
+- WheelEvent#delta returns dy and dx
+- Image#resize does nothing when called with the same width and height
+- Text is now vertically centered based on ascent rather than total height
+- Handle key and midi events in focused canvas view
+- Update dependencies
+
+
 ## [v1.1.13] - 2025-07-06
 
 - Add method docs for background(), fill(), stroke(), point(), line(), rect(), ellipse(), circle(), image(), translate(), scale(), and rotate()
