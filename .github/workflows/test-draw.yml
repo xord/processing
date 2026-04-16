@@ -30,4 +30,4 @@ jobs:
           chrome-version: stable
 
       - name: test
-        run: rake test:draw
+        run: rake verbose test:draw
