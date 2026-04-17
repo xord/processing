@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.1.17] - 2026-04-17
+
+- Update dependencies
+
+
 ## [v1.1.16] - 2026-04-10
 
 - Update dependencies
