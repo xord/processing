@@ -71,14 +71,16 @@ module Processing
     ENV__ = {
       attribute_position:      [:vertex, :position],
       attribute_texcoord:      :texCoord,
+      attribute_texcoord_min:  :texCoordMin,
+      attribute_texcoord_max:  :texCoordMax,
       attribute_color:         :color,
       varying_position:        :vertPosition,
       varying_texcoord:        :vertTexCoord,
+      varying_texcoord_min:    :vertTexCoordMin,
+      varying_texcoord_max:    :vertTexCoordMax,
       varying_color:           :vertColor,
       uniform_position_matrix: [:transform, :transformMatrix],
       uniform_texcoord_matrix: :texMatrix,
-      uniform_texcoord_min:    :texMin,
-      uniform_texcoord_max:    :texMax,
       uniform_texcoord_pixel:  :texOffset,
       uniform_texture:         [:texMap, :texture]
     }.freeze
@@ -144,10 +146,10 @@ module Processing
       #define PI 3.1415926538
       uniform float radius;
       uniform sampler2D texMap;
-      uniform vec3 texMin;
-      uniform vec3 texMax;
       uniform vec3 texOffset;
       varying vec4 vertTexCoord;
+      varying vec3 vertTexCoordMin;
+      varying vec3 vertTexCoordMax;
       varying vec4 vertColor;
       float gaussian(vec2 pos, float sigma) {
         float s2 = sigma * sigma;
@@ -163,8 +165,8 @@ module Processing
           float weight  = gaussian(offset, sigma);
           vec2 texcoord = vertTexCoord.xy + offset * texOffset.xy;
           if (
-            texcoord.x < texMin.x || texMax.x < texcoord.x ||
-            texcoord.y < texMin.y || texMax.y < texcoord.y
+            texcoord.x < vertTexCoordMin.x || vertTexCoordMax.x < texcoord.x ||
+            texcoord.y < vertTexCoordMin.y || vertTexCoordMax.y < texcoord.y
           ) continue;
           color += texture2D(texMap, texcoord).rgb * weight;
           total_weight += weight;
