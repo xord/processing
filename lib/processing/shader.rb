@@ -79,7 +79,7 @@ module Processing
       uniform_texcoord_matrix: :texMatrix,
       uniform_texcoord_min:    :texMin,
       uniform_texcoord_max:    :texMax,
-      uniform_texcoord_offset: :texOffset,
+      uniform_texcoord_pixel:  :texOffset,
       uniform_texture:         [:texMap, :texture]
     }.freeze
 
