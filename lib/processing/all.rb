@@ -5,8 +5,8 @@ require 'pathname'
 require 'tmpdir'
 require 'uri'
 require 'rexml'
-require 'net/http'
 require 'xot/inspectable'
+require 'xot/util'
 require 'reflex'
 
 

@@ -3449,6 +3449,8 @@ module Processing
       path   = path.sub_ext ext
 
       unless path.file?
+        raise NotImplementedError, 'HTTP request is not supported on WASM' if Xot.wasm?
+        require 'net/http'
         Net::HTTP.get_response URI.parse(uri) do |res|
           res.value # raise an error unless successful
           tmpdir.mkdir unless tmpdir.directory?
