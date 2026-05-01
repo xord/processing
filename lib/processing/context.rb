@@ -45,7 +45,7 @@ module Processing
     def initialize(window)
       @@rootContext__ = self
 
-      tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?}
+      tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?} unless Xot.wasm?
 
       @window__ = window
       init__(
