@@ -17,6 +17,11 @@ module Processing
       @canvas_view  =              add   CanvasView.new name: :canvas
       @overlay_view = @canvas_view.add Reflex::View.new name: :overlay
 
+      # On WASM, auto-GC may yield mid-draw via Asyncify and cause partial
+      # frames to be presented. Disable auto-GC and run GC.start manually
+      # at a safe point (on_canvas_update) to avoid this.
+      GC.disable if Xot.wasm?
+
       super(*args, size: [width, height], **kwargs, &block)
 
       self.center = screen.center
@@ -101,6 +106,7 @@ module Processing
     def on_canvas_update(e)
       call_block @update, e
       @canvas_view.redraw
+      GC.start if Xot.wasm?  # explicit GC at a safe point (no draw in progress)
     end
 
     def on_canvas_draw(e)
