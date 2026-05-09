@@ -1,6 +1,14 @@
 # processing ChangeLog
 
 
+## [v1.1.18] - 2026-05-10
+
+- Support WebAssembly
+- Disable auto-GC on WASM to avoid mid-draw Asyncify yield
+- Lazy-load net/http and disable HTTP fetch on WASM
+- Skip tmpdir cleanup on WASM
+
+
 ## [v1.1.17] - 2026-04-17
 
 - Update dependencies
