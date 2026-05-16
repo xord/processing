@@ -1835,8 +1835,14 @@ module Processing
     def image(img, a, b, c = nil, d = nil)
       assertDrawing__
       x, y, w, h = toXYWH__ @imageMode__, a, b, c || img.width, d || img.height
-      img.drawImage__ @painter__, x, y, w, h, fill: getTint__, stroke: :none
-      nil
+      fill       = @painter__.fill
+      begin
+        @painter__.fill = getTint__
+        img.drawImage__ @painter__, x, y, w, h
+        nil
+      ensure
+        @painter__.fill = fill
+      end
     end
 
     alias drawImage image
@@ -2074,9 +2080,17 @@ module Processing
     #
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       assertDrawing__
-      (img || self).drawImage__(
-        @painter__, sx, sy, sw, sh, dx, dy, dw, dh,
-        fill: getTint__, stroke: :none, blend_mode: mode)
+      fill       = @painter__.fill
+      blend_mode = @painter__.blend_mode
+      begin
+        @painter__.fill       = getTint__
+        @painter__.blend_mode = mode
+        (img || self).drawImage__(@painter__, sx, sy, sw, sh, dx, dy, dw, dh)
+        nil
+      ensure
+        @painter__.fill       = fill
+        @painter__.blend_mode = blend_mode
+      end
     end
 
     # Loads all pixels to the 'pixels' array.
@@ -2535,11 +2549,15 @@ module Processing
     end
 
     # @private
-    def drawImage__(painter, *args, image__: getInternal__, **states)
-      shader = painter.shader || @filter__&.getInternal__
-      painter.push shader: shader, **states do |_|
-        painter.image image__, *args
+    def drawImage__(painter, *args, image__: getInternal__)
+      if @filter__
+        shader         = painter.shader
+        painter.shader = @filter__.getInternal__
       end
+      painter.image image__, *args
+      nil
+    ensure
+      painter.shader   = shader if @filter__
     end
 
     # @private

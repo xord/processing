@@ -108,11 +108,15 @@ module Processing
     end
 
     # @private
-    def drawImage__(painter, *args, **states)
-      shader = painter.shader || @filter&.getInternal__
-      painter.push shader: shader, **states do |_|
-        painter.image getInternal__, *args
+    def drawImage__(painter, *args)
+      if @filter
+        shader         = painter.shader
+        painter.shader = @filter.getInternal__
       end
+      painter.image getInternal__, *args
+      nil
+    ensure
+      painter.shader   = shader if @filter
     end
 
   end# Capture

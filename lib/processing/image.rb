@@ -200,7 +200,13 @@ module Processing
     def blend(img = nil, sx, sy, sw, sh, dx, dy, dw, dh, mode)
       img ||= self
       getInternal__.paint do |painter|
-        img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh, blend_mode: mode
+        blend_mode = painter.blend_mode
+        begin
+          painter.blend_mode = mode
+          img.drawImage__ painter, sx, sy, sw, sh, dx, dy, dw, dh
+        ensure
+          painter.blend_mode = blend_mode
+        end
       end
       nil
     end
@@ -270,11 +276,15 @@ module Processing
     end
 
     # @private
-    def drawImage__(painter, *args, **states)
-      shader = painter.shader || @filter&.getInternal__
-      painter.push shader: shader, **states do |_|
-        painter.image getInternal__, *args
+    def drawImage__(painter, *args)
+      if @filter
+        shader         = painter.shader
+        painter.shader = @filter.getInternal__
       end
+      painter.image getInternal__, *args
+      nil
+    ensure
+      painter.shader   = shader if @filter
     end
 
     # @private
