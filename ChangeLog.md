@@ -1,6 +1,15 @@
 # processing ChangeLog
 
 
+## [v1.2.0] - 2026-05-17
+
+- [BREAKING] Wheel Y delta now follows top-left origin convention (from reflex)
+
+- Avoid painter.push overhead in image/blend draws
+- Rewrite README.md
+- CI: Migrate release-gem.yml from actions/create-release to gh release create
+
+
 ## [v1.1.18] - 2026-05-10
 
 - Support WebAssembly
