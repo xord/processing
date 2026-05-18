@@ -50,7 +50,7 @@ module Processing
   def self.alias_snake_case_methods__(klass, recursive = 1)
     to_snake_case__(klass.instance_methods false)
       .reject {|camel, snake| camel =~ SUFFIX_PRIVATE}
-      .reject {|camel, snake| klass.method_defined? snake}
+      .reject {|camel, snake| camel == snake}
       .each   {|camel, snake| klass.alias_method snake, camel}
     if recursive > 0
       klass.constants.map {klass.const_get _1}
