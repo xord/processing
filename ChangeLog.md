@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.2.1] - 2026-05-20
+
+- Update dependencies
+
+
 ## [v1.2.0] - 2026-05-17
 
 - [BREAKING] Wheel Y delta now follows top-left origin convention (from reflex)
