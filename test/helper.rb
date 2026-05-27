@@ -66,8 +66,8 @@ def get_pixels(image)
     .pixels
 end
 
-def graphics(width = 10, height = 10, *args, &block)
-  Processing::Graphics.new(width, height, *args).tap do |g|
+def graphics(width = 10, height = 10, pixelDensity = 1, &block)
+  Processing::Graphics.new(width, height, pixelDensity: pixelDensity).tap do |g|
     g.beginDraw {block.call g, g.getInternal__} if block
   end
 end

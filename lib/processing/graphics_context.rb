@@ -3331,8 +3331,8 @@ module Processing
     # @see https://processing.org/reference/createGraphics_.html
     # @see https://p5js.org/reference/p5/createGraphics/
     #
-    def createGraphics(width, height, pixelDensity = 1)
-      Graphics.new width, height, pixelDensity
+    def createGraphics(width, height, pixelDensity: 1)
+      Graphics.new width, height, pixelDensity: pixelDensity
     end
 
     # Creates a shader object.
