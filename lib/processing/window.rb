@@ -154,7 +154,7 @@ module Processing
 
     def resize_canvas(
       width, height,
-      pixel_density       = nil,
+             pixel_density: nil,
       window_pixel_density: nil,
       antialiasing:         nil)
 

@@ -424,9 +424,9 @@ module Processing
     #
     # @see https://processing.org/reference/size_.html
     #
-    def size(width, height, pixelDensity: self.pixelDensity)
+    def size(width, height, pixelDensity: nil)
       windowResize width, height
-      resizeCanvas__ width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity: pixelDensity, autoResize: false
       nil
     end
 
@@ -440,9 +440,9 @@ module Processing
     #
     # @see https://p5js.org/reference/p5/createCanvas/
     #
-    def createCanvas(width, height, pixelDensity: self.pixelDensity)
+    def createCanvas(width, height, pixelDensity: nil)
       windowResize width, height
-      resizeCanvas__ width, height, pixelDensity
+      resizeCanvas__ width, height, pixelDensity: pixelDensity, autoResize: false
       nil
     end
 
@@ -469,7 +469,7 @@ module Processing
     # @see https://p5js.org/reference/p5/pixelDensity/
     #
     def pixelDensity(density = nil)
-      resizeCanvas__ width, height, density if density
+      resizeCanvas__ width, height, pixelDensity: density if density
       @window__.canvas.pixel_density
     end
 
@@ -499,7 +499,7 @@ module Processing
     #
     def smooth()
       @smooth__ = true
-      resizeCanvas__ width, height, pixelDensity
+      resizeCanvas__ width, height
       nil
     end
 
@@ -512,13 +512,14 @@ module Processing
     #
     def noSmooth()
       @smooth__ = false
-      resizeCanvas__ width, height, pixelDensity
+      resizeCanvas__ width, height
     end
 
     # @private
-    def resizeCanvas__(width, height, pixelDensity)
-      @window__.resize_canvas width, height, pixelDensity, antialiasing: @smooth__
-      @window__.auto_resize = false
+    def resizeCanvas__(width, height, pixelDensity: nil, autoResize: nil)
+      @window__.resize_canvas(
+        width, height, pixel_density: pixelDensity, antialiasing: @smooth__)
+      @window__.auto_resize = autoResize unless autoResize.nil?
     end
 
     # Returns the width of the display.
