@@ -64,12 +64,6 @@ module Processing
       call_block @setup, nil
     end
 
-    def on_change_pixel_density(pixel_density)
-      resize_canvas(
-        @canvas.width, @canvas.height,
-        window_pixel_density: pixel_density)
-    end
-
     def on_activate(e)
       @active = true
     end
@@ -85,7 +79,7 @@ module Processing
     def on_draw(e)
       painter.pixel_density.tap do |pd|
         prev, @prev_pixel_density = @prev_pixel_density, pd
-        on_change_pixel_density pd if prev && pd != prev
+        resize_canvas @canvas.width, @canvas.height if prev && pd != prev
       end
       update_canvas_view
     end
@@ -95,7 +89,7 @@ module Processing
     end
 
     def on_resize(e)
-      resize_canvas e.width, e.height if @auto_resize
+      (@auto_resize ? e : @canvas).tap {resize_canvas _1.width, _1.height}
       draw_canvas {call_block @resize, e} if @resize
     end
 
@@ -148,24 +142,21 @@ module Processing
     end
 
     def on_canvas_resize(e)
-      resize_canvas e.width, e.height if @auto_resize
+      (@auto_resize ? e : @canvas).tap {resize_canvas _1.width, _1.height}
       draw_canvas {call_block @resize, e} if @resize
     end
 
-    def resize_canvas(
-      width, height,
-             pixel_density: nil,
-      window_pixel_density: nil,
-      antialiasing:         nil)
-
+    def resize_canvas(width, height, pixel_density: nil, antialiasing: nil)
       painting = @canvas.painter.painting?
       @canvas.painter.__send__ :end_paint if painting
 
-      @pixel_density = pixel_density if pixel_density
+      @pixel_density = pixel_density == :auto ? nil : pixel_density if pixel_density
 
       resized =
         begin
-          pd = @pixel_density || window_pixel_density
+          pd = @pixel_density || painter.pixel_density.then {
+            _1 * (self.width > 0 && width > 0 ? self.width / width.to_f : 1)
+          }
           @canvas.resize width, height, pd, antialiasing
         ensure
           @canvas.painter.__send__ :begin_paint if painting
@@ -180,12 +171,12 @@ module Processing
       scrollx, scrolly, zoom = get_scroll_and_zoom
       @canvas_view.scroll_to scrollx, scrolly
       @canvas_view.zoom  = zoom
-      @overlay_view.size = @canvas.image.size
+      @overlay_view.size = [@canvas.width, @canvas.height]
     end
 
     def get_scroll_and_zoom()
-      ww, wh =               width.to_f,               height.to_f
-      cw, ch = @canvas.image.width.to_f, @canvas.image.height.to_f
+      ww, wh =         width.to_f,         height.to_f
+      cw, ch = @canvas.width.to_f, @canvas.height.to_f
       return 0, 0, 1 if ww == 0 || wh == 0 || cw == 0 || ch == 0
 
       wratio, cratio = ww / wh, cw / ch
@@ -252,7 +243,7 @@ module Processing
       resize width, height
     end
 
-    attr_reader :painter
+    attr_reader :painter, :width, :height
 
     def resize(width, height, pixel_density = nil, antialiasing = nil)
       return false if width <= 0 || height <= 0
@@ -261,17 +252,18 @@ module Processing
       pd = pixel_density || (@framebuffer || @painter).pixel_density
       aa = antialiasing == nil ? antialiasing? : (antialiasing && pd < 2)
       return false if
-        width  == @framebuffer&.width  &&
-        height == @framebuffer&.height &&
+        width  == @width  &&
+        height == @height &&
         pd     == @framebuffer&.pixel_density &&
         aa     == antialiasing?
 
       old_paintable, old_painter = @paintable, @painter
 
-      @framebuffer = Rays::Image.new width, height, cs, pixel_density: pd
-      @paintable   = aa ?
+      @width, @height = width, height
+      @framebuffer    = Rays::Image.new width, height, cs, pixel_density: pd
+      @paintable      = aa ?
         Rays::Image.new(width, height, cs, pixel_density: pd * 2) : @framebuffer
-      @painter     = @paintable.painter
+      @painter        = @paintable.painter
 
       @painter.paint {image old_paintable} if old_paintable
       copy_painter old_painter, @painter
@@ -287,14 +279,6 @@ module Processing
 
     def image()
       @paintable
-    end
-
-    def width()
-      @framebuffer.width
-    end
-
-    def height()
-      @framebuffer.height
     end
 
     def pixel_density()

@@ -33,6 +33,11 @@ module Processing
     #
     P5JS       = :p5js
 
+    # Auto mode for pixelDensity() and createCanvas() / size().
+    # Unlocks the canvas pixel density so it tracks the display.
+    #
+    AUTO = :auto
+
     # RGBA format for createImage().
     #
     RGBA = :rgba

@@ -416,9 +416,9 @@ module Processing
 
     # Changes canvas size.
     #
-    # @param width        [Integer] new width
-    # @param height       [Integer] new height
-    # @param pixelDensity [Numeric] new pixel density
+    # @param width        [Integer]       new width
+    # @param height       [Integer]       new height
+    # @param pixelDensity [Numeric, AUTO] new pixel density, or AUTO to track display
     #
     # @return [nil] nil
     #
@@ -432,9 +432,9 @@ module Processing
 
     # Changes canvas size.
     #
-    # @param width        [Integer] new width
-    # @param height       [Integer] new height
-    # @param pixelDensity [Numeric] new pixel density
+    # @param width        [Integer]       new width
+    # @param height       [Integer]       new height
+    # @param pixelDensity [Numeric, AUTO] new pixel density, or AUTO to track display
     #
     # @return [nil] nil
     #
@@ -461,7 +461,7 @@ module Processing
 
     # Changes and returns canvas pixel density.
     #
-    # @param density [Numeric] new pixel density
+    # @param density [Numeric, AUTO] new pixel density, or AUTO to track display
     #
     # @return [Numeric] current pixel density
     #
