@@ -2,13 +2,13 @@ require 'processing/all'
 
 
 module Processing
-  WINDOW__, CONTEXT__ = Processing.setup__ Processing
+  WINDOW__              = Processing.setup__ Processing
+  $processing_context__ = WINDOW__.context
 
   refine Object do
-    context = CONTEXT__
-    Processing.funcs__(context).each do |func|
+    Processing.funcs__(WINDOW__.context).each do |func|
       define_method func do |*args, **kwargs, &block|
-        context.__send__ func, *args, **kwargs, &block
+        $processing_context__.__send__ func, *args, **kwargs, &block
       end
     end
   end
@@ -22,10 +22,9 @@ def Processing(snake_case: false)
     Processing.alias_snake_case_methods__ Processing
 
     refine Object do
-      context = Processing::CONTEXT__
-      Processing.funcs__(context).each do |func|
+      Processing.funcs__(Processing::WINDOW__.context).each do |func|
         define_method func do |*args, **kwargs, &block|
-          context.__send__ func, *args, **kwargs, &block
+          $processing_context__.__send__ func, *args, **kwargs, &block
         end
       end
     end
@@ -34,20 +33,20 @@ end
 
 
 begin
-  w, c = Processing::WINDOW__, Processing::CONTEXT__
+  w = Processing::WINDOW__
 
-  c.class.constants
+  w.context.class.constants
     .reject {_1 =~ /__$/}
-    .each   {self.class.const_set _1, c.class.const_get(_1)}
+    .each   {self.class.const_set _1, w.context.class.const_get(_1)}
 
   w.__send__ :begin_draw
   at_exit do
-    Processing.events__(c).each do |event|
+    Processing.events__(w.context).each do |event|
       m = begin method event; rescue NameError; nil end
-      c.__send__(event) {__send__ event} if m
+      w.context.__send__(event) {__send__ event} if m
     end
 
     w.__send__ :end_draw
-    Processing::App.new {w.show}.start if c.hasUserBlocks__ && !$!
+    Processing::App.new {w.show}.start if w.context.hasUserBlocks__ && !$!
   end
 end

@@ -6,7 +6,7 @@ module Processing
 
     include Xot::Inspectable
 
-    def initialize(width = 500, height = 500, *args, **kwargs, &block)
+    def initialize(width = 500, height = 500, *args, context_class: Context, **kwargs, &block)
       Processing.instance_variable_set :@window, self
 
       @events       = []
@@ -26,6 +26,8 @@ module Processing
 
       self.center = screen.center
       @canvas_view.focus
+
+      @context = context_class.new self
     end
 
     attr_accessor :setup, :update, :draw, :move, :resize, :motion,
@@ -35,7 +37,7 @@ module Processing
 
     attr_accessor :auto_resize
 
-    attr_reader :canvas
+    attr_reader :canvas, :context
 
     def event()
       @events.last
@@ -218,6 +220,8 @@ module Processing
     end
 
     def call_block(block, event, *args)
+      prev_context          = $processing_context__
+      $processing_context__ = @context
       @events.push event
       block.call event, *args if block && !@error
     rescue Exception => e
@@ -225,6 +229,7 @@ module Processing
       $stderr.puts e.full_message
     ensure
       @events.pop
+      $processing_context__ = prev_context
     end
 
   end# Window

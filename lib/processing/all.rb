@@ -24,15 +24,14 @@ module Processing
 
   SUFFIX_PRIVATE = /__[!?]?$/
 
+  $processing_context__ = nil
+
   # @private
   def self.setup__(namespace)
     w = (ENV['WIDTH']  || 500).to_i
     h = (ENV['HEIGHT'] || 500).to_i
-
-    window  = Processing::Window.new(w, h) {start}
-    context = namespace::Context.new window
-
-    return window, context
+    c = namespace.const_defined?(:Window) ? namespace::Window : Processing::Window
+    c.new(w, h, context_class: namespace::Context) {start}
   end
 
   # @private
