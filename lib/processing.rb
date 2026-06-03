@@ -2,7 +2,7 @@ require 'processing/all'
 
 
 module Processing
-  WINDOW__              = Processing.setup__ Processing
+  WINDOW__              = Processing.setup__ Window, Context
   $processing_context__ = WINDOW__.context
 
   refine Object do

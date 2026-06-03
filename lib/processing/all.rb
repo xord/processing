@@ -35,11 +35,10 @@ module Processing
   end
 
   # @private
-  def self.setup__(namespace)
+  def self.setup__(window_class, context_class)
     w = (ENV['WIDTH']  || 500).to_i
     h = (ENV['HEIGHT'] || 500).to_i
-    c = namespace.const_defined?(:Window) ? namespace::Window : Processing::Window
-    c.new(w, h, context_class: namespace::Context) {start}
+    window_class.new(w, h, context_class: context_class) {start}
   end
 
   # @private
