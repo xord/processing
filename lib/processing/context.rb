@@ -26,25 +26,20 @@ module Processing
     LANDSCAPE = :landscape
 
     # @private
-    @@rootContext__ = nil
+    @@current__ = nil
 
     # @private
-    @@context__     = nil
-
-    # @private
-    def self.context__()
-      @@context__ || @@rootContext__
+    def self.current__()
+      @@current__ || Processing.context
     end
 
     # @private
-    def self.setContext__(context)
-      @@context__ = context
+    def self.setCurrent__(context)
+      @@current__ = context
     end
 
     # @private
     def initialize(window)
-      @@rootContext__ = self
-
       tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?} unless Xot.wasm?
 
       @window__ = window

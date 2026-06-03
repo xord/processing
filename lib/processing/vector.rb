@@ -35,7 +35,7 @@ module Processing
         when Array       then Rays::Point.new x[0] || 0, x[1] || 0, x[2] || 0
         else                  Rays::Point.new x    || 0, y    || 0, z    || 0
         end
-      @context = context || Context.context__
+      @context = context || Context.current__
     end
 
     # Initializer for dup or clone

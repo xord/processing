@@ -10,7 +10,7 @@ module Processing
     # @private
     def initialize(polygon = nil, children = nil, context: nil)
       @polygon, @children = polygon, children
-      @context            = context || Context.context__
+      @context            = context || Context.current__
       @visible            = true
       @fill = @stroke = @strokeWeight = @strokeCap = @strokeJoin = @matrix = nil
       @type = @points = @curvePoints = @colors = @texcoords = @close = nil

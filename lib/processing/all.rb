@@ -26,6 +26,14 @@ module Processing
 
   $processing_context__ = nil
 
+  # Returns current processing context.
+  #
+  # @return [Processing::Context] context
+  #
+  def self.context()
+    $processing_context__
+  end
+
   # @private
   def self.setup__(namespace)
     w = (ENV['WIDTH']  || 500).to_i
