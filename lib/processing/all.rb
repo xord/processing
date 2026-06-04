@@ -42,14 +42,15 @@ module Processing
   end
 
   # @private
-  def self.funcs__(context)
-    (context.methods - Object.instance_methods)
+  def self.funcs__(context_class)
+    (context_class.instance_methods - Object.instance_methods)
       .reject {_1 =~ SUFFIX_PRIVATE} # methods for internal use
   end
 
   # @private
-  def self.events__(context)
-    to_snake_case__(EVENT_NAMES__).flatten.uniq.select {context.respond_to? _1}
+  def self.events__(context_class)
+    methods = context_class.instance_methods
+    to_snake_case__(EVENT_NAMES__).flatten.uniq.select {methods.include? _1}
   end
 
   # @private
