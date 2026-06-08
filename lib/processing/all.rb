@@ -36,6 +36,8 @@ module Processing
 
   # @private
   def self.setup__(window_class, context_class)
+    tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?} unless Xot.wasm?
+
     w = (ENV['WIDTH']  || 500).to_i
     h = (ENV['HEIGHT'] || 500).to_i
     window_class.new(w, h, context_class: context_class) {start}
@@ -76,6 +78,11 @@ module Processing
       snake = camel.to_s.gsub(/([a-z])([A-Z])/) {"#{$1}_#{$2.downcase}"}
       [camel, snake].map(&:to_sym)
     end
+  end
+
+  # @private
+  def self.tmpdir__()
+    Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(name)
   end
 
 end# Processing

@@ -3439,25 +3439,20 @@ module Processing
 
     # @private
     private def httpGet__(uri, ext)
-      tmpdir = tmpdir__
-      path   = tmpdir + Digest::SHA1.hexdigest(uri)
-      path   = path.sub_ext ext
+      dir  = Processing.tmpdir__
+      path = dir + Digest::SHA1.hexdigest(uri)
+      path = path.sub_ext ext
 
       unless path.file?
         raise NotImplementedError, 'HTTP request is not supported on WASM' if Xot.wasm?
         require 'net/http'
         Net::HTTP.get_response URI.parse(uri) do |res|
           res.value # raise an error unless successful
-          tmpdir.mkdir unless tmpdir.directory?
+          dir.mkdir unless dir.directory?
           path.open('wb') {|file| res.read_body {|body| file.write body}}
         end
       end
       path.to_s
-    end
-
-    # @private
-    private def tmpdir__()
-      Pathname(Dir.tmpdir) + Digest::SHA1.hexdigest(self.class.name)
     end
 
   end# GraphicsContext
