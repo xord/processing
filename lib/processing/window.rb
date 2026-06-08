@@ -213,7 +213,6 @@ module Processing
     end
 
     def call_block(block, event, *args)
-      prev_context          = $processing_context__
       $processing_context__ = @context
       @events.push event
       block.call event, *args if block && !@error
@@ -222,7 +221,6 @@ module Processing
       $stderr.puts e.full_message
     ensure
       @events.pop
-      $processing_context__ = prev_context
     end
 
   end# Window
