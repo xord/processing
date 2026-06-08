@@ -40,7 +40,7 @@ module Processing
 
     w = (ENV['WIDTH']  || 500).to_i
     h = (ENV['HEIGHT'] || 500).to_i
-    window_class.new(w, h, context_class: context_class) {start}
+    window_class.new w, h, context_class: context_class
   end
 
   # @private

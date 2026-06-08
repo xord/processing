@@ -6,7 +6,7 @@ module Processing
 
     include Xot::Inspectable
 
-    def initialize(width = 500, height = 500, *args, context_class: Context, **kwargs, &block)
+    def initialize(width = 500, height = 500, *args, context_class: Context, **kwargs)
       Processing.instance_variable_set :@window, self
 
       @events       = []
@@ -22,7 +22,7 @@ module Processing
       # at a safe point (on_canvas_update) to avoid this.
       GC.disable if Xot.wasm?
 
-      super(*args, size: [width, height], **kwargs, &block)
+      super(*args, size: [width, height], **kwargs) {on_setup}
 
       self.center = screen.center
       @canvas_view.focus
@@ -55,15 +55,8 @@ module Processing
       @overlay_view.remove view
     end
 
-    def start(&block)
-      draw_canvas do
-        block.call if block
-        on_setup
-      end
-    end
-
     def on_setup()
-      call_block @setup, nil
+      draw_canvas {call_block @setup, nil}
     end
 
     def on_activate(e)
