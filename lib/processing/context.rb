@@ -26,19 +26,6 @@ module Processing
     LANDSCAPE = :landscape
 
     # @private
-    @@current__ = nil
-
-    # @private
-    def self.current__()
-      @@current__ || Processing.context
-    end
-
-    # @private
-    def self.setCurrent__(context)
-      @@current__ = context
-    end
-
-    # @private
     def initialize(window)
       @window__ = window
       init__(
