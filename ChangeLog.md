@@ -1,6 +1,19 @@
 # processing ChangeLog
 
 
+## [v1.3.0] - 2026-06-12
+
+- [BREAKING] Drop redundant drawXxx aliases from GraphicsContext
+- [BREAKING] Make pixelDensity a keyword arg in createGraphics
+
+- Give each Window its own Context for multi-window support
+- Add AUTO pixel density that tracks display * window scale
+- Make context dispatch survive across event paths
+- Skip alias_snake_case_methods__ warning by removing the prior definition
+
+- Fix noSmooth disabling canvas auto-resize and monitor density tracking
+
+
 ## [v1.2.1] - 2026-05-20
 
 - Update dependencies
