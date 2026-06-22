@@ -7,7 +7,7 @@ module Processing
     module_function
 
     def name(downcase = false)
-      super().split('::')[-2].then {|s|
+      super().split('::')[..-2].join.then {|s|
         downcase ? s.gsub(/([a-z])([A-Z])/) {"#{$1}-#{$2}"}.downcase : s
       }
     end
