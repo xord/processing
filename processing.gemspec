@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'xot',       '~> 0.3.15'
   s.add_dependency 'rucy',      '~> 0.3.15'
   s.add_dependency 'rays',      '~> 0.3.16'
-  s.add_dependency 'reflexion', '~> 0.5.2'
+  s.add_dependency 'reflexion', '~> 0.5.3'
 
   s.files            = `git ls-files`.split $/
   s.test_files       = s.files.grep %r{^(test|spec|features)/}
