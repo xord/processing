@@ -159,6 +159,15 @@ module Processing
         @touchMovedBlock__&.call
       end
 
+      @window__.pointer_enter = proc do |e|
+        updatePointerStates.call e
+        @mouseOverBlock__&.call
+      end
+
+      @window__.pointer_leave = proc do |e|
+        @mouseOutBlock__&.call
+      end
+
       @window__.wheel = proc do |e|
         @mouseWheelBlock__&.call WheelEvent.new(e)
       end
@@ -189,6 +198,8 @@ module Processing
       @mouseDraggedBlock__  ||
       @mouseClickedBlock__  ||
       @doubleClickedBlock__ ||
+      @mouseOverBlock__     ||
+      @mouseOutBlock__      ||
       @mouseWheelBlock__    ||
       @touchStartedBlock__  ||
       @touchEndedBlock__    ||
@@ -327,6 +338,28 @@ module Processing
     #
     def doubleClicked(&block)
       @doubleClickedBlock__ = block if block
+      nil
+    end
+
+    # Defines mouseOver block, called when the mouse comes over the window.
+    #
+    # @return [nil] nil
+    #
+    # @see https://p5js.org/reference/p5.Element/mouseOver/
+    #
+    def mouseOver(&block)
+      @mouseOverBlock__ = block if block
+      nil
+    end
+
+    # Defines mouseOut block, called when the mouse goes out of the window.
+    #
+    # @return [nil] nil
+    #
+    # @see https://p5js.org/reference/p5.Element/mouseOut/
+    #
+    def mouseOut(&block)
+      @mouseOutBlock__ = block if block
       nil
     end
 

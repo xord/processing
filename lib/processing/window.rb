@@ -31,7 +31,8 @@ module Processing
     end
 
     attr_accessor :setup, :update, :draw, :move, :resize, :motion,
-      :key_down, :key_up, :pointer_down, :pointer_up, :pointer_move, :wheel,
+      :key_down, :key_up,
+      :pointer_down, :pointer_up, :pointer_move, :pointer_enter, :pointer_leave, :wheel,
       :note_on, :note_off, :control_change,
       :before_draw, :after_draw, :update_window, :update_canvas
 
@@ -116,6 +117,8 @@ module Processing
         when :down        then @pointer_down
         when :up, :cancel then @pointer_up
         when :move        then @pointer_move
+        when :enter       then @pointer_enter
+        when :leave       then @pointer_leave
       end
       draw_canvas {call_block block, e} if block
     end
