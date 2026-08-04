@@ -1,6 +1,11 @@
 # processing ChangeLog
 
 
+## [v1.4.0] - 2026-08-04
+
+- Add mouseOver/mouseOut blocks to the sketch
+
+
 ## [v1.3.4] - 2026-06-23
 
 - Update dependencies
