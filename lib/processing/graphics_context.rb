@@ -3204,7 +3204,8 @@ module Processing
     def createFont(name, size, smooth: true)
       size ||= FONT_SIZE_DEFAULT__
       size   = FONT_SIZE_MAX__ if size > FONT_SIZE_MAX__
-      Font.new Rays::Font.new(name, size, smooth)
+      Font.new Rays::Font.new(
+        name, size, weight: :normal, italic: false, smooth: smooth)
     end
 
     # Creates a new image object.
