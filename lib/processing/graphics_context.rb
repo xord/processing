@@ -1785,7 +1785,7 @@ module Processing
       else
         y -= font.ascent
       end
-      x, y = x.round, y.round unless font.smooth
+      x, y = x.round, y.round unless font.smooth?
       @painter__.text str, x, y
       nil
     end
