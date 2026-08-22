@@ -127,17 +127,20 @@ module Processing
         @touchStartedBlock__&.call
       end
 
-      @window__.pointer_up = proc do |e|
+      pointerEnded = -> e, click {
         updatePointerStates.call e
         updatePointersPressedAndReleased.call e, false
         if e.any? {|p| p.id == @pointer__.id}
           @mouseReleasedBlock__&.call
-          @mouseClickedBlock__&.call  if e.click_count > 0
-          @doubleClickedBlock__&.call if e.click_count == 2
+          @mouseClickedBlock__&.call  if click && e.click_count > 0
+          @doubleClickedBlock__&.call if click && e.click_count == 2
         end
         @touchEndedBlock__&.call
         @pointersReleased__.clear
-      end
+      }
+
+      @window__.pointer_up     = proc {|e| pointerEnded.call e, true}
+      @window__.pointer_cancel = proc {|e| pointerEnded.call e, false}
 
       @window__.pointer_move = proc do |e|
         updatePointerStates.call e
