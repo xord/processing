@@ -17,7 +17,7 @@ module Processing
     setup draw
     keyPressed keyReleased keyTyped
     mousePressed mouseReleased mouseMoved mouseDragged
-    mouseClicked doubleClicked mouseWheel
+    mouseClicked doubleClicked mouseOver mouseOut mouseWheel
     touchStarted touchEnded touchMoved
     windowMoved windowResized motion
   ]
