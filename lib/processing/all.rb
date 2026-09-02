@@ -56,19 +56,23 @@ module Processing
   end
 
   # @private
-  def self.alias_snake_case_methods__(klass, recursive = 1)
-    to_snake_case__(klass.instance_methods false)
-      .reject {|camel, _|     camel =~ SUFFIX_PRIVATE}
-      .reject {|camel, snake| camel == snake}
-      .each do |camel, snake|
-        klass.remove_method snake if klass.method_defined?(snake, false)
-        klass.alias_method snake, camel
+  def self.alias_snake_case_methods__(*modules, recursive: 1)
+    modules.each do |mod|
+      to_snake_case__(mod.instance_methods false)
+        .reject {|camel, _|     camel =~ SUFFIX_PRIVATE}
+        .reject {|camel, snake| camel == snake}
+        .each do |camel, snake|
+          mod.remove_method snake if mod.method_defined?(snake, false)
+          mod.alias_method snake, camel
+        end
+      if recursive > 0
+        mod.constants.map {mod.const_get _1}
+          .flatten
+          .select {_1.class == Module || _1.class == Class}
+          .each {|inner_class|
+            alias_snake_case_methods__ inner_class, recursive: recursive - 1
+          }
       end
-    if recursive > 0
-      klass.constants.map {klass.const_get _1}
-        .flatten
-        .select {_1.class == Module || _1.class == Class}
-        .each {|inner_class| alias_snake_case_methods__ inner_class, recursive - 1}
     end
   end
 
