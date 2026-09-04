@@ -75,6 +75,11 @@ module Processing
   #
   class TextBounds
 
+    # @private
+    def initialize(x, y, w, h)
+      @x, @y, @w, @h = x, y, w, h
+    end
+
     # Horizontal position
     #
     attr_reader :x
@@ -91,9 +96,12 @@ module Processing
     #
     attr_reader :h
 
-    # @private
-    def initialize(x, y, w, h)
-      @x, @y, @w, @h = x, y, w, h
+    # Returns the bounding box as an array.
+    #
+    # @return [Array<Numeric>] [x, y, w, h]
+    #
+    def to_a()
+      [x, y, w, h]
     end
 
     # Returns a string containing a human-readable representation of object.
