@@ -35,12 +35,12 @@ module Processing
   end
 
   # @private
-  def self.setup__(window_class, context_class)
+  def self.setup__(window_class, context_class, *args, **kwargs)
     tmpdir__.tap {|dir| FileUtils.rm_r dir.to_s if dir.directory?} unless Xot.wasm?
 
     w = (ENV['WIDTH']  || 500).to_i
     h = (ENV['HEIGHT'] || 500).to_i
-    window_class.new w, h, context_class: context_class
+    window_class.new w, h, *args, context_class: context_class, **kwargs
   end
 
   # @private
