@@ -34,6 +34,27 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_equal G::ADD, g.blendMode
 
     assert_raise {g.blendMode LEFT}
+
+    header = <<~END
+      blendMode BLEND
+      noStroke
+      background 100, 150, 200
+      fill 200, 100, 50
+      rect 100, 100, 400, 400
+    END
+    footer = <<~END
+      rect 300, 300, 400, 400
+    END
+    %w[BLEND ADD LIGHTEST DARKEST EXCLUSION MULTIPLY SCREEN].each do |mode|
+      assert_p5_draw header, "blendMode #{mode}; fill 50, 200, 100", footer
+    end
+
+    # LIGHTEST and DARKEST are left out: p5 lerps between the destination
+    # and max/min by the source alpha, which fixed-function GL_MAX/GL_MIN
+    # blending cannot express
+    %w[BLEND ADD EXCLUSION MULTIPLY SCREEN].each do |mode|
+      assert_p5_draw header, "blendMode #{mode}; fill 50, 200, 100, 128", footer
+    end
   end
 
   def test_strokeCap()
@@ -712,6 +733,31 @@ class TestGraphicsContext < Test::Unit::TestCase
       end
     END
     assert_p5_draw header, 'image @img, 100, 100'
+  end
+
+  def test_image_with_filter()
+    header = -> filter {<<~END}
+      noStroke
+      background 0, 255, 0
+      unless @img
+        @img = createGraphics 400, 400
+        @img.beginDraw
+        @img.noStroke
+        @img.fill 200, 100, 50, 128
+        @img.rect 0, 0, 400, 400
+        @img.endDraw
+        @img.filter #{filter}
+      end
+    END
+    footer = <<~END
+      image @img, 100, 100
+    END
+    # GRAY weighs rgb as Processing does (0.3, 0.59, 0.11) while p5 uses the
+    # CIE luminance (0.2126, 0.7152, 0.0722), which puts the two a few steps
+    # apart
+    assert_p5_draw header['GRAY'],      footer, threshold: THRESHOLD_TO_BE_FIXED
+    assert_p5_draw header['INVERT'],    footer
+    assert_p5_draw header['THRESHOLD'], footer
   end
 
   def test_pixels()

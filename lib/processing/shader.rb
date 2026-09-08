@@ -112,9 +112,12 @@ module Processing
       varying vec4 vertTexCoord;
       varying vec4 vertColor;
       void main() {
-        vec4 col     = texture2D(texMap, vertTexCoord.xy) * vertColor;
-        float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
-        gl_FragColor = vec4(vec3(gray > threshold ? 1.0 : 0.0), 1.0);
+        vec4 tex     = texture2D(texMap, vertTexCoord.xy);
+        vec4 col     = vec4(vertColor.rgb * vertColor.a, vertColor.a);
+        vec3 rgb     = tex.a > 0.0 ? tex.rgb / tex.a : tex.rgb;
+        float gray   = rgb.r * 0.3 + rgb.g * 0.59 + rgb.b * 0.11;
+        float value  = gray > threshold ? 1.0 : 0.0;
+        gl_FragColor = vec4(vec3(value * tex.a), tex.a) * col;
       }
     END
 
@@ -124,9 +127,10 @@ module Processing
       varying vec4 vertTexCoord;
       varying vec4 vertColor;
       void main() {
-        vec4 col     = texture2D(texMap, vertTexCoord.xy);
-        float gray   = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
-        gl_FragColor = vec4(vec3(gray), 1.0) * vertColor;
+        vec4 tex     = texture2D(texMap, vertTexCoord.xy);
+        vec4 col     = vec4(vertColor.rgb * vertColor.a, vertColor.a);
+        float gray   = tex.r * 0.3 + tex.g * 0.59 + tex.b * 0.11;
+        gl_FragColor = vec4(vec3(gray), tex.a) * col;
       }
     END
 
@@ -136,8 +140,9 @@ module Processing
       varying vec4 vertTexCoord;
       varying vec4 vertColor;
       void main() {
-        vec4 col     = texture2D(texMap, vertTexCoord.xy);
-        gl_FragColor = vec4(vec3(1.0 - col.rgb), 1.0) * vertColor;
+        vec4 tex     = texture2D(texMap, vertTexCoord.xy);
+        vec4 col     = vec4(vertColor.rgb * vertColor.a, vertColor.a);
+        gl_FragColor = vec4(tex.a - tex.rgb, tex.a) * col;
       }
     END
 
@@ -157,7 +162,7 @@ module Processing
       }
       void main() {
         float sigma        = radius * 0.5;
-        vec3 color         = vec3(0.0);
+        vec4 sum           = vec4(0.0);
         float total_weight = 0.0;
         for (float y = -radius; y < radius; y += 1.0)
         for (float x = -radius; x < radius; x += 1.0) {
@@ -168,10 +173,11 @@ module Processing
             texcoord.x < vertTexCoordMin.x || vertTexCoordMax.x < texcoord.x ||
             texcoord.y < vertTexCoordMin.y || vertTexCoordMax.y < texcoord.y
           ) continue;
-          color += texture2D(texMap, texcoord).rgb * weight;
+          sum += texture2D(texMap, texcoord) * weight;
           total_weight += weight;
         }
-        gl_FragColor = vec4(color / total_weight, 1.0) * vertColor;
+        vec4 col     = vec4(vertColor.rgb * vertColor.a, vertColor.a);
+        gl_FragColor = sum / total_weight * col;
       }
     END
 
