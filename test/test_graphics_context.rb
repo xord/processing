@@ -90,6 +90,27 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_draw header, 'strokeJoin ROUND', footer
   end
 
+  def test_tint()
+    header = <<~END
+      noStroke
+      background 0, 255, 0
+      unless @img
+        @img = createGraphics 400, 400
+        @img.beginDraw
+        @img.noStroke
+        @img.background 255, 0, 0
+        @img.endDraw
+      end
+    END
+    footer = <<~END
+      image @img, 100, 100
+    END
+    assert_p5_draw header, '',                    footer
+    assert_p5_draw header, 'tint 255, 128',       footer
+    assert_p5_draw header, 'tint 128, 255',       footer
+    assert_p5_draw header, 'tint 0, 0, 255, 128', footer
+  end
+
   def test_textFont()
     graphics do |g|
       arial10     = g.createFont 'Arial',     10
