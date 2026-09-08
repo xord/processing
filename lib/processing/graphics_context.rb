@@ -3330,6 +3330,10 @@ module Processing
     # }
     # ```
     #
+    # Colors sampled from the 'texMap' uniform are premultiplied by their
+    # alpha, and gl_FragColor is blended as premultiplied too, so a fragment
+    # shader should keep rgb scaled by alpha. 'vertColor' is not premultiplied.
+    #
     # @overload createShader(vertPath, fragPath)
     # @overload createShader(vertSource, fragSource)
     #

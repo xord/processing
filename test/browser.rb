@@ -57,6 +57,10 @@ def get_p5rb_html(width, height, draw_src, webgl: false)
           }
         </script>
         <script type="text/ruby">
+          class JS::Object
+            def beginDraw() = block_given? ? yield(self) : nil
+            def endDraw()   = nil
+          end
           def setup()
             createCanvas #{width}, #{height}#{webgl ? ', WEBGL' : ''}
           end

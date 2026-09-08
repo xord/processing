@@ -698,6 +698,22 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_p5_fill_stroke src, 'endShape CLOSE'
   end
 
+  def test_image_with_alpha()
+    header = <<~END
+      noStroke
+      background 0, 255, 0
+      unless @img
+        @img = createGraphics 400, 400
+        @img.beginDraw
+        @img.noStroke
+        @img.fill 255, 255, 255, 128
+        @img.rect 0, 0, 400, 400
+        @img.endDraw
+      end
+    END
+    assert_p5_draw header, 'image @img, 100, 100'
+  end
+
   def test_pixels()
     g = graphics 2, 2
 

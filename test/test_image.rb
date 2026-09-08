@@ -37,6 +37,13 @@ class TestImage < Test::Unit::TestCase
     assert_equal g.color(0, 0, 255), i.get(0, 1)
   end
 
+  def test_get_color_with_alpha()
+    g = graphics
+    i = image(2, 2) {fill 1, 0, 0, 0.5; rect 0, 0, 1, 1}
+
+    assert_equal g.color(255, 0, 0, 128), i.get(0, 0)
+  end
+
   def test_pixels()
     i = image 2, 2
 
