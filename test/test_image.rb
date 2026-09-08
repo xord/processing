@@ -65,6 +65,18 @@ class TestImage < Test::Unit::TestCase
     assert_raise(ArgumentError) {i.updatePixels}
   end
 
+  def test_pixels_with_alpha()
+    i = image(2, 2) {fill 1, 1, 1, 0.5; rect 0, 0, 1, 1}
+
+    i.loadPixels
+    assert_equal [0x80ffffff, 0, 0, 0], i.pixels
+
+    i.pixels.replace [0x80ffffff, 0x40ff0000, 0, 0]
+    i.updatePixels
+    i.loadPixels
+    assert_equal [0x80ffffff, 0x40ff0000, 0, 0], i.pixels
+  end
+
   def test_inspect()
     assert_match %r|#<Processing::Image:0x\w{16}>|, image.inspect
   end

@@ -781,6 +781,22 @@ class TestGraphicsContext < Test::Unit::TestCase
     assert_raise(ArgumentError) {g.updatePixels}
   end
 
+  def test_pixels_with_alpha()
+    g = graphics 2, 2 do |g|
+      g.noStroke
+      g.fill 255, 255, 255, 128
+      g.rect 0, 0, 1, 1
+    end
+
+    g.loadPixels
+    assert_equal [0x80ffffff, 0, 0, 0], g.pixels
+
+    g.pixels.replace [0x80ffffff, 0x40ff0000, 0, 0]
+    g.updatePixels
+    g.loadPixels
+    assert_equal [0x80ffffff, 0x40ff0000, 0, 0], g.pixels
+  end
+
   def test_pixels_and_modified_flags()
     drawRect     = -> g, x, *rgb do
       g.beginDraw do
