@@ -10,19 +10,24 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: ruby 3.2
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
 
-      - name: checkout
-        uses: actions/checkout@v4
-
       - name: setup gems
         run: bundle install
 
+      - name: setup xot
+        run: git clone -q --depth 1 https://github.com/xord/xot.git "${{ runner.temp }}/xot"
+
       - name: setup dependencies
-        run: "ruby -I.github/workflows -rutils -e 'setup_dependencies'"
+        env:
+          RUBYLIB: ${{ runner.temp }}/xot/lib
+        run: ruby -rxot/rake -e 'setup_dependencies'
 
       - name: setup chrome
         uses: browser-actions/setup-chrome@latest
