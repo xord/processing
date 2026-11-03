@@ -1,6 +1,19 @@
 # processing ChangeLog
 
 
+## [v1.5.0] - 2026-11-04
+
+- [BREAKING] loadPixels and updatePixels exchange straight alpha, not premultiplied
+- [BREAKING] A shader from createShader sees premultiplied samples from texMap and must emit premultiplied color
+- [BREAKING] Report wheel deltas in pixels, in the same direction, on every platform (from reflex)
+- Add TextBounds#to_a
+
+- Fix half-transparent images, tinted images and translucent shapes on a Graphics coming out darker than in p5.js
+- Fix GRAY, INVERT, THRESHOLD and BLUR breaking the alpha of a Graphics with transparent pixels
+- Fix mouseOver and mouseOut defined by def in a sketch never being called
+- Fix a canceled press, as by a menu popping up, becoming a click
+
+
 ## [v1.4.0] - 2026-08-04
 
 - Add mouseOver/mouseOut blocks to the sketch
